@@ -1,58 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="00.Framework">
+      <UniqueIdentifier>{ce054fba-447c-4e74-90a5-ee0821e01146}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="01.MainApp">
+      <UniqueIdentifier>{68e936bc-ff9e-4b2b-b0b8-c35c6a3676e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스 파일">
+    <Filter Include="00.Framework\00.Core">
+      <UniqueIdentifier>{58a0cb9f-db57-46fc-be08-0daaa2089dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Framework\01.Frame">
+      <UniqueIdentifier>{6ba1664f-d60b-4337-a77e-86d7afc56a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Framework\02.ETC">
+      <UniqueIdentifier>{2f2ccdc2-3560-4296-9782-a05173fa9ae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Framework\02.ETC\리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="..\Header\MainApp.h">
+      <Filter>01.MainApp</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>00.Framework\00.Core</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Define.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>00.Framework\01.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>00.Framework\01.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>00.Framework\01.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>00.Framework\02.ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>00.Framework\02.ETC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\MainApp.cpp">
+      <Filter>01.MainApp</Filter>
+    </ClCompile>
     <ClCompile Include="Client.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>00.Framework\00.Core</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>00.Framework\01.Frame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
-      <Filter>리소스 파일</Filter>
+      <Filter>00.Framework\02.ETC\리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
+      <Filter>00.Framework\02.ETC\리소스 파일</Filter>
     </Image>
     <Image Include="Client.ico">
-      <Filter>리소스 파일</Filter>
+      <Filter>00.Framework\02.ETC\리소스 파일</Filter>
     </Image>
   </ItemGroup>
 </Project>
