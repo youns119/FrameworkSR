@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../Base/Base.h"
-// #include "../../Engine/Header/Engine_Define.h"
 
 class CMainApp : public CBase
 {
