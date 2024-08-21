@@ -22,7 +22,7 @@
 #define DIRECTINPUT_VERSION	0x0800
 #include <dinput.h>
 
-//#pragma warning(disable : 4251)
+#pragma warning(disable : 4251)
 
 #ifdef _DEBUG
 

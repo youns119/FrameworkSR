@@ -139,10 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\TimerManager.cpp" />
+    <ClCompile Include="..\Code\FrameManager.cpp" />
+    <ClCompile Include="..\Code\Frame.cpp" />
     <ClCompile Include="..\Code\GraphicDev.cpp" />
+    <ClCompile Include="..\Code\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Header\TimerManager.h" />
+    <ClInclude Include="..\..\Header\FrameManager.h" />
+    <ClInclude Include="..\..\Header\Export_System.h" />
+    <ClInclude Include="..\..\Header\Frame.h" />
     <ClInclude Include="..\..\Header\GraphicDev.h" />
+    <ClInclude Include="..\..\Header\Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Header\Export_System.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

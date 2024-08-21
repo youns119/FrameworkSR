@@ -10,11 +10,11 @@ public :
 	inline unsigned long AddRef();
 	inline unsigned long Release();
 
-private :
-	unsigned long m_dwRefCnt;
-
 public :
 	inline virtual void	Free() = 0;
+
+private :
+	unsigned long m_dwRefCnt;
 };
 
 #include "Base.inl"

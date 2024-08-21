@@ -4,15 +4,62 @@
     <Filter Include="00.GraphicDev">
       <UniqueIdentifier>{e317bcdc-27d7-4f04-bd0b-7217b4e190e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99.Export">
+      <UniqueIdentifier>{79ddd010-cd5d-48ee-86a0-e3c6f618d1e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Timer">
+      <UniqueIdentifier>{47bd784d-9478-464f-a0b5-d3975014565e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Timer\00.TimerManager">
+      <UniqueIdentifier>{43a9485d-7818-4d23-b82c-3da95b8ffbc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Frame">
+      <UniqueIdentifier>{06cd3741-6b2f-4950-a598-d6f6ddb0cc2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Frame\00.FrameManager">
+      <UniqueIdentifier>{f41a6efb-4b5b-4181-98e2-afeec47c5859}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDev.cpp">
       <Filter>00.GraphicDev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Frame.cpp">
+      <Filter>02.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FrameManager.cpp">
+      <Filter>02.Frame\00.FrameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Timer.cpp">
+      <Filter>01.Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TimerManager.cpp">
+      <Filter>01.Timer\00.TimerManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\GraphicDev.h">
       <Filter>00.GraphicDev</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Export_System.h">
+      <Filter>99.Export</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Frame.h">
+      <Filter>02.Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\FrameManager.h">
+      <Filter>02.Frame\00.FrameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Timer.h">
+      <Filter>01.Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\TimerManager.h">
+      <Filter>01.Timer\00.TimerManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Header\Export_System.inl">
+      <Filter>99.Export</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@ namespace Engine
 	template<typename T>
 	void Safe_Delete(T& Pointer)
 	{
-		if (nullptr != Pointer)
+		if (Pointer != nullptr)
 		{
 			delete Pointer;
 			Pointer = nullptr;
@@ -18,7 +18,7 @@ namespace Engine
 	template<typename T>
 	void Safe_Delete_Array(T& Pointer)
 	{
-		if (nullptr != Pointer)
+		if (Pointer != nullptr)
 		{
 			delete[] Pointer;
 			Pointer = nullptr;
@@ -30,11 +30,11 @@ namespace Engine
 	{
 		unsigned long dwRefCnt = 0;
 
-		if (nullptr != pInstance)
+		if (pInstance != nullptr)
 		{
 			dwRefCnt = pInstance->Release();
 
-			if (0 == dwRefCnt)
+			if (dwRefCnt == 0)
 				pInstance = NULL;
 		}
 
@@ -43,30 +43,31 @@ namespace Engine
 
 	class CTag_Finder
 	{
-	public:
-		explicit CTag_Finder(const _tchar* pTag) : m_pTargetTag(pTag){}
+	public :
+		explicit CTag_Finder(const _tchar* pTag) : m_pTargetTag(pTag) {}
 		~CTag_Finder(void) {}
 
-	public:
+	public :
 		template<typename T> 
-		_bool		operator()(const T& pair)
+		_bool operator () (const T& pair)
 		{
-			if (0 == lstrcmpW(m_pTargetTag, pair.first))
+			if (lstrcmpW(m_pTargetTag, pair.first) == 0)
 				return true;
 			
 			return false;
 		}
 
-	private:
-		const _tchar*		m_pTargetTag = nullptr;
+	private :
+		const _tchar* m_pTargetTag = nullptr;
 	};
 
 	class CDeleteObj
 	{
-	public:
+	public :
 		explicit CDeleteObj(void) {}
 		~CDeleteObj(void) {}
-	public: // operator
+
+	public :
 		template <typename T>
 		void operator () (T& pInstance)
 		{
@@ -74,18 +75,18 @@ namespace Engine
 
 			dwRefCnt = pInstance->Release();
 
-			if (0 == dwRefCnt)
+			if (dwRefCnt == 0)
 				pInstance = nullptr;
 		}
 	};
 
-	// 연관컨테이너 삭제용
 	class CDeleteMap
 	{
-	public:
+	public :
 		explicit CDeleteMap(void) {}
 		~CDeleteMap(void) {}
-	public: // operator	
+
+	public :	
 		template <typename T>
 		void operator () (T& Pair)
 		{
@@ -93,11 +94,10 @@ namespace Engine
 
 			dwRefCnt = Pair.second->Release();
 
-			if (0 == dwRefCnt)
+			if (dwRefCnt == 0)
 				Pair.second = NULL;
 		}
 	};
-
 }
 
 #endif // Engine_Function_h__

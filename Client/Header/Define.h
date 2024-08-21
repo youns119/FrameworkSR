@@ -1,4 +1,4 @@
 #pragma once
 
-HWND g_hWnd;
-HINSTANCE g_hInst;
+extern HWND g_hWnd;
+extern HINSTANCE g_hInst;

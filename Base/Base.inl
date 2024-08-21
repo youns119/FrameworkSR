@@ -14,7 +14,7 @@ unsigned long CBase::AddRef()
 
 unsigned long CBase::Release()
 {
-	if (0 == m_dwRefCnt)
+	if (m_dwRefCnt == 0)
 	{
 		Free();
 

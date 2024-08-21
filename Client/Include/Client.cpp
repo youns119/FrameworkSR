@@ -44,6 +44,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if (nullptr == pMainApp)
         return FALSE;
 
+    FAILED_CHECK_RETURN(Engine::Ready_Timer(L"Timer_Immediate"), FALSE);
+    FAILED_CHECK_RETURN(Engine::Ready_Timer(L"Timer_FPS60"), FALSE);
+
+    FAILED_CHECK_RETURN(Engine::Ready_Frame(L"Frame60", 60.f), FALSE);
+
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -59,16 +64,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
-            pMainApp->Update_MainApp(0.f);
-            pMainApp->LateUpdate_MainApp();
-            pMainApp->Render_MainApp();
+            Engine::Set_TimeDelta(L"Timer_Immediate");
+            _float fTimer_Immediate = Engine::Get_TimeDelta(L"Timer_Immediate");
+
+            if (Engine::IsPermit_Call(L"Frame60", fTimer_Immediate))
+            {
+                Engine::Set_TimeDelta(L"Timer_FPS60");
+                _float fTimer_FPS60 = Engine::Get_TimeDelta(L"Timer_FPS60");
+
+                pMainApp->Update_MainApp(fTimer_FPS60);
+                pMainApp->LateUpdate_MainApp();
+                pMainApp->Render_MainApp();
+            }
         }
     }
 
-    if (pMainApp)
-    {
+    _ulong dwRefCnt(0);
 
-    }
+	if (dwRefCnt = Safe_Release(pMainApp))
+	{
+		MSG_BOX("MainApp Release Failed");
+		return FALSE;
+	}
 
     return (int) msg.wParam;
 }
@@ -108,7 +125,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
            szTitle, 
            WS_OVERLAPPEDWINDOW,
            CW_USEDEFAULT, 0, 
-           CW_USEDEFAULT, 0, 
+           rc.right - rc.left, 
+           rc.bottom - rc.top,
            nullptr, 
            nullptr, 
            hInstance, 
