@@ -70,11 +70,11 @@ void CMainApp::Render_MainApp()
 		D3DXMATRIX p = Rx * Ry;
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &p);
 
-		Engine::Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
+		Engine::Render_Begin(D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		m_pGraphicDev-> SetStreamSource(0, m_pVB, 0, sizeof(Vertex));
-		m_pGraphicDev->SetIndices(m_pIB);
 		m_pGraphicDev->SetFVF(Vertex::m_FVF);
+		m_pGraphicDev->SetIndices(m_pIB);
 		m_pGraphicDev->DrawIndexedPrimitive
 		(
 			D3DPT_TRIANGLELIST,
@@ -87,6 +87,9 @@ void CMainApp::Render_MainApp()
 
 void CMainApp::Free()
 {
+	m_pVB->Release();
+	m_pIB->Release();
+
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);
 

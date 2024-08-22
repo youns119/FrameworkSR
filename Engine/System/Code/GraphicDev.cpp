@@ -74,6 +74,7 @@ void CGraphicDev::Render_Begin(D3DXCOLOR Color)
 		0,
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
+		//D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
 		Color,
 		1.f,
 		0);
