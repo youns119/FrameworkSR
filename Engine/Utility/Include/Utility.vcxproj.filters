@@ -16,6 +16,12 @@
     <Filter Include="04.Component">
       <UniqueIdentifier>{be6fc92e-34ce-4339-b696-3113284a4450}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99.Export">
+      <UniqueIdentifier>{81e139f7-1506-4946-96e1-3872e508150c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer">
+      <UniqueIdentifier>{c0857b17-7d80-4cf9-bb06-3a83bcbb7793}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -32,6 +38,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Component.h">
       <Filter>04.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Export_Utility.h">
+      <Filter>99.Export</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\VIBuffer.h">
+      <Filter>04.Component\00.VIBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,5 +62,13 @@
     <ClCompile Include="..\Code\Component.cpp">
       <Filter>04.Component</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\VIBuffer.cpp">
+      <Filter>04.Component\00.VIBuffer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Header\Export_Utility.inl">
+      <Filter>99.Export</Filter>
+    </None>
   </ItemGroup>
 </Project>

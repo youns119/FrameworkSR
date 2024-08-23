@@ -55,6 +55,12 @@
     <ClInclude Include="targetver.h">
       <Filter>00.Framework\02.ETC</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Engine\Header\BackGround.h">
+      <Filter>03.GameObject\00.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Logo.h">
+      <Filter>02.Scene\00.Logo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -65,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>00.Framework\01.Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Utility\Code\BackGround.cpp">
+      <Filter>03.GameObject\00.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Logo.cpp">
+      <Filter>02.Scene\00.Logo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

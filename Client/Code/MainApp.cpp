@@ -1,13 +1,10 @@
 #include "pch.h"
 #include "..\Header\MainApp.h"
 
-const DWORD Vertex::m_FVF = D3DFVF_XYZ;
-
 CMainApp::CMainApp()
 	: m_pDeviceClass(nullptr)
 	, m_pGraphicDev(nullptr)
-	, m_pVB(nullptr)
-	, m_pIB(nullptr)
+	, m_pManagementClass(nullptr)
 {
 }
 
@@ -21,8 +18,7 @@ CMainApp* CMainApp::Create()
 
 	if (FAILED(pMainApp->Ready_MainApp()))
 	{
-		delete pMainApp;
-		pMainApp = nullptr;
+		Safe_Release(pMainApp);
 
 		return nullptr;
 	}
@@ -32,149 +28,67 @@ CMainApp* CMainApp::Create()
 
 HRESULT CMainApp::Ready_MainApp()
 {
-	FAILED_CHECK_RETURN(Engine::Ready_GraphicDev(g_hWnd, MODE_WIN, WINCX, WINCY, &m_pDeviceClass), E_FAIL);
-	m_pDeviceClass->AddRef();
+	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);
 
-	m_pGraphicDev = m_pDeviceClass->Get_GraphicDev();
-	m_pGraphicDev->AddRef();
-
-	SetUp();
+	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
 
 	return S_OK;
 }
 
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
+	m_pManagementClass->Update_Scene(fTimeDelta);
+
 	return 0;
 }
 
 void CMainApp::LateUpdate_MainApp()
 {
+	m_pManagementClass->LateUpdate_Scene();
 }
 
 void CMainApp::Render_MainApp()
 {
-	if (m_pGraphicDev)
-	{
-		D3DXMATRIX Rx, Ry;
+	Engine::Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
-		D3DXMatrixRotationX(&Rx, 3.14f / 4.0f);
+	m_pManagementClass->Render_Scene(m_pGraphicDev);
 
-		static float y = 0.f;
-		D3DXMatrixRotationY(&Ry, y);
-		y += CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_FPS60");
+	Engine::Render_End();
+}
 
-		if (y >= 6.28f)
-			y = 0.0f;
+HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev, Engine::CManagement** ppManagement)
+{
+	Engine::CScene* pScene = nullptr;
 
-		D3DXMATRIX p = Rx * Ry;
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &p);
+	pScene = CLogo::Create(pGraphicDev);
+	NULL_CHECK_RETURN(pScene, E_FAIL);
 
-		Engine::Render_Begin(D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	FAILED_CHECK_RETURN(Engine::Create_Management(pGraphicDev, ppManagement), E_FAIL);
+	(*ppManagement)->AddRef();
 
-		m_pGraphicDev-> SetStreamSource(0, m_pVB, 0, sizeof(Vertex));
-		m_pGraphicDev->SetFVF(Vertex::m_FVF);
-		m_pGraphicDev->SetIndices(m_pIB);
-		m_pGraphicDev->DrawIndexedPrimitive
-		(
-			D3DPT_TRIANGLELIST,
-			0, 0, 8, 0, 12
-		);
+	// Engine::Set_Scene(pScene) // 이렇게 해도 됨
+	FAILED_CHECK_RETURN((*ppManagement)->Set_Scene(pScene), E_FAIL);
 
-		Engine::Render_End();
-	}
+	return S_OK;
+}
+
+HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
+{
+	FAILED_CHECK_RETURN(Engine::Ready_GraphicDev(g_hWnd, MODE_WIN, WINCX, WINCY, &m_pDeviceClass), E_FAIL);
+	m_pDeviceClass->AddRef();
+
+	(*ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
+	(*ppGraphicDev)->AddRef();
+
+	return S_OK;
 }
 
 void CMainApp::Free()
 {
-	m_pVB->Release();
-	m_pIB->Release();
-
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);
+	Safe_Release(m_pManagementClass);
 
+	Engine::Release_Utility();
 	Engine::Release_System();
-}
-
-bool CMainApp::SetUp()
-{
-	m_pGraphicDev->CreateVertexBuffer
-	(
-		8 * sizeof(Vertex),
-		D3DUSAGE_WRITEONLY,
-		Vertex::m_FVF,
-		D3DPOOL_MANAGED,
-		&m_pVB,
-		0
-	);
-
-	m_pGraphicDev->CreateIndexBuffer
-	(
-		36 * sizeof(WORD),
-		D3DUSAGE_WRITEONLY,
-		D3DFMT_INDEX16,
-		D3DPOOL_MANAGED,
-		&m_pIB,
-		0
-	);
-
-	Vertex* vertices = nullptr;
-	m_pVB->Lock(0, 0, (void**)&vertices, 0);
-
-	vertices[0] = Vertex(-1.0f, -1.0f, -1.0f);
-	vertices[1] = Vertex(-1.0f, 1.0f, -1.0f);
-	vertices[2] = Vertex(1.0f, 1.0f, -1.0f);
-	vertices[3] = Vertex(1.0f, -1.0f, -1.0f);
-	vertices[4] = Vertex(-1.0f, -1.0f, 1.0f);
-	vertices[5] = Vertex(-1.0f, 1.0f, 1.0f);
-	vertices[6] = Vertex(1.0f, 1.0f, 1.0f);
-	vertices[7] = Vertex(1.0f, -1.0f, 1.0f);
-
-	m_pVB->Unlock();
-
-	WORD* indices = nullptr;
-	m_pIB->Lock(0, 0, (void**)&indices, 0);
-
-	indices[0] = 0; indices[1] = 1; indices[2] = 2;
-	indices[3] = 0; indices[4] = 2; indices[5] = 3;
-
-	indices[6] = 4; indices[7] = 6; indices[8] = 5;
-	indices[9] = 4; indices[10] = 7; indices[11] = 6;
-
-	indices[12] = 4; indices[13] = 5; indices[14] = 2;
-	indices[15] = 4; indices[16] = 1; indices[17] = 0;
-
-	indices[18] = 3; indices[19] = 2; indices[20] = 6;
-	indices[21] = 3; indices[22] = 6; indices[23] = 7;
-
-	indices[24] = 1; indices[25] = 5; indices[26] = 6;
-	indices[27] = 1; indices[28] = 6; indices[29] = 2;
-
-	indices[30] = 4; indices[31] = 0; indices[32] = 3;
-	indices[33] = 4; indices[34] = 3; indices[35] = 7;
-
-	m_pIB->Unlock();
-
-	D3DXVECTOR3 position(0.f, 0.f, -5.f);
-	D3DXVECTOR3 target(0.f, 0.f, 0.f);
-	D3DXVECTOR3 up(0.f, 1.f, 0.f);
-	D3DXMATRIX V;
-
-	D3DXMatrixLookAtLH(&V, &position, &target, &up);
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &V);
-
-	D3DXMATRIX proj;
-	D3DXMatrixPerspectiveFovLH
-	(
-		&proj,
-		D3DX_PI * 0.5f,
-		(float)WINCX / (float)WINCY,
-		1.0f,
-		1000.0f
-	);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &proj);
-
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
-	return true;
 }
