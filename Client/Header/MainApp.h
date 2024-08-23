@@ -31,7 +31,7 @@ private :
 private :
 	CGraphicDev* m_pDeviceClass;
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
-
+	
 	IDirect3DVertexBuffer9* m_pVB;
 	IDirect3DIndexBuffer9* m_pIB;
 };
