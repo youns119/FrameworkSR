@@ -56,6 +56,17 @@ void CMainApp::Render_MainApp()
 	Engine::Render_End();
 }
 
+HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
+{
+	FAILED_CHECK_RETURN(Engine::Ready_GraphicDev(g_hWnd, MODE_WIN, WINCX, WINCY, &m_pDeviceClass), E_FAIL);
+	m_pDeviceClass->AddRef();
+
+	(*ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
+	(*ppGraphicDev)->AddRef();
+
+	return S_OK;
+}
+
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev, Engine::CManagement** ppManagement)
 {
 	Engine::CScene* pScene = nullptr;
@@ -66,19 +77,7 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev, Engine::CManagement
 	FAILED_CHECK_RETURN(Engine::Create_Management(pGraphicDev, ppManagement), E_FAIL);
 	(*ppManagement)->AddRef();
 
-	// Engine::Set_Scene(pScene) // 이렇게 해도 됨
 	FAILED_CHECK_RETURN((*ppManagement)->Set_Scene(pScene), E_FAIL);
-
-	return S_OK;
-}
-
-HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
-{
-	FAILED_CHECK_RETURN(Engine::Ready_GraphicDev(g_hWnd, MODE_WIN, WINCX, WINCY, &m_pDeviceClass), E_FAIL);
-	m_pDeviceClass->AddRef();
-
-	(*ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
-	(*ppGraphicDev)->AddRef();
 
 	return S_OK;
 }
