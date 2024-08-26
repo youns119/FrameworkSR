@@ -13,17 +13,17 @@ private :
 	virtual ~CLayer();
 
 public :
-	CComponent* Get_Component(COMPONENTID eID, const _tchar* pObjTag, const _tchar* pComponentTag);
+	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pObjTag, const _tchar* _pComponentTag);
 
 public :
 	static CLayer* Create();
 
 public :
-	HRESULT	Add_GameObject(const _tchar* pObjTag, CGameObject* pGameObject);
+	HRESULT	Add_GameObject(const _tchar* _pObjTag, CGameObject* _pGameObject);
 
 public :
 	HRESULT	Ready_Layer();
-	_int Update_Layer(const _float& fTimeDelta);
+	_int Update_Layer(const _float& _fTimeDelta);
 	void LateUpdate_Layer();
 	void Render_Layer();
 
