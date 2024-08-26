@@ -16,11 +16,11 @@ private :
 	virtual ~CFrameManager();
 
 public :
-	HRESULT	Ready_Frame(const _tchar* pFrameTag, const _float& fCallLimit);
-	_bool IsPermit_Call(const _tchar* pFrameTag, const _float& fTimeDelta);
+	HRESULT	Ready_Frame(const _tchar* _pFrameTag, const _float& _fCallLimit);
+	_bool IsPermit_Call(const _tchar* _pFrameTag, const _float& _fTimeDelta);
 
 private :
-	CFrame* Find_Frame(const _tchar* pFrameTag);
+	CFrame* Find_Frame(const _tchar* _pFrameTag);
 
 private :
 	virtual void Free();

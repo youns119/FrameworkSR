@@ -13,15 +13,15 @@ private :
 	virtual ~CTimerManager();
 
 public :
-	_float Get_TimeDelta(const _tchar* pTimerTag);
+	_float Get_TimeDelta(const _tchar* _pTimerTag);
 
-	void Set_TimeDelta(const _tchar* pTimerTag);
+	void Set_TimeDelta(const _tchar* _pTimerTag);
 
 public :
-	HRESULT	Ready_Timer(const _tchar* pTimerTag);
+	HRESULT	Ready_Timer(const _tchar* _pTimerTag);
 
 private :
-	CTimer* Find_Timer(const _tchar* pTimerTag);
+	CTimer* Find_Timer(const _tchar* _pTimerTag);
 
 private :
 	virtual void Free();

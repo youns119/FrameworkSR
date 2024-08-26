@@ -7,18 +7,18 @@
 BEGIN(Engine)
 
 // GraphicDev
-inline HRESULT Ready_GraphicDev(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY, CGraphicDev** ppGraphicDev);
-inline void	Render_Begin(D3DXCOLOR Color);
+inline HRESULT Ready_GraphicDev(HWND _hWnd, WINMODE _eMode, const _uint& _iSizeX, const _uint& _iSizeY, CGraphicDev** _ppGraphicDev);
+inline void	Render_Begin(D3DXCOLOR _tColor);
 inline void	Render_End();
 
 // TimerMgr
-inline _float Get_TimeDelta(const _tchar* pTimerTag);
-inline void Set_TimeDelta(const _tchar* pTimerTag);
-inline HRESULT Ready_Timer(const _tchar* pTimerTag);
+inline _float Get_TimeDelta(const _tchar* _pTimerTag);
+inline void Set_TimeDelta(const _tchar* _pTimerTag);
+inline HRESULT Ready_Timer(const _tchar* _pTimerTag);
 
 // FrameMgr
-inline HRESULT Ready_Frame(const _tchar* pFrameTag, const _float& fCallLimit);
-inline _bool IsPermit_Call(const _tchar* pFrameTag, const _float& fTimeDelta);
+inline HRESULT Ready_Frame(const _tchar* _pFrameTag, const _float& _fCallLimit);
+inline _bool IsPermit_Call(const _tchar* _pFrameTag, const _float& _fTimeDelta);
 
 inline void	Release_System();
 

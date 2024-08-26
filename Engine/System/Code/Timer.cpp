@@ -3,10 +3,10 @@
 CTimer::CTimer()
     : m_fTimeDelta(0.f)
 {
-    ZeroMemory(&m_FrameTime, sizeof(LARGE_INTEGER));
-    ZeroMemory(&m_LastTime, sizeof(LARGE_INTEGER));
-    ZeroMemory(&m_FixTime, sizeof(LARGE_INTEGER));
-    ZeroMemory(&m_CpuTick, sizeof(LARGE_INTEGER));
+    ZeroMemory(&m_tFrameTime, sizeof(LARGE_INTEGER));
+    ZeroMemory(&m_tLastTime, sizeof(LARGE_INTEGER));
+    ZeroMemory(&m_tFixTime, sizeof(LARGE_INTEGER));
+    ZeroMemory(&m_tCpuTick, sizeof(LARGE_INTEGER));
 }
 
 CTimer::~CTimer()
@@ -29,27 +29,27 @@ CTimer* CTimer::Create()
 
 HRESULT CTimer::Ready_Timer()
 {
-	QueryPerformanceCounter(&m_FrameTime);	// 1077
-	QueryPerformanceCounter(&m_LastTime);	// 1085
-	QueryPerformanceCounter(&m_FixTime);	// 1090
+	QueryPerformanceCounter(&m_tFrameTime);	// 1077
+	QueryPerformanceCounter(&m_tLastTime);	// 1085
+	QueryPerformanceCounter(&m_tFixTime);	// 1090
 
-	QueryPerformanceFrequency(&m_CpuTick);
+	QueryPerformanceFrequency(&m_tCpuTick);
 
 	return S_OK;
 }
 
 void CTimer::Update_Timer()
 {
-	QueryPerformanceCounter(&m_FrameTime);	// 1500
+	QueryPerformanceCounter(&m_tFrameTime);	// 1500
 
-	if (m_FrameTime.QuadPart - m_FixTime.QuadPart >= m_CpuTick.QuadPart)
+	if (m_tFrameTime.QuadPart - m_tFixTime.QuadPart >= m_tCpuTick.QuadPart)
 	{
-		QueryPerformanceFrequency(&m_CpuTick);
-		m_FixTime = m_FrameTime;
+		QueryPerformanceFrequency(&m_tCpuTick);
+		m_tFixTime = m_tFrameTime;
 	}
 
-	m_fTimeDelta = (m_FrameTime.QuadPart - m_LastTime.QuadPart) / (_float)m_CpuTick.QuadPart;
-	m_LastTime = m_FrameTime;
+	m_fTimeDelta = (m_tFrameTime.QuadPart - m_tLastTime.QuadPart) / (_float)m_tCpuTick.QuadPart;
+	m_tLastTime = m_tFrameTime;
 }
 
 void CTimer::Free()

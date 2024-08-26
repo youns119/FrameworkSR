@@ -2,8 +2,8 @@
 #include "..\Header\Logo.h"
 #include "Export_Utility.h"
 
-CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev)
+CLogo::CLogo(LPDIRECT3DDEVICE9 _pGraphicDev)
+	: Engine::CScene(_pGraphicDev)
 {
 }
 
@@ -18,9 +18,9 @@ HRESULT CLogo::Ready_Scene()
 	return S_OK;
 }
 
-_int CLogo::Update_Scene(const _float& fTimeDelta)
+_int CLogo::Update_Scene(const _float& _fTimeDelta)
 {
-	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
+	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
 
 	return iExit;
 }
@@ -35,7 +35,7 @@ void CLogo::Render_Scene()
 	Engine::CScene::Render_Scene();
 }
 
-HRESULT CLogo::Ready_Layer_Environment(const _tchar* pLayerTag)
+HRESULT CLogo::Ready_Layer_Environment(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -46,14 +46,14 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar* pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ pLayerTag , pLayer });
+	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
 }
 
-CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CLogo* CLogo::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-	CLogo* pLogo = new CLogo(pGraphicDev);
+	CLogo* pLogo = new CLogo(_pGraphicDev);
 
 	if (FAILED(pLogo->Ready_Scene()))
 	{

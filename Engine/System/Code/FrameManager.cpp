@@ -12,32 +12,32 @@ CFrameManager::~CFrameManager()
 	Free();
 }
 
-HRESULT CFrameManager::Ready_Frame(const _tchar* pFrameTag, const _float& fCallLimit)
+HRESULT CFrameManager::Ready_Frame(const _tchar* _pFrameTag, const _float& _fCallLimit)
 {
-	CFrame* pFrame = Find_Frame(pFrameTag);
+	CFrame* pFrame = Find_Frame(_pFrameTag);
 
 	if (pFrame != nullptr)
 		return E_FAIL;
 
-	pFrame = CFrame::Create(fCallLimit);
+	pFrame = CFrame::Create(_fCallLimit);
 	NULL_CHECK_RETURN(pFrame, E_FAIL);
 
-	m_mapFrame.insert({ pFrameTag, pFrame });
+	m_mapFrame.insert({ _pFrameTag, pFrame });
 
 	return S_OK;
 }
 
-_bool CFrameManager::IsPermit_Call(const _tchar* pFrameTag, const _float& fTimeDelta)
+_bool CFrameManager::IsPermit_Call(const _tchar* _pFrameTag, const _float& _fTimeDelta)
 {
-	CFrame* pFrame = Find_Frame(pFrameTag);
-	NULL_CHECK_RETURN(pFrameTag, false);
+	CFrame* pFrame = Find_Frame(_pFrameTag);
+	NULL_CHECK_RETURN(_pFrameTag, false);
 
-	return pFrame->IsPermit_Call(fTimeDelta);
+	return pFrame->IsPermit_Call(_fTimeDelta);
 }
 
-CFrame* CFrameManager::Find_Frame(const _tchar* pFrameTag)
+CFrame* CFrameManager::Find_Frame(const _tchar* _pFrameTag)
 {
-	auto iter = find_if(m_mapFrame.begin(), m_mapFrame.end(), CTag_Finder(pFrameTag));
+	auto iter = find_if(m_mapFrame.begin(), m_mapFrame.end(), CTag_Finder(_pFrameTag));
 
 	if (iter == m_mapFrame.end())
 		return nullptr;

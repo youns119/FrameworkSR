@@ -19,13 +19,13 @@ public :
 
 public :
 	HRESULT	Ready_MainApp();
-	int	Update_MainApp(const float& fTimeDelta);
+	int	Update_MainApp(const float& _fTimeDelta);
 	void LateUpdate_MainApp();
 	void Render_MainApp();
 
 private :
-	HRESULT	SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
-	HRESULT	Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev, Engine::CManagement** ppManagement);
+	HRESULT	SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev);
+	HRESULT	Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagement** _ppManagement);
 
 private :
 	virtual void Free();

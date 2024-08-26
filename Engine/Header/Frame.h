@@ -12,11 +12,11 @@ private :
 	virtual ~CFrame();
 
 public :
-	static CFrame* Create(const _float& fCallLimit);
+	static CFrame* Create(const _float& _fCallLimit);
 
 public :
-	HRESULT	Ready_Frame(const _float& fCallLimit);
-	_bool IsPermit_Call(const _float& fTimeDelta);
+	HRESULT	Ready_Frame(const _float& _fCallLimit);
+	_bool IsPermit_Call(const _float& _fTimeDelta);
 
 private :
 	virtual void Free();

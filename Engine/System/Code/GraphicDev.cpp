@@ -15,11 +15,11 @@ CGraphicDev::~CGraphicDev()
 
 HRESULT CGraphicDev::Ready_GraphicDev
 (
-    HWND hWnd, 
-    WINMODE eMode, 
-    const _uint& iSizeX, 
-    const _uint& iSizeY, 
-    CGraphicDev** ppGraphicDev
+    HWND _hWnd,
+    WINMODE _eMode,
+    const _uint& _iSizeX,
+    const _uint& _iSizeY,
+    CGraphicDev** _ppGraphicDev
 )
 {
 	m_pSDK = Direct3DCreate9(D3D_SDK_VERSION);
@@ -40,8 +40,8 @@ HRESULT CGraphicDev::Ready_GraphicDev
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
 
-	d3dpp.BackBufferWidth = iSizeX;
-	d3dpp.BackBufferHeight = iSizeY;
+	d3dpp.BackBufferWidth = _iSizeX;
+	d3dpp.BackBufferHeight = _iSizeY;
 	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp.BackBufferCount = 1;
 
@@ -50,9 +50,9 @@ HRESULT CGraphicDev::Ready_GraphicDev
 
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-	d3dpp.hDeviceWindow = hWnd;
+	d3dpp.hDeviceWindow = _hWnd;
 
-	d3dpp.Windowed = eMode;
+	d3dpp.Windowed = (_uint)_eMode;
 
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
@@ -60,14 +60,14 @@ HRESULT CGraphicDev::Ready_GraphicDev
 	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
-	FAILED_CHECK_RETURN(m_pSDK->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, dwFlag, &d3dpp, &m_pGraphicDev), E_FAIL);
+	FAILED_CHECK_RETURN(m_pSDK->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, _hWnd, dwFlag, &d3dpp, &m_pGraphicDev), E_FAIL);
 
-	*ppGraphicDev = this;
+	*_ppGraphicDev = this;
 
 	return S_OK;
 }
 
-void CGraphicDev::Render_Begin(D3DXCOLOR Color)
+void CGraphicDev::Render_Begin(D3DXCOLOR _tColor)
 {
 	m_pGraphicDev->Clear
 	(
@@ -75,7 +75,7 @@ void CGraphicDev::Render_Begin(D3DXCOLOR Color)
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
 		//D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
-		Color,
+		_tColor,
 		1.f,
 		0);
 

@@ -10,11 +10,11 @@ CFrame::~CFrame()
 {
 }
 
-CFrame* CFrame::Create(const _float& fCallLimit)
+CFrame* CFrame::Create(const _float& _fCallLimit)
 {
 	CFrame* pFrame = new CFrame;
 
-	if (FAILED(pFrame->Ready_Frame(fCallLimit)))
+	if (FAILED(pFrame->Ready_Frame(_fCallLimit)))
 	{
 		Safe_Release(pFrame);
 
@@ -24,16 +24,16 @@ CFrame* CFrame::Create(const _float& fCallLimit)
 	return pFrame;
 }
 
-HRESULT CFrame::Ready_Frame(const _float& fCallLimit)
+HRESULT CFrame::Ready_Frame(const _float& _fCallLimit)
 {
-	m_fCallLimit = 1.f / fCallLimit;
+	m_fCallLimit = 1.f / _fCallLimit;
 
 	return S_OK;
 }
 
-_bool CFrame::IsPermit_Call(const _float& fTimeDelta)
+_bool CFrame::IsPermit_Call(const _float& _fTimeDelta)
 {
-	m_fAccTimeDelta += fTimeDelta;
+	m_fAccTimeDelta += _fTimeDelta;
 
 	if (m_fAccTimeDelta >= m_fCallLimit)
 	{

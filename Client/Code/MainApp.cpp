@@ -35,9 +35,9 @@ HRESULT CMainApp::Ready_MainApp()
 	return S_OK;
 }
 
-int CMainApp::Update_MainApp(const float& fTimeDelta)
+int CMainApp::Update_MainApp(const float& _fTimeDelta)
 {
-	m_pManagementClass->Update_Scene(fTimeDelta);
+	m_pManagementClass->Update_Scene(_fTimeDelta);
 
 	return 0;
 }
@@ -56,28 +56,28 @@ void CMainApp::Render_MainApp()
 	Engine::Render_End();
 }
 
-HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
+HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
 {
-	FAILED_CHECK_RETURN(Engine::Ready_GraphicDev(g_hWnd, MODE_WIN, WINCX, WINCY, &m_pDeviceClass), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_GraphicDev(g_hWnd, WINMODE::MODE_WIN, WINCX, WINCY, &m_pDeviceClass), E_FAIL);
 	m_pDeviceClass->AddRef();
 
-	(*ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
-	(*ppGraphicDev)->AddRef();
+	(*_ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
+	(*_ppGraphicDev)->AddRef();
 
 	return S_OK;
 }
 
-HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev, Engine::CManagement** ppManagement)
+HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagement** _ppManagement)
 {
 	Engine::CScene* pScene = nullptr;
 
-	pScene = CLogo::Create(pGraphicDev);
+	pScene = CLogo::Create(_pGraphicDev);
 	NULL_CHECK_RETURN(pScene, E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Create_Management(pGraphicDev, ppManagement), E_FAIL);
-	(*ppManagement)->AddRef();
+	FAILED_CHECK_RETURN(Engine::Create_Management(_pGraphicDev, _ppManagement), E_FAIL);
+	(*_ppManagement)->AddRef();
 
-	FAILED_CHECK_RETURN((*ppManagement)->Set_Scene(pScene), E_FAIL);
+	FAILED_CHECK_RETURN((*_ppManagement)->Set_Scene(pScene), E_FAIL);
 
 	return S_OK;
 }
