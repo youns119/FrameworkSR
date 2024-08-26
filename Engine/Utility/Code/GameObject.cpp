@@ -31,7 +31,7 @@ HRESULT CGameObject::Ready_GameObject()
 
 _int CGameObject::Update_GameObject(const _float& _fTimeDelta)
 {
-	for (auto& pComponent : m_mapComponent[(UINT)COMPONENTID::ID_DYNAMIC])
+	for (auto& pComponent : m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC])
 		pComponent.second->Update_Component(_fTimeDelta);
 
 	return 0;
@@ -39,15 +39,15 @@ _int CGameObject::Update_GameObject(const _float& _fTimeDelta)
 
 void CGameObject::LateUpdate_GameObject()
 {
-	for (auto& pComponent : m_mapComponent[(UINT)COMPONENTID::ID_DYNAMIC])
+	for (auto& pComponent : m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC])
 		pComponent.second->LateUpdate_Component();
 }
 
 CComponent* CGameObject::Find_Component(COMPONENTID _eID, const _tchar* _pComponentTag)
 {
-	auto iter = find_if(m_mapComponent[(UINT)_eID].begin(), m_mapComponent[(UINT)_eID].end(), CTag_Finder(_pComponentTag));
+	auto iter = find_if(m_mapComponent[(_uint)_eID].begin(), m_mapComponent[(_uint)_eID].end(), CTag_Finder(_pComponentTag));
 
-	if (iter == m_mapComponent[(UINT)_eID].end())
+	if (iter == m_mapComponent[(_uint)_eID].end())
 		return nullptr;
 
 	return iter->second;
@@ -55,7 +55,7 @@ CComponent* CGameObject::Find_Component(COMPONENTID _eID, const _tchar* _pCompon
 
 void CGameObject::Free()
 {
-	for (_uint i = 0; i < (UINT)COMPONENTID::ID_END; i++)
+	for (_uint i = 0; i < (_uint)COMPONENTID::ID_END; i++)
 	{
 		for_each(m_mapComponent[i].begin(), m_mapComponent[i].end(), CDeleteMap());
 		m_mapComponent[i].clear();

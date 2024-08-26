@@ -17,12 +17,12 @@ public :
 	const _matrix* Get_WorldMatrix() { return &m_matWorld; }
 	void Get_Info(INFO _eType, _vec3* _pInfo)
 	{
-		memcpy(_pInfo, &m_matWorld.m[(UINT)_eType][0], sizeof(_vec3));
+		memcpy(_pInfo, &m_matWorld.m[(_uint)_eType][0], sizeof(_vec3));
 	}
 
 	void Set_Pos(_float _fX, _float _fY, _float _fZ)
 	{
-		m_vInfo[(UINT)INFO::INFO_POS] = { _fX, _fY, _fZ };
+		m_vInfo[(_uint)INFO::INFO_POS] = { _fX, _fY, _fZ };
 	}
 
 public :
@@ -36,12 +36,12 @@ public :
 public :
 	void Move_Pos(const _vec3* _pDir, const _float& _fTimeDelta, const _float& _fSpeed)
 	{
-		m_vInfo[(UINT)INFO::INFO_POS] += *_pDir * _fTimeDelta * _fSpeed;
+		m_vInfo[(_uint)INFO::INFO_POS] += *_pDir * _fTimeDelta * _fSpeed;
 	}
 
 	void Rotation(ROTATION _eType, const _float& _fAngle)
 	{
-		*(((_float*)&m_vAngle) + (UINT)_eType) += _fAngle;
+		*(((_float*)&m_vAngle) + (_uint)_eType) += _fAngle;
 	}
 
 public :
@@ -51,7 +51,7 @@ private :
 	virtual void Free();
 
 private :
-	_vec3 m_vInfo[(UINT)INFO::INFO_END];
+	_vec3 m_vInfo[(_uint)INFO::INFO_END];
 	_vec3 m_vScale;
 	_vec3 m_vAngle;
 	_matrix	m_matWorld;

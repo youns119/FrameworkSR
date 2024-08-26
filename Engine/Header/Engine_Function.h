@@ -6,36 +6,36 @@
 namespace Engine
 {
 	template<typename T>
-	void Safe_Delete(T& Pointer)
+	void Safe_Delete(T& _Pointer)
 	{
-		if (Pointer != nullptr)
+		if (_Pointer != nullptr)
 		{
-			delete Pointer;
-			Pointer = nullptr;
+			delete _Pointer;
+			_Pointer = nullptr;
 		}
 	}
 
 	template<typename T>
-	void Safe_Delete_Array(T& Pointer)
+	void Safe_Delete_Array(T& _Pointer)
 	{
-		if (Pointer != nullptr)
+		if (_Pointer != nullptr)
 		{
-			delete[] Pointer;
-			Pointer = nullptr;
+			delete[] _Pointer;
+			_Pointer = nullptr;
 		}
 	}
 
 	template<typename T>
-	unsigned long Safe_Release(T& pInstance)
+	unsigned long Safe_Release(T& _pInstance)
 	{
 		unsigned long dwRefCnt = 0;
 
-		if (pInstance != nullptr)
+		if (_pInstance != nullptr)
 		{
-			dwRefCnt = pInstance->Release();
+			dwRefCnt = _pInstance->Release();
 
 			if (dwRefCnt == 0)
-				pInstance = NULL;
+				_pInstance = NULL;
 		}
 
 		return dwRefCnt;
@@ -44,14 +44,14 @@ namespace Engine
 	class CTag_Finder
 	{
 	public :
-		explicit CTag_Finder(const _tchar* pTag) : m_pTargetTag(pTag) {}
+		explicit CTag_Finder(const _tchar* _pTag) : m_pTargetTag(_pTag) {}
 		~CTag_Finder(void) {}
 
 	public :
 		template<typename T> 
-		_bool operator () (const T& pair)
+		_bool operator () (const T& _pair)
 		{
-			if (lstrcmpW(m_pTargetTag, pair.first) == 0)
+			if (lstrcmpW(m_pTargetTag, _pair.first) == 0)
 				return true;
 			
 			return false;
@@ -69,14 +69,14 @@ namespace Engine
 
 	public :
 		template <typename T>
-		void operator () (T& pInstance)
+		void operator () (T& _pInstance)
 		{
 			_ulong dwRefCnt = 0;
 
-			dwRefCnt = pInstance->Release();
+			dwRefCnt = _pInstance->Release();
 
 			if (dwRefCnt == 0)
-				pInstance = nullptr;
+				_pInstance = nullptr;
 		}
 	};
 
@@ -88,14 +88,14 @@ namespace Engine
 
 	public :	
 		template <typename T>
-		void operator () (T& Pair)
+		void operator () (T& _Pair)
 		{
 			_ulong dwRefCnt = 0;
 
-			dwRefCnt = Pair.second->Release();
+			dwRefCnt = _Pair.second->Release();
 
 			if (dwRefCnt == 0)
-				Pair.second = NULL;
+				_Pair.second = NULL;
 		}
 	};
 }

@@ -6,16 +6,16 @@ CComponent::CComponent()
 {
 }
 
-CComponent::CComponent(LPDIRECT3DDEVICE9 pGraphicDev)
+CComponent::CComponent(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_bClone(false)
-	, m_pGraphicDev(pGraphicDev)
+	, m_pGraphicDev(_pGraphicDev)
 {
 	m_pGraphicDev->AddRef();
 }
 
-CComponent::CComponent(const CComponent& rhs)
+CComponent::CComponent(const CComponent& _rhs)
 	: m_bClone(true)
-	, m_pGraphicDev(rhs.m_pGraphicDev)
+	, m_pGraphicDev(_rhs.m_pGraphicDev)
 {
 	m_pGraphicDev->AddRef();
 }

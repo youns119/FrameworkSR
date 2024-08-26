@@ -8,16 +8,16 @@ CLayer::~CLayer()
 {
 }
 
-CComponent* CLayer::Get_Component(COMPONENTID eID, const _tchar* pObjTag, const _tchar* pComponentTag)
+CComponent* CLayer::Get_Component(COMPONENTID _eID, const _tchar* _pObjTag, const _tchar* _pComponentTag)
 {
 	return nullptr;
 }
 
-HRESULT CLayer::Add_GameObject(const _tchar* pObjTag, CGameObject* pGameObject)
+HRESULT CLayer::Add_GameObject(const _tchar* _pObjTag, CGameObject* _pGameObject)
 {
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	NULL_CHECK_RETURN(_pGameObject, E_FAIL);
 
-	m_mapObject.insert({ pObjTag, pGameObject });
+	m_mapObject.insert({ _pObjTag, _pGameObject });
 
 	return S_OK;
 }
@@ -27,13 +27,13 @@ HRESULT CLayer::Ready_Layer()
 	return S_OK;
 }
 
-_int CLayer::Update_Layer(const _float& fTimeDelta)
+_int CLayer::Update_Layer(const _float& _fTimeDelta)
 {
 	_int iResult(0);
 
 	for (auto& pObj : m_mapObject)
 	{
-		iResult = pObj.second->Update_GameObject(fTimeDelta);
+		iResult = pObj.second->Update_GameObject(_fTimeDelta);
 
 		if (iResult & 0x80000000)
 			return iResult;

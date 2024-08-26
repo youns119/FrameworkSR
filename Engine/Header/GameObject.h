@@ -29,7 +29,7 @@ protected :
 	virtual void Free();
 
 protected :
-	map<const _tchar*, CComponent*>	m_mapComponent[(UINT)COMPONENTID::ID_END];
+	map<const _tchar*, CComponent*>	m_mapComponent[(_uint)COMPONENTID::ID_END];
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 };
 

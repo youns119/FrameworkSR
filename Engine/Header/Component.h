@@ -10,12 +10,12 @@ class ENGINE_DLL CComponent
 {
 protected :
 	explicit CComponent();
-	explicit CComponent(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CComponent(const CComponent& rhs);
+	explicit CComponent(LPDIRECT3DDEVICE9 _pGraphicDev);
+	explicit CComponent(const CComponent& _rhs);
 	virtual ~CComponent();
 
 public :
-	virtual _int Update_Component(const _float& fTimeDelta) { return 0; }
+	virtual _int Update_Component(const _float& _fTimeDelta) { return 0; }
 	virtual void LateUpdate_Component() {}
 
 public :
