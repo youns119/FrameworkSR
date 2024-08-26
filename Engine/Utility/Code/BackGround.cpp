@@ -2,8 +2,8 @@
 #include "..\Header\BackGround.h"
 #include "Export_Utility.h"
 
-CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+CBackGround::CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev)
+	: Engine::CGameObject(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 {
@@ -17,17 +17,16 @@ HRESULT CBackGround::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	//m_pTransformCom->m_vScale = { 1.f, 1.f, 1.f };
 	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
 
 	return S_OK;
 }
 
-_int CBackGround::Update_GameObject(const _float& fTimeDelta)
+_int CBackGround::Update_GameObject(const _float& _fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	Key_Input(_fTimeDelta);
 
-	return Engine::CGameObject::Update_GameObject(fTimeDelta);
+	return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
 
 void CBackGround::LateUpdate_GameObject()
@@ -51,35 +50,31 @@ HRESULT CBackGround::Add_Component()
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_RcCol"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
 	return S_OK;
 }
 
 void CBackGround::Key_Input(const _float& _fTimeDelta)
 {
-	_vec3	vUp;
+	_vec3 vUp;
 
-	m_pTransformCom->Get_Info(INFO_UP, &vUp);
+	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
 
 	if (GetAsyncKeyState(VK_UP))
-	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), fTimeDelta, 10.f);
-	}
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, 10.f);
 
 	if (GetAsyncKeyState(VK_LEFT))
-	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-	}
+		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
 }
 
-CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-	CBackGround* pBackGround = new CBackGround(pGraphicDev);
+	CBackGround* pBackGround = new CBackGround(_pGraphicDev);
 
 	if (FAILED(pBackGround->Ready_GameObject()))
 	{

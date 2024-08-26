@@ -19,6 +19,9 @@ public :
 	virtual void LateUpdate_Scene();
 	virtual void Render_Scene();
 
+private:
+	HRESULT	Ready_Prototype();
+
 private :
 	HRESULT Ready_Layer_Environment(const _tchar* _pLayerTag);
 	HRESULT Ready_GameLogic_Environment(const _tchar* _pLayerTag) { return S_OK; }

@@ -64,6 +64,8 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
 	(*_ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
 	(*_ppGraphicDev)->AddRef();
 
+	(*_ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	return S_OK;
 }
 

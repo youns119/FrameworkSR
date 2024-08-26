@@ -31,9 +31,6 @@ private :
 	virtual void Free();
 
 private :
-	bool SetUp();
-
-private :
 	CGraphicDev* m_pDeviceClass;
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 

@@ -13,7 +13,22 @@ CLogo::~CLogo()
 
 HRESULT CLogo::Ready_Scene()
 {
+	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
+
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
+
+	_matrix		matView, matProj;
+
+	D3DXMatrixLookAtLH(&matView,
+		&_vec3(0.f, 0.f, -10.f),
+		&_vec3(0.f, 0.f, 1.f),
+		&_vec3(0.f, 1.f, 0.f));
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
 
 	return S_OK;
 }
@@ -33,6 +48,16 @@ void CLogo::LateUpdate_Scene()
 void CLogo::Render_Scene()
 {
 	Engine::CScene::Render_Scene();
+}
+
+HRESULT CLogo::Ready_Prototype()
+{
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TriCol", Engine::CTriCol::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcCol", Engine::CRcCol::Create(m_pGraphicDev)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev)), E_FAIL);
+
+	return S_OK;
 }
 
 HRESULT CLogo::Ready_Layer_Environment(const _tchar* _pLayerTag)
