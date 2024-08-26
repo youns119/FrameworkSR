@@ -55,11 +55,11 @@
     <ClInclude Include="targetver.h">
       <Filter>00.Framework\02.ETC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Header\BackGround.h">
-      <Filter>03.GameObject\00.BackGround</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Logo.h">
       <Filter>02.Scene\00.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BackGround.h">
+      <Filter>03.GameObject\00.BackGround</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,27 +12,27 @@ CManagement::~CManagement()
 	Free();
 }
 
-CComponent* CManagement::Get_Component(COMPONENTID eID, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag)
+CComponent* CManagement::Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag)
 {
 	NULL_CHECK_RETURN(m_pScene, nullptr);
 
-	return m_pScene->Get_Component(eID, pLayerTag, pObjTag, pComponentTag);
+	return m_pScene->Get_Component(_eID, _pLayerTag, _pObjTag, _pComponentTag);
 }
 
-HRESULT CManagement::Set_Scene(CScene* pScene)
+HRESULT CManagement::Set_Scene(CScene* _pScene)
 {
 	Safe_Release(m_pScene);
 
-	m_pScene = pScene;
+	m_pScene = _pScene;
 
 	return S_OK;
 }
 
-_int CManagement::Update_Scene(const _float& fTimeDelta)
+_int CManagement::Update_Scene(const _float& _fTimeDelta)
 {
 	NULL_CHECK_RETURN(m_pScene, -1);
 
-	return m_pScene->Update_Scene(fTimeDelta);
+	return m_pScene->Update_Scene(_fTimeDelta);
 }
 
 void CManagement::LateUpdate_Scene()
@@ -41,7 +41,7 @@ void CManagement::LateUpdate_Scene()
 	m_pScene->LateUpdate_Scene();
 }
 
-void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
+void CManagement::Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	NULL_CHECK(m_pScene);
 	m_pScene->Render_Scene();

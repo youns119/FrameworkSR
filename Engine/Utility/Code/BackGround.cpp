@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "..\Header\BackGround.h"
+#include "Export_Utility.h"
 
 CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
+	, m_pBufferCom(nullptr)
+	, m_pTransformCom(nullptr)
 {
 }
 
@@ -13,6 +16,8 @@ CBackGround::~CBackGround()
 HRESULT CBackGround::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pTransformCom->m_vScale = { 1.f, 1.f, 1.f };
 
 	return S_OK;
 }

@@ -15,15 +15,14 @@ private :
 	virtual ~CManagement();
 
 public :
-	CComponent* Get_Component(COMPONENTID eID, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag);
+	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag);
+
+	HRESULT	Set_Scene(CScene* _pScene);
 
 public :
-	HRESULT	Set_Scene(CScene* pScene);
-
-public :
-	_int Update_Scene(const _float& fTimeDelta);
+	_int Update_Scene(const _float& _fTimeDelta);
 	void LateUpdate_Scene();
-	void Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev);
+	void Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev);
 		
 public :
 	virtual void Free();

@@ -140,19 +140,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Component.h" />
+    <ClInclude Include="..\..\Header\ComponentManager.h" />
     <ClInclude Include="..\..\Header\Export_Utility.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
     <ClInclude Include="..\..\Header\Layer.h" />
     <ClInclude Include="..\..\Header\Management.h" />
+    <ClInclude Include="..\..\Header\RcCol.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
+    <ClInclude Include="..\..\Header\Transform.h" />
+    <ClInclude Include="..\..\Header\TriCol.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Component.cpp" />
+    <ClCompile Include="..\Code\ComponentManager.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
+    <ClCompile Include="..\Code\RcCol.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\Transform.cpp" />
+    <ClCompile Include="..\Code\TriCol.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>

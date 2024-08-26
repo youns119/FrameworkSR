@@ -22,6 +22,18 @@
     <Filter Include="04.Component\00.VIBuffer">
       <UniqueIdentifier>{c0857b17-7d80-4cf9-bb06-3a83bcbb7793}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\00.TriCol">
+      <UniqueIdentifier>{9334a9a1-0ef4-4e48-a839-57df117e6dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\99.ComponentManager">
+      <UniqueIdentifier>{5c16eeba-4f2b-4906-b246-5ca6738bc6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\01.RcCol">
+      <UniqueIdentifier>{1376abd8-33dd-4360-bc41-9ad72308922b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\01.Transform">
+      <UniqueIdentifier>{5ef0048c-9c30-4ae7-bb4f-ee354c2c19a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -36,14 +48,26 @@
     <ClInclude Include="..\..\Header\GameObject.h">
       <Filter>03.GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\Component.h">
-      <Filter>04.Component</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\Export_Utility.h">
       <Filter>99.Export</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\VIBuffer.h">
       <Filter>04.Component\00.VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\TriCol.h">
+      <Filter>04.Component\00.VIBuffer\00.TriCol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\RcCol.h">
+      <Filter>04.Component\00.VIBuffer\01.RcCol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Component.h">
+      <Filter>04.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Transform.h">
+      <Filter>04.Component\01.Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\ComponentManager.h">
+      <Filter>04.Component\99.ComponentManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,11 +83,23 @@
     <ClCompile Include="..\Code\GameObject.cpp">
       <Filter>03.GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\VIBuffer.cpp">
+      <Filter>04.Component\00.VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TriCol.cpp">
+      <Filter>04.Component\00.VIBuffer\00.TriCol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RcCol.cpp">
+      <Filter>04.Component\00.VIBuffer\01.RcCol</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\Component.cpp">
       <Filter>04.Component</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\VIBuffer.cpp">
-      <Filter>04.Component\00.VIBuffer</Filter>
+    <ClCompile Include="..\Code\Transform.cpp">
+      <Filter>04.Component\01.Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ComponentManager.cpp">
+      <Filter>04.Component\99.ComponentManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
