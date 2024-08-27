@@ -148,6 +148,8 @@
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
     <ClInclude Include="..\Header\Define.h" />
+    <ClInclude Include="..\Header\Monster.h" />
+    <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -158,6 +160,8 @@
     <ClCompile Include="..\..\Engine\Utility\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
+    <ClCompile Include="..\Code\Monster.cpp" />
+    <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

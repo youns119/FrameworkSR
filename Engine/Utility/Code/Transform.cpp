@@ -89,6 +89,37 @@ void CTransform::LateUpdate_Component()
 {
 }
 
+void CTransform::Chase_Target(const _vec3* _pTargetPos, const _float& _fSpeed)
+{
+	_vec3 vDir = *_pTargetPos - m_vInfo[(_uint)INFO::INFO_POS];
+
+	m_vInfo[(_uint)INFO::INFO_POS] += *D3DXVec3Normalize(&vDir, &vDir) * _fSpeed;
+
+	_matrix	matRot = *Compute_LookAtTarget(_pTargetPos);
+
+	_matrix	matScale, matTrans;
+
+	D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
+	D3DXMatrixTranslation(&matTrans, m_vInfo[(_uint)INFO::INFO_POS].x, m_vInfo[(_uint)INFO::INFO_POS].y, m_vInfo[(_uint)INFO::INFO_POS].z);
+
+	m_matWorld = matScale * matRot * matTrans;
+}
+
+const _matrix* CTransform::Compute_LookAtTarget(const _vec3* _pTargetPos)
+{
+	_vec3 vDir = *_pTargetPos - m_vInfo[(_uint)INFO::INFO_POS];
+
+	_vec3 vAxis, vUp;
+	_matrix	matRot;
+
+	return D3DXMatrixRotationAxis
+	(
+		&matRot,
+		D3DXVec3Cross(&vAxis, &m_vInfo[(_uint)INFO::INFO_UP], &vDir),
+		acos(D3DXVec3Dot(D3DXVec3Normalize(&vUp, &m_vInfo[(_uint)INFO::INFO_UP]), D3DXVec3Normalize(&vDir, &vDir)))
+	);
+}
+
 CComponent* CTransform::Clone()
 {
 	return new CTransform(*this);

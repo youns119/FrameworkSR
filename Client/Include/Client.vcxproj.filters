@@ -38,6 +38,9 @@
     <Filter Include="03.GameObject\02.Monster">
       <UniqueIdentifier>{19c4c6d2-b518-461a-9eeb-b00ee0dd3a59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\01.Stage">
+      <UniqueIdentifier>{e5fcecbc-9d9b-4410-9cf1-ab0420490543}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -67,6 +70,12 @@
     <ClInclude Include="..\Header\BackGround.h">
       <Filter>03.GameObject\00.BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Player.h">
+      <Filter>03.GameObject\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Monster.h">
+      <Filter>03.GameObject\02.Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -83,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Logo.cpp">
       <Filter>02.Scene\00.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Player.cpp">
+      <Filter>03.GameObject\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>03.GameObject\02.Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

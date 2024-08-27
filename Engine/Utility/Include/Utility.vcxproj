@@ -146,7 +146,9 @@
     <ClInclude Include="..\..\Header\Layer.h" />
     <ClInclude Include="..\..\Header\Management.h" />
     <ClInclude Include="..\..\Header\RcCol.h" />
+    <ClInclude Include="..\..\Header\RcTex.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
+    <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\Transform.h" />
     <ClInclude Include="..\..\Header\TriCol.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
@@ -158,7 +160,9 @@
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
     <ClCompile Include="..\Code\RcCol.cpp" />
+    <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\Transform.cpp" />
     <ClCompile Include="..\Code\TriCol.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />

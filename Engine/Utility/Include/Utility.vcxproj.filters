@@ -75,6 +75,12 @@
     <ClInclude Include="..\..\Header\ComponentManager.h">
       <Filter>04.Component\99.ComponentManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Texture.h">
+      <Filter>04.Component\02.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\RcTex.h">
+      <Filter>04.Component\00.VIBuffer\02.RcTex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -106,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\ComponentManager.cpp">
       <Filter>04.Component\99.ComponentManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Texture.cpp">
+      <Filter>04.Component\02.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RcTex.cpp">
+      <Filter>04.Component\00.VIBuffer\02.RcTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

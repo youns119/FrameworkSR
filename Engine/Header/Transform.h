@@ -48,11 +48,12 @@ public :
 	{
 		m_vInfo[(_uint)INFO::INFO_POS] += *_pDir * _fTimeDelta * _fSpeed;
 	}
-
 	void Rotation(ROTATION _eType, const _float& _fAngle)
 	{
 		*(((_float*)&m_vAngle) + (_uint)_eType) += _fAngle;
 	}
+	void Chase_Target(const _vec3* _pTargetPos, const _float& _fSpeed);
+	const _matrix* Compute_LookAtTarget(const _vec3* _pTargetPos);
 
 public :
 	virtual CComponent* Clone();
