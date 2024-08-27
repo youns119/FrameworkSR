@@ -34,6 +34,12 @@
     <Filter Include="04.Component\01.Transform">
       <UniqueIdentifier>{5ef0048c-9c30-4ae7-bb4f-ee354c2c19a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\02.RcTex">
+      <UniqueIdentifier>{42693d93-4a7d-4e31-a82d-f2aa2dd313c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\02.Texture">
+      <UniqueIdentifier>{3994eaa8-3326-428b-883a-c9b918ab7bcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">

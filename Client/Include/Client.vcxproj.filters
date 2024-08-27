@@ -32,6 +32,12 @@
     <Filter Include="03.GameObject\00.BackGround">
       <UniqueIdentifier>{93d7963b-f70d-4fe5-9cf6-a0c87496af61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\01.Player">
+      <UniqueIdentifier>{19b10b30-2268-4437-bb17-b14f1fa7a19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster">
+      <UniqueIdentifier>{19c4c6d2-b518-461a-9eeb-b00ee0dd3a59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
