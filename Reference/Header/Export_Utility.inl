@@ -46,5 +46,6 @@ inline CComponent* Clone_Proto(const _tchar* _pComponentTag)
 
 void Release_Utility()
 {
+	CComponentManager::DestroyInstance();
 	CManagement::DestroyInstance();
 }

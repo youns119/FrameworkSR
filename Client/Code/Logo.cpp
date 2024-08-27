@@ -31,18 +31,30 @@ HRESULT CLogo::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 
-	_matrix		matView, matProj;
+	_matrix	matView, matProj;
 
-	D3DXMatrixLookAtLH(&matView,
-		&_vec3(0.f, 0.f, -10.f),
-		&_vec3(0.f, 0.f, 1.f),
-		&_vec3(0.f, 1.f, 0.f));
+	_vec3 vecEye = _vec3(0.f, 0.f, -10.f);
+	//_vec3 vecEye = _vec3(0.f, 0.f, -1.f);
+	_vec3 vecAt = _vec3(0.f, 0.f, 1.f);
+	_vec3 vecUp = _vec3(0.f, 1.f, 0.f);
 
+	D3DXMatrixLookAtLH
+	(
+		&matView,
+		&vecEye,
+		&vecAt,
+		&vecUp
+	);
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
 
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
+	D3DXMatrixPerspectiveFovLH
+	(
+		&matProj, 
+		D3DXToRadian(60.f), 
+		(_float)WINCX / WINCY,
+		0.1f, 1000.f
+	);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-
 
 	return S_OK;
 }

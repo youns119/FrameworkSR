@@ -22,7 +22,6 @@ CComponent::CComponent(const CComponent& _rhs)
 
 CComponent::~CComponent()
 {
-	Free();
 }
 
 void CComponent::Free()

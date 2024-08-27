@@ -19,15 +19,15 @@ private :
 public :
 	static CBackGround* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
-private :
-	HRESULT	Add_Component();
-	void Key_Input(const _float& _fTimeDelta);
-
 public :
 	virtual HRESULT	Ready_GameObject();
 	virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
+
+private:
+	HRESULT	Add_Component();
+	void Key_Input(const _float& _fTimeDelta);
 
 private :
 	virtual void Free();

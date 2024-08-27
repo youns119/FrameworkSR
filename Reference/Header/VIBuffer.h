@@ -34,16 +34,3 @@ protected :
 };
 
 END
-
-// VIBuffer
-// TriCol 클래스 작성
-// Export_Utility
-// Management
-// GameObject
-// Batch 실행
-// BackGround
-// MainApp
-// ComponentManager 클래스 작성
-// Logo
-// RcCol 클래스 작성
-// Transform 클래스 작성
