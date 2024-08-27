@@ -41,7 +41,7 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Environment", L"Player", L"Com_Transform"));
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
 
-	_vec3		vPlayerPos;
+	_vec3 vPlayerPos;
 	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 	m_pTransformCom->Chase_Target(&vPlayerPos, 5.f * _fTimeDelta);
@@ -51,10 +51,17 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 
 void CMonster::LateUpdate_GameObject()
 {
+	Engine::CGameObject::LateUpdate_GameObject();
 }
 
 void CMonster::Render_GameObject()
 {
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	m_pBufferCom->Render_Buffer();
+
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CMonster::Add_Component()
@@ -74,4 +81,5 @@ HRESULT CMonster::Add_Component()
 
 void CMonster::Free()
 {
+	Engine::CGameObject::Free();
 }

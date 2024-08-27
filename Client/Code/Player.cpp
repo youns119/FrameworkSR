@@ -65,64 +65,41 @@ HRESULT CPlayer::Add_Component()
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_PlayerTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
 	return S_OK;
 }
 
 void CPlayer::Key_Input(const _float& _fTimeDelta)
 {
-	_vec3	vUp;
+	_vec3 vUp;
 
-	m_pTransformCom->Get_Info(INFO_UP, &vUp);
+	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
 
 	if (GetAsyncKeyState(VK_UP))
-	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), fTimeDelta, 10.f);
-	}
-
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, 10.f);
 	if (GetAsyncKeyState(VK_DOWN))
-	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), fTimeDelta, -10.f);
-	}
-
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, -10.f);
 	if (GetAsyncKeyState('Q'))
-	{
-		m_pTransformCom->Rotation(ROT_X, D3DXToRadian(180.f * fTimeDelta));
-	}
-
+		m_pTransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(180.f * _fTimeDelta));
 	if (GetAsyncKeyState('A'))
-	{
-		m_pTransformCom->Rotation(ROT_X, D3DXToRadian(180.f * fTimeDelta));
-	}
-
+		m_pTransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(-180.f * _fTimeDelta));
 	if (GetAsyncKeyState('W'))
-	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-	}
-
+		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
 	if (GetAsyncKeyState('S'))
-	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-	}
-
+		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
 	if (GetAsyncKeyState('E'))
-	{
-		m_pTransformCom->Rotation(ROT_Z, D3DXToRadian(180.f * fTimeDelta));
-	}
-
+		m_pTransformCom->Rotation(ROTATION::ROT_Z, D3DXToRadian(180.f * _fTimeDelta));
 	if (GetAsyncKeyState('D'))
-	{
-		m_pTransformCom->Rotation(ROT_Z, D3DXToRadian(180.f * fTimeDelta));
-	}
+		m_pTransformCom->Rotation(ROTATION::ROT_Z, D3DXToRadian(-180.f * _fTimeDelta));
 }
 
 void CPlayer::Free()

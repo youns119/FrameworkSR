@@ -66,12 +66,10 @@ HRESULT CRcTex::Ready_Buffer()
 
 	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
 
-	// 오른쪽 위
 	pIndex[0]._0 = 0;
 	pIndex[0]._1 = 1;
 	pIndex[0]._2 = 2;
 
-	// 왼쪽 아래
 	pIndex[1]._0 = 0;
 	pIndex[1]._1 = 2;
 	pIndex[1]._2 = 3;

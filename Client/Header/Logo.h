@@ -3,6 +3,9 @@
 #include "Scene.h"
 #include "BackGround.h"
 
+#include "Player.h"
+#include "Monster.h"
+
 class CLogo 
 	: public Engine::CScene
 {

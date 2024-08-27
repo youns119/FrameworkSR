@@ -85,13 +85,10 @@ void CBackGround::Key_Input(const _float& _fTimeDelta)
 
 	if (GetAsyncKeyState('W'))
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, 10.f);
-
 	if (GetAsyncKeyState('S'))
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, -10.f);
-
 	if (GetAsyncKeyState('A'))
 		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
-
 	if (GetAsyncKeyState('D'))
 		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
 }
