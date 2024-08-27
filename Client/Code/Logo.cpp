@@ -11,6 +11,20 @@ CLogo::~CLogo()
 {
 }
 
+CLogo* CLogo::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+{
+	CLogo* pLogo = new CLogo(_pGraphicDev);
+
+	if (FAILED(pLogo->Ready_Scene()))
+	{
+		Safe_Release(pLogo);
+		MSG_BOX("Logo Create Failed");
+		return nullptr;
+	}
+
+	return pLogo;
+}
+
 HRESULT CLogo::Ready_Scene()
 {
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
@@ -74,20 +88,6 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar* _pLayerTag)
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
-}
-
-CLogo* CLogo::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
-{
-	CLogo* pLogo = new CLogo(_pGraphicDev);
-
-	if (FAILED(pLogo->Ready_Scene()))
-	{
-		Safe_Release(pLogo);
-		MSG_BOX("Logo Create Failed");
-		return nullptr;
-	}
-
-	return pLogo;
 }
 
 void CLogo::Free()
