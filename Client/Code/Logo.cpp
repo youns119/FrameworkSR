@@ -31,34 +31,10 @@ HRESULT CLogo::Ready_Scene()
 {
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADING_STAGE);
+	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
-
-	_matrix	matView, matProj;
-
-	_vec3 vecEye = _vec3(0.f, 0.f, -10.f);
-	_vec3 vecAt = _vec3(0.f, 0.f, 1.f);
-	_vec3 vecUp = _vec3(0.f, 1.f, 0.f);
-
-	D3DXMatrixLookAtLH
-	(
-		&matView,
-		&vecEye,
-		&vecAt,
-		&vecUp
-	);
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
-
-	D3DXMatrixPerspectiveFovLH
-	(
-		&matProj, 
-		D3DXToRadian(60.f), 
-		(_float)WINCX / WINCY,
-		0.1f, 1000.f
-	);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	return S_OK;
 }
@@ -66,6 +42,19 @@ HRESULT CLogo::Ready_Scene()
 _int CLogo::Update_Scene(const _float& _fTimeDelta)
 {
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
+
+	if (m_pLoading->Get_Finish() == true)
+	{
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
+		{
+			Engine::CScene* pStage = CStage::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pStage, -1);
+
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
+
+			return 0;
+		}
+	}
 
 	return iExit;
 }
@@ -77,18 +66,12 @@ void CLogo::LateUpdate_Scene()
 
 void CLogo::Render_Scene()
 {
-	Engine::CScene::Render_Scene();
 }
 
 HRESULT CLogo::Ready_Prototype()
 {
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TriCol", Engine::CTriCol::Create(m_pGraphicDev)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcCol", Engine::CRcCol::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/IU.jpg", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTex", Engine::CRcTex::Create(m_pGraphicDev)), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_PlayerTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player/Ma.jpg", TEXTUREID::TEX_NORMAL)), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev)), E_FAIL);
 
 	return S_OK;
 }
@@ -100,17 +83,9 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar* _pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//pGameObject = CBackGround::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
-
-	pGameObject = CPlayer::Create(m_pGraphicDev);
+	pGameObject = CBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
-
-	pGameObject = CMonster::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
@@ -119,5 +94,7 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar* _pLayerTag)
 
 void CLogo::Free()
 {
+	Safe_Release(m_pLoading);
+
 	Engine::CScene::Free();
 }

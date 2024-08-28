@@ -58,7 +58,7 @@ _uint CLoading::Loading_Stage()
 	return 0;
 }
 
-unsigned int __stdcall CLoading::Thread_Main(void* _pArg)
+unsigned int CLoading::Thread_Main(void* _pArg)
 {
 	CLoading* pLoading = reinterpret_cast<CLoading*>(_pArg);
 
@@ -71,8 +71,9 @@ unsigned int __stdcall CLoading::Thread_Main(void* _pArg)
 	case LOADINGID::LOADING_STAGE:
 		iFlag = pLoading->Loading_Stage();
 		break;
-
 	case LOADINGID::LOADING_BOSS:
+		break;
+	default :
 		break;
 	}
 
@@ -85,7 +86,7 @@ void CLoading::Free()
 {
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
-	DeleteCriticalSection(&m_Crt);
+	DeleteCriticalSection(&m_tCrt);
 
 	Safe_Release(m_pGraphicDev);
 }

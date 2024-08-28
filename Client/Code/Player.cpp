@@ -39,6 +39,8 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
 	Key_Input(_fTimeDelta);
 
+	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+
 	return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
 

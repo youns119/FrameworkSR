@@ -19,7 +19,6 @@ CMainApp* CMainApp::Create()
 	if (FAILED(pMainApp->Ready_MainApp()))
 	{
 		Safe_Release(pMainApp);
-
 		return nullptr;
 	}
 

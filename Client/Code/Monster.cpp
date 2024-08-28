@@ -38,13 +38,16 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 {
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
-	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Environment", L"Player", L"Com_Transform"));
+	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
+		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Transform"));
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
 
 	_vec3 vPlayerPos;
 	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 	m_pTransformCom->Chase_Target(&vPlayerPos, 5.f * _fTimeDelta);
+
+	Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
 	return iExit;
 }

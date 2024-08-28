@@ -4,8 +4,8 @@
 
 BEGIN(Engine)
 
-class CRcCol;
-class CTransform;
+class CRcTex;
+class CTexture;
 
 END
 
@@ -27,12 +27,11 @@ public :
 
 private:
 	HRESULT	Add_Component();
-	void Key_Input(const _float& _fTimeDelta);
 
 private :
 	virtual void Free();
 
 private :
-	Engine::CRcCol* m_pBufferCom;
-	Engine::CTransform* m_pTransformCom;
+	Engine::CRcTex* m_pBufferCom;
+	Engine::CTexture* m_pTextureCom;
 };
