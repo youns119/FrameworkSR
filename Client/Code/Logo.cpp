@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "..\Header\Logo.h"
+#include "..\Header\Stage.h"
 #include "Export_Utility.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
+	, m_pLoading(nullptr)
 {
 }
 
@@ -28,6 +30,9 @@ CLogo* CLogo::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 HRESULT CLogo::Ready_Scene()
 {
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
+
+	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADING_STAGE);
+	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 

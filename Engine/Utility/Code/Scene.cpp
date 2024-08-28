@@ -46,12 +46,6 @@ void CScene::LateUpdate_Scene()
 		pLayer.second->LateUpdate_Layer();
 }
 
-void CScene::Render_Scene()
-{
-	for (auto& pLayer : m_mapLayer)
-		pLayer.second->Render_Layer();
-}
-
 void CScene::Free()
 {
 	for_each(m_mapLayer.begin(), m_mapLayer.end(), CDeleteMap());

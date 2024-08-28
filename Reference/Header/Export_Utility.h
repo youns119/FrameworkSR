@@ -2,6 +2,7 @@
 
 #include "Management.h"
 #include "ComponentManager.h"
+#include "Renderer.h"
 
 #include "TriCol.h"
 #include "RcCol.h"
@@ -23,6 +24,11 @@ inline	void Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev);
 // ComponentManager
 inline HRESULT Ready_Proto(const _tchar* _pComponentTag, CComponent* _pComponent);
 inline CComponent* Clone_Proto(const _tchar* _pComponentTag);
+
+// Renderer
+inline void	Add_RenderGroup(RENDERID _eType, CGameObject* _pGameObject);
+inline void	Render_GameObject(LPDIRECT3DDEVICE9& _pGraphicDev);
+inline void	Clear_RenderGroup();
 
 inline void	Release_Utility();
 

@@ -25,7 +25,6 @@ public :
 	HRESULT	Ready_Layer();
 	_int Update_Layer(const _float& _fTimeDelta);
 	void LateUpdate_Layer();
-	void Render_Layer();
 
 private :
 	virtual void Free();

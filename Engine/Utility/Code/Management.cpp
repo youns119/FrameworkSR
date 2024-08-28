@@ -1,4 +1,4 @@
-#include "..\..\Header\Management.h"
+#include "Export_Utility.h"
 
 IMPLEMENT_SINGLETON(CManagement)
 
@@ -23,6 +23,8 @@ HRESULT CManagement::Set_Scene(CScene* _pScene)
 {
 	Safe_Release(m_pScene);
 
+	Engine::Clear_RenderGroup();
+
 	m_pScene = _pScene;
 
 	return S_OK;
@@ -43,6 +45,8 @@ void CManagement::LateUpdate_Scene()
 
 void CManagement::Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
+	Engine::Render_GameObject(_pGraphicDev);
+
 	NULL_CHECK(m_pScene);
 	m_pScene->Render_Scene();
 }

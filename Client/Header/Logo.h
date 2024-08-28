@@ -2,9 +2,7 @@
 
 #include "Scene.h"
 #include "BackGround.h"
-
-#include "Player.h"
-#include "Monster.h"
+#include "Loading.h"
 
 class CLogo 
 	: public Engine::CScene
@@ -32,4 +30,7 @@ private :
 
 private :
 	virtual void Free();
+
+private :
+	CLoading* m_pLoading;
 };

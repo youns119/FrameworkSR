@@ -52,9 +52,10 @@ HRESULT CTexture::Ready_Texture(const _tchar* _pPath, TEXTUREID _eType, const in
 		case TEXTUREID::TEX_NORMAL:
 			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
 			break;
-
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
+			break;
+		default :
 			break;
 		}
 

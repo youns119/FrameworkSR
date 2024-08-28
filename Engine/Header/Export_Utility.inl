@@ -44,8 +44,25 @@ inline CComponent* Clone_Proto(const _tchar* _pComponentTag)
 	return CComponentManager::GetInstance()->Clone_Proto(_pComponentTag);
 }
 
+// Renderer
+inline void	Add_RenderGroup(RENDERID _eType, CGameObject* _pGameObject)
+{
+	CRenderer::GetInstance()->Add_RenderGroup(_eType, _pGameObject);
+}
+
+inline void	Render_GameObject(LPDIRECT3DDEVICE9& _pGraphicDev)
+{
+	CRenderer::GetInstance()->Render_GameObject(_pGraphicDev);
+}
+
+inline void	Clear_RenderGroup()
+{
+	CRenderer::GetInstance()->Clear_RenderGroup();
+}
+
 void Release_Utility()
 {
+	CRenderer::DestroyInstance();
 	CComponentManager::DestroyInstance();
 	CManagement::DestroyInstance();
 }
