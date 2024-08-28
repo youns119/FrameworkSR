@@ -2,6 +2,7 @@
 
 CLayer::CLayer()
 {
+	m_mapObject.clear();
 }
 
 CLayer::~CLayer()
@@ -16,6 +17,20 @@ CComponent* CLayer::Get_Component(COMPONENTID _eID, const _tchar* _pObjTag, cons
 		return nullptr;
 
 	return iter->second->Get_Component(_eID, _pComponentTag);
+}
+
+CLayer* CLayer::Create()
+{
+	CLayer* pLayer = new CLayer;
+
+	if (FAILED(pLayer->Ready_Layer()))
+	{
+		Safe_Release(pLayer);
+		MSG_BOX("layer create failed");
+		return nullptr;
+	}
+
+	return pLayer;
 }
 
 HRESULT CLayer::Add_GameObject(const _tchar* _pObjTag, CGameObject* _pGameObject)
@@ -51,20 +66,6 @@ void CLayer::LateUpdate_Layer()
 {
 	for (auto& pObj : m_mapObject)
 		pObj.second->LateUpdate_GameObject();
-}
-
-CLayer* CLayer::Create()
-{
-	CLayer* pLayer = new CLayer;
-
-	if (FAILED(pLayer->Ready_Layer()))
-	{
-		Safe_Release(pLayer);
-		MSG_BOX("layer create failed");
-		return nullptr;
-	}
-
-	return pLayer;
 }
 
 void CLayer::Free()

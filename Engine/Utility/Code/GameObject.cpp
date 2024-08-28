@@ -3,6 +3,8 @@
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
 {
+	m_mapComponent->clear();
+
 	m_pGraphicDev->AddRef();
 }
 

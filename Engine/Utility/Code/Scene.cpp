@@ -3,6 +3,8 @@
 CScene::CScene(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
 {
+	m_mapLayer.clear();
+
 	m_pGraphicDev->AddRef();
 }
 
