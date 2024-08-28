@@ -41,6 +41,9 @@
     <Filter Include="02.Scene\01.Stage">
       <UniqueIdentifier>{e5fcecbc-9d9b-4410-9cf1-ab0420490543}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\02.Loading">
+      <UniqueIdentifier>{c1afc664-1866-4823-95cf-546502363653}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -76,6 +79,12 @@
     <ClInclude Include="..\Header\Monster.h">
       <Filter>03.GameObject\02.Monster</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Stage.h">
+      <Filter>02.Scene\01.Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Loading.h">
+      <Filter>02.Scene\02.Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -98,6 +107,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>03.GameObject\02.Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Stage.cpp">
+      <Filter>02.Scene\01.Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Loading.cpp">
+      <Filter>02.Scene\02.Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

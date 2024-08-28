@@ -40,6 +40,9 @@
     <Filter Include="04.Component\02.Texture">
       <UniqueIdentifier>{3994eaa8-3326-428b-883a-c9b918ab7bcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Renderer">
+      <UniqueIdentifier>{ff70bd13-5d67-4045-bf1a-197c1f89b27e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -81,6 +84,9 @@
     <ClInclude Include="..\..\Header\RcTex.h">
       <Filter>04.Component\00.VIBuffer\02.RcTex</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Renderer.h">
+      <Filter>05.Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -118,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\RcTex.cpp">
       <Filter>04.Component\00.VIBuffer\02.RcTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Renderer.cpp">
+      <Filter>05.Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
