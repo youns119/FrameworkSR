@@ -26,7 +26,7 @@ CVIBuffer::CVIBuffer(LPDIRECT3DDEVICE9 _pGraphicDev)
 }
 
 CVIBuffer::CVIBuffer(const CVIBuffer& _rhs)
-	: CComponent(_rhs.m_pGraphicDev)
+	: CComponent(_rhs)
 	, m_pVB(_rhs.m_pVB)
 	, m_pIB(_rhs.m_pIB)
 	, m_dwFVF(_rhs.m_dwFVF)
