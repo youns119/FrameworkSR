@@ -44,6 +44,9 @@
     <Filter Include="02.Scene\02.Loading">
       <UniqueIdentifier>{c1afc664-1866-4823-95cf-546502363653}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\03.Terrain">
+      <UniqueIdentifier>{7868d147-f45d-4362-ae78-5e1f4ba8474c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -85,6 +88,9 @@
     <ClInclude Include="..\Header\Loading.h">
       <Filter>02.Scene\02.Loading</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Terrain.h">
+      <Filter>03.GameObject\03.Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -113,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Loading.cpp">
       <Filter>02.Scene\02.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Terrain.cpp">
+      <Filter>03.GameObject\03.Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@ CLoading::CLoading(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bFinish(false)
 	, m_hThread(nullptr)
 	, m_eID(LOADINGID::LOADING_END)
+	, m_szLoading(L"")
 {
 	ZeroMemory(&m_tCrt, sizeof(CRITICAL_SECTION));
 
@@ -43,15 +44,23 @@ HRESULT CLoading::Ready_Loading(LOADINGID _eLoading)
 
 _uint CLoading::Loading_Stage()
 {
+	lstrcpy(m_szLoading, L"Etc Loading................");
+
 	// Etc
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev)), E_FAIL);
+
+	lstrcpy(m_szLoading, L"Buffer Loading................");
 
 	// Buffer
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TriCol", Engine::CTriCol::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcCol", Engine::CRcCol::Create(m_pGraphicDev)), E_FAIL);
 
+	lstrcpy(m_szLoading, L"Texture Loading................");
+
 	// Texture
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_PlayerTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player/Ma.jpg", TEXTUREID::TEX_NORMAL)), E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loading Complete!!");
 
 	m_bFinish = true;
 

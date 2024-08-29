@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "..\Header\Logo.h"
 #include "..\Header\Stage.h"
+#include "Export_System.h"
 #include "Export_Utility.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -66,6 +67,7 @@ void CLogo::LateUpdate_Scene()
 
 void CLogo::Render_Scene()
 {
+	Engine::Render_Font(L"Font_Default", m_pLoading->Get_String(), &_vec2(100, 100), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 HRESULT CLogo::Ready_Prototype()

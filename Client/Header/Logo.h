@@ -12,7 +12,7 @@ private :
 	virtual ~CLogo();
 
 public :
-	static	CLogo* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CLogo* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public :
 	virtual HRESULT Ready_Scene();

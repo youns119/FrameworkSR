@@ -143,6 +143,9 @@ call CopySystem.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\FontManager.cpp" />
+    <ClCompile Include="..\Code\InputDev.cpp" />
+    <ClCompile Include="..\Code\MyFont.cpp" />
     <ClCompile Include="..\Code\TimerManager.cpp" />
     <ClCompile Include="..\Code\FrameManager.cpp" />
     <ClCompile Include="..\Code\Frame.cpp" />
@@ -150,6 +153,9 @@ call CopySystem.bat</Command>
     <ClCompile Include="..\Code\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Header\FontManager.h" />
+    <ClInclude Include="..\..\Header\InputDev.h" />
+    <ClInclude Include="..\..\Header\MyFont.h" />
     <ClInclude Include="..\..\Header\TimerManager.h" />
     <ClInclude Include="..\..\Header\FrameManager.h" />
     <ClInclude Include="..\..\Header\Export_System.h" />

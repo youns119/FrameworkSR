@@ -43,6 +43,9 @@
     <Filter Include="05.Renderer">
       <UniqueIdentifier>{ff70bd13-5d67-4045-bf1a-197c1f89b27e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\03.TerrainTex">
+      <UniqueIdentifier>{076042a2-ed83-4acb-9e49-1d9239357a7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -87,6 +90,9 @@
     <ClInclude Include="..\..\Header\Renderer.h">
       <Filter>05.Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\TerrainTex.h">
+      <Filter>04.Component\00.VIBuffer\03.TerrainTex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -127,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Renderer.cpp">
       <Filter>05.Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TerrainTex.cpp">
+      <Filter>04.Component\00.VIBuffer\03.TerrainTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

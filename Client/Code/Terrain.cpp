@@ -1,55 +1,55 @@
 #include "pch.h"
-#include "..\Header\Player.h"
+#include "..\Header\Terrain.h"
 #include "Export_Utility.h"
 
-CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
-    : Engine::CGameObject(_pGraphicDev)
-    , m_pBufferCom(nullptr)
-    , m_pTransformCom(nullptr)
-    , m_pTextureCom(nullptr)
+CTerrain::CTerrain(LPDIRECT3DDEVICE9 _pGraphicDev)
+	: Engine::CGameObject(_pGraphicDev)
+	, m_pBufferCom(nullptr)
+	, m_pTransformCom(nullptr)
+	, m_pTextureCom(nullptr)
 {
 }
 
-CPlayer::~CPlayer()
+CTerrain::~CTerrain()
 {
 }
 
-CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-	CPlayer* pPlayer = new CPlayer(_pGraphicDev);
+	CTerrain* pTerrain = new CTerrain(_pGraphicDev);
 
-	if (FAILED(pPlayer->Ready_GameObject()))
+	if (FAILED(pTerrain->Ready_GameObject()))
 	{
-		Safe_Release(pPlayer);
-		MSG_BOX("pPlayer Create Failed");
+		Safe_Release(pTerrain);
+		MSG_BOX("pTerrain Create Failed");
 		return nullptr;
 	}
 
-	return pPlayer;
+	return pTerrain;
 }
 
-HRESULT CPlayer::Ready_GameObject()
+HRESULT CTerrain::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
 
-_int CPlayer::Update_GameObject(const _float& _fTimeDelta)
+_int CTerrain::Update_GameObject(const _float& _fTimeDelta)
 {
 	Key_Input(_fTimeDelta);
 
-	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+	Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
 	return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
 
-void CPlayer::LateUpdate_GameObject()
+void CTerrain::LateUpdate_GameObject()
 {
 	Engine::CGameObject::LateUpdate_GameObject();
 }
 
-void CPlayer::Render_GameObject()
+void CTerrain::Render_GameObject()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -61,15 +61,15 @@ void CPlayer::Render_GameObject()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-HRESULT CPlayer::Add_Component()
+HRESULT CTerrain::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = dynamic_cast<CTerrainTex*>(Engine::Clone_Proto(L"Proto_TerrainTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_PlayerTex2"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_TerrainTexture"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -80,7 +80,7 @@ HRESULT CPlayer::Add_Component()
 	return S_OK;
 }
 
-void CPlayer::Key_Input(const _float& _fTimeDelta)
+void CTerrain::Key_Input(const _float& _fTimeDelta)
 {
 	_vec3 vUp;
 
@@ -104,7 +104,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pTransformCom->Rotation(ROTATION::ROT_Z, D3DXToRadian(-180.f * _fTimeDelta));
 }
 
-void CPlayer::Free()
+void CTerrain::Free()
 {
 	Engine::CGameObject::Free();
 }

@@ -18,6 +18,7 @@ public :
 	LOADINGID Get_LoadingID() { return m_eID; }
 	CRITICAL_SECTION* Get_Crt() { return &m_tCrt; }
 	_bool Get_Finish() { return m_bFinish; }
+	const _tchar* Get_String() { return m_szLoading; }
 
 public :
 	static CLoading* Create(LPDIRECT3DDEVICE9 _pGraphicDev, LOADINGID _eID);
@@ -40,4 +41,6 @@ private :
 	LOADINGID m_eID;
 
 	CRITICAL_SECTION m_tCrt;
+
+	_tchar m_szLoading[128];
 };

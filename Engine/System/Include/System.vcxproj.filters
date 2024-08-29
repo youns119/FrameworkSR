@@ -19,6 +19,15 @@
     <Filter Include="02.Frame\00.FrameManager">
       <UniqueIdentifier>{f41a6efb-4b5b-4181-98e2-afeec47c5859}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Font">
+      <UniqueIdentifier>{5b4678cb-cf65-4a13-9510-0757bbb3d764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Font\00.FontManager">
+      <UniqueIdentifier>{673ee429-2f97-4288-b5d8-92a1c441ac87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.InputDev">
+      <UniqueIdentifier>{96911efb-4d4b-4534-a69b-6a9d354b556a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDev.cpp">
@@ -35,6 +44,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\TimerManager.cpp">
       <Filter>01.Timer\00.TimerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MyFont.cpp">
+      <Filter>03.Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FontManager.cpp">
+      <Filter>03.Font\00.FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\InputDev.cpp">
+      <Filter>04.InputDev</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +73,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\TimerManager.h">
       <Filter>01.Timer\00.TimerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\MyFont.h">
+      <Filter>03.Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\FontManager.h">
+      <Filter>03.Font\00.FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\InputDev.h">
+      <Filter>04.InputDev</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

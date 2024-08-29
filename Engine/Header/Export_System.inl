@@ -40,8 +40,57 @@ _bool IsPermit_Call(const _tchar* _pFrameTag, const _float& _fTimeDelta)
 	return CFrameManager::GetInstance()->IsPermit_Call(_pFrameTag, _fTimeDelta);
 }
 
+// FontManager
+inline HRESULT Ready_Font
+(
+	LPDIRECT3DDEVICE9 _pGraphicDev,
+	const _tchar* _pFontTag,
+	const _tchar* _pFontType,
+	const _uint& _iWidth,
+	const _uint& _iHeight,
+	const _uint& _iWeight
+)
+{
+	return CFontManager::GetInstance()->Ready_Font(_pGraphicDev, _pFontTag, _pFontType, _iWidth, _iHeight, _iWeight);
+}
+
+inline void	Render_Font
+(
+	const _tchar* _pFontTag,
+	const _tchar* _pString,
+	const _vec2* _pPos,
+	D3DXCOLOR _tColor
+)
+{
+	CFontManager::GetInstance()->Render_Font(_pFontTag, _pString, _pPos, _tColor);
+}
+
+// InputDev
+_byte Get_DIKeyState(_ubyte _byKeyID)
+{
+	return CInputDev::GetInstance()->Get_DIKeyState(_byKeyID);
+}
+_byte Get_DIMouseState(MOUSEKEYSTATE _eMouse)
+{
+	return CInputDev::GetInstance()->Get_DIMouseState(_eMouse);
+}
+_long Get_DIMouseMove(MOUSEMOVESTATE _eMouseState)
+{
+	return CInputDev::GetInstance()->Get_DIMouseMove(_eMouseState);
+}
+HRESULT Ready_InputDev(HINSTANCE _hInst, HWND _hWnd)
+{
+	return CInputDev::GetInstance()->Ready_InputDev(_hInst, _hWnd);
+}
+void Update_InputDev(void)
+{
+	CInputDev::GetInstance()->Update_InputDev();
+}
+
 void Release_System()
 {
+	CInputDev::GetInstance()->DestroyInstance();
+	CFontManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
 	CTimerManager::GetInstance()->DestroyInstance();
 	CGraphicDev::GetInstance()->DestroyInstance();
