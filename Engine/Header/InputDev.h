@@ -24,7 +24,6 @@ public :
 	{
 		return m_tMouseState.rgbButtons[(_uint)_eMouse];
 	}
-	// 현재 마우스의 특정 축 좌표를 반환
 	_long Get_DIMouseMove(MOUSEMOVESTATE _eMouseState)
 	{
 		return *(((_long*)&m_tMouseState) + (_uint)_eMouseState);
