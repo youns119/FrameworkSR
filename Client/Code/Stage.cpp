@@ -33,7 +33,7 @@ HRESULT CStage::Ready_Scene()
 
 	_matrix matView, matProj;
 
-	_vec3 vecEye = _vec3(0.f, 0.f, -10.f);
+	_vec3 vecEye = _vec3(0.f, 10.f, -10.f);
 	_vec3 vecAt = _vec3(0.f, 0.f, 1.f);
 	_vec3 vecUp = _vec3(0.f, 1.f, 0.f);
 

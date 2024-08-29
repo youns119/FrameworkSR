@@ -67,8 +67,8 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
 
 	(*_ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	(*_ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);		// Z버퍼에 깊이 값을 기록은 하되 정렬을 수행할지 말지 여부를 묻는 옵션
-	(*_ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	// Z버퍼에 깊이 값을 기록할 지 말 지 결정	
+	(*_ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);
+	(*_ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Font(*_ppGraphicDev, L"Font_Default", L"궁서", 20, 20, FW_HEAVY), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Font(*_ppGraphicDev, L"Font_Myungjo", L"명조", 20, 20, FW_NORMAL), E_FAIL);

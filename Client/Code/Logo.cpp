@@ -67,7 +67,9 @@ void CLogo::LateUpdate_Scene()
 
 void CLogo::Render_Scene()
 {
-	Engine::Render_Font(L"Font_Default", m_pLoading->Get_String(), &_vec2(100, 100), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	_vec2 vPos = { 100.f, 100.f };
+
+	Engine::Render_Font(L"Font_Default", m_pLoading->Get_String(), &vPos, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 HRESULT CLogo::Ready_Prototype()
