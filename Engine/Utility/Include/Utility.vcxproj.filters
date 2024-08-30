@@ -46,6 +46,9 @@
     <Filter Include="04.Component\00.VIBuffer\03.TerrainTex">
       <UniqueIdentifier>{076042a2-ed83-4acb-9e49-1d9239357a7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\Camera">
+      <UniqueIdentifier>{d58eaecd-50de-48c2-814b-8631f8822f6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -93,6 +96,9 @@
     <ClInclude Include="..\..\Header\TerrainTex.h">
       <Filter>04.Component\00.VIBuffer\03.TerrainTex</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Camera.h">
+      <Filter>03.GameObject\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -136,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\TerrainTex.cpp">
       <Filter>04.Component\00.VIBuffer\03.TerrainTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Camera.cpp">
+      <Filter>03.GameObject\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

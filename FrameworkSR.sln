@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Base", "02.Base", "{878D
 	ProjectSection(SolutionItems) = preProject
 		Base\Base.h = Base\Base.h
 		Base\Base.inl = Base\Base.inl
+		memo.txt = memo.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.System", "00.System", "{E2D75373-DF61-48A3-A473-7F35DF43BFF7}"
