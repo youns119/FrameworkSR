@@ -12,6 +12,7 @@
 #include "Texture.h"
 
 #include "Transform.h"
+#include "Camera.h"
 
 BEGIN(Engine)
 

@@ -143,11 +143,11 @@ call CopyUtility.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Client\Header\Calculator.h" />
-    <ClInclude Include="..\..\..\Client\Header\CubeTex.h" />
+    <ClInclude Include="..\..\Header\Calculator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\Component.h" />
     <ClInclude Include="..\..\Header\ComponentManager.h" />
+    <ClInclude Include="..\..\Header\CubeTex.h" />
     <ClInclude Include="..\..\Header\Export_Utility.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
     <ClInclude Include="..\..\Header\Layer.h" />
@@ -163,11 +163,11 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\VIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Client\Code\Calculator.cpp" />
-    <ClCompile Include="..\..\..\Client\Code\CubeTex.cpp" />
+    <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\ComponentManager.cpp" />
+    <ClCompile Include="..\Code\CubeTex.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />

@@ -28,7 +28,6 @@ public :
 
 private :
 	HRESULT Add_Component();
-	void Key_Input(const _float& _fTimeDelta);
 
 private :
 	virtual void Free();

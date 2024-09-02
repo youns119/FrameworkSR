@@ -1,10 +1,4 @@
-- Utility project
-Camera class
-Export_Utility class
-
 - Client
-DynamicCamera class
-Stage class
 Terrain class
 TerrainTex class
 MainApp class
