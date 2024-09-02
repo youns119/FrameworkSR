@@ -47,6 +47,10 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 
 void CPlayer::LateUpdate_GameObject()
 {
+	// 지형이 가지고 있는 정점의 위치 값을 얻어오는 것
+
+	// m_pCalculatorCom->Compute_HeightOnTerrain()
+
 	Engine::CGameObject::LateUpdate_GameObject();
 }
 

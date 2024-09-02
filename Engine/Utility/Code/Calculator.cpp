@@ -36,38 +36,33 @@ _float CCalculator::Compute_HeightOnTerrain
 	const _ulong& _dwVtxItv
 )
 {
-	// 특정 점의 위치 (x,y,z)
-	// 평면이 지닌 법선 벡터(a, b, c, d)
+	_ulong dwIndex = _ulong(_pPos->z / _dwVtxItv) * _dwCntX + _ulong(_pPos->x / _dwVtxItv);
 
-	_ulong	dwIndex = _ulong(_pPos->z / _dwVtxItv) * _dwCntX + _ulong(_pPos->x / _dwVtxItv);
+	_float fRatioX = (_pPos->x - _pTerrainVtxPos[dwIndex + _dwCntX].x) / _dwVtxItv;
+	_float fRatioZ = (_pTerrainVtxPos[dwIndex + _dwCntX].z - _pPos->z) / _dwVtxItv;
 
-	_float	fRatioX = (_pPos->x - _pTerrainVtxPos[dwIndex + _dwCntX].x) / _dwVtxItv;
-	_float	fRatioZ = (_pTerrainVtxPos[dwIndex + _dwCntX].z - _pPos->z) / _dwVtxItv;
+	D3DXPLANE Plane;
 
-	D3DXPLANE	Plane;
-
-	// 우상단
 	if (fRatioX > fRatioZ)
 	{
-		D3DXPlaneFromPoints(&Plane,
+		D3DXPlaneFromPoints
+		(
+			&Plane,
 			&_pTerrainVtxPos[dwIndex + _dwCntX],
 			&_pTerrainVtxPos[dwIndex + _dwCntX + 1],
-			&_pTerrainVtxPos[dwIndex + 1]);
+			&_pTerrainVtxPos[dwIndex + 1]
+		);
 	}
-
 	else
 	{
-		D3DXPlaneFromPoints(&Plane,
+		D3DXPlaneFromPoints
+		(
+			&Plane,
 			&_pTerrainVtxPos[dwIndex + _dwCntX],
 			&_pTerrainVtxPos[dwIndex + 1],
-			&_pTerrainVtxPos[dwIndex]);
+			&_pTerrainVtxPos[dwIndex]
+		);
 	}
-
-	// ax + by + cz + d
-	// 
-	// -by = ax + cz + d 
-
-	//y = (-ax - cz - d) / b
 
 	return (-Plane.a * _pPos->x - Plane.c * _pPos->z - Plane.d) / Plane.b;
 }
