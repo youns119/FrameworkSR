@@ -8,11 +8,13 @@
 #include "RcCol.h"
 #include "RcTex.h"
 #include "TerrainTex.h"
+#include "CubeTex.h"
 
 #include "Texture.h"
 
 #include "Transform.h"
 #include "Camera.h"
+#include "Calculator.h"
 
 BEGIN(Engine)
 

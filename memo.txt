@@ -1,8 +1,6 @@
 - Client
-SkyBox class
+Loading class
 Player class
-Stage class
 
 - Utility
-CubeTex class
 Calculator class

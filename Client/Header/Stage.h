@@ -7,6 +7,7 @@
 #include "Monster.h"
 
 #include "Terrain.h"
+#include "SkyBox.h"
 
 class CStage 
 	: public Engine::CScene
