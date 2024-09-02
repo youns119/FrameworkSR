@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTransform;
 class CTexture;
+class CCalculator;
 
 END
 
@@ -37,4 +38,5 @@ private :
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
+	Engine::CCalculator* m_pCalculatorCom;
 };

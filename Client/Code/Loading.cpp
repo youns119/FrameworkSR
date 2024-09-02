@@ -48,6 +48,7 @@ _uint CLoading::Loading_Stage()
 
 	// Etc
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev)), E_FAIL);
 
 	lstrcpy(m_szLoading, L"Buffer Loading................");
 
