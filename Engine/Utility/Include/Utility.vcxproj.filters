@@ -49,6 +49,12 @@
     <Filter Include="03.GameObject\Camera">
       <UniqueIdentifier>{d58eaecd-50de-48c2-814b-8631f8822f6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\04.CubeTex">
+      <UniqueIdentifier>{81af1308-ac45-414c-923c-a699fe569dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\03.Calculator">
+      <UniqueIdentifier>{b198a90d-a586-4231-938d-16b2d574f6d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -99,6 +105,12 @@
     <ClInclude Include="..\..\Header\Camera.h">
       <Filter>03.GameObject\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Client\Header\CubeTex.h">
+      <Filter>04.Component\00.VIBuffer\04.CubeTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Client\Header\Calculator.h">
+      <Filter>04.Component\03.Calculator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -145,6 +157,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp">
       <Filter>03.GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Client\Code\CubeTex.cpp">
+      <Filter>04.Component\00.VIBuffer\04.CubeTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Client\Code\Calculator.cpp">
+      <Filter>04.Component\03.Calculator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

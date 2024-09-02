@@ -50,6 +50,9 @@
     <Filter Include="03.GameObject\04.DynamicCamera">
       <UniqueIdentifier>{9807d6ee-4230-432d-8684-d9fc5391ae3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\05.SkyBox">
+      <UniqueIdentifier>{56e7de13-665e-4134-8a84-392109c1b7c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -97,6 +100,9 @@
     <ClInclude Include="..\Header\DynamicCamera.h">
       <Filter>03.GameObject\04.DynamicCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SkyBox.h">
+      <Filter>03.GameObject\05.SkyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -131,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\DynamicCamera.cpp">
       <Filter>03.GameObject\04.DynamicCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkyBox.cpp">
+      <Filter>03.GameObject\05.SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
