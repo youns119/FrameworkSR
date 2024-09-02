@@ -110,23 +110,21 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& _dwCntX, const _ulong& _dwCntZ, 
 	Safe_Delete_Array(pPixel);
 
 	INDEX32* pIndex = nullptr;
-	_ulong		dwTriCnt(0);
+	_ulong dwTriCnt(0);
 
 	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
 
-	for (_ulong i = 0; i < _dwCntZ - 1; ++i)
+	for (_ulong i = 0; i < _dwCntZ - 1; i++)
 	{
-		for (_ulong j = 0; j < _dwCntX - 1; ++j)
+		for (_ulong j = 0; j < _dwCntX - 1; j++)
 		{
 			dwIndex = i * _dwCntX + j;
 
-			// 오른쪽 위
 			pIndex[dwTriCnt]._0 = dwIndex + _dwCntX;
 			pIndex[dwTriCnt]._1 = dwIndex + _dwCntX + 1;
 			pIndex[dwTriCnt]._2 = dwIndex + 1;
 			dwTriCnt++;
 
-			// 왼쪽 아래
 			pIndex[dwTriCnt]._0 = dwIndex + _dwCntX;
 			pIndex[dwTriCnt]._1 = dwIndex + 1;
 			pIndex[dwTriCnt]._2 = dwIndex;

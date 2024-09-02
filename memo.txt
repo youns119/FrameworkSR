@@ -1,12 +1,4 @@
 - Client
-Terrain class
-TerrainTex class
-MainApp class
-Loading class
-
----------------------------------
-
-- Client
 SkyBox class
 Player class
 Stage class

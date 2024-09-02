@@ -25,6 +25,12 @@ public :
 
 private :
 	virtual void Free();
+
+private :
+	BITMAPFILEHEADER m_tFH;
+	BITMAPINFOHEADER m_tIH;
+
+	HANDLE m_hFile;
 };
 
 END
