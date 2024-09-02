@@ -10,14 +10,4 @@ TerrainTex class
 MainApp class
 Loading class
 
-Detail map
-
-1. 플레이어가 지형을 타도록 만들어라 
--> 평면의 방정식 이용 (ax + by + cz + d)
--> D3DXPLANE
--> D3DXPlaneFromPoints(&결과 평면 주소, 정점 1위치, 정점 2위치, 정점 3위치)
-
-2. 스카이박스 만들기
-
-3. 팀장 후보자 4명 생각해오기 (순서 중요)
--> 우선순위대로 순서
+---------------------------------
