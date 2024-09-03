@@ -1,6 +1,3 @@
-숙제 1.
-D3DXMatrixLookAtLH, D3DXMatrixPerspectiveFovLH 직접 구현해오기
-
 숙제 2.
 마우스 클릭을 통한 지형 이동을 구현해라
 D3DXIntersectTri
