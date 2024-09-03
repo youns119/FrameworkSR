@@ -175,7 +175,6 @@ void CDynamicCamera::Mouse_Move()
 	if (dwMouseMove = Engine::Get_DIMouseMove(MOUSEMOVESTATE::DIMS_X))
 	{
 		_vec3 vUp{ 0.f, 1.f, 0.f };
-
 		_vec3 vLook = m_vAt - m_vEye;
 
 		_matrix	matRot;

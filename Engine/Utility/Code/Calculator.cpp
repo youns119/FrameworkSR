@@ -1,7 +1,7 @@
 #include "..\..\Header\Calculator.h"
 
 CCalculator::CCalculator(LPDIRECT3DDEVICE9 _pGraphicDev)
-	:CComponent(_pGraphicDev)
+	: CComponent(_pGraphicDev)
 {
 }
 
