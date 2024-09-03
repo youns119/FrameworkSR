@@ -28,6 +28,8 @@ CStage* CStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 HRESULT CStage::Ready_Scene()
 {
+	FAILED_CHECK_RETURN(Ready_LightInfo(), E_FAIL);
+
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
@@ -51,6 +53,23 @@ void CStage::LateUpdate_Scene()
 
 void CStage::Render_Scene()
 {
+}
+
+HRESULT CStage::Ready_LightInfo()
+{
+	D3DLIGHT9 tLightInfo;
+	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+
+	tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
+
+	tLightInfo.Diffuse = { 1.f, 1.f, 1.f, 1.f };
+	tLightInfo.Specular = { 1.f, 1.f, 1.f, 1.f };
+	tLightInfo.Ambient = { 1.f, 1.f, 1.f, 1.f };
+	tLightInfo.Direction = { 1.f, -1.f, 1.f };
+
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+
+	return S_OK;
 }
 
 HRESULT CStage::Ready_Layer_Environment(const _tchar* _pLayerTag)

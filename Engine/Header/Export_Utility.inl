@@ -60,8 +60,19 @@ inline void	Clear_RenderGroup()
 	CRenderer::GetInstance()->Clear_RenderGroup();
 }
 
+inline HRESULT Ready_Light
+(
+	LPDIRECT3DDEVICE9 _pGraphicDev,
+	const D3DLIGHT9* _pLightInfo,
+	const _uint& _iIndex
+)
+{
+	return CLightManager::GetInstance()->Ready_Light(_pGraphicDev, _pLightInfo, _iIndex);
+}
+
 void Release_Utility()
 {
+	CLightManager::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CComponentManager::DestroyInstance();
 	CManagement::DestroyInstance();

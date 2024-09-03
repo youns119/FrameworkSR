@@ -49,13 +49,17 @@ void CTerrain::LateUpdate_GameObject()
 
 void CTerrain::Render_GameObject()
 {
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	FAILED_CHECK_RETURN(Setup_Material(), );
 
 	m_pTextureCom->Set_Texture(0);
 
 	m_pBufferCom->Render_Buffer();
 
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -74,6 +78,23 @@ HRESULT CTerrain::Add_Component()
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	return S_OK;
+}
+
+HRESULT CTerrain::Setup_Material()
+{
+	D3DMATERIAL9 tMtrl;
+	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+	tMtrl.Diffuse = { 1.f, 1.f, 1.f, 1.f };
+	tMtrl.Specular = { 1.f, 1.f, 1.f, 1.f };
+	tMtrl.Ambient = { 0.2f, 0.2f, 0.2f, 1.f };
+
+	tMtrl.Emissive = { 0.f, 0.f, 0.f, 0.f };
+	tMtrl.Power = 0.f;
+
+	m_pGraphicDev->SetMaterial(&tMtrl);
 
 	return S_OK;
 }

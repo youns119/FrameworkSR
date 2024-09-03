@@ -26,6 +26,7 @@ public :
 	virtual void Render_Scene();
 
 private :
+	HRESULT Ready_LightInfo();
 	HRESULT Ready_Layer_Environment(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_GameLogic(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* _pLayerTag);

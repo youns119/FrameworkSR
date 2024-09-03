@@ -47,12 +47,15 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 
 void CPlayer::LateUpdate_GameObject()
 {
-	// 지형이 가지고 있는 정점의 위치 값을 얻어오는 것
-
 	_vec3 vPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-	 m_pCalculatorCom->Compute_HeightOnTerrain(&vPos, )
+	CTerrainTex* pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(COMPONENTID::ID_STATIC, L"Layer_GameLogic", L"Terrain", L"Com_Buffer"));
+	NULL_CHECK(pTerrainBufferCom);
+
+	_float fY = m_pCalculatorCom->Compute_HeightOnTerrain(&vPos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
+
+	m_pTransformCom->Set_Pos(vPos.x, fY + 1.f, vPos.z);
 
 	Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -94,22 +97,18 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& _fTimeDelta)
 {
-	_vec3 vUp;
-	_vec3 vRight;
 	_vec3 vLook;
 
-	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
-	m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
 	m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 
 	if (GetAsyncKeyState(VK_UP))
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
 	if (GetAsyncKeyState(VK_DOWN))
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
-	if (GetAsyncKeyState(VK_RIGHT))
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, 10.f);
 	if (GetAsyncKeyState(VK_LEFT))
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -10.f);
+		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
+	if (GetAsyncKeyState(VK_RIGHT))
+		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
 }
 
 void CPlayer::Free()

@@ -1,17 +1,8 @@
 - Client
-Player class
 Stage class
 
 - Utility
-TerrainTex class
-Light class
-LightManager class
 Terrain class
-TerrainTex class
-Engine_Utility class
-
-- Header
-Engine_Struct
 
 숙제 1.
 D3DXMatrixLookAtLH, D3DXMatrixPerspectiveFovLH 직접 구현해오기

@@ -14,6 +14,9 @@ private :
 	virtual ~CTerrainTex();
 
 public :
+	const _vec3* Get_VtxPos() const { return m_pPos; }
+
+public :
 	static CTerrainTex* Create(LPDIRECT3DDEVICE9 _pGraphicDev, const _ulong& _dwCntX = VTXCNTX, const _ulong& _dwCntZ = VTXCNTZ, const _ulong& _dwVtxItv = VTXITV);
 
 public :
@@ -31,6 +34,8 @@ private :
 	BITMAPINFOHEADER m_tIH;
 
 	HANDLE m_hFile;
+
+	_vec3* m_pPos;
 };
 
 END
