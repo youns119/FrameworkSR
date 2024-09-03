@@ -49,7 +49,10 @@ void CPlayer::LateUpdate_GameObject()
 {
 	// 지형이 가지고 있는 정점의 위치 값을 얻어오는 것
 
-	// m_pCalculatorCom->Compute_HeightOnTerrain()
+	_vec3 vPos;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+	 m_pCalculatorCom->Compute_HeightOnTerrain(&vPos, )
 
 	Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -93,14 +96,16 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 {
 	_vec3 vUp;
 	_vec3 vRight;
+	_vec3 vLook;
 
 	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
 	m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
+	m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 
 	if (GetAsyncKeyState(VK_UP))
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, 10.f);
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
 	if (GetAsyncKeyState(VK_DOWN))
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, -10.f);
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
 	if (GetAsyncKeyState(VK_RIGHT))
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, 10.f);
 	if (GetAsyncKeyState(VK_LEFT))

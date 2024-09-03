@@ -55,6 +55,12 @@
     <Filter Include="04.Component\03.Calculator">
       <UniqueIdentifier>{b198a90d-a586-4231-938d-16b2d574f6d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Light">
+      <UniqueIdentifier>{08b51a8a-7340-4ace-980e-d6b82f071d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Light\00.LightManager">
+      <UniqueIdentifier>{7e28af28-ad80-4d4e-a05c-cbc094c5e1de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -111,6 +117,12 @@
     <ClInclude Include="..\..\Header\CubeTex.h">
       <Filter>04.Component\00.VIBuffer\04.CubeTex</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Light.h">
+      <Filter>06.Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\LightManager.h">
+      <Filter>06.Light\00.LightManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -163,6 +175,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CubeTex.cpp">
       <Filter>04.Component\00.VIBuffer\04.CubeTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Light.cpp">
+      <Filter>06.Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LightManager.cpp">
+      <Filter>06.Light\00.LightManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
