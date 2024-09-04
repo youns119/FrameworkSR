@@ -154,6 +154,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Light.h" />
     <ClInclude Include="..\..\Header\LightManager.h" />
     <ClInclude Include="..\..\Header\Management.h" />
+    <ClInclude Include="..\..\Header\Pipeline.h" />
     <ClInclude Include="..\..\Header\RcCol.h" />
     <ClInclude Include="..\..\Header\RcTex.h" />
     <ClInclude Include="..\..\Header\Renderer.h" />
@@ -175,6 +176,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Light.cpp" />
     <ClCompile Include="..\Code\LightManager.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
+    <ClCompile Include="..\Code\Pipeline.cpp" />
     <ClCompile Include="..\Code\RcCol.cpp" />
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />

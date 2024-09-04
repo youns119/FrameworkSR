@@ -61,6 +61,9 @@
     <Filter Include="06.Light\00.LightManager">
       <UniqueIdentifier>{7e28af28-ad80-4d4e-a05c-cbc094c5e1de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07.Pipeline">
+      <UniqueIdentifier>{e9e4b7ca-ba04-4215-bb4b-703c3db2009d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -123,6 +126,9 @@
     <ClInclude Include="..\..\Header\LightManager.h">
       <Filter>06.Light\00.LightManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Pipeline.h">
+      <Filter>07.Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -181,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\LightManager.cpp">
       <Filter>06.Light\00.LightManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Pipeline.cpp">
+      <Filter>07.Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
