@@ -1,0 +1,19 @@
+- Utility
+Calculator class
+Transform class
+
+- Client
+Player class
+
+- Utility
+Pipeline class
+Camera class
+
+------ 시연회 모작게임 선정 관련 ------
+
+선정되는 순서
+1. 1인칭 슈팅 (DOOM)
+2. 2.5D 페이퍼 마리오 (추천 x)
+3. 직교투영을 이용한 퍼즐 (FEZ, 모뉴먼트 밸리 류)
+4. 큐브 애니메이션을 이용한 게임 (마인크래프트, 큐브를 이용한 어드벤쳐 게임 -> 추천 x)
+5. 스프라이트 애니메이션을 이용한 핵앤 슬래시, 로그라이크
