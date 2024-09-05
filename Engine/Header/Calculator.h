@@ -4,6 +4,9 @@
 
 BEGIN(Engine)
 
+class CTerrainTex;
+class CTransform;
+
 class ENGINE_DLL CCalculator 
 	: public CComponent
 {
@@ -23,6 +26,12 @@ public :
 		const _ulong& _dwCntX,
 		const _ulong& _dwCntZ,
 		const _ulong& _dwVtxItv = VTXITV
+	);
+	_vec3 Picking_OnTerrain
+	(
+		HWND _hWnd, 
+		CTerrainTex* _pTerrainBufferCom,
+		CTransform* _pTerrainTransCom
 	);
 
 public :

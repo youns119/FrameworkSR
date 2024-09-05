@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Define.h"
 
 BEGIN(Engine)
 
@@ -30,6 +31,7 @@ public :
 private :
 	HRESULT	Add_Component();
 	void Key_Input(const _float& _fTimeDelta);
+	_vec3 Picking_OnTerrain();
 
 private:
 	virtual void Free();

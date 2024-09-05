@@ -15,6 +15,7 @@ private :
 
 public :
 	const _matrix* Get_WorldMatrix() { return &m_matWorld; }
+	void Get_WorldMatrix(_matrix* pWorld) const { *pWorld = m_matWorld; }
 	void Get_Info(INFO _eType, _vec3* _pInfo)
 	{
 		memcpy(_pInfo, &m_matWorld.m[(_uint)_eType][0], sizeof(_vec3));

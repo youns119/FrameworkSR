@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "..\Header\Player.h"
+#include "Export_System.h"
 #include "Export_Utility.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -109,6 +110,28 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
 	if (GetAsyncKeyState(VK_RIGHT))
 		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
+
+	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_LB) & 0x80)
+	{
+		_vec3 vPickPos = Picking_OnTerrain();
+
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+		_vec3 vDir = vPickPos - vPos;
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);
+	}
+}
+
+_vec3 CPlayer::Picking_OnTerrain()
+{
+	CTerrainTex* pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(COMPONENTID::ID_STATIC, L"Layer_GameLogic", L"Terrain", L"Com_Buffer"));
+	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
+
+	CTransform* pTerrainTransCom = dynamic_cast<CTransform*>(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Terrain", L"Com_Transform"));
+	NULL_CHECK_RETURN(pTerrainTransCom, _vec3());
+
+	return m_pCalculatorCom->Picking_OnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransCom);
 }
 
 void CPlayer::Free()

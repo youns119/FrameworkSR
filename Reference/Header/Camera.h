@@ -23,23 +23,6 @@ protected :
 	_vec3 m_vEye, m_vAt, m_vUp;
 	_float m_fFov, m_fAspect, m_fNear, m_fFar;
 	_matrix m_matView, m_matProj;
-
-private :
-	void D3DXMatrixLookAtLH_
-	(
-		D3DXMATRIX* _pOut, 
-		const D3DXVECTOR3* _pEye, 
-		const D3DXVECTOR3* _pAt, 
-		const D3DXVECTOR3* _pUp
-	);
-	void D3DXMatrixPerspectiveFovLH_
-	(
-		D3DXMATRIX* _pOut, 
-		float _fFov, 
-		float _fAspect, 
-		float _fZNear, 
-		float _fZFar
-	);
 };
 
 END
