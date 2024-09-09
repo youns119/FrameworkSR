@@ -64,6 +64,9 @@
     <Filter Include="07.Pipeline">
       <UniqueIdentifier>{e9e4b7ca-ba04-4215-bb4b-703c3db2009d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\04.FloorTex">
+      <UniqueIdentifier>{ae18bc51-598a-4049-9164-e5b83e75d02b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -129,6 +132,9 @@
     <ClInclude Include="..\..\Header\Pipeline.h">
       <Filter>07.Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\FloorTex.h">
+      <Filter>04.Component\00.VIBuffer\04.FloorTex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -190,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Pipeline.cpp">
       <Filter>07.Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FloorTex.cpp">
+      <Filter>04.Component\00.VIBuffer\04.FloorTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

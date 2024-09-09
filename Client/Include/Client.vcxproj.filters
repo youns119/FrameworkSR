@@ -56,6 +56,9 @@
     <Filter Include="03.GameObject\06.Effect">
       <UniqueIdentifier>{a5d59322-41c6-4d9f-be48-f2636c669511}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\07.Floor">
+      <UniqueIdentifier>{ff523a50-b439-4c48-902e-34435429c232}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -109,6 +112,9 @@
     <ClInclude Include="..\Header\Effect.h">
       <Filter>03.GameObject\06.Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Floor.h">
+      <Filter>03.GameObject\07.Floor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -149,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Effect.cpp">
       <Filter>03.GameObject\06.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Floor.cpp">
+      <Filter>03.GameObject\07.Floor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
