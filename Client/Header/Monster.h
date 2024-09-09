@@ -4,7 +4,12 @@
 
 BEGIN(Engine)
 
+//Jonghan Monster Change Start
 class CTriCol;
+class CRcTex;
+class CTexture;
+class CCalculator;
+//Jonghan Monster Change End
 class CTransform;
 
 END
@@ -32,6 +37,15 @@ private :
 	virtual void Free();
 
 private :
-	Engine::CTriCol* m_pBufferCom;
+	//Jonghan Monster Change Start
+
+	//Engine::CTriCol* m_pBufferCom;
+	Engine::CRcTex* m_pBufferCom;
+	Engine::CTexture* m_pTextureCom;
+	Engine::CCalculator* m_pCalculatorCom;
+
+	_float m_fFrame;
+
+	//Jonghan Monster Change End
 	Engine::CTransform* m_pTransformCom;
 };
