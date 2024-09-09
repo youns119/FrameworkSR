@@ -10,6 +10,7 @@
 #include "RcTex.h"
 #include "TerrainTex.h"
 #include "CubeTex.h"
+#include "FloorTex.h"
 
 #include "Texture.h"
 
