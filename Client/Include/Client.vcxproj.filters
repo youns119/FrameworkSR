@@ -56,6 +56,9 @@
     <Filter Include="03.GameObject\07.Bullet4">
       <UniqueIdentifier>{ea2084ab-3720-4136-8ab1-60ba03e7d516}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06. Bullet">
+      <UniqueIdentifier>{dbf16a23-74b1-4ebf-95ad-d08dbc3a29e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -108,6 +111,8 @@
     </ClInclude>
     <ClInclude Include="..\Header\Bullet4.h">
       <Filter>03.GameObject\07.Bullet4</Filter>
+    <ClInclude Include="..\header\Bullet1.h">
+      <Filter>03.GameObject\06. Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +154,8 @@
     </ClCompile>
     <ClCompile Include="..\Code\Bullet4.cpp">
       <Filter>03.GameObject\07.Bullet4</Filter>
+    <ClCompile Include="..\Code\Bullet1.cpp">
+      <Filter>03.GameObject\06. Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
