@@ -111,6 +111,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\Bullet4.h">
       <Filter>03.GameObject\07.Bullet4</Filter>
+    </ClInclude>
     <ClInclude Include="..\header\Bullet1.h">
       <Filter>03.GameObject\06. Bullet</Filter>
     </ClInclude>
@@ -154,6 +155,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\Bullet4.cpp">
       <Filter>03.GameObject\07.Bullet4</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\Bullet1.cpp">
       <Filter>03.GameObject\06. Bullet</Filter>
     </ClCompile>
