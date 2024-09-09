@@ -49,8 +49,6 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 void CStage::LateUpdate_Scene()
 {
 	Engine::CScene::LateUpdate_Scene();
-	//ÀÌÁ¾ÇÑ
-	//°­¹ü½Â
 }
 
 void CStage::Render_Scene()
