@@ -53,14 +53,27 @@ void CRenderer::Render_NonAlpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
-	_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0xc0);
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	//_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	//_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	//_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0xc0);
+
+	m_RenderGroup[(_uint)RENDERID::RENDER_ALPHA].sort
+	(
+		[](CGameObject* pDst, CGameObject* pSrc)->bool
+		{
+			return pDst->Get_ViewZ() > pSrc->Get_ViewZ();
+		}
+	);
 
 	for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_ALPHA])
 		pGameObject->Render_GameObject();
 
-	_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)

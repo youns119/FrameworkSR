@@ -15,6 +15,7 @@ protected :
 
 public :
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
+	_float Get_ViewZ() const { return m_fViewZ; }
 
 public :
 	virtual HRESULT	Ready_GameObject();
@@ -25,12 +26,17 @@ public :
 private :
 	CComponent* Find_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
 
+public :
+	void Compute_ViewZ(const _vec3* _pPos);
+
 protected :
 	virtual void Free();
 
 protected :
 	map<const _tchar*, CComponent*>	m_mapComponent[(_uint)COMPONENTID::ID_END];
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
+
+	_float m_fViewZ;
 };
 
 END

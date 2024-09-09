@@ -2,6 +2,7 @@
 
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
+	, m_fViewZ(0.f)
 {
 	m_mapComponent->clear();
 
@@ -10,6 +11,7 @@ CGameObject::CGameObject(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 CGameObject::CGameObject(const CGameObject& _rhs)
 	: m_pGraphicDev(_rhs.m_pGraphicDev)
+	, m_fViewZ(_rhs.m_fViewZ)
 {
 	m_pGraphicDev->AddRef();
 }
@@ -53,6 +55,20 @@ CComponent* CGameObject::Find_Component(COMPONENTID _eID, const _tchar* _pCompon
 		return nullptr;
 
 	return iter->second;
+}
+
+void CGameObject::Compute_ViewZ(const _vec3* _pPos)
+{
+	_matrix	matCamWorld;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matCamWorld);
+	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
+
+	_vec3 vCamPos;
+	memcpy(&vCamPos, &matCamWorld.m[3][0], sizeof(_vec3));
+
+	_vec3 vLength = vCamPos - *_pPos;
+	m_fViewZ = D3DXVec3Length(&vLength);
 }
 
 void CGameObject::Free()

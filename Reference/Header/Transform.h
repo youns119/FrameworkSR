@@ -15,7 +15,7 @@ private :
 
 public :
 	const _matrix* Get_WorldMatrix() { return &m_matWorld; }
-	void Get_WorldMatrix(_matrix* pWorld) const { *pWorld = m_matWorld; }
+	void Get_WorldMatrix(_matrix* _pWorld) const { *_pWorld = m_matWorld; }
 	void Get_Info(INFO _eType, _vec3* _pInfo)
 	{
 		memcpy(_pInfo, &m_matWorld.m[(_uint)_eType][0], sizeof(_vec3));
@@ -23,6 +23,10 @@ public :
 	const _vec3* Get_Scale() { return &m_vScale; }
 	const _vec3* Get_Angle() { return &m_vScale; }
 
+	void Set_WorldMatrix(const _matrix* _pWorld)
+	{
+		m_matWorld = *_pWorld;
+	}
 	void Set_Pos(_float _fX, _float _fY, _float _fZ)
 	{
 		m_vInfo[(_uint)INFO::INFO_POS] = { _fX, _fY, _fZ };
