@@ -41,4 +41,14 @@ private :
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
 	Engine::CCalculator* m_pCalculatorCom;
+
+	//Beomseung
+	Engine::CRcTex* m_pRight_BufferCom;
+	Engine::CRcTex* m_pLeft_BufferCom;
+
+	Engine::CTransform* m_pRight_TransformCom;
+	Engine::CTransform* m_pLeft_TransformCom;
+
+	Engine::CTexture* m_pRight_TextureCom;
+	Engine::CTexture* m_pLeft_TextureCom;
 };

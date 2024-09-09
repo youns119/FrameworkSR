@@ -4,14 +4,14 @@
 #include "Base.h"
 #include "Define.h"
 
-class CDynamicCamera 
+class CDynamicCamera
 	: public CCamera
 {
-private :
+private:
 	explicit CDynamicCamera(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CDynamicCamera();
 
-public :
+public:
 	static CDynamicCamera* Create
 	(
 		LPDIRECT3DDEVICE9 _pGraphicDev,
@@ -24,7 +24,7 @@ public :
 		const _float& _fFar = 1000.f
 	);
 
-public :
+public:
 	HRESULT	Ready_GameObject
 	(
 		const _vec3* _pEye,
@@ -39,15 +39,15 @@ public :
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject() {}
 
-private :
+private:
 	void Key_Input(const _float& _fTimeDelta);
 	void Mouse_Move();
 	void Mouse_Fix();
-
-private :
+	_vec3 Test();
+private:
 	virtual void Free();
 
-private :
+private:
 	_bool m_bFix;
 	_bool m_bCheck;
 };

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "..\Header\DynamicCamera.h"
 #include "Export_System.h"
+#include "Export_Utility.h"
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CCamera(_pGraphicDev)
@@ -15,13 +16,13 @@ CDynamicCamera::~CDynamicCamera()
 
 CDynamicCamera* CDynamicCamera::Create
 (
-	LPDIRECT3DDEVICE9 _pGraphicDev, 
-	const _vec3* _pEye, 
-	const _vec3* _pAt, 
-	const _vec3* _pUp, 
-	const _float& _fFov, 
-	const _float& _fAspect, 
-	const _float& _fNear, 
+	LPDIRECT3DDEVICE9 _pGraphicDev,
+	const _vec3* _pEye,
+	const _vec3* _pAt,
+	const _vec3* _pUp,
+	const _float& _fFov,
+	const _float& _fAspect,
+	const _float& _fNear,
 	const _float& _fFar
 )
 {
@@ -39,12 +40,12 @@ CDynamicCamera* CDynamicCamera::Create
 
 HRESULT CDynamicCamera::Ready_GameObject
 (
-	const _vec3* _pEye, 
-	const _vec3* _pAt, 
-	const _vec3* _pUp, 
-	const _float& _fFov, 
-	const _float& _fAspect, 
-	const _float& _fNear, 
+	const _vec3* _pEye,
+	const _vec3* _pAt,
+	const _vec3* _pUp,
+	const _float& _fFov,
+	const _float& _fAspect,
+	const _float& _fNear,
 	const _float& _fFar
 )
 {
@@ -67,6 +68,9 @@ _int CDynamicCamera::Update_GameObject(const _float& _fTimeDelta)
 	_int iExit = CCamera::Update_GameObject(_fTimeDelta);
 
 	Key_Input(_fTimeDelta);
+
+	m_vAt = { Test().x - 1.5f,Test().y,Test().z };
+	m_vEye = { Test().x - 1.5f,Test().y,Test().z - 2.f };
 
 	return iExit;
 }
@@ -191,6 +195,15 @@ void CDynamicCamera::Mouse_Fix()
 
 	ClientToScreen(g_hWnd, &ptMouse);
 	SetCursorPos(ptMouse.x, ptMouse.y);
+}
+
+_vec3 CDynamicCamera::Test()
+{
+	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Left_Transform"));
+	_vec3 vPlayerPos;
+	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+
+	return vPlayerPos;
 }
 
 void CDynamicCamera::Free()
