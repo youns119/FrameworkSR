@@ -106,7 +106,9 @@
     <ClInclude Include="..\Header\SkyBox.h">
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Effect.h" />
+    <ClInclude Include="..\Header\Effect.h">
+      <Filter>03.GameObject\06.Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -145,7 +147,9 @@
     <ClCompile Include="..\Code\SkyBox.cpp">
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Effect.cpp" />
+    <ClCompile Include="..\Code\Effect.cpp">
+      <Filter>03.GameObject\06.Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
