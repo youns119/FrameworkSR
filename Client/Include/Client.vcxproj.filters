@@ -53,6 +53,9 @@
     <Filter Include="03.GameObject\05.SkyBox">
       <UniqueIdentifier>{56e7de13-665e-4134-8a84-392109c1b7c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06. Bullet">
+      <UniqueIdentifier>{dbf16a23-74b1-4ebf-95ad-d08dbc3a29e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -103,6 +106,9 @@
     <ClInclude Include="..\Header\SkyBox.h">
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\header\Bullet1.h">
+      <Filter>03.GameObject\06. Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -140,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\SkyBox.cpp">
       <Filter>03.GameObject\05.SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bullet1.cpp">
+      <Filter>03.GameObject\06. Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
