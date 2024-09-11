@@ -70,6 +70,9 @@
     <Filter Include="04.Component\00.VIBuffer\05.FloorTex">
       <UniqueIdentifier>{ae18bc51-598a-4049-9164-e5b83e75d02b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\04. Effect">
+      <UniqueIdentifier>{ae6af2df-f09b-4029-97a5-d53edf443882}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="..\..\Header\WallTex.h">
       <Filter>04.Component\00.VIBuffer\06.WallTex</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Effect.h">
+      <Filter>04.Component\04. Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -208,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\WallTex.cpp">
       <Filter>04.Component\00.VIBuffer\06.WallTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Effect.cpp">
+      <Filter>04.Component\04. Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

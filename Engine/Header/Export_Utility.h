@@ -19,6 +19,9 @@
 #include "Camera.h"
 #include "Calculator.h"
 
+// kyubin
+#include "Effect.h"
+
 BEGIN(Engine)
 
 inline HRESULT Create_Management(LPDIRECT3DDEVICE9 _pGraphicDev, CManagement** _ppManagement);

@@ -100,6 +100,8 @@ _uint CLoading::Loading_Stage()
 	//YuBhin: Wall Texture - Attribute Acid
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AcidWall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJwall/ACID C.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 
+	// kyubin
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Effect", Engine::CEffect::Create(m_pGraphicDev)), E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loading Complete!!");
 

@@ -189,6 +189,17 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		//Beomseung
 		m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);
 		m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);
+
+		// kyubin
+		CComponent* pComponent = Engine::Get_Component(
+			COMPONENTID::ID_DYNAMIC,
+			L"Layer_GameLogic",
+			L"EffectMuzzleFlash",
+			L"Com_Effect");
+
+		Engine::CEffect* pTemp = dynamic_cast<Engine::CEffect*>(pComponent);
+		pTemp->Set_Visibility(true);
+
 	}
 }
 

@@ -62,6 +62,9 @@
     <Filter Include="03.GameObject\08.Wall">
       <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\09. EffectMuzzleFlash">
+      <UniqueIdentifier>{97ab4b5c-5150-43bb-9754-c46ca041ccf8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -112,14 +115,14 @@
     <ClInclude Include="..\Header\SkyBox.h">
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Effect.h">
-      <Filter>03.GameObject\06.Effect</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Floor.h">
       <Filter>03.GameObject\07.Floor</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Wall.h">
       <Filter>03.GameObject\08.Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectMuzzleFlash.h">
+      <Filter>03.GameObject\09. EffectMuzzleFlash</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,14 +162,14 @@
     <ClCompile Include="..\Code\SkyBox.cpp">
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Effect.cpp">
-      <Filter>03.GameObject\06.Effect</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Floor.cpp">
       <Filter>03.GameObject\07.Floor</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Wall.cpp">
       <Filter>03.GameObject\08.Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectMuzzleFlash.cpp">
+      <Filter>03.GameObject\09. EffectMuzzleFlash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

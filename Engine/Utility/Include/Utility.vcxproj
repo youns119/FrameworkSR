@@ -148,6 +148,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Component.h" />
     <ClInclude Include="..\..\Header\ComponentManager.h" />
     <ClInclude Include="..\..\Header\CubeTex.h" />
+    <ClInclude Include="..\..\Header\Effect.h" />
     <ClInclude Include="..\..\Header\Export_Utility.h" />
     <ClInclude Include="..\..\Header\FloorTex.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
@@ -173,6 +174,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\ComponentManager.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />
+    <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\FloorTex.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
