@@ -165,6 +165,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Transform.h" />
     <ClInclude Include="..\..\Header\TriCol.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
+    <ClInclude Include="..\..\Header\WallTex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Calculator.cpp" />
@@ -188,6 +189,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Transform.cpp" />
     <ClCompile Include="..\Code\TriCol.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
+    <ClCompile Include="..\Code\WallTex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Header\Export_Utility.inl" />

@@ -59,6 +59,9 @@
     <Filter Include="03.GameObject\07.Floor">
       <UniqueIdentifier>{ff523a50-b439-4c48-902e-34435429c232}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\08.Wall">
+      <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -115,6 +118,9 @@
     <ClInclude Include="..\Header\Floor.h">
       <Filter>03.GameObject\07.Floor</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Wall.h">
+      <Filter>03.GameObject\08.Wall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Floor.cpp">
       <Filter>03.GameObject\07.Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Wall.cpp">
+      <Filter>03.GameObject\08.Wall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

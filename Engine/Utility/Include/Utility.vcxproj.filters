@@ -64,7 +64,10 @@
     <Filter Include="07.Pipeline">
       <UniqueIdentifier>{e9e4b7ca-ba04-4215-bb4b-703c3db2009d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Component\00.VIBuffer\04.FloorTex">
+    <Filter Include="04.Component\00.VIBuffer\06.WallTex">
+      <UniqueIdentifier>{17647396-c908-4cb9-99f9-c888f3c3de00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\05.FloorTex">
       <UniqueIdentifier>{ae18bc51-598a-4049-9164-e5b83e75d02b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -133,7 +136,10 @@
       <Filter>07.Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\FloorTex.h">
-      <Filter>04.Component\00.VIBuffer\04.FloorTex</Filter>
+      <Filter>04.Component\00.VIBuffer\05.FloorTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\WallTex.h">
+      <Filter>04.Component\00.VIBuffer\06.WallTex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -198,7 +204,10 @@
       <Filter>07.Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FloorTex.cpp">
-      <Filter>04.Component\00.VIBuffer\04.FloorTex</Filter>
+      <Filter>04.Component\00.VIBuffer\05.FloorTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WallTex.cpp">
+      <Filter>04.Component\00.VIBuffer\06.WallTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -61,8 +61,10 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcCol", Engine::CRcCol::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeTex", Engine::CCubeTex::Create(m_pGraphicDev)), E_FAIL);
-	// Floor Buffer - FirstFloor
+	//YuBhin: Floor Buffer - FirstFloor
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FloorTex", Engine::CFloorTex::Create(m_pGraphicDev, 512, 512, VTXITV)), E_FAIL);
+	//YuBhin: Wall Buffer - AcidWall
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WallTex", Engine::CWallTex::Create(m_pGraphicDev, 30, 30, 30, VTXITV)), E_FAIL);
 
 	//Beomseung
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RightArmBuffer", Engine::CRcTex::Create(m_pGraphicDev)), E_FAIL);
@@ -90,11 +92,14 @@ _uint CLoading::Loading_Stage()
 	//Beomseung
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RightArmTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ/PlayerRight/Right%d.png", TEXTUREID::TEX_NORMAL, 3)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LeftArmTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ/PlayerLeft/Left%d.png", TEXTUREID::TEX_NORMAL, 17)), E_FAIL);
-	// Floor Texture - FirstFloor
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FirstFloor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJFloor/FLOOR 1.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 
-	// Floor Texture - Attribute Acid
+	//YuBhin: Floor Texture - FirstFloor
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FirstFloor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJFloor/FLOOR 1.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	//YuBhin: Floor Texture - Attribute Acid
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AcidFloor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJFloor/ACID A LUM.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	//YuBhin: Wall Texture - Attribute Acid
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AcidWall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJwall/ACID C.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+
 
 	lstrcpy(m_szLoading, L"Loading Complete!!");
 

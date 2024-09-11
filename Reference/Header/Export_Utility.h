@@ -11,6 +11,7 @@
 #include "TerrainTex.h"
 #include "CubeTex.h"
 #include "FloorTex.h"
+#include "WallTex.h"
 
 #include "Texture.h"
 

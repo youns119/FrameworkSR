@@ -8,6 +8,8 @@
 
 #include "Terrain.h"
 #include "SkyBox.h"
+#include "Floor.h"
+#include "Wall.h"
 
 class CStage 
 	: public Engine::CScene
