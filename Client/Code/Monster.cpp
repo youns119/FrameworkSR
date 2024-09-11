@@ -1,15 +1,21 @@
-#include "pch.h"
+ #include "pch.h"
 #include "..\Header\Monster.h"
 #include "Export_Utility.h"
+#include "Export_System.h" // Jonghan Change
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
-	, m_pCalculatorCom(nullptr) //Jonghan Monster Change
-	, m_pTextureCom(nullptr) //Jonghan Monster Change
-	, m_fFrame(0.f) //Jonghan Monster Change
+	, m_pCalculatorCom(nullptr)
+	, m_fFrame(0.f)
+	, m_fMaxFrame(14.f) //Jonghan Change
+	, m_eCurState(MONSTERSTATE::MONSTER_ATTACK) //Jonghan Change
+	, m_ePreState(MONSTERSTATE::MONSTER_ATTACK) //Jonghan Change
+	//, m_pTextureCom(nullptr)// Jonghan Change
 {
+	for (_int i = 0; i < MONSTERSTATE::MONSTER_END; ++i)
+		m_pTextureCom[i] = nullptr;
 }
 
 CMonster::~CMonster()
@@ -57,7 +63,7 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 
 	m_fFrame += 13.f * _fTimeDelta;
 
-	if (13.f < m_fFrame)
+	if (m_fMaxFrame < m_fFrame) // Jonghan Change
 		m_fFrame = 0.f;
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
@@ -112,6 +118,10 @@ void CMonster::LateUpdate_GameObject()
 
 	CGameObject::Compute_ViewZ(&vPos);
 
+	Change_State();
+
+	State_Check();
+
 	//Jonghan Monster Change End
 	Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -124,7 +134,7 @@ void CMonster::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	m_pTextureCom->Set_Texture((_uint)m_fFrame);
+	m_pTextureCom[m_eCurState]->Set_Texture((_uint)m_fFrame); //Jonghan Change
 
 
 	m_pBufferCom->Render_Buffer();
@@ -133,6 +143,39 @@ void CMonster::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	//Jonghan Monster Change End
+}
+
+void CMonster::Change_State() // Jonghan Change
+{
+	//When Player Picking Monster_Collider (Like Head Body Bull), it'll be Dealing Monster Hp and Setting the State from Hp
+	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_RB) & 0x80)
+	{
+		switch (m_eCurState)
+		{
+		case CMonster::MONSTER_ATTACK:
+			m_eCurState = MONSTER_HEADSHOT;
+			break;
+		case CMonster::MONSTER_HEADSHOT:
+			m_eCurState = MONSTER_PUSH_ONE;
+			break;
+		case CMonster::MONSTER_PUSH_ONE:
+			m_eCurState = MONSTER_PUSH_TWO;
+			break;
+		case CMonster::MONSTER_PUSH_TWO:
+			m_eCurState = MONSTER_BULLSHOT;
+			break;
+		case CMonster::MONSTER_BULLSHOT:
+			m_eCurState = MONSTER_SHOT_ONE;
+			break;
+		case CMonster::MONSTER_SHOT_ONE:
+			m_eCurState = MONSTER_SHOT_TWO;
+			break;
+		case CMonster::MONSTER_SHOT_TWO:
+			m_eCurState = MONSTER_ATTACK;
+			break;
+		}
+	}
+
 }
 
 HRESULT CMonster::Add_Component()
@@ -149,9 +192,37 @@ HRESULT CMonster::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterTex"));
+	//Jonghan Change Start
+
+	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterAttackTex")); //14
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackTexture", pComponent });
+
+	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_HEADSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterHeadShotTex")); //21
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadShotTexture", pComponent });
+
+	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_BULLSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterBullShotTex")); //18
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_BullShotTexture", pComponent });
+
+	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_PUSH_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushOneTex")); //23
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushOneTexture", pComponent });
+
+	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_PUSH_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushTwoTex")); //22
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushTwoTexture", pComponent });
+
+	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_SHOT_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotOneTex")); //24
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotOneTexture", pComponent });
+
+	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_SHOT_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotTwoTex")); //19
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotTwoTexture", pComponent });
+
+	//Jonghan Change End
 
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -164,6 +235,46 @@ HRESULT CMonster::Add_Component()
 	//Jonghan Monster Change End
 
 	return S_OK;
+}
+
+void CMonster::State_Check() //Jonghan Change
+{
+	if (m_eCurState != m_ePreState)
+	{
+		switch (m_eCurState)
+		{
+		case CMonster::MONSTER_ATTACK:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 14.f;
+			break;
+		case CMonster::MONSTER_HEADSHOT:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 21.f;
+			break;
+		case CMonster::MONSTER_PUSH_ONE:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 23.f;
+			break;
+		case CMonster::MONSTER_PUSH_TWO:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 22.f;
+			break;
+		case CMonster::MONSTER_BULLSHOT:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 18.f;
+			break;
+		case CMonster::MONSTER_SHOT_ONE:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 24.f;
+			break;
+		case CMonster::MONSTER_SHOT_TWO:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 19.f;
+			break;
+		}
+
+		m_ePreState = m_eCurState;
+	}
 }
 
 void CMonster::Free()
