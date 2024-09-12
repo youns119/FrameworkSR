@@ -5,7 +5,9 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CComponent 
+class CGameObject;
+
+class ENGINE_DLL CComponent
 	: public CBase
 {
 protected :
@@ -13,6 +15,11 @@ protected :
 	explicit CComponent(LPDIRECT3DDEVICE9 _pGraphicDev);
 	explicit CComponent(const CComponent& _rhs);
 	virtual ~CComponent();
+
+public :
+	CGameObject* GetOwner() { return m_pOwner; }
+
+	void SetOwner(CGameObject& _pOwner) { m_pOwner = &_pOwner; }
 
 public :
 	virtual _int Update_Component(const _float& _fTimeDelta) { return 0; }
@@ -26,6 +33,9 @@ protected :
 
 protected :
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
+
+	// Owner 변수 추가
+	CGameObject* m_pOwner;
 	_bool m_bClone;
 };
 

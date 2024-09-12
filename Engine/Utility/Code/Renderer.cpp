@@ -4,6 +4,11 @@ IMPLEMENT_SINGLETON(CRenderer)
 
 CRenderer::CRenderer()
 {
+	// 초기화 관련 추가
+	Clear_RenderGroup();
+
+	D3DXMatrixIdentity(&m_matView);
+	D3DXMatrixOrthoLH(&m_matOrtho, (_float)WINCX, (_float)WINCY, 0.f, 1.f);
 }
 
 CRenderer::~CRenderer()
@@ -78,8 +83,25 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
+	// 직교 투영 추가
+	_matrix matView, matProj;
+	_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
+	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matOrtho);
+
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
 	for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_UI])
 		pGameObject->Render_GameObject();
+
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
+	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
 void CRenderer::Free()

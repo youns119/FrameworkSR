@@ -30,6 +30,9 @@ private :
 
 private:
 	list<CGameObject*> m_RenderGroup[(_uint)RENDERID::RENDER_END];
+
+	// 직교 투영 관련 변수 추가
+	_matrix m_matView, m_matOrtho;
 };
 
 END
