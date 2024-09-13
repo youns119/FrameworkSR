@@ -67,10 +67,10 @@ _int CDynamicCamera::Update_GameObject(const _float& _fTimeDelta)
 {
 	_int iExit = CCamera::Update_GameObject(_fTimeDelta);
 
+	m_vAt = { Test().x - 1.5f,Test().y,Test().z };
+	m_vEye = { Test().x - 1.5f,Test().y + 1.f,Test().z - 2.f };
 	Key_Input(_fTimeDelta);
 
-	m_vAt = { Test().x - 1.5f,Test().y,Test().z };
-	m_vEye = { Test().x - 1.5f,Test().y,Test().z - 2.f };
 
 	return iExit;
 }
@@ -79,7 +79,7 @@ void CDynamicCamera::LateUpdate_GameObject()
 {
 	if (m_bFix == false)
 	{
-		Mouse_Fix();
+		//Mouse_Fix();
 		Mouse_Move();
 	}
 
@@ -91,7 +91,7 @@ void CDynamicCamera::Key_Input(const _float& _fTimeDelta)
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
-	if (Engine::Get_DIKeyState(DIK_W) & 0x80)
+	/*if (Engine::Get_DIKeyState(DIK_W) & 0x80)
 	{
 		_vec3 vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -134,7 +134,7 @@ void CDynamicCamera::Key_Input(const _float& _fTimeDelta)
 
 		m_vEye -= vLength;
 		m_vAt -= vLength;
-	}
+	}*/
 
 	if (Engine::Get_DIKeyState(DIK_TAB) & 0x80)
 	{

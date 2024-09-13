@@ -38,6 +38,10 @@ HRESULT CPlayer::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pLeft_TransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
+	m_pRight_TransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
+
+
 	return S_OK;
 }
 
@@ -65,31 +69,25 @@ void CPlayer::LateUpdate_GameObject()
 	//Beomseung
 	m_pLeft_TransformCom->Set_Pos(vPos.x - 3.f, fY + 1.f, vPos.z);
 
-	_vec3	vTemp;
-	m_pLeft_TransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
-	CGameObject::Compute_ViewZ(&vTemp);
-
-
 	Engine::CGameObject::LateUpdate_GameObject();
 }
 
 void CPlayer::Render_GameObject()
 {
 	//Beomseung Fix
-	
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pRight_TransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	m_pRight_TextureCom->Set_Texture();
 	m_pRight_BufferCom->Render_Buffer();
-
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pLeft_TransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pLeft_TextureCom->Set_Texture();
 	m_pLeft_BufferCom->Render_Buffer();
-
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 }
 
 HRESULT CPlayer::Add_Component()
@@ -131,51 +129,40 @@ HRESULT CPlayer::Add_Component()
 void CPlayer::Key_Input(const _float& _fTimeDelta)
 {
 	_vec3 vLook;
+	_vec3 vRight;
 
 	m_pRight_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+	m_pRight_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
 
-	if (GetAsyncKeyState(VK_UP))
-	//Beomseung
-	    m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
-	    m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
-
-	if (GetAsyncKeyState(VK_DOWN))
-	//Beomseung   
-	m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
-	    m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
-	if (GetAsyncKeyState(VK_LEFT))
-	//Beomseung    
-	m_pRight_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
-     	m_pLeft_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
-
-	if (GetAsyncKeyState(VK_RIGHT))
-	//Beomseung    
-	m_pRight_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
-	    m_pLeft_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
-
-	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_LB) & 0x80)
-	{
-		_vec3 vPickPos = Picking_OnTerrain();
-
-		_vec3 vPos;
-		m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
-
-		_vec3 vDir = vPickPos - vPos;
+	if (Engine::Get_DIKeyState(DIK_W) & 0x80) {
 		//Beomseung
-		m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);
-		m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);
-
-		// kyubin
-		CComponent* pComponent = Engine::Get_Component(
-			COMPONENTID::ID_DYNAMIC,
-			L"Layer_GameLogic",
-			L"EffectMuzzleFlash",
-			L"Com_Effect");
-
-		Engine::CEffect* pTemp = dynamic_cast<Engine::CEffect*>(pComponent);
-		pTemp->Set_Visibility(true);
-
+		m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
+		m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
 	}
+	if (Engine::Get_DIKeyState(DIK_S) & 0x80) {
+		//Beomseung   
+		m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
+		m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
+	}
+	if (Engine::Get_DIKeyState(DIK_A) & 0x80) {
+		//Beomseung    
+		m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -10.f);
+		m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -10.f);
+	}
+	if (Engine::Get_DIKeyState(DIK_D) & 0x80) {
+		//Beomseung    
+		m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, 10.f);
+		m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, 10.f);
+	}
+}
+
+void CPlayer::Mouse_Move()
+{
+
+
+
+
+
 }
 
 _vec3 CPlayer::Picking_OnTerrain()
