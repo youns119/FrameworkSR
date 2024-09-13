@@ -33,6 +33,7 @@ public:
 	void Set_LifeTime(_float _fLifeTime) { m_fLifeTime = _fLifeTime; }
 
 	_bool Get_Visibility() { return m_bIsVisible; }
+	_float Get_ElapsedPersentage() { return m_fElapsed / m_fLifeTime; }
 
 private:
 	_float m_fLifeTime;
