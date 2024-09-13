@@ -180,101 +180,13 @@ void CMonster::Change_State() // Jonghan Change
 
 HRESULT CMonster::Add_Component()
 {
-	CComponent* pComponent = NULL;
-
-	//Jonghan Monster Change Start
-
-	//pComponent = m_pBufferCom = dynamic_cast<CTriCol*>(Engine::Clone_Proto(L"Proto_TriCol"));
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
-
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
-
-	//Jonghan Change Start
-
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterAttackTex")); //14
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackTexture", pComponent });
-
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_HEADSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterHeadShotTex")); //21
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadShotTexture", pComponent });
-
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_BULLSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterBullShotTex")); //18
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_BullShotTexture", pComponent });
-
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_PUSH_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushOneTex")); //23
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushOneTexture", pComponent });
-
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_PUSH_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushTwoTex")); //22
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushTwoTexture", pComponent });
-
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_SHOT_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotOneTex")); //24
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotOneTexture", pComponent });
-
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_SHOT_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotTwoTex")); //19
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotTwoTexture", pComponent });
-
-	//Jonghan Change End
-
-	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Calculator", pComponent });
-
-	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
-
-	//Jonghan Monster Change End
 
 	return S_OK;
 }
 
 void CMonster::State_Check() //Jonghan Change
 {
-	if (m_eCurState != m_ePreState)
-	{
-		switch (m_eCurState)
-		{
-		case CMonster::MONSTER_ATTACK:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 14.f;
-			break;
-		case CMonster::MONSTER_HEADSHOT:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 21.f;
-			break;
-		case CMonster::MONSTER_PUSH_ONE:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 23.f;
-			break;
-		case CMonster::MONSTER_PUSH_TWO:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 22.f;
-			break;
-		case CMonster::MONSTER_BULLSHOT:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 18.f;
-			break;
-		case CMonster::MONSTER_SHOT_ONE:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 24.f;
-			break;
-		case CMonster::MONSTER_SHOT_TWO:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 19.f;
-			break;
-		}
-
-		m_ePreState = m_eCurState;
-	}
+	
 }
 
 void CMonster::Free()
