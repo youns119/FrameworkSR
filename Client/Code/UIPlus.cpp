@@ -1,0 +1,91 @@
+#include "pch.h"
+#include "..\Header\UIPlus.h"
+#include "Export_Utility.h"
+
+CUIPlus::CUIPlus(LPDIRECT3DDEVICE9 _pGraphicDev)
+	: CUI(_pGraphicDev)
+	, m_pBufferCom(nullptr)
+	, m_pTextureCom(nullptr)
+	, m_pTransformCom(nullptr)
+{
+	m_eUIType = UIID::UI_PLUS_LEFT;
+}
+
+CUIPlus::~CUIPlus()
+{
+}
+
+CUIPlus* CUIPlus::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+{
+	CUIPlus* pUI_Plus = new CUIPlus(_pGraphicDev);
+
+	if (FAILED(pUI_Plus->Ready_UI()))
+	{
+		Safe_Release(pUI_Plus);
+		MSG_BOX("pUI_Plus Create Failed");
+		return nullptr;
+	}
+
+	return pUI_Plus;
+}
+
+HRESULT CUIPlus::Ready_UI()
+{
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
+	m_pTransformCom->Set_Scale(50.f, 30.f, 0.f);
+
+	m_bActive = true;
+
+	return S_OK;
+}
+
+_int CUIPlus::Update_UI(const _float& _fTimeDelta)
+{
+	return Engine::CUI::Update_UI(_fTimeDelta);
+}
+
+void CUIPlus::LateUpdate_UI()
+{
+	Engine::CUI::LateUpdate_UI();
+}
+
+void CUIPlus::Render_UI()
+{
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+	m_pTextureCom->Set_Texture();
+
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+}
+
+HRESULT CUIPlus::Add_Component()
+{
+	CComponent* pComponent = NULL;
+
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
+
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIPlus"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	return S_OK;
+}
+
+void CUIPlus::Free()
+{
+	Engine::CUI::Free();
+}

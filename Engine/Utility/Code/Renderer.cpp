@@ -1,4 +1,5 @@
 #include "..\..\Header\Renderer.h"
+#include "Export_Utility.h"
 
 IMPLEMENT_SINGLETON(CRenderer)
 
@@ -83,25 +84,30 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
+	// 연욱
 	// 직교 투영 추가
-	_matrix matView, matProj;
-	_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	//_matrix matView, matProj;
+	//_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	//_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 
-	_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
-	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matOrtho);
+	//_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
+	//_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matOrtho);
 
-	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_UI])
-		pGameObject->Render_GameObject();
+	//for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_UI])
+	//	pGameObject->Render_GameObject();
 
-	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-	_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
-	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+	//_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
+	//_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	// 연욱
+	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
+	
 }
 
 void CRenderer::Free()

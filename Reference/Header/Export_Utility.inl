@@ -70,10 +70,33 @@ inline HRESULT Ready_Light
 	return CLightManager::GetInstance()->Ready_Light(_pGraphicDev, _pLightInfo, _iIndex);
 }
 
+// ¿¬¿í
+// UIManager
+inline HRESULT Add_UI(CUI* _pUI)
+{
+	return CUIManager::GetInstance()->Add_UI(_pUI);
+}
+
+inline _int Update_UI(const _float& _fTimeDelta)
+{
+	return CUIManager::GetInstance()->Update_UI(_fTimeDelta);
+}
+
+inline void LateUpdate_UI()
+{
+	CUIManager::GetInstance()->LateUpdate_UI();
+}
+
+inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
+{
+	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
+}
+
 void Release_Utility()
 {
 	CLightManager::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CComponentManager::DestroyInstance();
 	CManagement::DestroyInstance();
+	CUIManager::DestroyInstance();
 }

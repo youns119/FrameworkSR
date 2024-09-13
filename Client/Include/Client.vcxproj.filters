@@ -71,6 +71,12 @@
     <Filter Include="03.GameObject\02.Monster\01.ShotGun">
       <UniqueIdentifier>{28b61cb2-4097-4a78-8414-0f114c17fd77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI">
+      <UniqueIdentifier>{df5a0234-35a2-484d-98dd-b910b1389646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\00.Plus">
+      <UniqueIdentifier>{e6cbaf5c-0df2-4be8-9ac9-2740dc4437d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -136,6 +142,9 @@
     <ClInclude Include="..\Header\ShotGun.h">
       <Filter>03.GameObject\02.Monster\01.ShotGun</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIPlus.h">
+      <Filter>04.UI\00.Plus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -189,6 +198,9 @@
     <ClCompile Include="..\Code\ShotGun.cpp">
       <Filter>03.GameObject\02.Monster\01.ShotGun</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\UIPlus.cpp">
+      <Filter>04.UI\00.Plus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -202,5 +214,16 @@
     <Image Include="Client.ico">
       <Filter>00.Framework\02.ETC\리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Copy.bat">
+      <Filter>04.UI\00.Plus</Filter>
+    </None>
+    <None Include="..\..\CopySystem.bat">
+      <Filter>04.UI\00.Plus</Filter>
+    </None>
+    <None Include="..\..\CopyUtility.bat">
+      <Filter>04.UI\00.Plus</Filter>
+    </None>
   </ItemGroup>
 </Project>

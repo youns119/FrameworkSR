@@ -113,6 +113,9 @@ _uint CLoading::Loading_Stage()
 	// Kyubin
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MuzzleFlashTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/SSR1/SSR (%d).png", TEXTUREID::TEX_NORMAL, 16)), E_FAIL);
 
+	// ¿¬¿í
+	// UI
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIPlus", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/White/White_sec.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loading Complete!!");
 

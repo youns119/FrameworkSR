@@ -4,6 +4,8 @@
 #include "ComponentManager.h"
 #include "Renderer.h"
 #include "LightManager.h"
+// 연욱
+#include "UIManager.h"
 
 #include "TriCol.h"
 #include "RcCol.h"
@@ -48,6 +50,13 @@ inline HRESULT Ready_Light
 	const D3DLIGHT9* _pLightInfo,
 	const _uint& _iIndex
 );
+
+// 연욱
+// UIManager
+inline HRESULT Add_UI(CUI* _pUI);
+inline _int Update_UI(const _float& _fTimeDelta);
+inline void LateUpdate_UI();
+inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
 inline void	Release_Utility();
 

@@ -34,13 +34,19 @@ _int CManagement::Update_Scene(const _float& _fTimeDelta)
 {
 	NULL_CHECK_RETURN(m_pScene, -1);
 
-	return m_pScene->Update_Scene(_fTimeDelta);
+	// 연욱
+	m_pScene->Update_Scene(_fTimeDelta);
+
+	return Engine::Update_UI(_fTimeDelta);
 }
 
 void CManagement::LateUpdate_Scene()
 {
 	NULL_CHECK(m_pScene);
 	m_pScene->LateUpdate_Scene();
+
+	// 연욱
+	Engine::LateUpdate_UI();
 }
 
 void CManagement::Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -49,6 +55,9 @@ void CManagement::Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 	NULL_CHECK(m_pScene);
 	m_pScene->Render_Scene();
+
+	// 연욱
+	Engine::Render_UI(_pGraphicDev);
 }
 
 void CManagement::Free()

@@ -16,6 +16,15 @@ namespace Engine
 
 	enum class MOUSEKEYSTATE { DIM_LB, DIM_RB, DIM_MB, DIM_END };
 	enum class MOUSEMOVESTATE { DIMS_X, DIMS_Y, DIMS_Z, DIMS_END };
+
+	enum class UIID
+	{
+		UI_PLUS_LEFT,
+		UI_PLUS_CENTER,
+		UI_PLUS_HEAL,
+		UI_PLUS_COMBO,
+		UI_END,
+	};
 }
 
 #endif // Engine_Enum_h__

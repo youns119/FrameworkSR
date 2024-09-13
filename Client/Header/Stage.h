@@ -13,6 +13,9 @@
 #include "Floor.h"
 #include "Wall.h"
 
+// ¿¬¿í
+#include "UIPlus.h"
+
 class CStage 
 	: public Engine::CScene
 {

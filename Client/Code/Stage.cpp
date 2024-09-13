@@ -155,12 +155,20 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 
 HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 {
-	Engine::CLayer* pLayer = CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	// 연욱
+	//Engine::CLayer* pLayer = CLayer::Create();
+	//NULL_CHECK_RETURN(pLayer, E_FAIL);
 
-	Engine::CGameObject* pGameObject = nullptr;
+	//Engine::CGameObject* pGameObject = nullptr;
 
-	m_mapLayer.insert({ _pLayerTag , pLayer });
+	// 연욱
+	Engine::CUI* pUI = nullptr;
+
+	pUI = CUIPlus::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
+	//m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
 }
