@@ -41,13 +41,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.Tool", "03.Tool", "{C67E9FCF-D8E5-4E68-A405-96B54BA9FC37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Header", "01.Header", "{A6611D0E-9551-4A49-A325-A9E0E147C6B3}"
-	ProjectSection(SolutionItems) = preProject
-		Tool\Header\Tool_Define.h = Tool\Header\Tool_Define.h
-		Tool\Header\Tool_Enum.h = Tool\Header\Tool_Enum.h
-		Tool\Header\Tool_Functor.h = Tool\Header\Tool_Functor.h
-		Tool\Header\Tool_Include.h = Tool\Header\Tool_Include.h
-		Tool\Header\Tool_Struct.h = Tool\Header\Tool_Struct.h
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.MFCTool", "00.MFCTool", "{0C9797F2-9BA0-4668-AA57-014FCC8D2256}"
 EndProject
