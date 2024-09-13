@@ -52,6 +52,8 @@ _uint CLoading::Loading_Stage()
 	//Beomseung
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Left_Transform", Engine::CTransform::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Right_Transform", Engine::CTransform::Create(m_pGraphicDev)), E_FAIL);
+	// Kyubin
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Effect", Engine::CEffect::Create(m_pGraphicDev)), E_FAIL);
 
 
 	lstrcpy(m_szLoading, L"Buffer Loading................");
@@ -108,8 +110,9 @@ _uint CLoading::Loading_Stage()
 	//YuBhin: Wall Texture - Attribute Acid
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AcidWall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_wall/ACID C.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 
-	// kyubin
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Effect", Engine::CEffect::Create(m_pGraphicDev)), E_FAIL);
+	// Kyubin
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MuzzleFlashTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/SSR1/SSR (%d).png", TEXTUREID::TEX_NORMAL, 16)), E_FAIL);
+
 
 	lstrcpy(m_szLoading, L"Loading Complete!!");
 

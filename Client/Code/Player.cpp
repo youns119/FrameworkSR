@@ -65,6 +65,11 @@ void CPlayer::LateUpdate_GameObject()
 	//Beomseung
 	m_pLeft_TransformCom->Set_Pos(vPos.x - 3.f, fY + 1.f, vPos.z);
 
+	_vec3	vTemp;
+	m_pLeft_TransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
+	CGameObject::Compute_ViewZ(&vTemp);
+
+
 	Engine::CGameObject::LateUpdate_GameObject();
 }
 

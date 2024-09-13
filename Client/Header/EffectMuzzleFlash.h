@@ -27,6 +27,7 @@ public:
 
 private:
 	HRESULT	Add_Component();
+	HRESULT Setup_Material();
 
 private:
 	void Free() override;
