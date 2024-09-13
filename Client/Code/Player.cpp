@@ -156,14 +156,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	}
 }
 
-void CPlayer::Mouse_Move()
-{
-
-
-
-
-
-}
 
 _vec3 CPlayer::Picking_OnTerrain()
 {
