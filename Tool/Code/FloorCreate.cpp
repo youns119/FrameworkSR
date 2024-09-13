@@ -18,7 +18,7 @@ CFloorCreate::~CFloorCreate()
 HRESULT CFloorCreate::Initialize()
 {
 
-	if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../../Client/Bin/Resource/MFCtest/Stage/Terrain/Tile/Tile%d.png", TEX_MULTI, L"Terrain", L"Tile", 36)))
+	if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../../Client/Bin/Resource/Texture/MFCtest/Stage/Terrain/Tile/Tile%d.png", TEX_MULTI, L"Terrain", L"Tile", 3)))
 	{
 		AfxMessageBox(L"Tile Texture Failed");
 		return E_FAIL;

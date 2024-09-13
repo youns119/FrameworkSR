@@ -100,7 +100,7 @@ void CToolView::OnInitialUpdate()
 		return;
 	}
 
-	if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../../Client/Bin/Resource/MFCtest/Cube.png", TEX_SINGLE, L"Cube")))
+	if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../../Client/Bin/Resource/Texture/MFCtest/Cube.png", TEX_SINGLE, L"Cube")))
 	{
 		AfxMessageBox(L"Cube Texture Failed");
 		return;
