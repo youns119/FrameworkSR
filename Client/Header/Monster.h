@@ -17,7 +17,7 @@ class CMonster
 {
 public:
 	enum MONSTERSTATE { MONSTER_ATTACK, MONSTER_HEADSHOT, MONSTER_PUSH_ONE, MONSTER_PUSH_TWO, MONSTER_BULLSHOT, MONSTER_SHOT_ONE, MONSTER_SHOT_TWO, MONSTER_END }; //Jonghan Change
-private :
+protected :
 	explicit CMonster(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CMonster();
 
@@ -33,14 +33,14 @@ public :
 public:
 	void Change_State(); //Jonghan Change
 
-private:
-	HRESULT	Add_Component();
-	void State_Check(); //Jonghan Change
+protected:
+	virtual HRESULT	Add_Component();
+	virtual void State_Check(); //Jonghan Change
 
-private :
+protected:
 	virtual void Free();
 
-private :
+protected:
 	//Jonghan Change Start
 
 	//Engine::CTriCol* m_pBufferCom;

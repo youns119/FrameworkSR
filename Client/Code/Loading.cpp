@@ -77,13 +77,22 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_PlayerTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player/Ma.jpg", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_PlayerTex2", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player0.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	//Jonghan Stage Change Start
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Attack/Monster_Attack%d.png", TEXTUREID::TEX_NORMAL, 14)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterHeadShotTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/HeadShot/Monster_HeadShot%d.png", TEXTUREID::TEX_NORMAL, 21)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterBullShotTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/BullShot/Monster_Bullshot%d.png", TEXTUREID::TEX_NORMAL, 18)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterPushOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Push/Push_1/Monster_Push%d.png", TEXTUREID::TEX_NORMAL, 23)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterPushTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Push/Push_2/Monster_Push%d.png", TEXTUREID::TEX_NORMAL, 22)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterShotOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Shot/Shot_1/Monster_Shot%d.png", TEXTUREID::TEX_NORMAL, 24)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterShotTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Shot/Shot_2/Monster_Shot%d.png", TEXTUREID::TEX_NORMAL, 19)), E_FAIL);
+	// WhiteMan
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Attack/%d.png", TEXTUREID::TEX_NORMAL, 14)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterHeadShotTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/HeadShot/%d.png", TEXTUREID::TEX_NORMAL, 21)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterBullShotTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/BullShot/%d.png", TEXTUREID::TEX_NORMAL, 18)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterPushOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Push/Push_1/%d.png", TEXTUREID::TEX_NORMAL, 23)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterPushTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Push/Push_2/%d.png", TEXTUREID::TEX_NORMAL, 22)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterShotOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Shot/Shot_1/%d.png", TEXTUREID::TEX_NORMAL, 24)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterShotTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/WhiteMan/Shot/Shot_2/%d.png", TEXTUREID::TEX_NORMAL, 19)), E_FAIL);
+	//ShotGunMan
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/ShotGun/Attack/%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunHeadShotTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/ShotGun/HeadShot/%d.png", TEXTUREID::TEX_NORMAL, 20)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunBullShotTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/ShotGun/BullShot/%d.png", TEXTUREID::TEX_NORMAL, 23)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunPushOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/ShotGun/Push/Push_1/%d.png", TEXTUREID::TEX_NORMAL, 24)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunPushTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/ShotGun/Push/Push_2/%d.png", TEXTUREID::TEX_NORMAL, 24)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunShotOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/ShotGun/Shot/Shot_1/%d.png", TEXTUREID::TEX_NORMAL, 23)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunShotTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/ShotGun/Shot/Shot_2/%d.png", TEXTUREID::TEX_NORMAL, 18)), E_FAIL);
 	//Jonghan Stage Change End
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Terrain0.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTexture2", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Grass_%d.tga", TEXTUREID::TEX_NORMAL, 2)), E_FAIL);

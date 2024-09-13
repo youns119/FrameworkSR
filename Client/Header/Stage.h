@@ -4,7 +4,9 @@
 #include "BackGround.h"
 
 #include "Player.h"
-#include "Monster.h"
+
+#include "WhiteSuit.h" //Jonghan Change
+#include "ShotGun.h"   //Jonghan Change
 
 #include "Terrain.h"
 #include "SkyBox.h"
