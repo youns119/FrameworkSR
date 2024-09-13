@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="00. MainFrm">
+      <UniqueIdentifier>{d379a75d-6c70-4859-aef0-c9db33b5c92c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. ToolView">
+      <UniqueIdentifier>{dd52586b-cb77-4acc-af87-ed2f6930746c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ToolDoc">
+      <UniqueIdentifier>{e9030cc8-d4ea-471f-8503-d3f4c41436cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager">
+      <UniqueIdentifier>{db0ea4bf-d3df-482f-aad7-528d8a3a20f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.NotUsed">
+      <UniqueIdentifier>{bb27c379-d29a-48c3-81c3-bbb65b302707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\00.Device">
+      <UniqueIdentifier>{625d9f74-9b81-4fbf-8ff8-3bc7dbe8a529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\01.TextureMgr">
+      <UniqueIdentifier>{3a495ccb-846d-48e3-a993-8a27b7017785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\01.TextureMgr\Texture">
+      <UniqueIdentifier>{301efe90-2f44-4618-a1e4-8aee5a3aa97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\01.TextureMgr\Texture\00.Single">
+      <UniqueIdentifier>{98531678-2180-4c66-9338-b4fcb3dedf1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\01.TextureMgr\Texture\01.Multi">
+      <UniqueIdentifier>{102505a8-306b-4e04-80f9-d7ac010b4208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. ToolView\MyForm">
+      <UniqueIdentifier>{10e0ac6d-c8d3-46e2-a84b-c683b493436b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Etc">
+      <UniqueIdentifier>{318c3eb6-c814-48c9-8995-e99a95859c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Etc\00.Dialog">
+      <UniqueIdentifier>{a080f97a-74ea-4efc-b6ce-b6fcbb6a0a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Etc\00.Dialog\00.MapTool">
+      <UniqueIdentifier>{590d7b14-6d20-487d-ace8-46d8f5a20c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Etc\01.Floor">
+      <UniqueIdentifier>{f7c3112f-8201-426a-ac69-144994889d43}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>00. MainFrm</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolView.h">
+      <Filter>01. ToolView</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolDoc.h">
+      <Filter>02. ToolDoc</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassView.h">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="FileView.h">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputWnd.h">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertiesWnd.h">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewTree.h">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Device.h">
+      <Filter>03.Manager\00.Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TextureMgr.h">
+      <Filter>03.Manager\01.TextureMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Texture.h">
+      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SingleTexture.h">
+      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MultiTexture.h">
+      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MyForm.h">
+      <Filter>01. ToolView\MyForm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MapTool.h">
+      <Filter>04.Etc\00.Dialog\00.MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FloorCreate.h">
+      <Filter>04.Etc\01.Floor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>00. MainFrm</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolView.cpp">
+      <Filter>01. ToolView</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolDoc.cpp">
+      <Filter>02. ToolDoc</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassView.cpp">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClCompile>
+    <ClCompile Include="FileView.cpp">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputWnd.cpp">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesWnd.cpp">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewTree.cpp">
+      <Filter>소스 파일\99.NotUsed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Device.cpp">
+      <Filter>03.Manager\00.Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TextureMgr.cpp">
+      <Filter>03.Manager\01.TextureMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Texture.cpp">
+      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SingleTexture.cpp">
+      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MultiTexture.cpp">
+      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MyForm.cpp">
+      <Filter>01. ToolView\MyForm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MapTool.cpp">
+      <Filter>04.Etc\00.Dialog\00.MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FloorCreate.cpp">
+      <Filter>04.Etc\01.Floor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tool.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\file_view.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\file_view_hc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\class_view.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\class_view_hc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\fileview.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\fileview_hc.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\classview.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\classview_hc.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\explorer.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\explorer_hc.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\sort.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\sort_hc.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\menuimages.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\menuimages_hc.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\output_wnd.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\output_wnd_hc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\properties_wnd.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\properties_wnd_hc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\properties.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\properties_hc.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\userimages.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\ToolDoc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Tool.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Toolbar256.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Tool.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+</Project>
