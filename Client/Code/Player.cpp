@@ -72,13 +72,8 @@ void CPlayer::Render_GameObject()
 {
 	//Beomseung Fix
 	
-	//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pRight_TransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	//m_pTextureCom->Set_Texture();
-
-	//m_pBufferCom->Render_Buffer();
 
 	m_pRight_TextureCom->Set_Texture();
 	m_pRight_BufferCom->Render_Buffer();
@@ -89,30 +84,12 @@ void CPlayer::Render_GameObject()
 	m_pLeft_BufferCom->Render_Buffer();
 
 
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CPlayer::Add_Component()
 {
 	CComponent* pComponent = NULL;
-
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
-
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_PlayerTex2"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
-
-	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
-
-	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Calculator", pComponent });
-
 
 	//Beomseung
 	pComponent = m_pRight_BufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RightArmBuffer"));
@@ -121,7 +98,7 @@ HRESULT CPlayer::Add_Component()
 
 	pComponent = m_pLeft_BufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_LeftArmBuffer"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer2", pComponent });
 
 	pComponent = m_pRight_TextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_RightArmTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -129,7 +106,7 @@ HRESULT CPlayer::Add_Component()
 
 	pComponent = m_pLeft_TextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftArmTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture2", pComponent });
 
 	pComponent = m_pRight_TransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Left_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -143,8 +120,6 @@ HRESULT CPlayer::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Calculator", pComponent });
 
-
-
 	return S_OK;
 }
 
@@ -152,27 +127,23 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 {
 	_vec3 vLook;
 
-	m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+	m_pRight_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 
 	if (GetAsyncKeyState(VK_UP))
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
 	//Beomseung
 	    m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
 	    m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
 
 	if (GetAsyncKeyState(VK_DOWN))
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
 	//Beomseung   
 	m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
 	    m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
 	if (GetAsyncKeyState(VK_LEFT))
-		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
 	//Beomseung    
 	m_pRight_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
      	m_pLeft_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-180.f * _fTimeDelta));
 
 	if (GetAsyncKeyState(VK_RIGHT))
-		m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
 	//Beomseung    
 	m_pRight_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
 	    m_pLeft_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(180.f * _fTimeDelta));
@@ -182,10 +153,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		_vec3 vPickPos = Picking_OnTerrain();
 
 		_vec3 vPos;
-		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
 		_vec3 vDir = vPickPos - vPos;
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);
 		//Beomseung
 		m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);
 		m_pLeft_TransformCom->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _fTimeDelta, 5.f);

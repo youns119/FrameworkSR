@@ -36,10 +36,11 @@ private :
 private:
 	virtual void Free();
 
-private :
+private :/*
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
+	*/
 	Engine::CCalculator* m_pCalculatorCom;
 
 	//Beomseung
