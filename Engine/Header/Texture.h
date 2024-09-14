@@ -15,6 +15,10 @@ private :
 	virtual ~CTexture();
 
 public :
+	// ¿¬¿í
+	_uint Get_TextureCount() { return m_vecTexture.size(); }
+
+public :
 	static CTexture* Create(LPDIRECT3DDEVICE9 _pGraphicDev, const _tchar* _pPath, TEXTUREID _eType, const _uint& _iCnt = 1);
 
 public :
