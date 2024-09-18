@@ -1,5 +1,5 @@
 #pragma once
-#include "Humanoid.h"
+#include "Drone.h"
 
 BEGIN(Engine)
 
@@ -11,14 +11,14 @@ class CTransform;
 
 END
 
-class CShotGun : public CHumanoid
+class CFlyingDrone : public CDrone
 {
 private:
-    explicit CShotGun(LPDIRECT3DDEVICE9 _pGraphicDev);
-    virtual ~CShotGun();
+    explicit CFlyingDrone(LPDIRECT3DDEVICE9 _pGraphicDev);
+    virtual ~CFlyingDrone();
 
 public:
-    static CShotGun* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+    static CFlyingDrone* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
     virtual HRESULT	Ready_GameObject();

@@ -5,8 +5,12 @@
 
 #include "Player.h"
 
-#include "WhiteSuit.h" //Jonghan Change
-#include "ShotGun.h"   //Jonghan Change
+#include "WhiteSuit.h"
+#include "ShotGun.h"  
+#include "BlackMan.h"    //Jonghan Change
+#include "FlyingDrone.h" //Jonghan Change
+#include "SpiderDrone.h" //Jonghan Change
+#include "DogDrone.h"	 //Jonghan Change
 
 #include "Terrain.h"
 #include "SkyBox.h"

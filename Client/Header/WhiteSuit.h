@@ -1,5 +1,5 @@
 #pragma once
-#include "Monster.h"
+#include "Humanoid.h"
 
 BEGIN(Engine)
 
@@ -11,7 +11,7 @@ class CTransform;
 
 END
 
-class CWhiteSuit : public CMonster
+class CWhiteSuit : public CHumanoid
 {
 private:
 	explicit CWhiteSuit(LPDIRECT3DDEVICE9 _pGraphicDev);

@@ -11,14 +11,14 @@ class CTransform;
 
 END
 
-class CShotGun : public CHumanoid
+class CBlackMan : public CHumanoid
 {
 private:
-    explicit CShotGun(LPDIRECT3DDEVICE9 _pGraphicDev);
-    virtual ~CShotGun();
+    explicit CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev);
+    virtual ~CBlackMan();
 
 public:
-    static CShotGun* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+    static CBlackMan* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
     virtual HRESULT	Ready_GameObject();
