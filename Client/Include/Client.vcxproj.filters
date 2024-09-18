@@ -65,17 +65,35 @@
     <Filter Include="03.GameObject\09. EffectMuzzleFlash">
       <UniqueIdentifier>{97ab4b5c-5150-43bb-9754-c46ca041ccf8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\02.Monster\00.WhiteSuit">
-      <UniqueIdentifier>{5de72aba-d0e3-4d5d-8106-3f4a2677e53d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.GameObject\02.Monster\01.ShotGun">
-      <UniqueIdentifier>{28b61cb2-4097-4a78-8414-0f114c17fd77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.UI">
       <UniqueIdentifier>{df5a0234-35a2-484d-98dd-b910b1389646}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.UI\00.Plus">
       <UniqueIdentifier>{e6cbaf5c-0df2-4be8-9ac9-2740dc4437d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\00.Humanoid">
+      <UniqueIdentifier>{4d7b0ffd-9f6c-40ee-984e-51d222b7a997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\01.Drone">
+      <UniqueIdentifier>{6e5bc198-4861-4b62-a084-f5ce6b2621e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\00.Humanoid\00.WhiteSuit">
+      <UniqueIdentifier>{44617841-05aa-403a-a429-537543ba2235}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\00.Humanoid\01.ShotGun">
+      <UniqueIdentifier>{8c2dae28-b753-408b-8a5b-7d955e08ebe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\00.Humanoid\02.BlackMan">
+      <UniqueIdentifier>{092468fe-a06d-4f0c-8267-77f002c45d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\01.Drone\00.FlyingDrone">
+      <UniqueIdentifier>{16bad3f3-9f21-4581-9518-d5a6282807b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\01.Drone\01.SpiderDrone">
+      <UniqueIdentifier>{6596f0c4-fbe0-434e-a16e-30cd2ef82f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\01.Drone\02.DogDrone">
+      <UniqueIdentifier>{cc121daf-6dbd-4880-8e6f-f5279e254fe2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -136,14 +154,32 @@
     <ClInclude Include="..\Header\EffectMuzzleFlash.h">
       <Filter>03.GameObject\09. EffectMuzzleFlash</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\WhiteSuit.h">
-      <Filter>03.GameObject\02.Monster\00.WhiteSuit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\ShotGun.h">
-      <Filter>03.GameObject\02.Monster\01.ShotGun</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UIPlus.h">
       <Filter>04.UI\00.Plus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Humanoid.h">
+      <Filter>03.GameObject\02.Monster\00.Humanoid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\WhiteSuit.h">
+      <Filter>03.GameObject\02.Monster\00.Humanoid\00.WhiteSuit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShotGun.h">
+      <Filter>03.GameObject\02.Monster\00.Humanoid\01.ShotGun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BlackMan.h">
+      <Filter>03.GameObject\02.Monster\00.Humanoid\02.BlackMan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Drone.h">
+      <Filter>03.GameObject\02.Monster\01.Drone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DogDrone.h">
+      <Filter>03.GameObject\02.Monster\01.Drone\02.DogDrone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SpiderDrone.h">
+      <Filter>03.GameObject\02.Monster\01.Drone\01.SpiderDrone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FlyingDrone.h">
+      <Filter>03.GameObject\02.Monster\01.Drone\00.FlyingDrone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -192,14 +228,32 @@
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp">
       <Filter>03.GameObject\09. EffectMuzzleFlash</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\WhiteSuit.cpp">
-      <Filter>03.GameObject\02.Monster\00.WhiteSuit</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\ShotGun.cpp">
-      <Filter>03.GameObject\02.Monster\01.ShotGun</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UIPlus.cpp">
       <Filter>04.UI\00.Plus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Humanoid.cpp">
+      <Filter>03.GameObject\02.Monster\00.Humanoid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WhiteSuit.cpp">
+      <Filter>03.GameObject\02.Monster\00.Humanoid\00.WhiteSuit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShotGun.cpp">
+      <Filter>03.GameObject\02.Monster\00.Humanoid\01.ShotGun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BlackMan.cpp">
+      <Filter>03.GameObject\02.Monster\00.Humanoid\02.BlackMan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Drone.cpp">
+      <Filter>03.GameObject\02.Monster\01.Drone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DogDrone.cpp">
+      <Filter>03.GameObject\02.Monster\01.Drone\02.DogDrone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpiderDrone.cpp">
+      <Filter>03.GameObject\02.Monster\01.Drone\01.SpiderDrone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FlyingDrone.cpp">
+      <Filter>03.GameObject\02.Monster\01.Drone\00.FlyingDrone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

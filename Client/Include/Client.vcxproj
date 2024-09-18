@@ -149,9 +149,14 @@ call Copy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\BlackMan.h" />
+    <ClInclude Include="..\Header\DogDrone.h" />
+    <ClInclude Include="..\Header\Drone.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\EffectMuzzleFlash.h" />
     <ClInclude Include="..\Header\Floor.h" />
+    <ClInclude Include="..\Header\FlyingDrone.h" />
+    <ClInclude Include="..\Header\Humanoid.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
@@ -160,6 +165,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
+    <ClInclude Include="..\Header\SpiderDrone.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\UIPlus.h" />
@@ -173,9 +179,14 @@ call Copy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Utility\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\BlackMan.cpp" />
+    <ClCompile Include="..\Code\DogDrone.cpp" />
+    <ClCompile Include="..\Code\Drone.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp" />
     <ClCompile Include="..\Code\Floor.cpp" />
+    <ClCompile Include="..\Code\FlyingDrone.cpp" />
+    <ClCompile Include="..\Code\Humanoid.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
@@ -183,6 +194,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
+    <ClCompile Include="..\Code\SpiderDrone.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\UIPlus.cpp" />

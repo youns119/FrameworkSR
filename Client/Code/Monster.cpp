@@ -10,51 +10,11 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pCalculatorCom(nullptr)
 	, m_fFrame(0.f)
 	, m_fMaxFrame(14.f) //Jonghan Change
-	, m_eCurState(MONSTERSTATE::MONSTER_ATTACK) //Jonghan Change
-	, m_ePreState(MONSTERSTATE::MONSTER_ATTACK) //Jonghan Change
-	//, m_pTextureCom(nullptr)// Jonghan Change
 {
-	for (_int i = 0; i < MONSTERSTATE::MONSTER_END; ++i)
-		m_pTextureCom[i] = nullptr;
 }
 
 CMonster::~CMonster()
 {
-}
-
-CMonster* CMonster::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
-{
-	CMonster* pMonster = new CMonster(_pGraphicDev);
-
-	if (FAILED(pMonster->Ready_GameObject()))
-	{
-		Safe_Release(pMonster);
-		MSG_BOX("pMonster Create Failed");
-		return nullptr;
-	}
-
-	return pMonster;
-}
-
-HRESULT CMonster::Ready_GameObject()
-{
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	//Jonghan Monster Change Start
-
-	//m_pTransformCom->Set_Pos(10.f, 0.f, 10.f); 
-
-	_matrix matWorld;
-
-	m_pTransformCom->Get_WorldMatrix(&matWorld);
-
-	matWorld._41 = 10.f;
-	matWorld._43 = 10.f;
-
-	m_pTransformCom->Set_WorldMatrix(&matWorld);
-
-	//Jonghan Monster Change End
-	return S_OK;
 }
 
 _int CMonster::Update_GameObject(const _float& _fTimeDelta)
@@ -124,69 +84,6 @@ void CMonster::LateUpdate_GameObject()
 
 	//Jonghan Monster Change End
 	Engine::CGameObject::LateUpdate_GameObject();
-}
-
-void CMonster::Render_GameObject()
-{
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
-	//Jonghan Monster Change Start
-
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
-	m_pTextureCom[m_eCurState]->Set_Texture((_uint)m_fFrame); //Jonghan Change
-
-
-	m_pBufferCom->Render_Buffer();
-
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	//Jonghan Monster Change End
-}
-
-void CMonster::Change_State() // Jonghan Change
-{
-	//When Player Picking Monster_Collider (Like Head Body Bull), it'll be Dealing Monster Hp and Setting the State from Hp
-	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_RB) & 0x80)
-	{
-		switch (m_eCurState)
-		{
-		case CMonster::MONSTER_ATTACK:
-			m_eCurState = MONSTER_HEADSHOT;
-			break;
-		case CMonster::MONSTER_HEADSHOT:
-			m_eCurState = MONSTER_PUSH_ONE;
-			break;
-		case CMonster::MONSTER_PUSH_ONE:
-			m_eCurState = MONSTER_PUSH_TWO;
-			break;
-		case CMonster::MONSTER_PUSH_TWO:
-			m_eCurState = MONSTER_BULLSHOT;
-			break;
-		case CMonster::MONSTER_BULLSHOT:
-			m_eCurState = MONSTER_SHOT_ONE;
-			break;
-		case CMonster::MONSTER_SHOT_ONE:
-			m_eCurState = MONSTER_SHOT_TWO;
-			break;
-		case CMonster::MONSTER_SHOT_TWO:
-			m_eCurState = MONSTER_ATTACK;
-			break;
-		}
-	}
-
-}
-
-HRESULT CMonster::Add_Component()
-{
-
-	return S_OK;
-}
-
-void CMonster::State_Check() //Jonghan Change
-{
-	
 }
 
 void CMonster::Free()

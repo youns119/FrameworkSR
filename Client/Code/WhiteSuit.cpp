@@ -4,7 +4,7 @@
 #include "Export_Utility.h"
 
 CWhiteSuit::CWhiteSuit(LPDIRECT3DDEVICE9 _pGraphicDev) :
-    CMonster(_pGraphicDev)
+    CHumanoid(_pGraphicDev)
 {
     m_fMaxFrame = 14.f;
 }
@@ -57,31 +57,31 @@ HRESULT CWhiteSuit::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterAttackTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterAttackTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackTexture", pComponent });
 
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_HEADSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterHeadShotTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_HEADSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterHeadShotTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadShotTexture", pComponent });
 
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_BULLSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterBullShotTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_BULLSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterBullShotTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_BullShotTexture", pComponent });
 
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_PUSH_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushOneTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_PUSH_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushOneTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushOneTexture", pComponent });
 
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_PUSH_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushTwoTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_PUSH_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterPushTwoTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushTwoTexture", pComponent });
 
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_SHOT_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotOneTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_SHOT_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotOneTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotOneTexture", pComponent });
 
-	pComponent = m_pTextureCom[MONSTERSTATE::MONSTER_SHOT_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotTwoTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_SHOT_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterShotTwoTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotTwoTexture", pComponent });
 
@@ -102,31 +102,31 @@ void CWhiteSuit::State_Check()
 	{
 		switch (m_eCurState)
 		{
-		case CMonster::MONSTER_ATTACK:
+		case CHumanoid::HUMANOID_ATTACK:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 14.f;
 			break;
-		case CMonster::MONSTER_HEADSHOT:
+		case CHumanoid::HUMANOID_HEADSHOT:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 21.f;
 			break;
-		case CMonster::MONSTER_PUSH_ONE:
+		case CHumanoid::HUMANOID_PUSH_ONE:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 23.f;
 			break;
-		case CMonster::MONSTER_PUSH_TWO:
+		case CHumanoid::HUMANOID_PUSH_TWO:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 22.f;
 			break;
-		case CMonster::MONSTER_BULLSHOT:
+		case CHumanoid::HUMANOID_BULLSHOT:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 18.f;
 			break;
-		case CMonster::MONSTER_SHOT_ONE:
+		case CHumanoid::HUMANOID_SHOT_ONE:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 24.f;
 			break;
-		case CMonster::MONSTER_SHOT_TWO:
+		case CHumanoid::HUMANOID_SHOT_TWO:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 19.f;
 			break;
@@ -138,5 +138,5 @@ void CWhiteSuit::State_Check()
 
 void CWhiteSuit::Free()
 {
-	CMonster::Free();
+	CHumanoid::Free();
 }

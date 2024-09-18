@@ -1,33 +1,33 @@
 #include "pch.h"
-#include "../Header/ShotGun.h"
+#include "../Header/BlackMan.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
 
-CShotGun::CShotGun(LPDIRECT3DDEVICE9 _pGraphicDev) : 
-	CHumanoid(_pGraphicDev)
+CBlackMan::CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev) : 
+    CHumanoid(_pGraphicDev)
 {
 	m_fMaxFrame = 10.f;
 }
 
-CShotGun::~CShotGun()
+CBlackMan::~CBlackMan()
 {
 }
 
-CShotGun* CShotGun::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CBlackMan* CBlackMan::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-	CShotGun* pMonster = new CShotGun(_pGraphicDev);
+	CBlackMan* pMonster = new CBlackMan(_pGraphicDev);
 
 	if (FAILED(pMonster->Ready_GameObject()))
 	{
 		Safe_Release(pMonster);
-		MSG_BOX("ShotGun Create Failed");
+		MSG_BOX("BlackMan Create Failed");
 		return nullptr;
 	}
 
 	return pMonster;
 }
 
-HRESULT CShotGun::Ready_GameObject()
+HRESULT CBlackMan::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -46,7 +46,7 @@ HRESULT CShotGun::Ready_GameObject()
 	return S_OK;
 }
 
-HRESULT CShotGun::Add_Component()
+HRESULT CBlackMan::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
@@ -58,31 +58,31 @@ HRESULT CShotGun::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunAttackTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManAttackTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackTexture", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_HEADSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunHeadShotTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_HEADSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManHeadShotTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadShotTexture", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_BULLSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunBullShotTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_BULLSHOT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManBullShotTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_BullShotTexture", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_PUSH_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunPushOneTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_PUSH_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManPushOneTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushOneTexture", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_PUSH_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunPushTwoTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_PUSH_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManPushTwoTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_PushTwoTexture", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_SHOT_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunShotOneTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_SHOT_ONE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManShotOneTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotOneTexture", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_SHOT_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunShotTwoTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_SHOT_TWO] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManShotTwoTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotTwoTexture", pComponent });
 
@@ -97,7 +97,7 @@ HRESULT CShotGun::Add_Component()
 	return S_OK;
 }
 
-void CShotGun::State_Check()
+void CBlackMan::State_Check()
 {
 	if (m_eCurState != m_ePreState)
 	{
@@ -109,7 +109,7 @@ void CShotGun::State_Check()
 			break;
 		case CHumanoid::HUMANOID_HEADSHOT:
 			m_fFrame = 0.f;
-			m_fMaxFrame = 20.f;
+			m_fMaxFrame = 21.f;
 			break;
 		case CHumanoid::HUMANOID_PUSH_ONE:
 			m_fFrame = 0.f;
@@ -125,11 +125,11 @@ void CShotGun::State_Check()
 			break;
 		case CHumanoid::HUMANOID_SHOT_ONE:
 			m_fFrame = 0.f;
-			m_fMaxFrame = 23.f;
+			m_fMaxFrame = 24.f;
 			break;
 		case CHumanoid::HUMANOID_SHOT_TWO:
 			m_fFrame = 0.f;
-			m_fMaxFrame = 18.f;
+			m_fMaxFrame = 15.f;
 			break;
 		}
 
@@ -137,7 +137,7 @@ void CShotGun::State_Check()
 	}
 }
 
-void CShotGun::Free()
+void CBlackMan::Free()
 {
 	CHumanoid::Free();
 }
