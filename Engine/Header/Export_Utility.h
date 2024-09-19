@@ -27,6 +27,9 @@
 // kyubin
 #include "Effect.h"
 
+//Jonghan Change
+#include "BulletManager.h"
+
 BEGIN(Engine)
 
 inline HRESULT Create_Management(LPDIRECT3DDEVICE9 _pGraphicDev, CManagement** _ppManagement);
@@ -60,6 +63,13 @@ inline HRESULT Add_UI(CUI* _pUI);
 inline _int Update_UI(const _float& _fTimeDelta);
 inline void LateUpdate_UI();
 inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
+
+
+//Jonghan Change
+inline HRESULT Add_Bullet(CBullet* _pBullet);
+inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType);
+inline _int Update_Bullet(const _float& _fTimeDelta);
+inline void LateUpdate_Bullet();
 
 inline void	Release_Utility();
 

@@ -11,6 +11,7 @@
 #include "FlyingDrone.h" //Jonghan Change
 #include "SpiderDrone.h" //Jonghan Change
 #include "DogDrone.h"	 //Jonghan Change
+#include "Ammo.h"
 
 #include "Terrain.h"
 #include "SkyBox.h"

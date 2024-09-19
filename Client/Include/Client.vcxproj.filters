@@ -107,6 +107,9 @@
     <Filter Include="03.GameObject\06.Effect\01. EffectCircleLines">
       <UniqueIdentifier>{98dc4bf6-a66a-4b22-a767-2b4004439bf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\09.Ammo">
+      <UniqueIdentifier>{ab8946bb-e4ee-4c3c-9e5f-acc02aeb4b2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -205,6 +208,9 @@
     <ClInclude Include="..\Header\EffectCircleLines.h">
       <Filter>03.GameObject\06.Effect\01. EffectCircleLines</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Ammo.h">
+      <Filter>03.GameObject\09.Ammo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -290,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectCircleLines.cpp">
       <Filter>03.GameObject\06.Effect\01. EffectCircleLines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Ammo.cpp">
+      <Filter>03.GameObject\09.Ammo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

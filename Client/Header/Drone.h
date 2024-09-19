@@ -18,6 +18,8 @@ public:
 protected:
 	virtual HRESULT Add_Component()PURE;
 	virtual void State_Check()PURE;
+	virtual void Attack()PURE;
+	void Change_State(CDrone::DRONESTATE _eState) { m_eCurState = _eState; }
 
 public:
 	virtual void Change_State();

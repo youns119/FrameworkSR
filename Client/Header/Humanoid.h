@@ -16,7 +16,8 @@ public:
 protected:
 	virtual HRESULT Add_Component()PURE;
 	virtual void State_Check()PURE;
-
+	virtual void Attack()PURE;
+	void Change_State(CHumanoid::HUMANOIDSTATE _eState) { m_eCurState = _eState; }
 public:
 	void Change_State();
 

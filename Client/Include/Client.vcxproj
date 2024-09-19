@@ -148,6 +148,7 @@ call Copy.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\Ammo.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\BlackMan.h" />
     <ClInclude Include="..\Header\DogDrone.h" />
@@ -183,6 +184,7 @@ call Copy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Utility\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Ammo.cpp" />
     <ClCompile Include="..\Code\BlackMan.cpp" />
     <ClCompile Include="..\Code\DogDrone.cpp" />
     <ClCompile Include="..\Code\Drone.cpp" />

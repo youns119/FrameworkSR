@@ -31,6 +31,7 @@ public:
 protected:
 	virtual HRESULT	Add_Component()PURE;
 	virtual void State_Check()PURE; //Jonghan Change
+	virtual void Attack()PURE;
 
 protected:
 	virtual void Free();
@@ -44,6 +45,7 @@ protected:
 
 	_float m_fFrame;
 	_float m_fMaxFrame;
+	_float m_fFrameSpeed;
 
 	Engine::CTransform* m_pTransformCom;
 

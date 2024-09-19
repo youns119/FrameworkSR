@@ -31,17 +31,7 @@ HRESULT CSpiderDrone::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
-	//m_pTransformCom->Set_Pos(10.f, 0.f, 10.f); 
-
-	_matrix matWorld;
-
-	m_pTransformCom->Get_WorldMatrix(&matWorld);
-
-	matWorld._41 = 0.f;
-	matWorld._43 = 10.f;
-
-	m_pTransformCom->Set_WorldMatrix(&matWorld);
+	m_pTransformCom->Set_Pos(15.f, 0.f, 15.f);
 
 	return S_OK;
 }
