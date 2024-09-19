@@ -18,7 +18,7 @@ CFloorCreate::~CFloorCreate()
 HRESULT CFloorCreate::Initialize()
 {
 
-	if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../../Client/Bin/Resource/Texture/MFCtest/Stage/Terrain/Tile/Tile%d.png", TEX_MULTI, L"Terrain", L"Tile", 3)))
+	if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../Client/Bin/Resource/Texture/MMJ_Floor/Floor%d.png", TEX_MULTI, L"Floor", L"FloorTile", 10)))
 	{
 		AfxMessageBox(L"Tile Texture Failed");
 		return E_FAIL;
@@ -38,7 +38,7 @@ HRESULT CFloorCreate::Initialize()
 			pTile->vPos = { fX, fY, 0.f };
 			pTile->vSize = { (float)TILECX, (float)TILECY };
 			pTile->byOption = 0; // 파일명 끝 숫자를 옵션 번호로 지정하도록 설정 하자
-			pTile->byDrawID = 3;
+			pTile->byDrawID = 1;
 
 			m_vecTile.push_back(pTile);
 		}
@@ -70,7 +70,7 @@ void CFloorCreate::Render()
 
 		CDevice::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
 
-		const TEXINFO* pTexInfo = CTextureMgr::Get_Instance()->Get_Texture(L"Terrain", L"Tile", pTile->byDrawID);
+		const TEXINFO* pTexInfo = CTextureMgr::Get_Instance()->Get_Texture(L"Floor", L"FloorTile", pTile->byDrawID);
 
 		float	fCenterX = pTexInfo->tImgInfo.Width / 2.f;
 		float	fCenterY = pTexInfo->tImgInfo.Height / 2.f;
@@ -82,22 +82,23 @@ void CFloorCreate::Render()
 			D3DCOLOR_ARGB(255, 255, 255, 255)); // 출력할 원본 이미지와 섞을 색상, 0xffffffff를 넘겨주면 원본색 유지
 
 
-		//////////////타일 인덱스 출력//////////////////
+		////////////////타일 인덱스 출력//////////////////
 
-		swprintf_s(szBuf, L"%d", iIndex);
+		//swprintf_s(szBuf, L"%d", iIndex);
 
-		//D3DXMATRIX	matTrans2;
-		//D3DXMatrixTranslation(&matTrans2, 100.f, 100.f, 0.f);
-		//CDevice::Get_Instance()->Get_Sprite()->SetTransform(&matTrans2);
+		////D3DXMATRIX	matTrans2;
+		////D3DXMatrixTranslation(&matTrans2, 100.f, 100.f, 0.f);
+		////CDevice::Get_Instance()->Get_Sprite()->SetTransform(&matTrans2);
 
-		CDevice::Get_Instance()->Get_Font()->DrawTextW(CDevice::Get_Instance()->Get_Sprite(), szBuf, lstrlen(szBuf), nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
-		++iIndex;
+		//CDevice::Get_Instance()->Get_Font()->DrawTextW(CDevice::Get_Instance()->Get_Sprite(), szBuf, lstrlen(szBuf), nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
+		//++iIndex;
 	}
 
 }
 
 void CFloorCreate::Release()
 {
-	for_each(m_vecTile.begin(), m_vecTile.end(), Safe_Delete<TILE*>);
-	m_vecTile.clear();
+	
+	/*for_each(m_vecTile.begin(), m_vecTile.end(), Safe_Delete<TILE*>);
+	m_vecTile.clear();*/
 }

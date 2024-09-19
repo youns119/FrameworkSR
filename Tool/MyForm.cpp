@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "Tool.h"
-#include "../Header/MyForm.h"
+#include "MyForm.h"
 
 
 // CMyForm

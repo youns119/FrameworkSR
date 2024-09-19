@@ -18,6 +18,7 @@
 
 
 // CToolApp
+HINSTANCE g_hInst;
 
 BEGIN_MESSAGE_MAP(CToolApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CToolApp::OnAppAbout)

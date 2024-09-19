@@ -49,6 +49,7 @@ void CWall::LateUpdate_GameObject()
 
 void CWall::Render_GameObject()
 {  
+    m_pTransformCom->Set_Angle(0.f, 0.f, 0.f);
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

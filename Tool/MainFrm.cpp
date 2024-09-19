@@ -70,38 +70,12 @@ m_MainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMyForm), CSize(300, 300), pContex
 
 m_MainSplitter.SetColumnInfo(1, 100, 10);
 
-
-//m_MainSplitter.CreateStatic(this, 2, 2);
-//
-//// CreateView : 분할된 창에 표시할 view를 생성하는 함수
-//// CreateView(배치할 행, 배치할 열, 배치할 view창을 새로 생성, 초기 크기, pContext);
-//
-//m_MainSplitter.CreateView(0, 0, RUNTIME_CLASS(CMiniView), CSize(300, 300), pContext);
-//m_MainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMyForm), CSize(300, 300), pContext);
-//m_MainSplitter.CreateView(1, 0, RUNTIME_CLASS(CMyForm), CSize(300, 300), pContext);
-//m_MainSplitter.CreateView(1, 1, RUNTIME_CLASS(CToolView), CSize(WINCX, WINCY), pContext);
-
-	//m_MainSplitter.CreateStatic(this, 1, 2);
-
-	//m_MainSplitter.CreateView(1, 1, RUNTIME_CLASS(CToolView), CSize(WINCX, WINCY), pContext);
-
-	//// WS_CHILD : 자식 창 형식 옵션
-	//// WS_VISIBLE : 생성 후 바로 화면에 표시 옵션
-	//// IdFromRowCol(행, 열) : 지정한 행과 열에 해당하는 창의 id값을 반환
-
-	//m_SecondSplitter.CreateStatic(&m_MainSplitter, 0, 0, WS_CHILD | WS_VISIBLE, m_MainSplitter.IdFromRowCol(0, 0));
-	//m_SecondSplitter.CreateView(0, 0, RUNTIME_CLASS(CMyForm), CSize(300, 300), pContext);
-
-	//// SetColumnInfo(열 번호, 열의 크기 지정, 허용 가능한 최소 크기)
-	//m_MainSplitter.SetColumnInfo(0, 300, 10);
-
-	return TRUE;//CFrameWnd::OnCreateClient(lpcs, pContext);
+	return TRUE;
 }
 
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	//if( !CFrameWndEx::PreCreateWindow(cs) )
 	if( !CFrameWnd::PreCreateWindow(cs) )
 		return FALSE;
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서

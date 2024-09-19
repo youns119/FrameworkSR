@@ -8,10 +8,10 @@
 
 #define		VK_MAX			0xff
 
-#define		TILECX			130
-#define		TILECY			68
+#define		TILECX			512 // 타일 크기
+#define		TILECY			512
 
-#define		TILEX			20
+#define		TILEX			20 // 타일 개수
 #define		TILEY			30
 
 #define		MIN_STR			64

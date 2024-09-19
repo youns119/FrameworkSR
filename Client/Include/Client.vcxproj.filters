@@ -56,12 +56,6 @@
     <Filter Include="03.GameObject\06.Effect">
       <UniqueIdentifier>{a5d59322-41c6-4d9f-be48-f2636c669511}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\07.Floor">
-      <UniqueIdentifier>{ff523a50-b439-4c48-902e-34435429c232}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.GameObject\08.Wall">
-      <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.UI">
       <UniqueIdentifier>{df5a0234-35a2-484d-98dd-b910b1389646}</UniqueIdentifier>
     </Filter>
@@ -109,6 +103,15 @@
     </Filter>
     <Filter Include="03.GameObject\09.Ammo">
       <UniqueIdentifier>{ab8946bb-e4ee-4c3c-9e5f-acc02aeb4b2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\07.TileControl">
+      <UniqueIdentifier>{350feec7-9d7c-467b-b9a6-9551835b8f9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\07.TileControl\00.Floor">
+      <UniqueIdentifier>{ff523a50-b439-4c48-902e-34435429c232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\07.TileControl\01.Wall">
+      <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -161,10 +164,10 @@
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Floor.h">
-      <Filter>03.GameObject\07.Floor</Filter>
+      <Filter>03.GameObject\07.TileControl\00.Floor</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Wall.h">
-      <Filter>03.GameObject\08.Wall</Filter>
+      <Filter>03.GameObject\07.TileControl\01.Wall</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectMuzzleFlash.h">
       <Filter>03.GameObject\06.Effect\00. EffectMuzzleFlash</Filter>
@@ -211,6 +214,9 @@
     <ClInclude Include="..\Header\Ammo.h">
       <Filter>03.GameObject\09.Ammo</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\TileContorl.h">
+      <Filter>03.GameObject\07.TileControl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -250,10 +256,10 @@
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Floor.cpp">
-      <Filter>03.GameObject\07.Floor</Filter>
+      <Filter>03.GameObject\07.TileControl\00.Floor</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Wall.cpp">
-      <Filter>03.GameObject\08.Wall</Filter>
+      <Filter>03.GameObject\07.TileControl\01.Wall</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp">
       <Filter>03.GameObject\06.Effect\00. EffectMuzzleFlash</Filter>
@@ -299,6 +305,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Ammo.cpp">
       <Filter>03.GameObject\09.Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TileContorl.cpp">
+      <Filter>03.GameObject\07.TileControl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

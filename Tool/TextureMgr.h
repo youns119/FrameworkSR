@@ -2,6 +2,7 @@
 #include "SingleTexture.h"
 #include "MultiTexture.h"
 
+
 class CTextureMgr
 {
 	DECLARE_SINGLETON(CTextureMgr)
@@ -18,6 +19,6 @@ public:
 	void		Release();
 
 private:
-	map<wstring, CTexture*>	m_mapTex;
+	map<wstring, CTexture2*>	m_mapTex;
 };
 

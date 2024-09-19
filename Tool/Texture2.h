@@ -1,11 +1,11 @@
 #pragma once
 #include "Tool_Include.h"
 
-class CTexture
+class CTexture2
 {
 public:
-	CTexture();
-	virtual ~CTexture();
+	CTexture2();
+	virtual ~CTexture2();
 
 public:
 	virtual const TEXINFO* Get_Texture(const TCHAR* pStateKey = L"", const int& iCnt = 0)PURE;

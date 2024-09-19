@@ -6,6 +6,13 @@
 #include "Device.h"
 #include "TextureMgr.h"
 #include "FloorCreate.h"
+#include "../Reference/Header/Export_System.h"
+#include "../Reference/Header/Export_Utility.h"
+
+BEGIN(Engine)
+class CGraphicDev;
+
+END
 
 class CToolDoc;
 class CToolView : public CScrollView
@@ -43,10 +50,20 @@ protected:
 	// 생성된 메시지 맵 함수
 protected:
 	DECLARE_MESSAGE_MAP()
-
+//private:
+//	HRESULT	SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev);
+//	HRESULT	Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagement** _ppManagement);
 public:
 	CFloorCreate* m_pFloor;
 
+private:
+	CGraphicDev* m_pDeviceClass;
+	LPDIRECT3DDEVICE9 m_pGraphicDev;
+
+	CManagement* m_pManagementClass;
+
+private:
+	void Free();
 
 public:
 	virtual void OnInitialUpdate();
