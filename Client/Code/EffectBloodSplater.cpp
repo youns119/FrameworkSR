@@ -31,6 +31,10 @@ _int CEffectBloodSplater::Update_GameObject(const _float& _fTimeDelta)
 
 void CEffectBloodSplater::LateUpdate_GameObject()
 {
+    _vec3	vTemp;
+    m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
+    CGameObject::Compute_ViewZ(&vTemp);
+
     Engine::CGameObject::LateUpdate_GameObject();
 }
 

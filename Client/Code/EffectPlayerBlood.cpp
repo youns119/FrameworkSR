@@ -42,9 +42,6 @@ _int CEffectPlayerBlood::Update_GameObject(const _float& _fTimeDelta)
     Engine::Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
     //Engine::Add_RenderGroup(RENDERID::RENDER_UI, this);
 
-    _vec3	vTemp;
-    m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
-    CGameObject::Compute_ViewZ(&vTemp);
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
