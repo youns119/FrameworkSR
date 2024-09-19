@@ -3,6 +3,10 @@
 #include "Export_Utility.h"
 #include "..\Header\DynamicCamera.h"
 #include "../Header/EffectMuzzleFlash.h"
+#include "../Header/EffectPlayerBlood.h"
+#include "../Header/EffectBloodSplater.h"
+#include "../Header/EffectFanSpread.h"
+
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -34,6 +38,7 @@ HRESULT CStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
@@ -156,12 +161,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
 
-	// kyubin
-	pGameObject = CEffectMuzzleFlash::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectMuzzleFlash", pGameObject), E_FAIL);
-
-
 
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
@@ -185,6 +184,34 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	//m_mapLayer.insert({ _pLayerTag , pLayer });
+
+	return S_OK;
+}
+
+// kyubin
+HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
+{
+	Engine::CLayer* pLayer = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CEffectMuzzleFlash::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectMuzzleFlash", pGameObject), E_FAIL);
+
+	pGameObject = CEffectPlayerBlood::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPlayerBlood", pGameObject), E_FAIL);
+
+	pGameObject = CEffectBloodSplater::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBloodSplater", pGameObject), E_FAIL);
+
+	pGameObject = CEffectFanSpread::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectFanSpread", pGameObject), E_FAIL);
+	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
 }

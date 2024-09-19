@@ -62,9 +62,6 @@
     <Filter Include="03.GameObject\08.Wall">
       <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\09. EffectMuzzleFlash">
-      <UniqueIdentifier>{97ab4b5c-5150-43bb-9754-c46ca041ccf8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.UI">
       <UniqueIdentifier>{df5a0234-35a2-484d-98dd-b910b1389646}</UniqueIdentifier>
     </Filter>
@@ -94,6 +91,21 @@
     </Filter>
     <Filter Include="03.GameObject\02.Monster\01.Drone\02.DogDrone">
       <UniqueIdentifier>{cc121daf-6dbd-4880-8e6f-f5279e254fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\00. EffectMuzzleFlash">
+      <UniqueIdentifier>{97ab4b5c-5150-43bb-9754-c46ca041ccf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\01. EffectPlayerBlood">
+      <UniqueIdentifier>{98dc4bf6-a66a-4b22-a767-2b4004439bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\01. EffectBloodSplater">
+      <UniqueIdentifier>{7948b307-cef6-495a-9543-9d7654e0fe19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\02. EffectPlayerBlood">
+      <UniqueIdentifier>{22af546b-d8ad-4c0f-888a-0d2f9c3e2b8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\03. EffectFanSpread">
+      <UniqueIdentifier>{cd7cba73-985b-436f-9922-412e3270268b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -152,7 +164,7 @@
       <Filter>03.GameObject\08.Wall</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectMuzzleFlash.h">
-      <Filter>03.GameObject\09. EffectMuzzleFlash</Filter>
+      <Filter>03.GameObject\06.Effect\00. EffectMuzzleFlash</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIPlus.h">
       <Filter>04.UI\00.Plus</Filter>
@@ -180,6 +192,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\FlyingDrone.h">
       <Filter>03.GameObject\02.Monster\01.Drone\00.FlyingDrone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectBloodSplater.h">
+      <Filter>03.GameObject\06.Effect\01. EffectBloodSplater</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectPlayerBlood.h">
+      <Filter>03.GameObject\06.Effect\02. EffectPlayerBlood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectFanSpread.h">
+      <Filter>03.GameObject\06.Effect\03. EffectFanSpread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +247,7 @@
       <Filter>03.GameObject\08.Wall</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp">
-      <Filter>03.GameObject\09. EffectMuzzleFlash</Filter>
+      <Filter>03.GameObject\06.Effect\00. EffectMuzzleFlash</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIPlus.cpp">
       <Filter>04.UI\00.Plus</Filter>
@@ -254,6 +275,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\FlyingDrone.cpp">
       <Filter>03.GameObject\02.Monster\01.Drone\00.FlyingDrone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBloodSplater.cpp">
+      <Filter>03.GameObject\06.Effect\01. EffectBloodSplater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectPlayerBlood.cpp">
+      <Filter>03.GameObject\06.Effect\02. EffectPlayerBlood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectFanSpread.cpp">
+      <Filter>03.GameObject\06.Effect\03. EffectFanSpread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

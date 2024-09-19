@@ -171,6 +171,24 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, 10.f);
 
 	}
+
+	// Kyubin
+	if (Engine::Get_DIKeyState(DIK_X) & 0x80)
+	{
+		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+	}
+	if (Engine::Get_DIKeyState(DIK_Z) & 0x80)
+	{
+		CComponent* pComponent(nullptr);
+		//CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
+		//static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBloodSplater", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectFanSpread", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+	}
 }
 
 void CPlayer::Mouse_Move()

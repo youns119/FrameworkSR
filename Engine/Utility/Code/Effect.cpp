@@ -74,3 +74,8 @@ void CEffect::Free()
 {
 	CComponent::Free();
 }
+
+void CEffect::Reset()
+{
+	m_bIsVisible = FALSE;
+}

@@ -93,3 +93,30 @@ void CRcTex::Free()
 {
 	CVIBuffer::Free();
 }
+
+void CRcTex::Set_UV(const _vec2& _vGrid, const _uint& iIndex)
+{
+	_uint iRow, iCol;
+	iRow = iIndex / (_uint)_vGrid.x;
+	iCol = iIndex % (_uint)_vGrid.x;
+
+	_vec2 vStride;
+	vStride.x = 1.f / _vGrid.x;
+	vStride.y = 1.f / _vGrid.y;
+
+	_vec2 vNewUV = { iCol / _vGrid.x, iRow / _vGrid.y };
+
+	VTXTEX* pVertex(nullptr);
+	if (FAILED(m_pVB->Lock(0, 0, (void**)&pVertex, 0)))
+	{
+		MSG_BOX("m_pVB Lock Failed");
+		return;
+	}
+
+	pVertex[0].vTexUV = vNewUV;
+	pVertex[1].vTexUV = vNewUV + _vec2(vStride.x, 0.f);
+	pVertex[2].vTexUV = vNewUV + vStride;
+	pVertex[3].vTexUV = vNewUV + _vec2(0.f, vStride.y);
+
+	m_pVB->Unlock();
+}
