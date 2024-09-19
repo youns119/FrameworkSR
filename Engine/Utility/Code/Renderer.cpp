@@ -31,6 +31,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& _pGraphicDev)
 	Render_Priority(_pGraphicDev);
 	Render_NonAlpha(_pGraphicDev);
 	Render_Alpha(_pGraphicDev);
+	Render_Orthogonal(_pGraphicDev);
 	Render_UI(_pGraphicDev);
 
 	Clear_RenderGroup();
@@ -80,6 +81,39 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	//_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+}
+
+void CRenderer::Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev)
+{
+	// alphablending + orthogonal + alpha sorting(not yet) 
+	_matrix matOldProjection, matOldView, matIdentity, matOrthogonal;
+	_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matOldProjection);
+	_pGraphicDev->GetTransform(D3DTS_VIEW, &matOldView);
+	D3DXMatrixIdentity(&matIdentity);
+	_pGraphicDev->SetTransform(D3DTS_VIEW, &matIdentity);
+
+	D3DXMatrixOrthoLH(&matOrthogonal, WINCX, WINCY, 0.1f, 1000.f);
+	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matOrthogonal);
+
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	m_RenderGroup[(_uint)RENDERID::RENDER_ORTHOGONAL].sort
+	(
+		[](CGameObject* pDst, CGameObject* pSrc)->bool
+		{
+			return pDst->Get_ViewZ() > pSrc->Get_ViewZ();
+		}
+	);
+
+	for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_ORTHOGONAL])
+		pGameObject->Render_GameObject();
+
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	_pGraphicDev->SetTransform(D3DTS_VIEW, &matOldView);
+	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matOldProjection);
 }
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)

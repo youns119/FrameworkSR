@@ -25,6 +25,22 @@ public :
 
 private :
 	virtual void Free();
+
+public:
+	void Set_UV(const _vec2& _vGrid, const _uint& iIndex);
+	_vec2 Get_UV(_uint _iIndex = 0)
+	{
+		VTXTEX* pVertex;
+		_vec2 vResult;
+		m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+
+		vResult = pVertex[_iIndex].vTexUV;
+
+		m_pVB->Unlock();
+
+		return vResult;
+	}
+
 };
 
 END

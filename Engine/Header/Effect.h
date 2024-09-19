@@ -35,6 +35,9 @@ public:
 	_bool Get_Visibility() { return m_bIsVisible; }
 	_float Get_ElapsedPersentage() { return m_fElapsed / m_fLifeTime; }
 
+public:
+	void Reset();
+
 private:
 	_float m_fLifeTime;
 	_float m_fElapsed;

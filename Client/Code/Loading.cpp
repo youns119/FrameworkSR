@@ -56,6 +56,7 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Right_Transform", Engine::CTransform::Create(m_pGraphicDev)), E_FAIL);
 	// Kyubin
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Effect", Engine::CEffect::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcSpriteTex", Engine::CRcTex::Create(m_pGraphicDev)), E_FAIL);
 
 
 	lstrcpy(m_szLoading, L"Buffer Loading................");
@@ -138,6 +139,10 @@ _uint CLoading::Loading_Stage()
 
 	// Kyubin
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MuzzleFlashTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/SSR1/SSR (%d).png", TEXTUREID::TEX_NORMAL, 16)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_PlayerBloodTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/PlayerBlood/BLOOD (%d).png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BloodSplaterTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/EDITED Blood Splater - 1.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FanSpreadTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/Lightning09.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FanSpreadTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/fan spread.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 
 	// ¿¬¿í
 	// UI

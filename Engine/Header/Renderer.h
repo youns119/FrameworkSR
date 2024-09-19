@@ -23,6 +23,7 @@ private :
 	void Render_Priority(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Render_NonAlpha(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev);
+	void Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
 private :
