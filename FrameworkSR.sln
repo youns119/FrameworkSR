@@ -44,7 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Header", "01.Header", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.MFCTool", "00.MFCTool", "{0C9797F2-9BA0-4668-AA57-014FCC8D2256}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tool", "Tool\Include\Tool.vcxproj", "{6538DD10-0E93-4C21-81D3-FDFF319CA123}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tool", "..\새 폴더 (3)\Tool\Tool.vcxproj", "{6538DD10-0E93-4C21-81D3-FDFF319CA123}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

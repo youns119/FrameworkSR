@@ -14,6 +14,8 @@
 #include "ToolView.h"
 
 #include "MainFrm.h"
+#include "../Reference/Header/Export_Utility.h"
+#include "../Reference/Header/Export_System.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -51,6 +53,7 @@ CToolView::~CToolView()
 void CToolView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
+	// 스크롤 삭제하기
 
 	//SetScrollSizes 스크롤 바의 사이즈를 지정하는 함수
 	//MM_TEXT: 픽셀 단위로 크기를 조정
@@ -94,17 +97,21 @@ void CToolView::OnInitialUpdate()
 
 	g_hWnd = m_hWnd;
 
+	
+
+
 	if (FAILED(CDevice::Get_Instance()->Init_Device()))
 	{
 		AfxMessageBox(L"Init_Device Failed");
 		return;
 	}
 
-	if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../../Client/Bin/Resource/Texture/MFCtest/Cube.png", TEX_SINGLE, L"Cube")))
-	{
-		AfxMessageBox(L"Cube Texture Failed");
-		return;
-	}
+
+	//if (FAILED(CTextureMgr::Get_Instance()->Insert_Texture(L"../Client/Bin/Resource/MFCtest/Cube.png", TEX_SINGLE, L"Cube")))
+	//{
+	//	AfxMessageBox(L"Cube Texture Failed");
+	//	return;
+	//}
 
 	m_pFloor = new CFloorCreate;
 	if (FAILED(m_pFloor->Initialize()))
@@ -125,7 +132,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 
 	CDevice::Get_Instance()->Render_Begin();
 
-	//m_pFloor->Render();
+	m_pFloor->Render();
 
 	CDevice::Get_Instance()->Render_End();
 }
@@ -133,7 +140,7 @@ void CToolView::OnDestroy()
 {
 	CScrollView::OnDestroy();
 
-	Safe_Delete(m_pFloor);
+	//Safe_Delete(m_pFloor);
 
 	CTextureMgr::Get_Instance()->Destroy_Instance();
 	CDevice::Get_Instance()->Destroy_Instance();

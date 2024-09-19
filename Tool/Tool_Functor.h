@@ -10,6 +10,7 @@ void Safe_Delete(T& Temp)
 	}
 }
 
+
 template<typename T>
 unsigned long Safe_Release(T& Temp)
 {

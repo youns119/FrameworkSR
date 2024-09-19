@@ -173,6 +173,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\SpiderDrone.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+    <ClInclude Include="..\Header\TileContorl.h" />
     <ClInclude Include="..\Header\UIPlus.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\WhiteSuit.h" />
@@ -207,6 +208,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\SpiderDrone.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\TileContorl.cpp" />
     <ClCompile Include="..\Code\UIPlus.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\WhiteSuit.cpp" />

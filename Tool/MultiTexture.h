@@ -1,7 +1,7 @@
 #pragma once
-#include "Texture.h"
+#include "Texture2.h"
 
-class CMultiTexture : public CTexture
+class CMultiTexture : public CTexture2
 {
 public:
 	CMultiTexture();

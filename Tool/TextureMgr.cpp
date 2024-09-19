@@ -45,7 +45,7 @@ HRESULT CTextureMgr::Insert_Texture(const TCHAR* pFilePath, TEXTYPE eType, const
 
 	if (iter == m_mapTex.end())
 	{
-		CTexture* pTexture = nullptr;
+		CTexture2* pTexture = nullptr;
 
 		switch (eType)
 		{

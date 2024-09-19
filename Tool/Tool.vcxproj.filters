@@ -58,6 +58,9 @@
     <Filter Include="04.Etc\01.Floor">
       <UniqueIdentifier>{f7c3112f-8201-426a-ac69-144994889d43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Etc\02.GuideLine">
+      <UniqueIdentifier>{6af829d7-2171-4ccd-831e-d04072990342}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -99,29 +102,32 @@
     <ClInclude Include="ViewTree.h">
       <Filter>소스 파일\99.NotUsed</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Device.h">
+    <ClInclude Include="Device.h">
       <Filter>03.Manager\00.Device</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\TextureMgr.h">
-      <Filter>03.Manager\01.TextureMgr</Filter>
+    <ClInclude Include="FloorCreate.h">
+      <Filter>04.Etc\01.Floor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Texture.h">
-      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\SingleTexture.h">
-      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MultiTexture.h">
-      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MyForm.h">
-      <Filter>01. ToolView\MyForm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MapTool.h">
+    <ClInclude Include="MapTool.h">
       <Filter>04.Etc\00.Dialog\00.MapTool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FloorCreate.h">
-      <Filter>04.Etc\01.Floor</Filter>
+    <ClInclude Include="MultiTexture.h">
+      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTexture.h">
+      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2.h">
+      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureMgr.h">
+      <Filter>03.Manager\01.TextureMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MyForm.h">
+      <Filter>01. ToolView\MyForm</Filter>
+    </ClInclude>
+    <ClInclude Include="GuideLine.h">
+      <Filter>04.Etc\02.GuideLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,29 +161,32 @@
     <ClCompile Include="ViewTree.cpp">
       <Filter>소스 파일\99.NotUsed</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Device.cpp">
+    <ClCompile Include="Device.cpp">
       <Filter>03.Manager\00.Device</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\TextureMgr.cpp">
-      <Filter>03.Manager\01.TextureMgr</Filter>
+    <ClCompile Include="FloorCreate.cpp">
+      <Filter>04.Etc\01.Floor</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Texture.cpp">
-      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\SingleTexture.cpp">
-      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MultiTexture.cpp">
-      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MyForm.cpp">
-      <Filter>01. ToolView\MyForm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MapTool.cpp">
+    <ClCompile Include="MapTool.cpp">
       <Filter>04.Etc\00.Dialog\00.MapTool</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FloorCreate.cpp">
-      <Filter>04.Etc\01.Floor</Filter>
+    <ClCompile Include="MultiTexture.cpp">
+      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTexture.cpp">
+      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2.cpp">
+      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureMgr.cpp">
+      <Filter>03.Manager\01.TextureMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MyForm.cpp">
+      <Filter>01. ToolView\MyForm</Filter>
+    </ClCompile>
+    <ClCompile Include="GuideLine.cpp">
+      <Filter>04.Etc\02.GuideLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

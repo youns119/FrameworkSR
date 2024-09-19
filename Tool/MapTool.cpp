@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "Tool.h"
 #include "afxdialogex.h"
-#include "../Header/MapTool.h"
+#include "MapTool.h"
 
 
 // CMapTool 대화 상자
