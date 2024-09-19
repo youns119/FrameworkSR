@@ -21,6 +21,8 @@
 #include "Camera.h"
 #include "Calculator.h"
 #include "ComponentCamera.h"
+// ¿¬¿í
+#include "Collider.h"
 
 // kyubin
 #include "Effect.h"

@@ -5,6 +5,8 @@
 
 BEGIN(Engine)
 
+class CCollider;
+
 class ENGINE_DLL CGameObject 
 	: public CBase
 {
@@ -28,6 +30,11 @@ private :
 
 public :
 	void Compute_ViewZ(const _vec3* _pPos);
+
+public :
+	virtual void OnCollision(CCollider& _pOther) {};
+	virtual void OnCollisionEnter(CCollider& _pOther) {};
+	virtual void OnCollisionExit(CCollider& _pOther) {};
 
 protected :
 	virtual void Free();
