@@ -4,6 +4,7 @@ CEffect::CEffect()
 	: m_fLifeTime(0.f)
 	, m_fElapsed(0.f)
 	, m_bIsVisible(false)
+	, m_bRepeatable(FALSE)
 {
 }
 
@@ -12,6 +13,7 @@ CEffect::CEffect(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fLifeTime(0.f)
 	, m_fElapsed(0.f)
 	, m_bIsVisible(false)
+	, m_bRepeatable(FALSE)
 {
 }
 
@@ -20,6 +22,7 @@ CEffect::CEffect(const CEffect& _rhs)
 	, m_fLifeTime(_rhs.m_fLifeTime)
 	, m_fElapsed(_rhs.m_fElapsed)
 	, m_bIsVisible(_rhs.m_bIsVisible)
+	, m_bRepeatable(FALSE)
 {
 }
 
@@ -43,6 +46,7 @@ CEffect* CEffect::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 HRESULT CEffect::Ready_Effect()
 {
+	m_bRepeatable = FALSE;
 	return S_OK;
 }
 
@@ -54,8 +58,15 @@ _int CEffect::Update_Component(const _float& _fTimeDelta)
 		if (m_fLifeTime < m_fElapsed)
 		{
 
-			m_bIsVisible = false;
-			m_fElapsed = 0.f;
+			if (m_bRepeatable)
+			{
+				m_fElapsed = m_fElapsed - m_fLifeTime;
+			}
+			else
+			{
+				m_fElapsed = 0.f;
+				m_bIsVisible = false;
+			}
 		}
 	}
 	return 0;
@@ -73,6 +84,17 @@ CEffect* CEffect::Clone()
 void CEffect::Free()
 {
 	CComponent::Free();
+}
+
+void CEffect::Operate_Effect()
+{
+	Set_Visibility(TRUE);
+}
+
+void CEffect::Stop_Effect()
+{
+	m_fElapsed = 0.f;
+	m_bIsVisible = FALSE;
 }
 
 void CEffect::Reset()

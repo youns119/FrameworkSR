@@ -15,7 +15,7 @@ HRESULT CEffectFanSpread::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_pTransformCom->Set_Pos(-3.f, 0.f, 10.f);
+    m_pTransformCom->Set_Pos(-3.f, 1.f, 3.f);
     m_pEffectCom->Set_LifeTime(0.5f);
     //m_iTotalFrame = 4 * 3;
     m_iTotalFrame = 8 * 4;

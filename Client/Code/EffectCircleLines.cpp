@@ -1,67 +1,65 @@
 #include "pch.h"
-#include "../Header/EffectPlayerBlood.h"
+#include "../Header/EffectCircleLines.h"
 #include "Export_Utility.h"
 
-CEffectPlayerBlood::CEffectPlayerBlood(LPDIRECT3DDEVICE9 _pGraphicDev)
+CEffectCircleLines::CEffectCircleLines(LPDIRECT3DDEVICE9 _pGraphicDev)
     : CGameObject(_pGraphicDev)
 {
 }
 
-CEffectPlayerBlood::~CEffectPlayerBlood()
+CEffectCircleLines::~CEffectCircleLines()
 {
 }
 
-CEffectPlayerBlood* CEffectPlayerBlood::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CEffectCircleLines* CEffectCircleLines::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-    CEffectPlayerBlood* pEffect = new CEffectPlayerBlood(_pGraphicDev);
+    CEffectCircleLines* pEffect = new CEffectCircleLines(_pGraphicDev);
 
     if (FAILED(pEffect->Ready_GameObject(), E_FAIL))
     {
         Safe_Release(pEffect);
-        MSG_BOX("Effect PlayerBlood create Failed");
+        MSG_BOX("Effect CircleLines create Failed");
         return nullptr;
     }
 
     return pEffect;
 }
 
-HRESULT CEffectPlayerBlood::Ready_GameObject()
+HRESULT CEffectCircleLines::Ready_GameObject()
 {
-    m_fViewZ = 10.f;
+    m_fViewZ = 11.f;
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
     m_pTransformCom->Set_Pos(0.f, 0.f, m_fViewZ);
     m_pTransformCom->Set_Scale((_float)WINCX / 2.f, (_float)WINCY / 2.f, 100.f);
-    m_pEffectCom->Set_LifeTime(0.75f);
-    m_iTotalFrame = 8;
+    m_pEffectCom->Set_LifeTime(0.5f);
+    m_pEffectCom->Set_Repeatable(TRUE);
+    m_iTotalFrame = 6;
 
     return S_OK;
 }
 
-_int CEffectPlayerBlood::Update_GameObject(const _float& _fTimeDelta)
+_int CEffectCircleLines::Update_GameObject(const _float& _fTimeDelta)
 {
     Engine::Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
-    //Engine::Add_RenderGroup(RENDERID::RENDER_UI, this);
 
-    _vec3	vTemp;
-    m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
-    CGameObject::Compute_ViewZ(&vTemp);
+    // invalid compute
+    //_vec3	vTemp;
+    //m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
+    //CGameObject::Compute_ViewZ(&vTemp);
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
 
-void CEffectPlayerBlood::LateUpdate_GameObject()
+void CEffectCircleLines::LateUpdate_GameObject()
 {
     _float fPersentage = m_pEffectCom->Get_ElapsedPersentage();
     m_iCurFrame = m_iTotalFrame * fPersentage;
 
-    _vec3	vTemp;
-    m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
-    CGameObject::Compute_ViewZ(&vTemp);
-
     Engine::CGameObject::LateUpdate_GameObject();
 }
 
-void CEffectPlayerBlood::Render_GameObject()
+void CEffectCircleLines::Render_GameObject()
 {
     if (!m_pEffectCom->Get_Visibility())
         return;
@@ -74,7 +72,7 @@ void CEffectPlayerBlood::Render_GameObject()
     m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CEffectPlayerBlood::Add_Component()
+HRESULT CEffectCircleLines::Add_Component()
 {
     CComponent* pComponent = nullptr;
 
@@ -82,7 +80,7 @@ HRESULT CEffectPlayerBlood::Add_Component()
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-    pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::Clone_Proto(L"Proto_PlayerBloodTexture"));
+    pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::Clone_Proto(L"Proto_CircleLinesTexture"));
     //pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::Clone_Proto(L"Proto_PlayerTex"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
@@ -98,7 +96,7 @@ HRESULT CEffectPlayerBlood::Add_Component()
     return S_OK;
 }
 
-void CEffectPlayerBlood::Free()
+void CEffectCircleLines::Free()
 {
     Engine::CGameObject::Free();
 }
