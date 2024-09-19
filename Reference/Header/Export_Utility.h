@@ -20,6 +20,7 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Calculator.h"
+#include "ComponentCamera.h"
 
 // kyubin
 #include "Effect.h"

@@ -84,15 +84,15 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
 	_vec3 vAt(0.f, 0.f, 1.f);
 	_vec3 vUp(0.f, 1.f, 0.f);
 
-	pGameObject = CDynamicCamera::Create
-	(
-		m_pGraphicDev,
-		&vEye,
-		&vAt,
-		&vUp
-	);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
+	//pGameObject = CDynamicCamera::Create
+	//(
+	//	m_pGraphicDev,
+	//	&vEye,
+	//	&vAt,
+	//	&vUp
+	//);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
 
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
