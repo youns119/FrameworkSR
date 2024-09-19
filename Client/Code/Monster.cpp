@@ -10,6 +10,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pCalculatorCom(nullptr)
 	, m_fFrame(0.f)
 	, m_fMaxFrame(14.f) //Jonghan Change
+	, m_fFrameSpeed(13.f)
 {
 }
 
@@ -21,10 +22,13 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 {
 	//Jonghan Monster Change Start
 
-	m_fFrame += 13.f * _fTimeDelta;
+	m_fFrame += m_fFrameSpeed * _fTimeDelta;
 
 	if (m_fMaxFrame < m_fFrame) // Jonghan Change
+	{
 		m_fFrame = 0.f;
+		Attack();
+	}
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 

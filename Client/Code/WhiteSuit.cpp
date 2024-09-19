@@ -7,6 +7,7 @@ CWhiteSuit::CWhiteSuit(LPDIRECT3DDEVICE9 _pGraphicDev) :
     CHumanoid(_pGraphicDev)
 {
     m_fMaxFrame = 14.f;
+	m_fFrameSpeed = 6.f;
 }
 
 CWhiteSuit::~CWhiteSuit()
@@ -31,16 +32,7 @@ HRESULT CWhiteSuit::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	//m_pTransformCom->Set_Pos(10.f, 0.f, 10.f); 
-
-	_matrix matWorld;
-
-	m_pTransformCom->Get_WorldMatrix(&matWorld);
-
-	matWorld._41 = -5.f;
-	matWorld._43 = 10.f;
-
-	m_pTransformCom->Set_WorldMatrix(&matWorld);
+	m_pTransformCom->Set_Pos(10.f, 0.f, 10.f);
 
 	return S_OK;
 }
@@ -133,6 +125,30 @@ void CWhiteSuit::State_Check()
 		}
 
 		m_ePreState = m_eCurState;
+	}
+}
+
+void CWhiteSuit::Attack()
+{
+	_vec3 vPos, vPlayerPos, vDir;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
+		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Body_Transform"));
+	NULL_CHECK(pPlayerTransform, -1);
+
+	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+
+	vDir = vPlayerPos - vPos;
+
+	if (15.f < D3DXVec3Length(&vDir))
+	{
+		Change_State(CHumanoid::HUMANOID_BULLSHOT);
+	}
+	else
+	{
+		Change_State(CHumanoid::HUMANOID_ATTACK);
+		D3DXVec3Normalize(&vDir, &vDir);
+		Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5, CBulletManager::BULLET_PISTOL);
 	}
 }
 

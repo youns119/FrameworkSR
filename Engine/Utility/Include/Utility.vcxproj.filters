@@ -85,6 +85,12 @@
     <Filter Include="04.Component\06.Collider\00.CollisionManager">
       <UniqueIdentifier>{e159493f-b6ad-4742-b3d2-13bdad164dd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08.Bullet">
+      <UniqueIdentifier>{9dbc3928-522a-403b-a0aa-77d568538e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Bullet\00.BulletManager">
+      <UniqueIdentifier>{6d164b72-fbad-4422-8bab-ed0e95927d50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -171,6 +177,12 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>04.Component\06.Collider\00.CollisionManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Bullet.h">
+      <Filter>08.Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\BulletManager.h">
+      <Filter>08.Bullet\00.BulletManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -253,6 +265,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CollisionManager.cpp">
       <Filter>04.Component\06.Collider\00.CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bullet.cpp">
+      <Filter>08.Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BulletManager.cpp">
+      <Filter>08.Bullet\00.BulletManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

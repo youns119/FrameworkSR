@@ -49,6 +49,7 @@ HRESULT CStage::Ready_Scene()
 _int CStage::Update_Scene(const _float& _fTimeDelta)
 {
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
+	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 
 	return iExit;
 }
@@ -56,6 +57,7 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 void CStage::LateUpdate_Scene()
 {
 	Engine::CScene::LateUpdate_Scene();
+	Engine::LateUpdate_Bullet(); //Jonghan Change // Is it Right? becuz BulletManager
 }
 
 void CStage::Render_Scene()
@@ -129,29 +131,38 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
 
-	//pGameObject = CWhiteSuit::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
+	pGameObject = CWhiteSuit::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
 
-	//pGameObject = CShotGun::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+	pGameObject = CShotGun::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
-	//pGameObject = CBlackMan::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
+	pGameObject = CBlackMan::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
 
-	//pGameObject = CFlyingDrone::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FlyingDrone", pGameObject), E_FAIL);
+	pGameObject = CFlyingDrone::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FlyingDrone", pGameObject), E_FAIL);
 
-	//pGameObject = CSpiderDrone::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SpiderDrone", pGameObject), E_FAIL);
+	pGameObject = CSpiderDrone::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SpiderDrone", pGameObject), E_FAIL);
 
-	//pGameObject = CDogDrone::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DogDrone", pGameObject), E_FAIL);
+	pGameObject = CDogDrone::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DogDrone", pGameObject), E_FAIL);
+	 
+	for (_int i = 0; i < 100; ++i)
+	{
+		Engine::CBullet* pAmmo = nullptr;
+		pAmmo = CAmmo::Create(m_pGraphicDev);
+
+		NULL_CHECK_RETURN(pAmmo, E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_Bullet(pAmmo), E_FAIL);
+	}
 	//Jonghan Change End
 
 	pGameObject = CFloor::Create(m_pGraphicDev);

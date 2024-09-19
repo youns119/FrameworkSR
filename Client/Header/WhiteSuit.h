@@ -26,6 +26,7 @@ public:
 private:
 	virtual HRESULT	Add_Component();
 	virtual void State_Check(); //Jonghan Change
+	virtual void Attack();
 
 private:
 	virtual void Free();

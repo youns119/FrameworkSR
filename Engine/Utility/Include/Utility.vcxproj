@@ -143,6 +143,8 @@ call CopyUtility.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Header\Bullet.h" />
+    <ClInclude Include="..\..\Header\BulletManager.h" />
     <ClInclude Include="..\..\Header\Calculator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
@@ -173,6 +175,8 @@ call CopyUtility.bat</Command>
     <ClInclude Include="CollisionManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Bullet.cpp" />
+    <ClCompile Include="..\Code\BulletManager.cpp" />
     <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />

@@ -92,6 +92,27 @@ inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
 }
 
+//Jonghan Change
+inline HRESULT Add_Bullet(CBullet* _pBullet)
+{
+	return CBulletManager::GetInstance()->Add_Bullet(_pBullet);
+}
+
+inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType)
+{
+	return CBulletManager::GetInstance()->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, _eBulletType);
+}
+
+inline _int Update_Bullet(const _float& _fTimeDelta)
+{
+	return CBulletManager::GetInstance()->Update_Bullet(_fTimeDelta);
+}
+
+inline void LateUpdate_Bullet()
+{
+	CBulletManager::GetInstance()->LateUpdate_Bullet();
+}
+
 void Release_Utility()
 {
 	CLightManager::DestroyInstance();
@@ -99,4 +120,5 @@ void Release_Utility()
 	CComponentManager::DestroyInstance();
 	CManagement::DestroyInstance();
 	CUIManager::DestroyInstance();
+	CBulletManager::DestroyInstance();
 }
