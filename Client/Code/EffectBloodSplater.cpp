@@ -15,7 +15,7 @@ HRESULT CEffectBloodSplater::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_pTransformCom->Set_Pos(-3.f, 0.f, 20.f);
+    m_pTransformCom->Set_Pos(0.f, 1.f, 3.f);
     m_pEffectCom->Set_LifeTime(0.5f);
     m_iTotalFrame = 8;
 
@@ -31,6 +31,10 @@ _int CEffectBloodSplater::Update_GameObject(const _float& _fTimeDelta)
 
 void CEffectBloodSplater::LateUpdate_GameObject()
 {
+    _vec3	vTemp;
+    m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
+    CGameObject::Compute_ViewZ(&vTemp);
+
     Engine::CGameObject::LateUpdate_GameObject();
 }
 

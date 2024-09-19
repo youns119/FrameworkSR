@@ -184,11 +184,27 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		//CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
 		//static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBloodSplater", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectFanSpread", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
 	}
+	if (Engine::Get_DIKeyState(DIK_LSHIFT) & 0x80)
+	{
+		CComponent* pComponent(nullptr);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+	}
+	if (Engine::Get_DIKeyState(DIK_C) & 0x80)
+	{
+		// HOW TO KNOW WHEN KEY UP? I DO NOT KNOW 
+		// MY PLAN WAS TO MAKE THIS CODE WORK WHEN IT WAS SHIFT KEY-UP
+		CComponent* pComponent(nullptr);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Stop_Effect();
+	}
+
 }
 
 void CPlayer::Mouse_Move()

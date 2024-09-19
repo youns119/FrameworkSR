@@ -95,9 +95,6 @@
     <Filter Include="03.GameObject\06.Effect\00. EffectMuzzleFlash">
       <UniqueIdentifier>{97ab4b5c-5150-43bb-9754-c46ca041ccf8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\06.Effect\01. EffectPlayerBlood">
-      <UniqueIdentifier>{98dc4bf6-a66a-4b22-a767-2b4004439bf2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.GameObject\06.Effect\01. EffectBloodSplater">
       <UniqueIdentifier>{7948b307-cef6-495a-9543-9d7654e0fe19}</UniqueIdentifier>
     </Filter>
@@ -106,6 +103,9 @@
     </Filter>
     <Filter Include="03.GameObject\06.Effect\03. EffectFanSpread">
       <UniqueIdentifier>{cd7cba73-985b-436f-9922-412e3270268b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\01. EffectCircleLines">
+      <UniqueIdentifier>{98dc4bf6-a66a-4b22-a767-2b4004439bf2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +202,9 @@
     <ClInclude Include="..\Header\EffectFanSpread.h">
       <Filter>03.GameObject\06.Effect\03. EffectFanSpread</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectCircleLines.h">
+      <Filter>03.GameObject\06.Effect\01. EffectCircleLines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectFanSpread.cpp">
       <Filter>03.GameObject\06.Effect\03. EffectFanSpread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectCircleLines.cpp">
+      <Filter>03.GameObject\06.Effect\01. EffectCircleLines</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,8 +27,12 @@ public:
 private:
 	virtual void Free() override;
 
+public:
+	void Operate_Effect();
+	void Stop_Effect();
 
 public:
+	void Set_Repeatable(_bool _bRepeatable) { m_bRepeatable = _bRepeatable; }
 	void Set_Visibility(_bool _bIsVisible) { m_bIsVisible = _bIsVisible; }
 	void Set_LifeTime(_float _fLifeTime) { m_fLifeTime = _fLifeTime; }
 
@@ -42,6 +46,7 @@ private:
 	_float m_fLifeTime;
 	_float m_fElapsed;
 	_bool m_bIsVisible;
+	_bool m_bRepeatable;
 };
 
 END

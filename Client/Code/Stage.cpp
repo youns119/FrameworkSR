@@ -6,6 +6,7 @@
 #include "../Header/EffectPlayerBlood.h"
 #include "../Header/EffectBloodSplater.h"
 #include "../Header/EffectFanSpread.h"
+#include "../Header/EffectCircleLines.h"
 
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -211,6 +212,11 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	pGameObject = CEffectFanSpread::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectFanSpread", pGameObject), E_FAIL);
+	m_mapLayer.insert({ _pLayerTag , pLayer });
+
+	pGameObject = CEffectCircleLines::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectCircleLines", pGameObject), E_FAIL);
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
