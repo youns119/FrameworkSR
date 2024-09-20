@@ -19,6 +19,11 @@ _float Get_TimeDelta(const _tchar* _pTimerTag)
 	return CTimerManager::GetInstance()->Get_TimeDelta(_pTimerTag);
 }
 
+_bool Get_Stop()
+{
+	return CTimerManager::GetInstance()->Get_Stop();
+}
+
 void Set_TimeDelta(const _tchar* _pTimerTag)
 {
 	CTimerManager::GetInstance()->Set_TimeDelta(_pTimerTag);

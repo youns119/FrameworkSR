@@ -41,13 +41,6 @@ HRESULT CTimer::Ready_Timer()
 
 void CTimer::Update_Timer()
 {
-	if (m_bStop)
-	{
-		m_fTimeDelta = 0.f;
-
-		return;
-	}
-
 	QueryPerformanceCounter(&m_tFrameTime);	// 1500
 
 	if (m_tFrameTime.QuadPart - m_tFixTime.QuadPart >= m_tCpuTick.QuadPart)
@@ -58,6 +51,9 @@ void CTimer::Update_Timer()
 
 	m_fTimeDelta = (m_tFrameTime.QuadPart - m_tLastTime.QuadPart) / (_float)m_tCpuTick.QuadPart;
 	m_tLastTime = m_tFrameTime;
+
+	if (m_bStop)
+		m_fTimeDelta = 0.f;
 }
 
 void CTimer::Free()

@@ -245,8 +245,10 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 
 void CPlayer::Mouse_Move()
 {
-
 	_long dwMouseMove(0);
+
+	if (Engine::Get_Stop())
+		return;
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(MOUSEMOVESTATE::DIMS_Y))
 	{

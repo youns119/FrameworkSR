@@ -14,6 +14,7 @@ private:
 
 public:
 	_float Get_TimeDelta() const { return m_fTimeDelta; }
+	_bool Get_Stop() const { return m_bStop; }
 
 public:
 	static CTimer* Create();

@@ -15,6 +15,7 @@ inline void	Render_End();
 
 // TimerManager
 inline _float Get_TimeDelta(const _tchar* _pTimerTag);
+inline _bool Get_Stop();
 inline void Set_TimeDelta(const _tchar* _pTimerTag);
 inline HRESULT Ready_Timer(const _tchar* _pTimerTag);
 inline void OnOff_Timer();
