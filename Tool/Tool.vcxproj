@@ -96,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>../Header;../Include;../Base;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Reference/Header;../Include;../Base;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -196,6 +196,8 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GuideLine.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MainScene.h" />
+    <ClInclude Include="MainSetting.h" />
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="MultiTexture.h" />
     <ClInclude Include="MyForm.h" />
@@ -208,6 +210,7 @@
     <ClInclude Include="Texture2.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="Tool.h" />
+    <ClInclude Include="ToolCamera.h" />
     <ClInclude Include="ToolDoc.h" />
     <ClInclude Include="ToolView.h" />
     <ClInclude Include="ViewTree.h" />
@@ -219,6 +222,8 @@
     <ClCompile Include="FloorCreate.cpp" />
     <ClCompile Include="GuideLine.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MainScene.cpp" />
+    <ClCompile Include="MainSetting.cpp" />
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="MultiTexture.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -234,6 +239,7 @@
     <ClCompile Include="Texture2.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="Tool.cpp" />
+    <ClCompile Include="ToolCamera.cpp" />
     <ClCompile Include="ToolDoc.cpp" />
     <ClCompile Include="ToolView.cpp" />
     <ClCompile Include="ViewTree.cpp" />

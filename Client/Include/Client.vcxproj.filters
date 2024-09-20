@@ -261,9 +261,6 @@
     <ClCompile Include="..\Code\Stage.cpp">
       <Filter>02.Scene\01.Stage</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Loading.cpp">
-      <Filter>02.Scene\02.Loading</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Terrain.cpp">
       <Filter>03.GameObject\03.Terrain</Filter>
     </ClCompile>
@@ -335,6 +332,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIShop.cpp">
       <Filter>04.UI\03.Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Loading.cpp">
+      <Filter>02.Scene\02.Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
