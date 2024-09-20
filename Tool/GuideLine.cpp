@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "GuideLine.h"
-#include "../Reference/Header/Export_Utility.h"
+#include "Export_Utility.h"
 
 CGuideLine::CGuideLine(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
@@ -50,7 +50,9 @@ void CGuideLine::LateUpdate_GameObject()
 
 void CGuideLine::Render_GameObject()
 {
+
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pTransformCom->Set_Angle(180.f, 0.f, 0.f);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -68,11 +70,11 @@ HRESULT CGuideLine::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<CTerrainTex*>(Engine::Clone_Proto(L"Proto_TerrainTex"));
+	pComponent = m_pBufferCom = dynamic_cast<CFloorTex*>(Engine::Clone_Proto(L"Proto_FloorTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_TerrainTexture2"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_FirstFloor"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -90,7 +92,7 @@ HRESULT CGuideLine::Setup_Material()
 
 	tMtrl.Diffuse = { 1.f, 1.f, 1.f, 1.f };
 	tMtrl.Specular = { 1.f, 1.f, 1.f, 1.f };
-	tMtrl.Ambient = { 0.2f, 0.2f, 0.2f, 1.f };
+	tMtrl.Ambient = { 1.f, 1.f, 1.f, 1.f };
 
 	tMtrl.Emissive = { 0.f, 0.f, 0.f, 0.f };
 	tMtrl.Power = 0.f;

@@ -14,8 +14,9 @@ class CGraphicDev;
 
 END
 
+class CMainSetting;
 class CToolDoc;
-class CToolView : public CScrollView
+class CToolView : public CView
 {
 protected: // serialization에서만 만들어집니다.
 	CToolView();
@@ -55,10 +56,10 @@ protected:
 //	HRESULT	Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagement** _ppManagement);
 public:
 	CFloorCreate* m_pFloor;
-
 private:
 	CGraphicDev* m_pDeviceClass;
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
+	CMainSetting* m_pMainSetting;
 
 	CManagement* m_pManagementClass;
 

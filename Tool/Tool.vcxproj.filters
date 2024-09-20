@@ -61,6 +61,15 @@
     <Filter Include="04.Etc\02.GuideLine">
       <UniqueIdentifier>{6af829d7-2171-4ccd-831e-d04072990342}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.MainScene">
+      <UniqueIdentifier>{8399db12-77f3-487c-abc9-82db8d7ad227}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06,MainSetting">
+      <UniqueIdentifier>{ec004255-b1b2-42ac-861e-63ba62f7caef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.ToolCamera">
+      <UniqueIdentifier>{3d4eaf3c-cc5e-44a6-a582-99a07667d4f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -129,6 +138,15 @@
     <ClInclude Include="GuideLine.h">
       <Filter>04.Etc\02.GuideLine</Filter>
     </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>05.MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MainSetting.h">
+      <Filter>06,MainSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolCamera.h">
+      <Filter>07.ToolCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tool.cpp">
@@ -187,6 +205,15 @@
     </ClCompile>
     <ClCompile Include="GuideLine.cpp">
       <Filter>04.Etc\02.GuideLine</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>05.MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainSetting.cpp">
+      <Filter>06,MainSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolCamera.cpp">
+      <Filter>07.ToolCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
