@@ -1,9 +1,9 @@
 #pragma once
-#include "../Reference/Header/GameObject.h"
+#include "GameObject.h"
 
 BEGIN(Engine)
 
-class CTerrainTex;
+class CFloorTex;
 class CTransform;
 class CTexture;
 
@@ -34,7 +34,7 @@ private:
 	virtual void Free();
 
 private:
-	Engine::CTerrainTex* m_pBufferCom;
+	Engine::CFloorTex* m_pBufferCom;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
 };

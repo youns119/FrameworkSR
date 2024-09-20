@@ -32,6 +32,7 @@ HRESULT CLogo::Ready_Scene()
 {
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
+
 	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
