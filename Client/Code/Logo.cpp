@@ -74,7 +74,7 @@ void CLogo::Render_Scene()
 
 HRESULT CLogo::Ready_Prototype()
 {
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/IU.jpg", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Loading", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Loading/REJECT_%d.png", TEXTUREID::TEX_NORMAL, 3)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTex", Engine::CRcTex::Create(m_pGraphicDev)), E_FAIL);
 
 	return S_OK;

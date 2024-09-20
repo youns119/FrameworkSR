@@ -6,6 +6,8 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
+	, m_fFrame(0.f)
+	, m_fMaxFrame(0.f)
 {
 }
 
@@ -31,11 +33,18 @@ HRESULT CBackGround::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_fMaxFrame = m_pTextureCom->Get_TextureCount();
+
 	return S_OK;
 }
 
 _int CBackGround::Update_GameObject(const _float& _fTimeDelta)
 {
+	m_fFrame += m_fMaxFrame * _fTimeDelta;
+
+	if (m_fMaxFrame < m_fFrame)
+		m_fFrame = 0.f;
+
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDERID::RENDER_PRIORITY, this);
@@ -50,7 +59,7 @@ void CBackGround::LateUpdate_GameObject()
 
 void CBackGround::Render_GameObject()
 {
-	m_pTextureCom->Set_Texture();
+	m_pTextureCom->Set_Texture((_uint)m_fFrame);
 
 	m_pBufferCom->Render_Buffer();
 }
@@ -63,7 +72,7 @@ HRESULT CBackGround::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LogoTex"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Loading"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 

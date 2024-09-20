@@ -34,4 +34,7 @@ private :
 private :
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
+
+	_float m_fFrame;
+	_float m_fMaxFrame;
 };
