@@ -174,7 +174,10 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TileContorl.h" />
+    <ClInclude Include="..\Header\UICrossHair.h" />
     <ClInclude Include="..\Header\UIPlus.h" />
+    <ClInclude Include="..\Header\UIShop.h" />
+    <ClInclude Include="..\Header\UIUpgrade.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\WhiteSuit.h" />
     <ClInclude Include="Client.h" />
@@ -209,7 +212,10 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TileContorl.cpp" />
+    <ClCompile Include="..\Code\UICrossHair.cpp" />
     <ClCompile Include="..\Code\UIPlus.cpp" />
+    <ClCompile Include="..\Code\UIShop.cpp" />
+    <ClCompile Include="..\Code\UIUpgrade.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\WhiteSuit.cpp" />
     <ClCompile Include="Client.cpp" />
@@ -226,11 +232,6 @@ call Copy.bat</Command>
   <ItemGroup>
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Copy.bat" />
-    <None Include="..\..\CopySystem.bat" />
-    <None Include="..\..\CopyUtility.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

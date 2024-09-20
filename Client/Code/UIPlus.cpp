@@ -33,8 +33,8 @@ HRESULT CUIPlus::Ready_UI()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
-	m_pTransformCom->Set_Scale(50.f, 30.f, 0.f);
+	m_pTransformCom->Set_Pos(0.f, 200.f, 0.f);
+	m_pTransformCom->Set_Scale(50.f, 20.f, 0.f);
 
 	m_bActive = true;
 
