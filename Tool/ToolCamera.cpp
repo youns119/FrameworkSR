@@ -54,7 +54,7 @@ void CToolCamera::Key_Input(const _float& fTimeDelta)
 	_matrix		matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
-	if (Engine::Get_DIKeyState(DIK_W) & 0x80)
+	if (Engine::Key_Press(DIK_W) & 0x80)
 	{
 		_vec3	vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -65,7 +65,7 @@ void CToolCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt += vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_S) & 0x80)
+	if (Engine::Key_Press(DIK_S) & 0x80)
 	{
 		_vec3	vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -77,7 +77,7 @@ void CToolCamera::Key_Input(const _float& fTimeDelta)
 	}
 
 
-	if (Engine::Get_DIKeyState(DIK_D) & 0x80)
+	if (Engine::Key_Press(DIK_D) & 0x80)
 	{
 		_vec3	vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
@@ -88,7 +88,7 @@ void CToolCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt += vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_A) & 0x80)
+	if (Engine::Key_Press(DIK_A) & 0x80)
 	{
 		_vec3	vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
@@ -99,7 +99,7 @@ void CToolCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt -= vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_TAB) & 0x80)
+	if (Engine::Key_Press(DIK_TAB) & 0x80)
 	{
 		if (m_bCheck)
 			return;
