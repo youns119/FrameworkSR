@@ -35,7 +35,7 @@ void CHumanoid::Render_GameObject()
 
 void CHumanoid::Change_State()
 {
-	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_RB) & 0x80)
+	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
 	{
 		switch (m_eCurState)
 		{

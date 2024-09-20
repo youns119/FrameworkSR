@@ -29,6 +29,11 @@ HRESULT	Ready_Timer(const _tchar* _pTimerTag)
 	return CTimerManager::GetInstance()->Ready_Timer(_pTimerTag);
 }
 
+inline void OnOff_Timer()
+{
+	CTimerManager::GetInstance()->OnOff_Timer();
+}
+
 // FrameManager
 HRESULT	Ready_Frame(const _tchar* _pFrameTag, const _float& _fCallLimit)
 {
@@ -66,22 +71,46 @@ inline void	Render_Font
 }
 
 // InputDev
-_byte Get_DIKeyState(_ubyte _byKeyID)
+_bool Key_Press(_ubyte _byKeyID)
 {
-	return CInputDev::GetInstance()->Get_DIKeyState(_byKeyID);
+	return CInputDev::GetInstance()->Key_Press(_byKeyID);
 }
-_byte Get_DIMouseState(MOUSEKEYSTATE _eMouse)
+
+_bool Key_Hold(_ubyte _byKeyID)
 {
-	return CInputDev::GetInstance()->Get_DIMouseState(_eMouse);
+	return CInputDev::GetInstance()->Key_Hold(_byKeyID);
 }
+
+_bool Key_Release(_ubyte _byKeyID)
+{
+	return CInputDev::GetInstance()->Key_Release(_byKeyID);
+}
+
+_bool Mouse_Press(MOUSEKEYSTATE _eMouse)
+{
+	return CInputDev::GetInstance()->Mouse_Press(_eMouse);
+}
+
+_bool Mouse_Hold(MOUSEKEYSTATE _eMouse)
+{
+	return CInputDev::GetInstance()->Mouse_Hold(_eMouse);
+}
+
+_bool Mouse_Release(MOUSEKEYSTATE _eMouse)
+{
+	return CInputDev::GetInstance()->Mouse_Release(_eMouse);
+}
+
 _long Get_DIMouseMove(MOUSEMOVESTATE _eMouseState)
 {
 	return CInputDev::GetInstance()->Get_DIMouseMove(_eMouseState);
 }
+
 HRESULT Ready_InputDev(HINSTANCE _hInst, HWND _hWnd)
 {
 	return CInputDev::GetInstance()->Ready_InputDev(_hInst, _hWnd);
 }
+
 void Update_InputDev(void)
 {
 	CInputDev::GetInstance()->Update_InputDev();

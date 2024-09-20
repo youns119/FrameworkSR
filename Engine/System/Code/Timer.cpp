@@ -1,12 +1,13 @@
 #include "..\..\Header\Timer.h"
 
 CTimer::CTimer()
-    : m_fTimeDelta(0.f)
+	: m_fTimeDelta(0.f)
+	, m_bStop(false)
 {
-    ZeroMemory(&m_tFrameTime, sizeof(LARGE_INTEGER));
-    ZeroMemory(&m_tLastTime, sizeof(LARGE_INTEGER));
-    ZeroMemory(&m_tFixTime, sizeof(LARGE_INTEGER));
-    ZeroMemory(&m_tCpuTick, sizeof(LARGE_INTEGER));
+	ZeroMemory(&m_tFrameTime, sizeof(LARGE_INTEGER));
+	ZeroMemory(&m_tLastTime, sizeof(LARGE_INTEGER));
+	ZeroMemory(&m_tFixTime, sizeof(LARGE_INTEGER));
+	ZeroMemory(&m_tCpuTick, sizeof(LARGE_INTEGER));
 }
 
 CTimer::~CTimer()
@@ -40,6 +41,13 @@ HRESULT CTimer::Ready_Timer()
 
 void CTimer::Update_Timer()
 {
+	if (m_bStop)
+	{
+		m_fTimeDelta = 0.f;
+
+		return;
+	}
+
 	QueryPerformanceCounter(&m_tFrameTime);	// 1500
 
 	if (m_tFrameTime.QuadPart - m_tFixTime.QuadPart >= m_tCpuTick.QuadPart)

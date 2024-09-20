@@ -3,6 +3,7 @@
 IMPLEMENT_SINGLETON(CTimerManager)
 
 CTimerManager::CTimerManager()
+	: m_pCurrTimer(nullptr)
 {
 	m_mapTimer.clear();
 }
@@ -22,10 +23,10 @@ _float CTimerManager::Get_TimeDelta(const _tchar* _pTimerTag)
 
 void CTimerManager::Set_TimeDelta(const _tchar* _pTimerTag)
 {
-	CTimer* pTimer = Find_Timer(_pTimerTag);
-	NULL_CHECK(pTimer);
+	m_pCurrTimer = Find_Timer(_pTimerTag);
+	NULL_CHECK(m_pCurrTimer);
 
-	pTimer->Update_Timer();
+	m_pCurrTimer->Update_Timer();
 }
 
 HRESULT CTimerManager::Ready_Timer(const _tchar* _pTimerTag)
@@ -41,6 +42,11 @@ HRESULT CTimerManager::Ready_Timer(const _tchar* _pTimerTag)
 	m_mapTimer.insert({ _pTimerTag, pTimer });
 
 	return S_OK;
+}
+
+void CTimerManager::OnOff_Timer()
+{
+	m_pCurrTimer->OnOff_Timer();
 }
 
 CTimer* CTimerManager::Find_Timer(const _tchar* _pTimerTag)

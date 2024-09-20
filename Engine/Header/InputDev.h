@@ -6,45 +6,59 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CInputDev 
+class ENGINE_DLL CInputDev
 	: public CBase
 {
 	DECLARE_SINGLETON(CInputDev)
 
-private :
+public:
+	struct KeyInfo
+	{
+		KEYSTATE eKeyState;
+		bool bPrevPress;
+	};
+
+private:
 	explicit CInputDev(void);
 	virtual ~CInputDev(void);
 
-public :
-	_byte Get_DIKeyState(_ubyte _byKeyID)
+public:
+	_bool Key_Press(_ubyte _byKeyID)
 	{
-		return m_byKeyState[_byKeyID];
-	}
-	_byte Get_DIMouseState(MOUSEKEYSTATE _eMouse)
-	{
-		return m_tMouseState.rgbButtons[(_uint)_eMouse];
-	}
-	_long Get_DIMouseMove(MOUSEMOVESTATE _eMouseState)
-	{
-		return *(((_long*)&m_tMouseState) + (_uint)_eMouseState);
-	}
+		if (m_tKeyInfo[_byKeyID].eKeyState == KEYSTATE::KEY_HOLD)
+		{
+			int i = 0;
+		}
 
-public :
+		return m_tKeyInfo[_byKeyID].eKeyState == KEYSTATE::KEY_PRESS;
+	}
+	_bool Key_Hold(_ubyte _byKeyID) { return m_tKeyInfo[_byKeyID].eKeyState == KEYSTATE::KEY_HOLD; }
+	_bool Key_Release(_ubyte _byKeyID) { return m_tKeyInfo[_byKeyID].eKeyState == KEYSTATE::KEY_RELEASE; }
+
+	_bool Mouse_Press(MOUSEKEYSTATE _eMouse) { return m_tMouseInfo[(_uint)_eMouse].eKeyState == KEYSTATE::KEY_PRESS; }
+	_bool Mouse_Hold(MOUSEKEYSTATE _eMouse) { return m_tMouseInfo[(_uint)_eMouse].eKeyState == KEYSTATE::KEY_HOLD; }
+	_bool Mouse_Release(MOUSEKEYSTATE _eMouse) { return m_tMouseInfo[(_uint)_eMouse].eKeyState == KEYSTATE::KEY_RELEASE; }
+
+	_long Get_DIMouseMove(MOUSEMOVESTATE _eMouseState) { return *(((_long*)&m_tMouseState) + (_uint)_eMouseState); }
+
+public:
 	HRESULT Ready_InputDev(HINSTANCE _hInst, HWND _hWnd);
 	void Update_InputDev(void);
 
-public :
+public:
 	virtual void Free(void);
 
-private :
+private:
 	LPDIRECTINPUT8 m_pInputSDK = nullptr;
 
-private :
+private:
 	LPDIRECTINPUTDEVICE8 m_pKeyBoard = nullptr;
 	LPDIRECTINPUTDEVICE8 m_pMouse = nullptr;
 
-private :
-	_byte m_byKeyState[256];		// 키보드에 있는 모든 키값을 저장하기 위한 변수
+private:
+	KeyInfo m_tKeyInfo[VK_MAX];
+	KeyInfo m_tMouseInfo[MS_MAX];
+
 	DIMOUSESTATE m_tMouseState;
 };
 

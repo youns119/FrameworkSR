@@ -17,6 +17,7 @@ inline void	Render_End();
 inline _float Get_TimeDelta(const _tchar* _pTimerTag);
 inline void Set_TimeDelta(const _tchar* _pTimerTag);
 inline HRESULT Ready_Timer(const _tchar* _pTimerTag);
+inline void OnOff_Timer();
 
 // FrameManager
 inline HRESULT Ready_Frame(const _tchar* _pFrameTag, const _float& _fCallLimit);
@@ -41,8 +42,12 @@ inline void Render_Font
 );
 
 // InputDev
-inline _byte Get_DIKeyState(_ubyte _byKeyID);
-inline _byte Get_DIMouseState(MOUSEKEYSTATE _eMouse);
+inline _bool Key_Press(_ubyte _byKeyID);
+inline _bool Key_Hold(_ubyte _byKeyID);
+inline _bool Key_Release(_ubyte _byKeyID);
+inline _bool Mouse_Press(MOUSEKEYSTATE _eMouse);
+inline _bool Mouse_Hold(MOUSEKEYSTATE _eMouse);
+inline _bool Mouse_Release(MOUSEKEYSTATE _eMouse);
 inline _long Get_DIMouseMove(MOUSEMOVESTATE _eMouseState);
 inline HRESULT Ready_InputDev(HINSTANCE _hInst, HWND _hWnd);
 inline void	Update_InputDev(void);

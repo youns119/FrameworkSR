@@ -5,33 +5,38 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CTimer 
+class ENGINE_DLL CTimer
 	: public CBase
 {
-private :
+private:
 	explicit CTimer();
 	virtual ~CTimer();
 
-public :
+public:
 	_float Get_TimeDelta() const { return m_fTimeDelta; }
 
-public :
+public:
 	static CTimer* Create();
 
-public :
+public:
 	HRESULT	Ready_Timer();
 	void Update_Timer();
 
-private :
+public:
+	void OnOff_Timer() { m_bStop = !m_bStop; }
+
+private:
 	virtual void Free();
 
-private :
+private:
 	LARGE_INTEGER m_tFrameTime;
 	LARGE_INTEGER m_tLastTime;
 	LARGE_INTEGER m_tFixTime;
 	LARGE_INTEGER m_tCpuTick;
 
 	_float m_fTimeDelta;
+
+	_bool m_bStop;
 };
 
 END

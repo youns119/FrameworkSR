@@ -4,8 +4,19 @@ IMPLEMENT_SINGLETON(CInputDev)
 
 CInputDev::CInputDev(void)
 {
-	ZeroMemory(m_byKeyState, sizeof(m_byKeyState));
 	ZeroMemory(&m_tMouseState, sizeof(DIMOUSESTATE));
+
+	for (_int i = 0; i < VK_MAX; i++)
+	{
+		m_tKeyInfo[i].eKeyState = KEYSTATE::KEY_END;
+		m_tKeyInfo[i].bPrevPress = false;
+	}
+
+	for (_int i = 0; i < MS_MAX; i++)
+	{
+		m_tMouseInfo[i].eKeyState = KEYSTATE::KEY_END;
+		m_tMouseInfo[i].bPrevPress = false;
+	}
 }
 
 CInputDev::~CInputDev(void)
@@ -40,8 +51,56 @@ HRESULT CInputDev::Ready_InputDev(HINSTANCE _hInst, HWND _hWnd)
 
 void CInputDev::Update_InputDev(void)
 {
-	m_pKeyBoard->GetDeviceState(256, m_byKeyState);
+	_byte byKeyState[VK_MAX];
+
+	m_pKeyBoard->GetDeviceState(VK_MAX, byKeyState);
 	m_pMouse->GetDeviceState(sizeof(m_tMouseState), &m_tMouseState);
+
+	// Keyboard
+	for (int i = 0; i < VK_MAX; i++)
+	{
+		if (byKeyState[i] & 0x80)
+		{
+			if (m_tKeyInfo[i].bPrevPress)
+				m_tKeyInfo[i].eKeyState = KEYSTATE::KEY_HOLD;
+			else
+				m_tKeyInfo[i].eKeyState = KEYSTATE::KEY_PRESS;
+
+			m_tKeyInfo[i].bPrevPress = true;
+		}
+		else
+		{
+			if (m_tKeyInfo[i].bPrevPress)
+				m_tKeyInfo[i].eKeyState = KEYSTATE::KEY_RELEASE;
+			else
+				m_tKeyInfo[i].eKeyState = KEYSTATE::KEY_END;
+
+			m_tKeyInfo[i].bPrevPress = false;
+		}
+	}
+
+	// Mouse
+	for (_int i = 0; i < MS_MAX; i++)
+	{
+		if (m_tMouseState.rgbButtons[i] & 0x80)
+		{
+			if (m_tMouseInfo[i].bPrevPress)
+				m_tMouseInfo[i].eKeyState = KEYSTATE::KEY_HOLD;
+			else
+				m_tMouseInfo[i].eKeyState = KEYSTATE::KEY_PRESS;
+
+			m_tMouseInfo[i].bPrevPress = true;
+		}
+		else
+		{
+			if (m_tMouseInfo[i].bPrevPress)
+				m_tMouseInfo[i].eKeyState = KEYSTATE::KEY_RELEASE;
+			else
+				m_tMouseInfo[i].eKeyState = KEYSTATE::KEY_END;
+
+			m_tMouseInfo[i].bPrevPress = false;
+		}
+	}
 }
 
 void CInputDev::Free(void)

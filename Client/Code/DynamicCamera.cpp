@@ -136,7 +136,7 @@ void CDynamicCamera::Key_Input(const _float& _fTimeDelta)
 		m_vAt -= vLength;
 	}*/
 
-	if (Engine::Get_DIKeyState(DIK_TAB) & 0x80)
+	if (Engine::Key_Press(DIK_TAB))
 	{
 		if (m_bCheck)
 			return;

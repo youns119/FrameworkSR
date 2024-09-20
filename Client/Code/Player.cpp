@@ -179,36 +179,36 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	m_pBody_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
 	m_pBody_TransformCom->Get_Info(INFO::INFO_UP, &vUp);
 
-	if (Engine::Get_DIKeyState(DIK_W) & 0x80) {
+	if (Engine::Key_Hold(DIK_W)) {
 		//Beomseung
 		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, 10.f);
 	}
-	if (Engine::Get_DIKeyState(DIK_S) & 0x80) {
+	if (Engine::Key_Hold(DIK_S)) {
 		//Beomseung   
 		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -10.f);
 
 	}
-	if (Engine::Get_DIKeyState(DIK_A) & 0x80) {
+	if (Engine::Key_Hold(DIK_A)) {
 		//Beomseung    
 		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -10.f);
 
 	}
-	if (Engine::Get_DIKeyState(DIK_D) & 0x80) {
+	if (Engine::Key_Hold(DIK_D)) {
 		//Beomseung    
 		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, 10.f);
 	}
-	if (Engine::Get_DIKeyState(DIK_SPACE) & 0x80) {
+	if (Engine::Key_Press(DIK_SPACE)) {
 		bJumpCheck = true;
 		fJumpPower = 20.0f;
 	}
 
 	// Kyubin
-	if (Engine::Get_DIKeyState(DIK_X) & 0x80)
+	if (Engine::Key_Press(DIK_X))
 	{
 		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
 	}
-	if (Engine::Get_DIKeyState(DIK_Z) & 0x80)
+	if (Engine::Key_Press(DIK_Z))
 	{
 		CComponent* pComponent(nullptr);
 		//CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
@@ -219,20 +219,26 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectFanSpread", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
 	}
-	if (Engine::Get_DIKeyState(DIK_LSHIFT) & 0x80)
+	if (Engine::Key_Press(DIK_LSHIFT))
 	{
 		CComponent* pComponent(nullptr);
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 	}
-	if (Engine::Get_DIKeyState(DIK_C) & 0x80)
+	if (Engine::Key_Press(DIK_C))
 	{
 		// HOW TO KNOW WHEN KEY UP? I DO NOT KNOW 
 		// MY PLAN WAS TO MAKE THIS CODE WORK WHEN IT WAS SHIFT KEY-UP
 		CComponent* pComponent(nullptr);
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Stop_Effect();
+	}
+
+	// ¿¬¿í
+	if (Engine::Key_Press(DIK_T))
+	{
+		Engine::CTimerManager::GetInstance()->OnOff_Timer();
 	}
 
 }
@@ -251,11 +257,11 @@ void CPlayer::Mouse_Move()
 	{
 		m_pBody_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(dwMouseMove / 20.f));
 	}
-	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_LB)) {
+	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB)) {
 		m_Right_CurState = SHOOT;
 	}
 
-	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_RB)) {
+	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {
 		m_Left_CurState = DRINK;
 	}
 

@@ -35,7 +35,7 @@ void CDrone::Render_GameObject()
 
 void CDrone::Change_State()
 {
-	if (Engine::Get_DIMouseState(MOUSEKEYSTATE::DIM_RB) & 0x80)
+	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
 	{
 		switch (m_eCurState)
 		{

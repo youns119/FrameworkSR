@@ -8,26 +8,31 @@ class ENGINE_DLL CTimerManager
 {
 	DECLARE_SINGLETON(CTimerManager)
 
-private :
+private:
 	explicit CTimerManager();
 	virtual ~CTimerManager();
 
-public :
+public:
 	_float Get_TimeDelta(const _tchar* _pTimerTag);
 
 	void Set_TimeDelta(const _tchar* _pTimerTag);
 
-public :
+public:
 	HRESULT	Ready_Timer(const _tchar* _pTimerTag);
 
-private :
+public:
+	void OnOff_Timer();
+
+private:
 	CTimer* Find_Timer(const _tchar* _pTimerTag);
 
-private :
+private:
 	virtual void Free();
 
-private :
+private:
 	map<const _tchar*, CTimer*> m_mapTimer;
+
+	CTimer* m_pCurrTimer;
 };
 
 END

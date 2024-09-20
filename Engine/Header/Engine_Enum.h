@@ -7,7 +7,7 @@ namespace Engine
 
 	enum class COMPONENTID { ID_DYNAMIC, ID_STATIC, ID_END };
 
-	enum class INFO {	INFO_RIGHT, INFO_UP, INFO_LOOK, INFO_POS, INFO_END };
+	enum class INFO { INFO_RIGHT, INFO_UP, INFO_LOOK, INFO_POS, INFO_END };
 	enum class ROTATION { ROT_X, ROT_Y, ROT_Z, ROT_END };
 
 	enum class TEXTUREID { TEX_NORMAL, TEX_CUBE, TEX_END };
@@ -16,6 +16,8 @@ namespace Engine
 
 	enum class MOUSEKEYSTATE { DIM_LB, DIM_RB, DIM_MB, DIM_END };
 	enum class MOUSEMOVESTATE { DIMS_X, DIMS_Y, DIMS_Z, DIMS_END };
+
+	enum class KEYSTATE { KEY_PRESS, KEY_HOLD, KEY_RELEASE, KEY_END };
 
 	enum class UIID
 	{
