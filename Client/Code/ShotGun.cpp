@@ -104,7 +104,7 @@ void CShotGun::State_Check()
 			break;
 		case CHumanoid::HUMANOID_PUSH_ONE:
 			m_fFrame = 0.f;
-			m_fMaxFrame = 23.f;
+			m_fMaxFrame = 24.f;
 			break;
 		case CHumanoid::HUMANOID_PUSH_TWO:
 			m_fFrame = 0.f;
