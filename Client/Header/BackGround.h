@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CAnimator;
 
 END
 
@@ -27,6 +28,7 @@ public :
 
 private:
 	HRESULT	Add_Component();
+	void Set_Animation();
 
 private :
 	virtual void Free();
@@ -34,7 +36,6 @@ private :
 private :
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
-
-	_float m_fFrame;
-	_float m_fMaxFrame;
+	Engine::CTexture* m_pTextureCom_Test;
+	Engine::CAnimator* m_pAnimator;
 };

@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "..\Header\BackGround.h"
 #include "Export_Utility.h"
+#include "Export_System.h"
 
 CBackGround::CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
-	, m_fFrame(0.f)
-	, m_fMaxFrame(0.f)
+	, m_pTextureCom_Test(nullptr)
+	, m_pAnimator(nullptr)
 {
 }
 
@@ -33,17 +34,25 @@ HRESULT CBackGround::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fMaxFrame = m_pTextureCom->Get_TextureCount();
+	Set_Animation();
 
 	return S_OK;
 }
 
 _int CBackGround::Update_GameObject(const _float& _fTimeDelta)
 {
-	m_fFrame += m_fMaxFrame * _fTimeDelta;
+	if (Key_Press(DIK_W))
+		m_pAnimator->PlayAnimation(L"Test", true);
+	if (Key_Press(DIK_S))
+		m_pAnimator->PlayAnimation(L"Loading", true);
 
-	if (m_fMaxFrame < m_fFrame)
-		m_fFrame = 0.f;
+	if (Key_Press(DIK_D))
+		m_pAnimator->GetCurrAnim()->SetAnimSpeed(m_pAnimator->GetCurrAnim()->GetAnimSpeed() + 5.f);
+	if (Key_Press(DIK_A))
+		m_pAnimator->GetCurrAnim()->SetAnimSpeed(m_pAnimator->GetCurrAnim()->GetAnimSpeed() - 5.f);
+
+	if (Key_Press(DIK_SPACE))
+		m_pAnimator->Toggle_Pause();
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
@@ -59,8 +68,6 @@ void CBackGround::LateUpdate_GameObject()
 
 void CBackGround::Render_GameObject()
 {
-	m_pTextureCom->Set_Texture((_uint)m_fFrame);
-
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -76,7 +83,23 @@ HRESULT CBackGround::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	pComponent = m_pTextureCom_Test = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Test"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Test", pComponent });
+
+	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
+
 	return S_OK;
+}
+
+void CBackGround::Set_Animation()
+{
+	m_pAnimator->CreateAnimation(L"Loading", m_pTextureCom, 10.f);
+	m_pAnimator->CreateAnimation(L"Test", m_pTextureCom_Test, 10.f);
+
+	m_pAnimator->PlayAnimation(L"Loading", true);
 }
 
 void CBackGround::Free()

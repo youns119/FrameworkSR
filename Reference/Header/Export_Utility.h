@@ -23,6 +23,8 @@
 #include "ComponentCamera.h"
 // ¿¬¿í
 #include "Collider.h"
+#include "Animator.h"
+#include "Animation.h"
 
 // kyubin
 #include "Effect.h"

@@ -91,6 +91,12 @@
     <Filter Include="08.Bullet\00.BulletManager">
       <UniqueIdentifier>{6d164b72-fbad-4422-8bab-ed0e95927d50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\07.Animator">
+      <UniqueIdentifier>{6a6eabc5-1ad8-48d3-93fc-8161414ba7aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\07.Animator\00.Animation">
+      <UniqueIdentifier>{f3a261b9-4428-4ba7-9288-2b15c3d83033}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -183,6 +189,12 @@
     <ClInclude Include="..\..\Header\BulletManager.h">
       <Filter>08.Bullet\00.BulletManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Animator.h">
+      <Filter>04.Component\07.Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Animation.h">
+      <Filter>04.Component\07.Animator\00.Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -271,6 +283,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\BulletManager.cpp">
       <Filter>08.Bullet\00.BulletManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Animator.cpp">
+      <Filter>04.Component\07.Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Animation.cpp">
+      <Filter>04.Component\07.Animator\00.Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
