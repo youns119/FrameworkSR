@@ -46,7 +46,6 @@ CToolView::CToolView()
 	: m_pDeviceClass(nullptr)
 	, m_pGraphicDev(nullptr)
 	, m_pManagementClass(nullptr)
-	, m_pFloor(nullptr)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 

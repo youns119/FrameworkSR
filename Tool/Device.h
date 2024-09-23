@@ -3,6 +3,7 @@
 
 class CDevice
 {
+	//mfc때 쓰던 디바이스 장치 초기화 클래스
 	DECLARE_SINGLETON(CDevice)
 
 private:

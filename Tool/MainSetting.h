@@ -5,7 +5,7 @@
 
 class CMainSetting : public CBase
 {
-
+	//시스템의 그래픽 디바이스 장치 초기화 사용
 private:
 	explicit CMainSetting();
 	virtual ~CMainSetting();

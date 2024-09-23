@@ -21,11 +21,14 @@ CFloorTex::~CFloorTex()
 {
 }
 
-CFloorTex* CFloorTex::Create(LPDIRECT3DDEVICE9 _pGraphicDev, const _ulong& _dwCntX, const _ulong& _dwCntZ, const _ulong& _dwVtxItv)
+CFloorTex* CFloorTex::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CFloorTex* pInstance = new CFloorTex(_pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Buffer(_dwCntX, _dwCntZ, _dwVtxItv)))
+	if (FAILED(pInstance->Ready_Buffer()))
+
+
+
 	{
 		Safe_Release(pInstance);
 		MSG_BOX("FloorTex Create Failed");
@@ -35,10 +38,10 @@ CFloorTex* CFloorTex::Create(LPDIRECT3DDEVICE9 _pGraphicDev, const _ulong& _dwCn
 	return pInstance;
 }
 
-HRESULT CFloorTex::Ready_Buffer(const _ulong& _dwCntX, const _ulong& _dwCntZ, const _ulong& _dwVtxItv)
+HRESULT CFloorTex::Ready_Buffer()
 {
-	m_dwVtxCnt = _dwCntX * _dwCntZ; // Vertex Count // 512 * 512
-	m_dwTriCnt = (_dwCntX - 1) * (_dwCntZ - 1) * 2; // Triangle count
+	m_dwTriCnt = 2;
+	m_dwVtxCnt = 4;
 	m_dwVtxSize = sizeof(VTXTEX);
 	m_dwFVF = FVF_TEX;
 
@@ -49,52 +52,35 @@ HRESULT CFloorTex::Ready_Buffer(const _ulong& _dwCntX, const _ulong& _dwCntZ, co
 
 	VTXTEX* pVertex = NULL;
 
-	_ulong dwIndex(0);
-
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 
-	for (_ulong i = 0; i < _dwCntZ; ++i)
-	{
-		if (i == 130)
-			continue;
 
-		for (_ulong j = 0; j < _dwCntX - 1; ++j)
-		{
-			dwIndex = i * _dwCntX + j;
+	pVertex[0].vPosition = { 0.f, 0.f, 1.f };
+	pVertex[0].vTexUV = { 0.f, 0.f };
 
-			pVertex[dwIndex].vPosition = _vec3(_float(j) * _dwVtxItv, 0.f, _float(i) * _dwVtxItv);
-			pVertex[dwIndex].vTexUV = _vec2(_float(j) / (_dwCntX - 1) * 20.f, 
-									  _float(i) / (_dwCntZ - 1) * 20.f);
-		}
-	}
+	pVertex[1].vPosition = { 1.f, 0.f, 1.f };
+	pVertex[1].vTexUV = { 1.f, 0.f };
+
+	pVertex[2].vPosition = { 1.f, 0.f, 0.f };
+	pVertex[2].vTexUV = { 1.f, 1.f };
+
+	pVertex[3].vPosition = { 0.f, 0.f, 0.f };
+	pVertex[3].vTexUV = { 0.f, 1.f };
+
 
 	m_pVB->Unlock();
 
 	INDEX32* pIndex = nullptr;
-	_ulong	 dwTriCnt(0);
 
 	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
 
-	for (_ulong i = 0; i < _dwCntZ - 1; ++i)
-	{
-		for (_ulong j = 0; j < _dwCntX - 1; ++j)
-		{
-			dwIndex = i * _dwCntX + j;
+	pIndex[0]._0 = 0;
+	pIndex[0]._1 = 1;
+	pIndex[0]._2 = 2;
 
-			//오른쪽 위
-			pIndex[dwTriCnt]._0 = dwIndex + _dwCntX;
-			pIndex[dwTriCnt]._1 = dwIndex + _dwCntX + 1;
-			pIndex[dwTriCnt]._2 = dwIndex + 1;
-			dwTriCnt++;
-
-			//왼쪽 아래
-			pIndex[dwTriCnt]._0 = dwIndex + _dwCntX;
-			pIndex[dwTriCnt]._1 = dwIndex + 1;
-			pIndex[dwTriCnt]._2 = dwIndex;
-			dwTriCnt++;
-
-		}
-	}
+	pIndex[1]._0 = 0;
+	pIndex[1]._1 = 2;
+	pIndex[1]._2 = 3;
 
 	m_pIB->Unlock();
 

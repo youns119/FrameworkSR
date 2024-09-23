@@ -22,53 +22,65 @@
     <Filter Include="02. ToolDoc">
       <UniqueIdentifier>{e9030cc8-d4ea-471f-8503-d3f4c41436cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Manager">
-      <UniqueIdentifier>{db0ea4bf-d3df-482f-aad7-528d8a3a20f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\99.NotUsed">
       <UniqueIdentifier>{bb27c379-d29a-48c3-81c3-bbb65b302707}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Manager\00.Device">
-      <UniqueIdentifier>{625d9f74-9b81-4fbf-8ff8-3bc7dbe8a529}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Manager\01.TextureMgr">
-      <UniqueIdentifier>{3a495ccb-846d-48e3-a993-8a27b7017785}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Manager\01.TextureMgr\Texture">
-      <UniqueIdentifier>{301efe90-2f44-4618-a1e4-8aee5a3aa97e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Manager\01.TextureMgr\Texture\00.Single">
-      <UniqueIdentifier>{98531678-2180-4c66-9338-b4fcb3dedf1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Manager\01.TextureMgr\Texture\01.Multi">
-      <UniqueIdentifier>{102505a8-306b-4e04-80f9-d7ac010b4208}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. ToolView\MyForm">
       <UniqueIdentifier>{10e0ac6d-c8d3-46e2-a84b-c683b493436b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Etc">
+    <Filter Include="소스 파일\99.NotUsed\03.Manager">
+      <UniqueIdentifier>{db0ea4bf-d3df-482f-aad7-528d8a3a20f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.NotUsed\03.Manager\00.Device">
+      <UniqueIdentifier>{625d9f74-9b81-4fbf-8ff8-3bc7dbe8a529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.NotUsed\03.Manager\01.TextureMgr">
+      <UniqueIdentifier>{3a495ccb-846d-48e3-a993-8a27b7017785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture">
+      <UniqueIdentifier>{301efe90-2f44-4618-a1e4-8aee5a3aa97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture\00.Single">
+      <UniqueIdentifier>{98531678-2180-4c66-9338-b4fcb3dedf1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture\01.Multi">
+      <UniqueIdentifier>{102505a8-306b-4e04-80f9-d7ac010b4208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.MFC">
       <UniqueIdentifier>{318c3eb6-c814-48c9-8995-e99a95859c01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Etc\00.Dialog">
+    <Filter Include="03.MFC\00.Dialog">
       <UniqueIdentifier>{a080f97a-74ea-4efc-b6ce-b6fcbb6a0a28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Etc\00.Dialog\00.MapTool">
+    <Filter Include="03.MFC\00.Dialog\00.MapTool">
       <UniqueIdentifier>{590d7b14-6d20-487d-ace8-46d8f5a20c4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Etc\01.Floor">
-      <UniqueIdentifier>{f7c3112f-8201-426a-ac69-144994889d43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Etc\02.GuideLine">
-      <UniqueIdentifier>{6af829d7-2171-4ccd-831e-d04072990342}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05.MainScene">
+    <Filter Include="04.MainScene">
       <UniqueIdentifier>{8399db12-77f3-487c-abc9-82db8d7ad227}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06,MainSetting">
+    <Filter Include="05,MainSetting">
       <UniqueIdentifier>{ec004255-b1b2-42ac-861e-63ba62f7caef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07.ToolCamera">
+    <Filter Include="06.ToolCamera">
       <UniqueIdentifier>{3d4eaf3c-cc5e-44a6-a582-99a07667d4f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Object">
+      <UniqueIdentifier>{aea2680c-1105-4d05-961d-286d7255b7e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Object\00.TileControl">
+      <UniqueIdentifier>{407ec2a6-6e60-4608-8164-2b9861d5cdf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Object\00.TileControl\FloorInfo">
+      <UniqueIdentifier>{35cf2e3d-fb8e-41cc-8430-b50b24a25f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Object\00.TileControl\WallInfo">
+      <UniqueIdentifier>{64f1b69b-17c0-467c-9e5e-c84485680b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Object\00.TileControl\FloorInfo\FloorStage1">
+      <UniqueIdentifier>{28f11c7b-f6b6-4da0-9002-17142923a017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Object\00.TileControl\WallInfo\WallStage1">
+      <UniqueIdentifier>{397aff42-cb9c-4014-bc14-58a7b633d0c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,40 +124,49 @@
       <Filter>소스 파일\99.NotUsed</Filter>
     </ClInclude>
     <ClInclude Include="Device.h">
-      <Filter>03.Manager\00.Device</Filter>
-    </ClInclude>
-    <ClInclude Include="FloorCreate.h">
-      <Filter>04.Etc\01.Floor</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\00.Device</Filter>
     </ClInclude>
     <ClInclude Include="MapTool.h">
-      <Filter>04.Etc\00.Dialog\00.MapTool</Filter>
+      <Filter>03.MFC\00.Dialog\00.MapTool</Filter>
     </ClInclude>
     <ClInclude Include="MultiTexture.h">
-      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
     </ClInclude>
     <ClInclude Include="SingleTexture.h">
-      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture\00.Single</Filter>
     </ClInclude>
     <ClInclude Include="Texture2.h">
-      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture</Filter>
     </ClInclude>
     <ClInclude Include="TextureMgr.h">
-      <Filter>03.Manager\01.TextureMgr</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr</Filter>
     </ClInclude>
     <ClInclude Include="MyForm.h">
       <Filter>01. ToolView\MyForm</Filter>
     </ClInclude>
-    <ClInclude Include="GuideLine.h">
-      <Filter>04.Etc\02.GuideLine</Filter>
-    </ClInclude>
     <ClInclude Include="MainScene.h">
-      <Filter>05.MainScene</Filter>
+      <Filter>04.MainScene</Filter>
     </ClInclude>
     <ClInclude Include="MainSetting.h">
-      <Filter>06,MainSetting</Filter>
+      <Filter>05,MainSetting</Filter>
     </ClInclude>
     <ClInclude Include="ToolCamera.h">
-      <Filter>07.ToolCamera</Filter>
+      <Filter>06.ToolCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="WallStage1.h">
+      <Filter>07.Object\00.TileControl\WallInfo\WallStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorStage1.h">
+      <Filter>07.Object\00.TileControl\FloorInfo\FloorStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorInfo.h">
+      <Filter>07.Object\00.TileControl\FloorInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="WallInfo.h">
+      <Filter>07.Object\00.TileControl\WallInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="TileControl.h">
+      <Filter>07.Object\00.TileControl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,40 +201,49 @@
       <Filter>소스 파일\99.NotUsed</Filter>
     </ClCompile>
     <ClCompile Include="Device.cpp">
-      <Filter>03.Manager\00.Device</Filter>
-    </ClCompile>
-    <ClCompile Include="FloorCreate.cpp">
-      <Filter>04.Etc\01.Floor</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\00.Device</Filter>
     </ClCompile>
     <ClCompile Include="MapTool.cpp">
-      <Filter>04.Etc\00.Dialog\00.MapTool</Filter>
+      <Filter>03.MFC\00.Dialog\00.MapTool</Filter>
     </ClCompile>
     <ClCompile Include="MultiTexture.cpp">
-      <Filter>03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture\01.Multi</Filter>
     </ClCompile>
     <ClCompile Include="SingleTexture.cpp">
-      <Filter>03.Manager\01.TextureMgr\Texture\00.Single</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture\00.Single</Filter>
     </ClCompile>
     <ClCompile Include="Texture2.cpp">
-      <Filter>03.Manager\01.TextureMgr\Texture</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr\Texture</Filter>
     </ClCompile>
     <ClCompile Include="TextureMgr.cpp">
-      <Filter>03.Manager\01.TextureMgr</Filter>
+      <Filter>소스 파일\99.NotUsed\03.Manager\01.TextureMgr</Filter>
     </ClCompile>
     <ClCompile Include="MyForm.cpp">
       <Filter>01. ToolView\MyForm</Filter>
     </ClCompile>
-    <ClCompile Include="GuideLine.cpp">
-      <Filter>04.Etc\02.GuideLine</Filter>
-    </ClCompile>
     <ClCompile Include="MainScene.cpp">
-      <Filter>05.MainScene</Filter>
+      <Filter>04.MainScene</Filter>
     </ClCompile>
     <ClCompile Include="MainSetting.cpp">
-      <Filter>06,MainSetting</Filter>
+      <Filter>05,MainSetting</Filter>
     </ClCompile>
     <ClCompile Include="ToolCamera.cpp">
-      <Filter>07.ToolCamera</Filter>
+      <Filter>06.ToolCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="WallStage1.cpp">
+      <Filter>07.Object\00.TileControl\WallInfo\WallStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorStage1.cpp">
+      <Filter>07.Object\00.TileControl\FloorInfo\FloorStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorInfo.cpp">
+      <Filter>07.Object\00.TileControl\FloorInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="WallInfo.cpp">
+      <Filter>07.Object\00.TileControl\WallInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="TileControl.cpp">
+      <Filter>07.Object\00.TileControl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
