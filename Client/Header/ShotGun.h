@@ -1,16 +1,6 @@
 #pragma once
 #include "Humanoid.h"
 
-BEGIN(Engine)
-
-class CTriCol;
-class CRcTex;
-class CTexture;
-class CCalculator;
-class CTransform;
-
-END
-
 class CShotGun : public CHumanoid
 {
 private:
