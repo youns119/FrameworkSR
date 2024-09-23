@@ -50,7 +50,6 @@ void CFloor::LateUpdate_GameObject()
 void CFloor::Render_GameObject()
 {
     m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
-    m_pTransformCom->Set_Angle(180.f, 0.f, 0.f);
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

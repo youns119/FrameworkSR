@@ -5,6 +5,8 @@
 
 class CTextureMgr
 {
+	//mfc 때 경로를 통해 이미지를 불러옴 => mfc 툴에서는 이거 써야 하는지 확인 중
+
 	DECLARE_SINGLETON(CTextureMgr)
 
 private:

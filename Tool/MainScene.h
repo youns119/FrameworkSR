@@ -4,6 +4,7 @@
 
 class CMainScene : public CScene
 {
+// ToolView에 출력될 클래스
 private:
 	explicit CMainScene(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CMainScene();
@@ -20,7 +21,7 @@ public:
 
 private:
 	HRESULT Ready_LightInfo();
-	HRESULT Ready_Layer_GuideLine(const _tchar* _pLayerTag);
+	HRESULT Ready_Layer_TileControl(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_ToolCamera(const _tchar* _pLayerTag);
 
 

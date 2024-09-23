@@ -15,10 +15,10 @@ public:
 	const _vec3* Get_VtxPos() const { return m_pPos; }
 
 public:
-	static CFloorTex* Create(LPDIRECT3DDEVICE9 _pGraphicDev, const _ulong& _dwCntX = VTXCNTX, const _ulong& _dwCntZ = VTXCNTZ, const _ulong& _dwVtxItv = VTXITV);
+	static CFloorTex* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
-	HRESULT	Ready_Buffer(const _ulong& _dwCntX, const _ulong& _dwCntZ, const _ulong& _dwVtxItv);
+	HRESULT	Ready_Buffer();
 	virtual	void Render_Buffer();
 
 public:
@@ -28,11 +28,6 @@ private:
 	virtual void Free();
 
 private:
-	/*BITMAPFILEHEADER m_tFH;
-	BITMAPINFOHEADER m_tIH;
-
-	HANDLE m_hFile;*/
-
 	_vec3* m_pPos;
 };
 

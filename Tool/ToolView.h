@@ -5,7 +5,6 @@
 #pragma once
 #include "Device.h"
 #include "TextureMgr.h"
-#include "FloorCreate.h"
 #include "../Reference/Header/Export_System.h"
 #include "../Reference/Header/Export_Utility.h"
 
@@ -54,8 +53,6 @@ protected:
 //private:
 //	HRESULT	SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev);
 //	HRESULT	Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagement** _ppManagement);
-public:
-	CFloorCreate* m_pFloor;
 private:
 	CGraphicDev* m_pDeviceClass;
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
