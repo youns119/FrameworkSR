@@ -20,6 +20,12 @@ void CCollisionManager::Update_Collision()
 		CollisionGroupUpdate(m_vecCheck[i].first, m_vecCheck[i].second);
 }
 
+void CCollisionManager::Render_Collider()
+{
+	for (auto& Collider : m_listRender)
+		Collider->Render_Collider();
+}
+
 void CCollisionManager::CollisionGroupUpdate(const _tchar* _pLeft, const _tchar* _pRight)
 {
 	CScene* pCurrScene = Engine::Get_CurrScene();
@@ -97,6 +103,12 @@ bool CCollisionManager::isCollision(CCollider* _pLCol, CCollider* _pRCol)
 	return fRadius >= fDiagonal;
 }
 
+void CCollisionManager::Add_Collider(CCollider* _pCollider)
+{
+	m_listRender.push_back(_pCollider);
+	_pCollider->AddRef();
+}
+
 void CCollisionManager::CheckGroup(const _tchar* _pLeft, const _tchar* _pRight)
 {
 	pair<const _tchar*, const _tchar*> pairGroup(_pLeft, _pRight);
@@ -113,10 +125,18 @@ void CCollisionManager::CheckGroup(const _tchar* _pLeft, const _tchar* _pRight)
 		m_vecCheck.push_back(pairGroup);
 }
 
+void CCollisionManager::Clear_Collider()
+{
+	for_each(m_listRender.begin(), m_listRender.end(), CDeleteObj());
+	m_listRender.clear();
+}
+
 void CCollisionManager::Reset()
 {
 	m_mapColInfo.clear();
 	m_vecCheck.clear();
+
+	Clear_Collider();
 }
 
 void CCollisionManager::Free()

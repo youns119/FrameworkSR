@@ -70,7 +70,10 @@ inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
 // CollisionManager
 inline void Update_Collision();
+inline void Render_Collider();
+inline void Add_Collider(CCollider* _pCollider);
 inline void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight);
+inline void Clear_Collider();
 inline void Reset();
 
 //Jonghan Change

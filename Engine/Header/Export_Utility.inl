@@ -103,9 +103,24 @@ inline void Update_Collision()
 	CCollisionManager::GetInstance()->Update_Collision();
 }
 
+inline void Render_Collider()
+{
+	CCollisionManager::GetInstance()->Render_Collider();
+}
+
+inline void Add_Collider(CCollider* _pCollider)
+{
+	CCollisionManager::GetInstance()->Add_Collider(_pCollider);
+}
+
 inline void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight)
 {
 	CCollisionManager::GetInstance()->CheckGroup(_pLeft, _pRight);
+}
+
+inline void Clear_Collider()
+{
+	CCollisionManager::GetInstance()->Clear_Collider();
 }
 
 inline void Reset()

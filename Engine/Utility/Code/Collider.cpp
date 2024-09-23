@@ -94,30 +94,10 @@ void CCollider::Render_Collider()
 		D3DXMatrixTranslation(&matWorld, m_vFinalPos.x, m_vFinalPos.y, m_vFinalPos.z);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-		DWORD State, PreState;
-		m_pGraphicDev->GetRenderState(D3DRS_FILLMODE, &PreState);
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
-
 		D3DXCreateSphere(m_pGraphicDev, m_fRadius, 20, 20, &m_pSphere, NULL);
 
 		m_pSphere->DrawSubset(0);
 		m_pSphere->Release();
-
-		m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, PreState);
 	}
 }
 

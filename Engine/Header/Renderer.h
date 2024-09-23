@@ -5,28 +5,29 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CRenderer 
+class ENGINE_DLL CRenderer
 	: public CBase
 {
 	DECLARE_SINGLETON(CRenderer)
 
-private :
+private:
 	explicit CRenderer();
 	virtual ~CRenderer();
 
-public :
+public:
 	void Add_RenderGroup(RENDERID _eType, CGameObject* _pGameObject);
 	void Render_GameObject(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Clear_RenderGroup();
 
-private :
+private:
 	void Render_Priority(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Render_NonAlpha(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev);
+	void Render_Collider(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev);
 	void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
-private :
+private:
 	virtual void Free();
 
 private:

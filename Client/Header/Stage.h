@@ -45,5 +45,8 @@ private :
 	HRESULT Ready_Layer_Effect(const _tchar* _pLayerTag);
 
 private :
+	void Set_Collision();
+
+private :
 	virtual void Free();
 };

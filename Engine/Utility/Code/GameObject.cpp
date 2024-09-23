@@ -23,7 +23,9 @@ CGameObject::~CGameObject()
 CComponent* CGameObject::Get_Component(COMPONENTID _eID, const _tchar* _pComponentTag)
 {
 	CComponent* pComponent = Find_Component(_eID, _pComponentTag);
-	NULL_CHECK_RETURN(pComponent, nullptr);
+	//NULL_CHECK_RETURN(pComponent, nullptr);
+	if (pComponent == nullptr)
+		return nullptr;
 
 	return pComponent;
 }

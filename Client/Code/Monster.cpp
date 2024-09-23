@@ -62,6 +62,7 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 	m_pTransformCom->Set_WorldMatrix(&(matResult));
 
 	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+	Engine::Add_Collider(m_pColliderCom);
 
 	//Jonghan Monster Change End
 

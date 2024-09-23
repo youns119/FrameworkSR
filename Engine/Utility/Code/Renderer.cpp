@@ -31,6 +31,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& _pGraphicDev)
 	Render_Priority(_pGraphicDev);
 	Render_NonAlpha(_pGraphicDev);
 	Render_Alpha(_pGraphicDev);
+	Render_Collider(_pGraphicDev);
 	Render_Orthogonal(_pGraphicDev);
 	Render_UI(_pGraphicDev);
 
@@ -44,6 +45,8 @@ void CRenderer::Clear_RenderGroup()
 		for_each(m_RenderGroup[i].begin(), m_RenderGroup[i].end(), CDeleteObj());
 		m_RenderGroup[i].clear();
 	}
+
+	Engine::Clear_Collider();
 }
 
 void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& _pGraphicDev)
@@ -83,6 +86,31 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 	//_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
+void CRenderer::Render_Collider(LPDIRECT3DDEVICE9& _pGraphicDev)
+{
+	DWORD State, PreState;
+	_pGraphicDev->GetRenderState(D3DRS_FILLMODE, &PreState);
+	_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	Engine::Render_Collider();
+
+	_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	_pGraphicDev->SetRenderState(D3DRS_FILLMODE, PreState);
+}
+
 void CRenderer::Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
 	// alphablending + orthogonal + alpha sorting(not yet) 
@@ -119,29 +147,7 @@ void CRenderer::Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev)
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
 	// 연욱
-	// 직교 투영 추가
-	//_matrix matView, matProj;
-	//_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	//_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
-
-	//_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
-	//_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matOrtho);
-
-	//_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-	//for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_UI])
-	//	pGameObject->Render_GameObject();
-
-	//_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-	//_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
-	//_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-
-	// 연욱
 	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
-	
 }
 
 void CRenderer::Free()

@@ -78,6 +78,7 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 	//Mouse_Fix();
 
 	Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
+	Engine::Add_Collider(m_pColliderCom);
 
 	return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
@@ -117,8 +118,6 @@ void CPlayer::Render_GameObject()
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	m_pColliderCom->Render_Collider();
 }
 
 HRESULT CPlayer::Add_Component()

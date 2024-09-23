@@ -41,6 +41,8 @@ HRESULT CStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
 
+	Set_Collision();
+
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
@@ -233,6 +235,11 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
+}
+
+void CStage::Set_Collision()
+{
+	Engine::CheckGroup(L"Layer_GameLogic", L"Layer_GameLogic");
 }
 
 void CStage::Free()
