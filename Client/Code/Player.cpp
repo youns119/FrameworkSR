@@ -12,6 +12,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pLeft_BufferCom(nullptr)
 	, m_pLeft_TransformCom(nullptr)
 	, m_pCalculatorCom(nullptr)
+	, m_pColliderCom(nullptr)
 	, bJumpCheck(false)
 	, bLegUse(false)
 	, fJumpPower(0.f)
@@ -57,6 +58,10 @@ HRESULT CPlayer::Ready_GameObject()
 
 	m_pRight_TransformCom->Set_Pos(2.f, 1.f, 2.f);
 	m_pLeft_TransformCom->Set_Pos(-2.f, 1.f, 2.f);
+
+	m_pColliderCom->SetTransform(m_pBody_TransformCom);
+	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetShow(true);
 
 	return S_OK;
 }
@@ -112,6 +117,8 @@ void CPlayer::Render_GameObject()
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	m_pColliderCom->Render_Collider();
 }
 
 HRESULT CPlayer::Add_Component()
@@ -219,6 +226,11 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pCComponentCamera = dynamic_cast<CComponentCamera*>(Engine::Clone_Proto(L"Proto_ComponentCamera"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_ComponentCamera", pComponent });
+	pComponent->SetOwner(*this);
+
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 	pComponent->SetOwner(*this);
 
 	return S_OK;

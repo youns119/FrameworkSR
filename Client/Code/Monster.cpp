@@ -8,6 +8,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_pCalculatorCom(nullptr)
+	, m_pColliderCom(nullptr)
 	, m_fFrame(0.f)
 	, m_fMaxFrame(14.f) //Jonghan Change
 	, m_fFrameSpeed(13.f)

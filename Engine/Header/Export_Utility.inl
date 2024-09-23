@@ -4,8 +4,13 @@ inline HRESULT Create_Management(LPDIRECT3DDEVICE9 _pGraphicDev, CManagement** _
 	NULL_CHECK_RETURN(pManagement, E_FAIL);
 
 	*_ppManagement = pManagement;
-	
+
 	return S_OK;
+}
+
+inline CScene* Get_CurrScene()
+{
+	return CManagement::GetInstance()->Get_CurrScene();
 }
 
 inline CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag)
@@ -92,6 +97,22 @@ inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
 }
 
+// CollisionManager
+inline void Update_Collision()
+{
+	CCollisionManager::GetInstance()->Update_Collision();
+}
+
+inline void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight)
+{
+	CCollisionManager::GetInstance()->CheckGroup(_pLeft, _pRight);
+}
+
+inline void Reset()
+{
+	CCollisionManager::GetInstance()->Reset();
+}
+
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet)
 {
@@ -120,5 +141,6 @@ void Release_Utility()
 	CComponentManager::DestroyInstance();
 	CManagement::DestroyInstance();
 	CUIManager::DestroyInstance();
+	CCollisionManager::DestroyInstance();
 	CBulletManager::DestroyInstance();
 }

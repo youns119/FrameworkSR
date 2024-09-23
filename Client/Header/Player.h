@@ -10,6 +10,7 @@ class CTransform;
 class CTexture;
 class CCalculator;
 class CComponentCamera;
+class CCollider;
 
 END
 
@@ -104,6 +105,8 @@ private:
 	Engine::CTexture* m_pLeg_TextureCom[LEG_STATE::LEG_STATE_END];
 	//Camera
 	Engine::CComponentCamera* m_pCComponentCamera;
+
+	Engine::CCollider* m_pColliderCom;
 private:
 	_bool bJumpCheck;
 	_bool bLegUse;

@@ -31,6 +31,8 @@ void CHumanoid::Render_GameObject()
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	m_pColliderCom->Render_Collider();
 }
 
 void CHumanoid::Change_State()

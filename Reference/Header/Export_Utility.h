@@ -23,6 +23,7 @@
 #include "ComponentCamera.h"
 // ¿¬¿í
 #include "Collider.h"
+#include "CollisionManager.h"
 #include "Animator.h"
 #include "Animation.h"
 
@@ -36,6 +37,7 @@ BEGIN(Engine)
 
 inline HRESULT Create_Management(LPDIRECT3DDEVICE9 _pGraphicDev, CManagement** _ppManagement);
 
+inline CScene* Get_CurrScene();
 inline CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag);
 inline	HRESULT	Set_Scene(CScene* _pScene);
 inline	_int Update_Scene(const _float& _fTimeDelta);
@@ -66,6 +68,10 @@ inline _int Update_UI(const _float& _fTimeDelta);
 inline void LateUpdate_UI();
 inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
+// CollisionManager
+inline void Update_Collision();
+inline void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight);
+inline void Reset();
 
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet);

@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+class CTransform;
+
 class ENGINE_DLL CCollider
 	: public CComponent
 {
@@ -20,6 +22,7 @@ public:
 	_uint GetID() { return m_iID; }
 	_bool GetShow() { return m_bShow; }
 
+	void SetTransform(CTransform* _pTransform) { m_pTransform = _pTransform; }
 	void SetOffsetPos(const _vec3& _vPos) { m_vOffsetPos = _vPos; }
 	void SetRadius(const _float& _fRadius) { m_fRadius = _fRadius; }
 	void SetShow(_bool _bShow) { m_bShow = _bShow; }
@@ -44,6 +47,8 @@ private:
 	virtual void Free();
 
 private:
+	CTransform* m_pTransform;
+
 	_vec3 m_vOffsetPos;
 	_vec3 m_vFinalPos;
 

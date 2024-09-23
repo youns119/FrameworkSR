@@ -5,31 +5,32 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CLayer 
+class ENGINE_DLL CLayer
 	: public CBase
 {
-private :
+private:
 	explicit CLayer();
 	virtual ~CLayer();
 
-public :
+public:
+	multimap<const _tchar*, CGameObject*>* Get_LayerObjects() { return &m_mapObject; }
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pObjTag, const _tchar* _pComponentTag);
 
-public :
+public:
 	static CLayer* Create();
 
-public :
+public:
 	HRESULT	Add_GameObject(const _tchar* _pObjTag, CGameObject* _pGameObject);
 
-public :
+public:
 	HRESULT	Ready_Layer();
 	_int Update_Layer(const _float& _fTimeDelta);
 	void LateUpdate_Layer();
 
-private :
+private:
 	virtual void Free();
 
-private :
+private:
 	multimap<const _tchar*, CGameObject*> m_mapObject;
 };
 

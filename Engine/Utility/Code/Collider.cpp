@@ -4,7 +4,8 @@
 UINT CCollider::g_iNextID = 0;
 
 CCollider::CCollider()
-	: m_vOffsetPos(0.f, 0.f, 0.f)
+	: m_pTransform(nullptr)
+	, m_vOffsetPos(0.f, 0.f, 0.f)
 	, m_vFinalPos(0.f, 0.f, 0.f)
 	, m_bActive(false)
 	, m_bShow(false)
@@ -17,6 +18,7 @@ CCollider::CCollider()
 
 CCollider::CCollider(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CComponent(_pGraphicDev)
+	, m_pTransform(nullptr)
 	, m_vOffsetPos(0.f, 0.f, 0.f)
 	, m_vFinalPos(0.f, 0.f, 0.f)
 	, m_bActive(false)
@@ -30,6 +32,7 @@ CCollider::CCollider(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 CCollider::CCollider(const CCollider& _rhs)
 	: CComponent(_rhs)
+	, m_pTransform(_rhs.m_pTransform)
 	, m_vOffsetPos(_rhs.m_vOffsetPos)
 	, m_vFinalPos(_rhs.m_vFinalPos)
 	, m_bActive(_rhs.m_bActive)
@@ -60,17 +63,13 @@ CCollider* CCollider::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 HRESULT CCollider::Ready_Collider()
 {
-	m_fRadius = 10.f;
-
 	return S_OK;
 }
 
 void CCollider::LateUpdate_Component()
 {
-	CTransform* pTransform = dynamic_cast<CTransform*>(m_pOwner->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
-
 	_vec3 vObjectPos;
-	pTransform->Get_Info(INFO::INFO_POS, &vObjectPos);
+	m_pTransform->Get_Info(INFO::INFO_POS, &vObjectPos);
 
 	m_vFinalPos = vObjectPos + m_vOffsetPos;
 }
@@ -105,7 +104,7 @@ void CCollider::Render_Collider()
 		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
 
-		D3DXCreateSphere(m_pGraphicDev, 5.f, 20, 20, &m_pSphere, NULL);
+		D3DXCreateSphere(m_pGraphicDev, m_fRadius, 20, 20, &m_pSphere, NULL);
 
 		m_pSphere->DrawSubset(0);
 		m_pSphere->Release();

@@ -9,6 +9,7 @@ class CRcTex;
 class CTexture;
 class CCalculator;
 class CTransform;
+class CCollider;
 
 END
 
@@ -42,6 +43,7 @@ protected:
 	//Engine::CTriCol* m_pBufferCom;
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CCalculator* m_pCalculatorCom;
+	Engine::CCollider* m_pColliderCom;
 
 	_float m_fFrame;
 	_float m_fMaxFrame;

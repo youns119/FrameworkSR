@@ -2,7 +2,7 @@
 
 IMPLEMENT_SINGLETON(CManagement)
 
-CManagement::CManagement() 
+CManagement::CManagement()
 	: m_pScene(nullptr)
 {
 }
@@ -47,6 +47,7 @@ void CManagement::LateUpdate_Scene()
 
 	// ¿¬¿í
 	Engine::LateUpdate_UI();
+	Engine::Update_Collision();
 }
 
 void CManagement::Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev)

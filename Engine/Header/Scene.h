@@ -5,26 +5,27 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CScene 
+class ENGINE_DLL CScene
 	: public CBase
 {
-protected :
+protected:
 	explicit CScene(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CScene();
 
-public :
+public:
+	multimap<const _tchar*, CGameObject*>* Get_LayerObjects(const _tchar* _pLayerTag);
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag);
 
-public :
+public:
 	virtual	HRESULT	Ready_Scene();
 	virtual	_int Update_Scene(const _float& _fTimeDelta);
 	virtual	void LateUpdate_Scene();
 	virtual	void Render_Scene() PURE;
 
-protected :
+protected:
 	virtual	void Free();
 
-protected :
+protected:
 	map<const _tchar*, CLayer*>	m_mapLayer;
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 };
