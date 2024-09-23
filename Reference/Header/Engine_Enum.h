@@ -27,6 +27,18 @@ namespace Engine
 		UI_PLUS_COMBO,
 		UI_END,
 	};
+
+	enum class CHANNELID
+	{
+		SOUND_BGM,
+		SOUND_PLAYER,
+		SOUND_ENEMY,
+		SOUND_PROJECTILE,
+		SOUND_EFFECT,
+		SOUND_INTERACT,
+		SOUND_INTERFACE,
+		MAXCHANNEL
+	};
 }
 
 #endif // Engine_Enum_h__

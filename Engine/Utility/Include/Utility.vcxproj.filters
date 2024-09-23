@@ -97,6 +97,9 @@
     <Filter Include="04.Component\07.Animator\00.Animation">
       <UniqueIdentifier>{f3a261b9-4428-4ba7-9288-2b15c3d83033}</UniqueIdentifier>
     </Filter>
+    <Filter Include="09.Sound">
+      <UniqueIdentifier>{6d6f91ac-1702-4cea-ac88-f1c8afe4fbf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -195,6 +198,9 @@
     <ClInclude Include="..\..\Header\Animation.h">
       <Filter>04.Component\07.Animator\00.Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\SoundManager.h">
+      <Filter>09.Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -289,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Animation.cpp">
       <Filter>04.Component\07.Animator\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoundManager.cpp">
+      <Filter>09.Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

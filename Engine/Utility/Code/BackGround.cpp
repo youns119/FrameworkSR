@@ -96,8 +96,8 @@ HRESULT CBackGround::Add_Component()
 
 void CBackGround::Set_Animation()
 {
-	m_pAnimator->CreateAnimation(L"Loading", m_pTextureCom, 10.f);
-	m_pAnimator->CreateAnimation(L"Test", m_pTextureCom_Test, 10.f);
+	m_pAnimator->CreateAnimation(L"Loading", m_pTextureCom, 5.f);
+	m_pAnimator->CreateAnimation(L"Test", m_pTextureCom_Test, 5.f);
 
 	m_pAnimator->PlayAnimation(L"Loading", true);
 }

@@ -393,6 +393,7 @@ void CPlayer::Mouse_Move()
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
 
+		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
 	}
 
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {
