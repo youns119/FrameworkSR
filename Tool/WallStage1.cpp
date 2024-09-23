@@ -1,67 +1,65 @@
 #include "pch.h"
-#include "../Header/Wall.h"
+#include "WallStage1.h"
 #include "Export_Utility.h"
 
-CWall::CWall(LPDIRECT3DDEVICE9 _pGraphicDev)
-    : Engine::CGameObject(_pGraphicDev)
-    , m_pBufferCom(nullptr)
-    , m_pTransformCom(nullptr)
-    , m_pTextureCom(nullptr)
+CWallStage1::CWallStage1(LPDIRECT3DDEVICE9 _pGraphicDev)
+    : CWallInfo(_pGraphicDev)
 {
 }
 
-CWall::~CWall()
+CWallStage1::~CWallStage1()
 {
 }
 
-CWall* CWall::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CWallStage1* CWallStage1::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-    CWall* pWall = new CWall(_pGraphicDev);
+    CWallStage1* pWallStage1 = new CWallStage1(_pGraphicDev);
 
-    if (FAILED(pWall->Ready_GameObject()))
+    if (FAILED(pWallStage1->Ready_GameObject()))
     {
-        Safe_Release(pWall);
-        MSG_BOX("pWall Create Failed");
+        Engine::Safe_Release(pWallStage1);
+        MSG_BOX("pWallStage1 Create Failed");
         return nullptr;
     }
 
-    return pWall;
+
+    return pWallStage1;
 }
 
-HRESULT CWall::Ready_GameObject()
+HRESULT CWallStage1::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
     return S_OK;
-
 }
 
-_int CWall::Update_GameObject(const _float& _fTimeDelta)
+_int CWallStage1::Update_GameObject(const _float& _fTimeDelta)
 {
-    Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
+    Engine::Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
-    return Engine::CGameObject::Update_GameObject(_fTimeDelta);
+    return Engine::CGameObject::Update_GameObject(_fTimeDelta);;
 }
 
-void CWall::LateUpdate_GameObject()
+void CWallStage1::LateUpdate_GameObject()
 {
     Engine::CGameObject::LateUpdate_GameObject();
 }
 
-void CWall::Render_GameObject()
-{  
+void CWallStage1::Render_GameObject()
+{
+    m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
     FAILED_CHECK_RETURN(Setup_Material(), );
-
     m_pTextureCom->Set_Texture(0);
 
     m_pBufferCom->Render_Buffer();
-    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
+    m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-HRESULT CWall::Add_Component()
+HRESULT CWallStage1::Add_Component()
 {
     CComponent* pComponent = NULL;
 
@@ -80,7 +78,7 @@ HRESULT CWall::Add_Component()
     return S_OK;
 }
 
-HRESULT CWall::Setup_Material()
+HRESULT CWallStage1::Setup_Material()
 {
     D3DMATERIAL9 tMtrl;
     ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
@@ -97,7 +95,12 @@ HRESULT CWall::Setup_Material()
     return S_OK;
 }
 
-void CWall::Free()
+void CWallStage1::Setup_Position(_vec3 _vecPos)
+{
+    m_pTransformCom->Set_Pos(_vecPos.x, _vecPos.y, _vecPos.z);
+}
+
+void CWallStage1::Free()
 {
     Engine::CGameObject::Free();
 }

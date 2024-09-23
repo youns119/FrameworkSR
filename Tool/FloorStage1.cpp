@@ -1,75 +1,74 @@
 #include "pch.h"
-#include "../Header/Wall.h"
+#include "FloorStage1.h"
 #include "Export_Utility.h"
 
-CWall::CWall(LPDIRECT3DDEVICE9 _pGraphicDev)
-    : Engine::CGameObject(_pGraphicDev)
-    , m_pBufferCom(nullptr)
-    , m_pTransformCom(nullptr)
-    , m_pTextureCom(nullptr)
+CFloorStage1::CFloorStage1(LPDIRECT3DDEVICE9 _pGraphicDev)
+	: CFloorInfo(_pGraphicDev)
 {
 }
 
-CWall::~CWall()
+CFloorStage1::~CFloorStage1()
 {
 }
 
-CWall* CWall::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CFloorStage1* CFloorStage1::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-    CWall* pWall = new CWall(_pGraphicDev);
+    CFloorStage1* pFloorStage1 = new CFloorStage1(_pGraphicDev);
 
-    if (FAILED(pWall->Ready_GameObject()))
+    if (FAILED(pFloorStage1->Ready_GameObject()))
     {
-        Safe_Release(pWall);
-        MSG_BOX("pWall Create Failed");
+        Engine::Safe_Release(pFloorStage1);
+        MSG_BOX("pFloorStage1 Create Failed");
         return nullptr;
     }
 
-    return pWall;
+
+    return pFloorStage1;
 }
 
-HRESULT CWall::Ready_GameObject()
+HRESULT CFloorStage1::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
     return S_OK;
-
 }
 
-_int CWall::Update_GameObject(const _float& _fTimeDelta)
+_int CFloorStage1::Update_GameObject(const _float& _fTimeDelta)
 {
-    Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
+    Engine::Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
-    return Engine::CGameObject::Update_GameObject(_fTimeDelta);
+    return Engine::CGameObject::Update_GameObject(_fTimeDelta);;
 }
 
-void CWall::LateUpdate_GameObject()
+void CFloorStage1::LateUpdate_GameObject()
 {
     Engine::CGameObject::LateUpdate_GameObject();
 }
 
-void CWall::Render_GameObject()
-{  
+void CFloorStage1::Render_GameObject()
+{
+    m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
     FAILED_CHECK_RETURN(Setup_Material(), );
-
     m_pTextureCom->Set_Texture(0);
 
     m_pBufferCom->Render_Buffer();
-    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
+    m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-HRESULT CWall::Add_Component()
+HRESULT CFloorStage1::Add_Component()
 {
     CComponent* pComponent = NULL;
 
-    pComponent = m_pBufferCom = dynamic_cast<CWallTex*>(Engine::Clone_Proto(L"Proto_WallTex"));
+    pComponent = m_pBufferCom = dynamic_cast<CFloorTex*>(Engine::Clone_Proto(L"Proto_FloorTex"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_AcidWall"));
+    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_FirstFloor"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -80,7 +79,7 @@ HRESULT CWall::Add_Component()
     return S_OK;
 }
 
-HRESULT CWall::Setup_Material()
+HRESULT CFloorStage1::Setup_Material()
 {
     D3DMATERIAL9 tMtrl;
     ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
@@ -97,7 +96,12 @@ HRESULT CWall::Setup_Material()
     return S_OK;
 }
 
-void CWall::Free()
+void CFloorStage1::Setup_Position(_vec3 _vecPos)
+{
+    m_pTransformCom->Set_Pos(_vecPos.x, _vecPos.y, _vecPos.z);
+}
+
+void CFloorStage1::Free()
 {
     Engine::CGameObject::Free();
 }

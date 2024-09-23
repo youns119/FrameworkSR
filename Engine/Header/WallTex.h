@@ -14,14 +14,10 @@ public:
 	const _vec3* Get_VtxPos() const { return m_pPos; }
 
 public:
-	static CWallTex* Create(LPDIRECT3DDEVICE9 _pGraphicDev, 
-		const _ulong& _dwCntX,
-		const _ulong& _dwCntY,
-		const _ulong& _dwCntZ,
-		const _ulong& _dwVtxItv);
+	static CWallTex* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
-	HRESULT	Ready_Buffer(const _ulong& _dwCntX, const _ulong& _dwCntY, const _ulong& _dwCntZ, const _ulong& _dwVtxItv);
+	HRESULT	Ready_Buffer();
 	virtual	void Render_Buffer();
 
 public:
