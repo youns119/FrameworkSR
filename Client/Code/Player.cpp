@@ -13,6 +13,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pLeft_TransformCom(nullptr)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
+	, m_bActive(true)
 	, bJumpCheck(false)
 	, bLegUse(false)
 	, fJumpPower(0.f)
@@ -68,14 +69,18 @@ HRESULT CPlayer::Ready_GameObject()
 
 _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
+	if (m_bActive)
+	{
+		Picking_Terrain();
+		Key_Input(_fTimeDelta);
+		Mouse_Move();
+		Mouse_Fix();
+	}
+
 	Move_Frame(_fTimeDelta);
 	Update_Pos();
 	Motion_Change();
-	Picking_Terrain();
-	Key_Input(_fTimeDelta);
 	Jump(_fTimeDelta);
-	Mouse_Move();
-	//Mouse_Fix();
 
 	Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
 	Engine::Add_Collider(m_pColliderCom);
@@ -86,13 +91,16 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 
 void CPlayer::LateUpdate_GameObject()
 {
-	
+
 	Engine::CGameObject::LateUpdate_GameObject();
 }
 
 void CPlayer::Render_GameObject()
 {
 	//Beomseung Fix
+
+	if (!m_bActive)
+		return;
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
@@ -348,12 +356,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		CComponent* pComponent(nullptr);
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Stop_Effect();
-	}
-
-	// ¿¬¿í
-	if (Engine::Key_Press(DIK_T))
-	{
-		Engine::CTimerManager::GetInstance()->OnOff_Timer();
 	}
 
 }
@@ -613,6 +615,13 @@ _vec3 CPlayer::Picking_OnTerrain()
 	NULL_CHECK_RETURN(pTerrainTransCom, _vec3());
 
 	return m_pCalculatorCom->Picking_OnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransCom);
+}
+
+void CPlayer::Toggle_Active()
+{
+	m_bActive = !m_bActive;
+
+	m_pCComponentCamera->Toggle_Active();
 }
 
 void CPlayer::Free()

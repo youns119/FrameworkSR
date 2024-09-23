@@ -7,6 +7,7 @@ CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CCamera(_pGraphicDev)
 	, m_bFix(false)
 	, m_bCheck(false)
+	, m_bActive(false)
 {
 }
 
@@ -65,21 +66,24 @@ HRESULT CDynamicCamera::Ready_GameObject
 
 _int CDynamicCamera::Update_GameObject(const _float& _fTimeDelta)
 {
+	if (!m_bActive)
+		return 0;
+
 	_int iExit = CCamera::Update_GameObject(_fTimeDelta);
 
-	m_vAt = { Test().x - 1.5f,Test().y,Test().z };
-	m_vEye = { Test().x - 1.5f,Test().y + 1.f,Test().z - 2.f };
 	Key_Input(_fTimeDelta);
-
 
 	return iExit;
 }
 
 void CDynamicCamera::LateUpdate_GameObject()
 {
-	if (m_bFix == false)
+	if (!m_bActive)
+		return;
+
+	if (false == m_bFix)
 	{
-		//Mouse_Fix();
+		Mouse_Fix();
 		Mouse_Move();
 	}
 
@@ -88,55 +92,57 @@ void CDynamicCamera::LateUpdate_GameObject()
 
 void CDynamicCamera::Key_Input(const _float& _fTimeDelta)
 {
-	_matrix	matCamWorld;
+	_matrix		matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
-	/*if (Engine::Get_DIKeyState(DIK_W) & 0x80)
+	_float fTimeDelta = 0.05f;
+
+	if (Engine::Key_Hold(DIK_W))
 	{
-		_vec3 vLook;
+		_vec3	vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3 vLength = *D3DXVec3Normalize(&vLook, &vLook) * _fTimeDelta * 15.f;
+		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * 5.f;
 
 		m_vEye += vLength;
 		m_vAt += vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_S) & 0x80)
+	if (Engine::Key_Hold(DIK_S))
 	{
-		_vec3 vLook;
+		_vec3	vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3 vLength = *D3DXVec3Normalize(&vLook, &vLook) * _fTimeDelta * 15.f;
+		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * 5.f;
 
 		m_vEye -= vLength;
 		m_vAt -= vLength;
 	}
 
 
-	if (Engine::Get_DIKeyState(DIK_D) & 0x80)
+	if (Engine::Key_Hold(DIK_D))
 	{
-		_vec3 vRight;
+		_vec3	vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3 vLength = *D3DXVec3Normalize(&vRight, &vRight) * _fTimeDelta * 15.f;
+		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * 5.f;
 
 		m_vEye += vLength;
 		m_vAt += vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_A) & 0x80)
+	if (Engine::Key_Hold(DIK_A))
 	{
-		_vec3 vRight;
+		_vec3	vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3 vLength = *D3DXVec3Normalize(&vRight, &vRight) * _fTimeDelta * 15.f;
+		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * 5.f;
 
 		m_vEye -= vLength;
 		m_vAt -= vLength;
-	}*/
+	}
 
-	if (Engine::Key_Press(DIK_TAB))
+	if (Engine::Key_Hold(DIK_TAB))
 	{
 		if (m_bCheck)
 			return;
@@ -148,10 +154,11 @@ void CDynamicCamera::Key_Input(const _float& _fTimeDelta)
 		else
 			m_bFix = true;
 	}
+
 	else
 		m_bCheck = false;
 
-	if (m_bFix == false)
+	if (false == m_bFix)
 		return;
 }
 
@@ -197,13 +204,12 @@ void CDynamicCamera::Mouse_Fix()
 	SetCursorPos(ptMouse.x, ptMouse.y);
 }
 
-_vec3 CDynamicCamera::Test()
+void CDynamicCamera::Toggle_Active()
 {
-	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Left_Transform"));
-	_vec3 vPlayerPos;
-	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+	m_bActive = !m_bActive;
 
-	return vPlayerPos;
+	if (m_bActive)
+		CCamera::Ready_GameObject();
 }
 
 void CDynamicCamera::Free()

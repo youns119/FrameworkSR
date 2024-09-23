@@ -43,11 +43,16 @@ private:
 	void Key_Input(const _float& _fTimeDelta);
 	void Mouse_Move();
 	void Mouse_Fix();
-	_vec3 Test();
+
+public:
+	void Toggle_Active();
+
 private:
 	virtual void Free();
 
 private:
 	_bool m_bFix;
 	_bool m_bCheck;
+
+	_bool m_bActive;
 };

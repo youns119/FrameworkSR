@@ -16,6 +16,9 @@ public:
 	static CComponentCamera* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
+	void Toggle_Active();
+
+public:
 	virtual CComponentCamera* Clone();
 
 protected:
@@ -26,6 +29,7 @@ protected:
 	_float m_fFov, m_fAspect, m_fNear, m_fFar;
 	_matrix m_matView, m_matProj;
 
+	_bool m_bActive;
 };
 
 END

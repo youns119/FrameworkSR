@@ -8,6 +8,7 @@ CAnimation::CAnimation(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fAnimSpeed(0.f)
 	, m_bAnimFinish(false)
 {
+	m_pGraphicDev->AddRef();
 }
 
 CAnimation::~CAnimation()

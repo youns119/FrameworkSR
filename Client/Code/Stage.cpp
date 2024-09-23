@@ -54,6 +54,18 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 	if (Engine::Key_Press(DIK_0))
 		Engine::Toggle_Collider();
 
+	if (Engine::Key_Press(DIK_9))
+	{
+		CGameObject* pGameObject = Engine::Get_CurrScene()->Get_GameObject(L"Layer_GameLogic", L"Player");
+		dynamic_cast<CPlayer*>(pGameObject)->Toggle_Active();
+
+		pGameObject = Engine::Get_CurrScene()->Get_GameObject(L"Layer_Environment", L"DynamicCamera");
+		dynamic_cast<CDynamicCamera*>(pGameObject)->Toggle_Active();
+	}
+
+	if (Engine::Key_Press(DIK_8))
+		Engine::CTimerManager::GetInstance()->OnOff_Timer();
+
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 
@@ -98,15 +110,15 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
 	_vec3 vAt(0.f, 0.f, 1.f);
 	_vec3 vUp(0.f, 1.f, 0.f);
 
-	//pGameObject = CDynamicCamera::Create
-	//(
-	//	m_pGraphicDev,
-	//	&vEye,
-	//	&vAt,
-	//	&vUp
-	//);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
+	pGameObject = CDynamicCamera::Create
+	(
+		m_pGraphicDev,
+		&vEye,
+		&vAt,
+		&vUp
+	);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
 
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -162,7 +174,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	//pGameObject = CDogDrone::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DogDrone", pGameObject), E_FAIL);
-	 
+
 	for (_int i = 0; i < 100; ++i)
 	{
 		Engine::CBullet* pAmmo = nullptr;

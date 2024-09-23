@@ -14,6 +14,7 @@ protected:
 
 public:
 	multimap<const _tchar*, CGameObject*>* Get_LayerObjects(const _tchar* _pLayerTag);
+	CGameObject* Get_GameObject(const _tchar* _pLayerTag, const _tchar* _pObjTag);
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag);
 
 public:

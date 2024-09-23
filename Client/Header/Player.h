@@ -83,6 +83,9 @@ private:
 	void Update_Pos();
 	_vec3 Picking_OnTerrain();
 
+public:
+	void Toggle_Active();
+
 private:
 	virtual void Free();
 
@@ -108,6 +111,7 @@ private:
 
 	Engine::CCollider* m_pColliderCom;
 private:
+	_bool m_bActive;
 	_bool bJumpCheck;
 	_bool bLegUse;
 	_float fJumpPower;
