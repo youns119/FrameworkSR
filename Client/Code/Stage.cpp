@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "..\Header\Stage.h"
 #include "Export_Utility.h"
+#include "Export_System.h"
 #include "..\Header\DynamicCamera.h"
 #include "../Header/EffectMuzzleFlash.h"
 #include "../Header/EffectPlayerBlood.h"
@@ -50,6 +51,9 @@ HRESULT CStage::Ready_Scene()
 
 _int CStage::Update_Scene(const _float& _fTimeDelta)
 {
+	if (Engine::Key_Press(DIK_0))
+		Engine::Toggle_Collider();
+
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 

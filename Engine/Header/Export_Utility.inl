@@ -98,6 +98,16 @@ inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 }
 
 // CollisionManager
+inline _bool Get_Render()
+{
+	return CCollisionManager::GetInstance()->Get_Render();
+}
+
+inline void Toggle_Collider()
+{
+	CCollisionManager::GetInstance()->Toggle_Collider();
+}
+
 inline void Update_Collision()
 {
 	CCollisionManager::GetInstance()->Update_Collision();

@@ -88,6 +88,9 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 void CRenderer::Render_Collider(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
+	if (!Engine::Get_Render())
+		return;
+
 	DWORD State, PreState;
 	_pGraphicDev->GetRenderState(D3DRS_FILLMODE, &PreState);
 	_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);

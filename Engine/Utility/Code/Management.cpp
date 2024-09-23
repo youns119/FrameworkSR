@@ -56,9 +56,6 @@ void CManagement::Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 	NULL_CHECK(m_pScene);
 	m_pScene->Render_Scene();
-
-	// ¿¬¿í
-	Engine::Render_UI(_pGraphicDev);
 }
 
 void CManagement::Free()

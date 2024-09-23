@@ -27,6 +27,9 @@ private:
 	virtual ~CCollisionManager();
 
 public:
+	_bool Get_Render() const { return m_bRender; }
+
+public:
 	void Update_Collision();
 	void Render_Collider();
 
@@ -35,6 +38,7 @@ private:
 	_bool isCollision(CCollider* _pLCol, CCollider* _pRCol);
 
 public:
+	void Toggle_Collider() { m_bRender = !m_bRender; }
 	void Add_Collider(CCollider* _pCollider);
 	void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight);
 	void Clear_Collider();
@@ -48,6 +52,8 @@ private:
 	vector<pair<const _tchar*, const _tchar*>> m_vecCheck;
 
 	list<CCollider*> m_listRender;
+
+	_bool m_bRender;
 };
 
 END

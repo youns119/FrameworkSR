@@ -69,6 +69,8 @@ inline void LateUpdate_UI();
 inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
 // CollisionManager
+inline _bool Get_Render();
+inline void Toggle_Collider();
 inline void Update_Collision();
 inline void Render_Collider();
 inline void Add_Collider(CCollider* _pCollider);

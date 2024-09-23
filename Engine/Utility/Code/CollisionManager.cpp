@@ -4,9 +4,11 @@
 IMPLEMENT_SINGLETON(CCollisionManager)
 
 CCollisionManager::CCollisionManager()
+	: m_bRender(false)
 {
 	m_mapColInfo.clear();
 	m_vecCheck.clear();
+	m_listRender.clear();
 }
 
 CCollisionManager::~CCollisionManager()
