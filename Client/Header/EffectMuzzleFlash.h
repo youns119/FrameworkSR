@@ -33,20 +33,23 @@ private:
 	void Free() override;
 
 private:
-	Engine::CTransform* m_pTransformCom;
+	void Animate_UV();
+	void Reset();
+
+private:
+	vector<Engine::CTransform*> m_vecTransformCom;
 	Engine::CTexture* m_pTextureCom;
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CEffect* m_pEffectCom;
 
 private:
-	//_float m_fLifeTime;
-	//_bool m_bIsVisible;
-	//_float m_fElapse;
-
-	// sprite animation component ? 
 	_uint m_iTotalFrame;
 	_uint m_iCurFrame;
 
+	_vec3 m_vInitPosition;
+
+private:
+	static void Set_RandomRotation(void* _this);
 
 };
 

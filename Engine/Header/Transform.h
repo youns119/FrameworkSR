@@ -28,6 +28,8 @@ public :
 	{
 		m_matWorld = *_pWorld;
 	}
+	// ±Ôºó
+	void Set_Pos(const _vec3& _vPos) { m_vInfo[(_uint)INFO::INFO_POS] = _vPos; }
 	void Set_Pos(_float _fX, _float _fY, _float _fZ)
 	{
 		m_vInfo[(_uint)INFO::INFO_POS] = { _fX, _fY, _fZ };

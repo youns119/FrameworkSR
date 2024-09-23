@@ -51,9 +51,9 @@ void CEffectPlayerBlood::LateUpdate_GameObject()
     _float fPersentage = m_pEffectCom->Get_ElapsedPersentage();
     m_iCurFrame = m_iTotalFrame * fPersentage;
 
-    _vec3	vTemp;
-    m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
-    CGameObject::Compute_ViewZ(&vTemp);
+    //_vec3	vTemp;
+    //m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
+    //CGameObject::Compute_ViewZ(&vTemp);
 
     Engine::CGameObject::LateUpdate_GameObject();
 }

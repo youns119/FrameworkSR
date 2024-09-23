@@ -349,10 +349,8 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 	}
-	if (Engine::Key_Press(DIK_C))
+	if (Engine::Key_Release(DIK_LSHIFT))
 	{
-		// HOW TO KNOW WHEN KEY UP? I DO NOT KNOW 
-		// MY PLAN WAS TO MAKE THIS CODE WORK WHEN IT WAS SHIFT KEY-UP
 		CComponent* pComponent(nullptr);
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Stop_Effect();
@@ -389,6 +387,12 @@ void CPlayer::Mouse_Move()
 			break;
 		}
 		m_fFrameStart[RIGHT] = 0;
+
+		// ±Ôºó
+		CComponent* pComponent(nullptr);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
+
 	}
 
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {
