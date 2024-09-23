@@ -18,9 +18,15 @@ class CPlayer
 {
 private:
 	enum RIGHT_STATE {
-		RIGHT_IDLE,
-		SHOOT,
-		SLIDING,
+		PISTOL_IDLE,
+		PISTOL_SHOOT,
+		PISTOL_RELOAD,
+		RIFLE_IDLE,
+		RIFLE_SHOOT,
+		RIFLE_RELOAD,
+		SHOTGUN_IDLE,
+		SHOTGUN_SHOOT,
+		SHOTGUN_RELOAD,
 		RIGHT_STATE_END
 	};
 	enum LEFT_STATE {
@@ -28,10 +34,27 @@ private:
 		DRINK,
 		LEFT_STATE_END
 	};
+
+	enum LEG_STATE {
+		LEG_IDLE,
+		KICK,
+		SLIDING,
+		LEG_STATE_END
+	};
+
 	enum SELECT {
 		LEFT,
 		RIGHT,
+		LEG,
 		FINISH
+	};
+
+	enum WEAPON_STATE {
+		PISTOL,
+		RIFLE,
+		SNIPER,
+		SHOTGUN,
+		WEAPON_STATE_END
 	};
 
 private:
@@ -56,6 +79,7 @@ private:
 	void Picking_Terrain();
 	void Motion_Change();
 	void Move_Frame(const _float& _fTimeDelta);
+	void Update_Pos();
 	_vec3 Picking_OnTerrain();
 
 private:
@@ -65,16 +89,24 @@ private:
 	Engine::CCalculator* m_pCalculatorCom;
 
 	//Beomseung
+	//Buffer
 	Engine::CRcTex* m_pRight_BufferCom;
 	Engine::CRcTex* m_pLeft_BufferCom;
+	Engine::CRcTex* m_pLeg_BufferCom;
+	//Transform
 	Engine::CTransform* m_pBody_TransformCom;
 	Engine::CTransform* m_pRight_TransformCom;
 	Engine::CTransform* m_pLeft_TransformCom;
-	Engine::CTexture* m_pRight_TextureCom[RIGHT_STATE_END];
-	Engine::CTexture* m_pLeft_TextureCom[LEFT_STATE_END];
+	Engine::CTransform* m_pLeg_TransformCom;
+	//Texture
+	Engine::CTexture* m_pRight_TextureCom[RIGHT_STATE::RIGHT_STATE_END];
+	Engine::CTexture* m_pLeft_TextureCom[LEFT_STATE::LEFT_STATE_END];
+	Engine::CTexture* m_pLeg_TextureCom[LEG_STATE::LEG_STATE_END];
+	//Camera
 	Engine::CComponentCamera* m_pCComponentCamera;
 private:
 	_bool bJumpCheck;
+	_bool bLegUse;
 	_float fJumpPower;
 	_float fTilePos;
 
@@ -84,7 +116,12 @@ private:
 	LEFT_STATE m_Left_CurState;
 	LEFT_STATE m_Left_PreState;
 
-	_float m_fFrameStart[FINISH];
-	_float m_fFrameEnd[FINISH];
-	_float m_fFrameSpeed[FINISH];
+	LEG_STATE m_Leg_CurState;
+	LEG_STATE m_Leg_PreState;
+
+	WEAPON_STATE m_WeaponState;
+
+	_float m_fFrameStart[SELECT::FINISH];
+	_float m_fFrameEnd[SELECT::FINISH];
+	_float m_fFrameSpeed[SELECT::FINISH];
 };
