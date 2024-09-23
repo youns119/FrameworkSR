@@ -5,6 +5,7 @@ CEffect::CEffect()
 	, m_fElapsed(0.f)
 	, m_bIsVisible(false)
 	, m_bRepeatable(FALSE)
+	, m_pCallBack(nullptr)
 {
 }
 
@@ -14,6 +15,7 @@ CEffect::CEffect(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fElapsed(0.f)
 	, m_bIsVisible(false)
 	, m_bRepeatable(FALSE)
+	, m_pCallBack(nullptr)
 {
 }
 
@@ -23,6 +25,7 @@ CEffect::CEffect(const CEffect& _rhs)
 	, m_fElapsed(_rhs.m_fElapsed)
 	, m_bIsVisible(_rhs.m_bIsVisible)
 	, m_bRepeatable(FALSE)
+	, m_pCallBack(_rhs.m_pCallBack)
 {
 }
 
@@ -88,6 +91,9 @@ void CEffect::Free()
 
 void CEffect::Operate_Effect()
 {
+	if (m_pCallBack)
+		m_pCallBack(m_pParam);
+
 	Set_Visibility(TRUE);
 }
 

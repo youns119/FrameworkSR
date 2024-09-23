@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CEffect 
+class ENGINE_DLL CEffect
 	: public CComponent
 {
 private:
@@ -47,6 +47,14 @@ private:
 	_float m_fElapsed;
 	_bool m_bIsVisible;
 	_bool m_bRepeatable;
+
+public:
+	void Set_CallBack(void (*_pCallBack)(void*)) { m_pCallBack = _pCallBack; }
+	void Set_CallBackParam(void* _pParam) { m_pParam = _pParam; }
+
+private:
+	void (*m_pCallBack)(void*);
+	void* m_pParam;
 };
 
 END
