@@ -122,6 +122,15 @@
     <Filter Include="04.UI\03.Shop">
       <UniqueIdentifier>{bd378911-9d00-451e-98b4-0c818352e5de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\08.Shield">
+      <UniqueIdentifier>{ede84e59-cfb6-4b4e-a22d-a52a0e825d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\02.Boss_Humanoid">
+      <UniqueIdentifier>{c4b52539-eee9-4acf-b0c3-975ac5a7b776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\02.Monster\03.Boss_Robot">
+      <UniqueIdentifier>{604998bb-6d35-4612-9458-ed27a8cb737f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -235,6 +244,15 @@
     <ClInclude Include="..\Header\UIShop.h">
       <Filter>04.UI\03.Shop</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Shield.h">
+      <Filter>03.GameObject\08.Shield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Humanoid.h">
+      <Filter>03.GameObject\02.Monster\02.Boss_Humanoid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Robot.h">
+      <Filter>03.GameObject\02.Monster\03.Boss_Robot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -335,6 +353,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Loading.cpp">
       <Filter>02.Scene\02.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Shield.cpp">
+      <Filter>03.GameObject\08.Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Humanoid.cpp">
+      <Filter>03.GameObject\02.Monster\02.Boss_Humanoid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Robot.cpp">
+      <Filter>03.GameObject\02.Monster\03.Boss_Robot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

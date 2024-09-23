@@ -53,6 +53,10 @@ HRESULT CWhiteSuit::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterIdleTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_IdleTexture", pComponent });
+
 	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MonsterAttackTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackTexture", pComponent });
@@ -103,6 +107,10 @@ void CWhiteSuit::State_Check()
 	{
 		switch (m_eCurState)
 		{
+		case CHumanoid::HUMANOID_IDLE:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 8.f;
+			break;
 		case CHumanoid::HUMANOID_ATTACK:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 14.f;

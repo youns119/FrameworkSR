@@ -7,11 +7,14 @@
 
 #include "WhiteSuit.h"
 #include "ShotGun.h"  
-#include "BlackMan.h"    //Jonghan Change
-#include "FlyingDrone.h" //Jonghan Change
-#include "SpiderDrone.h" //Jonghan Change
-#include "DogDrone.h"	 //Jonghan Change
+#include "BlackMan.h"    
+#include "FlyingDrone.h" 
+#include "SpiderDrone.h" 
+#include "DogDrone.h"	 
 #include "Ammo.h"
+#include "Boss_Humanoid.h"
+#include "Boss_Robot.h"
+#include "Shield.h"
 
 #include "Terrain.h"
 #include "SkyBox.h"

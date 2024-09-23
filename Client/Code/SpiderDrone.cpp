@@ -33,6 +33,10 @@ HRESULT CSpiderDrone::Ready_GameObject()
 
 	m_pTransformCom->Set_Pos(15.f, 0.f, 15.f);
 
+	m_pColliderCom->SetTransform(m_pTransformCom);
+	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetShow(true);
+
 	return S_OK;
 }
 
@@ -75,6 +79,11 @@ HRESULT CSpiderDrone::Add_Component()
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+	pComponent->SetOwner(*this);
 
 	return S_OK;
 }

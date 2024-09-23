@@ -34,6 +34,10 @@ HRESULT CShotGun::Ready_GameObject()
 
 	m_pTransformCom->Set_Pos(20.f, 0.f, 10.f);
 
+	m_pColliderCom->SetTransform(m_pTransformCom);
+	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetShow(true);
+
 	return S_OK;
 }
 
@@ -48,6 +52,10 @@ HRESULT CShotGun::Add_Component()
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
+
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunIdleTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_IdleTexture", pComponent });
 
 	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunAttackTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -85,6 +93,11 @@ HRESULT CShotGun::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+	pComponent->SetOwner(*this);
+
 	return S_OK;
 }
 
@@ -94,6 +107,10 @@ void CShotGun::State_Check()
 	{
 		switch (m_eCurState)
 		{
+		case CHumanoid::HUMANOID_IDLE:
+			m_fFrame = 0.f;
+			m_fMaxFrame = 8.f;
+			break;
 		case CHumanoid::HUMANOID_ATTACK:
 			m_fFrame = 0.f;
 			m_fMaxFrame = 10.f;
