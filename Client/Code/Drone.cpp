@@ -5,8 +5,8 @@
 
 CDrone::CDrone(LPDIRECT3DDEVICE9 _pGraphicDev) : 
 	CMonster(_pGraphicDev)
-	, m_eCurState(DRONESTATE::DRONE_ATTACK)
-	, m_ePreState(DRONESTATE::DRONE_ATTACK)
+	, m_eCurState(DRONESTATE::DRONE_IDLE)
+	, m_ePreState(DRONESTATE::DRONE_IDLE)
 {
 	for (_int i = 0; i < DRONESTATE::DRONE_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -24,9 +24,7 @@ void CDrone::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	m_pTextureCom[m_eCurState]->Set_Texture((_uint)m_fFrame); //Jonghan Change
-
-
+	m_pAnimatorCom->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -35,7 +33,7 @@ void CDrone::Render_GameObject()
 
 void CDrone::Change_State()
 {
-	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
+	if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
 	{
 		switch (m_eCurState)
 		{
@@ -55,6 +53,8 @@ void CDrone::Change_State()
 			m_eCurState = CDrone::DRONE_ATTACK;
 			break;
 		}
+		m_pAnimatorCom->GetCurrAnim()->SetFinish(false);
+
 	}
 }
 

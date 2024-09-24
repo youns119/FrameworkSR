@@ -36,6 +36,7 @@ HRESULT CFlyingDrone::Ready_GameObject()
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
+	Set_Animation();
 
 	return S_OK;
 }
@@ -85,6 +86,10 @@ HRESULT CFlyingDrone::Add_Component()
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 	pComponent->SetOwner(*this);
 
+	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
+
 	return S_OK;
 }
 
@@ -95,29 +100,57 @@ void CFlyingDrone::State_Check()
 		switch (m_eCurState)
 		{
 		case CDrone::DRONE_ATTACK:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 4.f;
+			m_pAnimatorCom->PlayAnimation(L"Attack", true);
 			break;
 		case CDrone::DRONE_IDLE:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 12.f;
+			m_pAnimatorCom->PlayAnimation(L"Idle", true);
 			break;
 		case CDrone::DRONE_WALK:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 4.f;
+			m_pAnimatorCom->PlayAnimation(L"Walk", false);
 			break;
 		case CDrone::DRONE_DAMAGED:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 4.f;
+			m_pAnimatorCom->PlayAnimation(L"Damaged", false);
 			break;
 		case CDrone::DRONE_HEADSHOT:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 4.f;
+			m_pAnimatorCom->PlayAnimation(L"HeadShot", false);
 			break;
 		}
 
 		m_ePreState = m_eCurState;
 	}
+}
+
+void CFlyingDrone::Attack(const _float& _fTimeDelta)
+{
+	_vec3 vPos, vPlayerPos, vDir;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
+		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Body_Transform"));
+	NULL_CHECK(pPlayerTransform, -1);
+
+	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+
+	vDir = vPlayerPos - vPos;
+
+	if (10.f < D3DXVec3Length(&vDir))
+	{
+		Changing_State(CDrone::DRONE_IDLE);
+	}
+	else
+	{
+		Changing_State(CDrone::DRONE_ATTACK);
+	}
+}
+
+void CFlyingDrone::Set_Animation()
+{
+	m_pAnimatorCom->CreateAnimation(L"Idle", m_pTextureCom[DRONE_IDLE], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Attack", m_pTextureCom[DRONE_ATTACK], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Damaged", m_pTextureCom[DRONE_DAMAGED], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Walk", m_pTextureCom[DRONE_WALK], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"HeadShot", m_pTextureCom[DRONE_HEADSHOT], 13.f);
+
+	m_pAnimatorCom->PlayAnimation(L"Attack", true);
 }
 
 void CFlyingDrone::Free()

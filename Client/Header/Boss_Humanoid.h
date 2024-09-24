@@ -25,7 +25,9 @@ public:
 private:
 	virtual HRESULT	Add_Component();
 	virtual void State_Check(); //Jonghan Change
-	virtual void Attack();
+	virtual void Attack(const _float& _fTimeDelta);
+	virtual void Set_Animation();
+	void Changing_State(BOSS_HUMANOIDSTATE _eState) { m_eCurState = _eState; }
 
 private:
 	Engine::CTexture* m_pTextureCom[CBoss_Humanoid::BOSS_END];
