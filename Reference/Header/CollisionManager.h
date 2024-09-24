@@ -27,7 +27,7 @@ private:
 	virtual ~CCollisionManager();
 
 public:
-	_bool Get_Render() const { return m_bRender; }
+	_bool Get_ColliderRender() const { return m_bRender; }
 
 public:
 	void Update_Collision();

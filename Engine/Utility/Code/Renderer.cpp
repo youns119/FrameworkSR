@@ -57,6 +57,8 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 void CRenderer::Render_NonAlpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
+	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
 	for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_NONALPHA])
 		pGameObject->Render_GameObject();
 }
@@ -66,10 +68,6 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-	//_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	//_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	//_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0xc0);
 
 	m_RenderGroup[(_uint)RENDERID::RENDER_ALPHA].sort
 	(
@@ -83,39 +81,41 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 		pGameObject->Render_GameObject();
 
 	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	//_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 void CRenderer::Render_Collider(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
-	if (!Engine::Get_Render())
-		return;
+	if (Engine::Get_ColliderRender())
+	{
+		DWORD PreState;
+		_pGraphicDev->GetRenderState(D3DRS_FILLMODE, &PreState);
+		_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	DWORD State, PreState;
-	_pGraphicDev->GetRenderState(D3DRS_FILLMODE, &PreState);
-	_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+		_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
 
-	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+		Engine::Render_Collider();
 
-	Engine::Render_Collider();
+		_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+		_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
-	_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		_pGraphicDev->SetRenderState(D3DRS_FILLMODE, PreState);
+	}
 
-	_pGraphicDev->SetRenderState(D3DRS_FILLMODE, PreState);
+	Engine::Clear_Collider();
 }
 
 void CRenderer::Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
+	if (Engine::Get_ControllerID() != CONTROLLERID::CONTROL_PLAYER)
+		return;
+
 	// alphablending + orthogonal + alpha sorting(not yet) 
 	_matrix matOldProjection, matOldView, matIdentity, matOrthogonal;
 	_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matOldProjection);
@@ -149,7 +149,6 @@ void CRenderer::Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
-	// ¿¬¿í
 	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
 }
 

@@ -4,6 +4,7 @@ IMPLEMENT_SINGLETON(CManagement)
 
 CManagement::CManagement()
 	: m_pScene(nullptr)
+	, m_eController(CONTROLLERID::CONTROL_PLAYER)
 {
 }
 

@@ -22,9 +22,10 @@ namespace Engine
 	enum class UITYPE
 	{
 		UI_PLUS,
-		UI_UPGRADE,
 		UI_CROSSHAIR,
+		UI_UPGRADE,
 		UI_SHOP,
+		UI_INDICATOR,
 		UI_END,
 	};
 
@@ -38,6 +39,13 @@ namespace Engine
 		SOUND_INTERACT,
 		SOUND_INTERFACE,
 		MAXCHANNEL
+	};
+
+	enum class CONTROLLERID
+	{
+		CONTROL_PLAYER,
+		CONTROL_FREECAM,
+		CONTROL_END,
 	};
 }
 

@@ -4,6 +4,7 @@ CUI::CUI(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
 	, m_eUIType(UITYPE::UI_END)
 	, m_bActive(false)
+	, m_fViewZ(0.f)
 {
 	for (_uint i = 0; i < (_uint)COMPONENTID::ID_END; i++)
 		m_mapComponent[i].clear();

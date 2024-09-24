@@ -26,6 +26,7 @@
 #include "UIUpgrade.h"
 #include "UICrossHair.h"
 #include "UIShop.h"
+#include "UIIndicator.h"
 
 class CStage
 	: public Engine::CScene

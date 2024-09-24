@@ -1,4 +1,5 @@
 #include "UIManager.h"
+#include "Export_Utility.h"
 
 IMPLEMENT_SINGLETON(CUIManager)
 
@@ -64,9 +65,19 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
-		for (auto& pUI : m_listRender[i])
-			pUI->Render_UI();
+	if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
+	{
+		for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
+		{
+			if (i == (_uint)UITYPE::UI_INDICATOR)
+				continue;
+
+			for (auto& pUI : m_listRender[i])
+				pUI->Render_UI();
+		}
+	}
+	else
+		m_listRender[(_uint)UITYPE::UI_INDICATOR].front()->Render_UI();
 
 	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);

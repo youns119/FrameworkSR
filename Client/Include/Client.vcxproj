@@ -179,6 +179,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TileContorl.h" />
     <ClInclude Include="..\Header\UICrossHair.h" />
+    <ClInclude Include="..\Header\UIIndicator.h" />
     <ClInclude Include="..\Header\UIPlus.h" />
     <ClInclude Include="..\Header\UIShop.h" />
     <ClInclude Include="..\Header\UIUpgrade.h" />
@@ -229,6 +230,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TileContorl.cpp" />
     <ClCompile Include="..\Code\UICrossHair.cpp" />
+    <ClCompile Include="..\Code\UIIndicator.cpp" />
     <ClCompile Include="..\Code\UIPlus.cpp" />
     <ClCompile Include="..\Code\UIShop.cpp" />
     <ClCompile Include="..\Code\UIUpgrade.cpp" />

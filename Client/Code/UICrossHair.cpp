@@ -24,7 +24,7 @@ CUICrossHair* CUICrossHair::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CUICrossHair* pUICrossHair = new CUICrossHair(_pGraphicDev);
 
-	if (FAILED(pUICrossHair->Ready_UI(), E_FAIL))
+	if (FAILED(pUICrossHair->Ready_UI()))
 	{
 		Safe_Release(pUICrossHair);
 		MSG_BOX("Effect MuzzleFlash create Failed");
@@ -76,25 +76,27 @@ HRESULT CUICrossHair::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_PISTOL] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_CrossHair_Pistol"));
+	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_PISTOL] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Pistol"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_CrossHair_Pistol", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_RIFLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_CrossHair_Rifle"));
+	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_RIFLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Rifle"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_CrossHair_Rifle", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_SNIPER] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_CrossHair_Sniper"));
+	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_SNIPER] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Sniper"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_CrossHair_Sniper", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_SHOTGUN] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_CrossHair_ShotGun"));
+	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_SHOTGUN] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_ShotGun"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_CrossHair_ShotGun", pComponent });
 
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	return S_OK;
 }
 
 void CUICrossHair::Free()

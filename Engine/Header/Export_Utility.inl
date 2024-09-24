@@ -13,6 +13,11 @@ inline CScene* Get_CurrScene()
 	return CManagement::GetInstance()->Get_CurrScene();
 }
 
+inline CONTROLLERID Get_ControllerID()
+{
+	return CManagement::GetInstance()->Get_ControllerID();
+}
+
 inline CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag)
 {
 	return CManagement::GetInstance()->Get_Component(_eID, _pLayerTag, _pObjTag, _pComponentTag);
@@ -21,6 +26,11 @@ inline CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, con
 inline HRESULT Set_Scene(CScene* _pScene)
 {
 	return CManagement::GetInstance()->Set_Scene(_pScene);
+}
+
+inline void Set_ControllerID(CONTROLLERID _eController)
+{
+	CManagement::GetInstance()->Set_ControllerID(_eController);
 }
 
 inline _int Update_Scene(const _float& _fTimeDelta)
@@ -103,9 +113,9 @@ inline list<CUI*>* Get_UIList(UITYPE _eUIType)
 }
 
 // CollisionManager
-inline _bool Get_Render()
+inline _bool Get_ColliderRender()
 {
-	return CCollisionManager::GetInstance()->Get_Render();
+	return CCollisionManager::GetInstance()->Get_ColliderRender();
 }
 
 inline void Toggle_Collider()

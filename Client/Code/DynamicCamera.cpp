@@ -7,7 +7,6 @@ CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CCamera(_pGraphicDev)
 	, m_bFix(false)
 	, m_bCheck(false)
-	, m_bActive(false)
 {
 }
 
@@ -66,7 +65,7 @@ HRESULT CDynamicCamera::Ready_GameObject
 
 _int CDynamicCamera::Update_GameObject(const _float& _fTimeDelta)
 {
-	if (!m_bActive)
+	if (Engine::Get_ControllerID() != CONTROLLERID::CONTROL_FREECAM)
 		return 0;
 
 	_int iExit = CCamera::Update_GameObject(_fTimeDelta);
@@ -78,7 +77,7 @@ _int CDynamicCamera::Update_GameObject(const _float& _fTimeDelta)
 
 void CDynamicCamera::LateUpdate_GameObject()
 {
-	if (!m_bActive)
+	if (Engine::Get_ControllerID() != CONTROLLERID::CONTROL_FREECAM)
 		return;
 
 	if (false == m_bFix)
@@ -202,14 +201,6 @@ void CDynamicCamera::Mouse_Fix()
 
 	ClientToScreen(g_hWnd, &ptMouse);
 	SetCursorPos(ptMouse.x, ptMouse.y);
-}
-
-void CDynamicCamera::Toggle_Active()
-{
-	m_bActive = !m_bActive;
-
-	if (m_bActive)
-		CCamera::Ready_GameObject();
 }
 
 void CDynamicCamera::Free()

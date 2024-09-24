@@ -137,6 +137,9 @@
     <Filter Include="99.ImGui">
       <UniqueIdentifier>{77879fc4-f46c-476d-81f2-6e000864e14e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\04.Indicator">
+      <UniqueIdentifier>{48b70013-ae9f-4684-95ef-0718c8e89ff7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -286,6 +289,9 @@
     <ClInclude Include="..\imgui\imgui.h">
       <Filter>99.ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIIndicator.h">
+      <Filter>04.UI\04.Indicator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -419,6 +425,9 @@
     </ClCompile>
     <ClCompile Include="..\imgui\imgui_widgets.cpp">
       <Filter>99.ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIIndicator.cpp">
+      <Filter>04.UI\04.Indicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

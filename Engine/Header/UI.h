@@ -37,6 +37,8 @@ protected:
 
 	UITYPE m_eUIType;
 	bool m_bActive;
+
+	_float m_fViewZ;
 };
 
 END

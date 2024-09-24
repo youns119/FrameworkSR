@@ -13,7 +13,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pLeft_TransformCom(nullptr)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
-	, m_bActive(true)
 	, bJumpCheck(false)
 	, bLegUse(false)
 	, fJumpPower(0.f)
@@ -55,7 +54,7 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 HRESULT CPlayer::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	
+
 	SetAnimation();
 
 	//m_pRight_TransformCom->Set_Pos(2.f, 1.f, 2.f);
@@ -72,13 +71,13 @@ HRESULT CPlayer::Ready_GameObject()
 
 _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
-	if (m_bActive)
+	if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
 	{
 		Picking_Terrain();
 		Key_Input(_fTimeDelta);
 		Mouse_Move();
 		Mouse_Fix();
-	    Animation_End_Check();
+		Animation_End_Check();
 	}
 
 	Jump(_fTimeDelta);
@@ -103,9 +102,6 @@ void CPlayer::LateUpdate_GameObject()
 void CPlayer::Render_GameObject()
 {
 	//Beomseung Fix
-
-	if (!m_bActive)
-		return;
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
@@ -627,13 +623,6 @@ _vec3 CPlayer::Picking_OnTerrain()
 	NULL_CHECK_RETURN(pTerrainTransCom, _vec3());
 
 	return m_pCalculatorCom->Picking_OnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransCom);
-}
-
-void CPlayer::Toggle_Active()
-{
-	m_bActive = !m_bActive;
-
-	m_pCComponentCamera->Toggle_Active();
 }
 
 void CPlayer::Free()

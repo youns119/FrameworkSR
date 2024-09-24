@@ -56,11 +56,9 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 
 	if (Engine::Key_Press(DIK_9))
 	{
-		CGameObject* pGameObject = Engine::Get_CurrScene()->Get_GameObject(L"Layer_GameLogic", L"Player");
-		dynamic_cast<CPlayer*>(pGameObject)->Toggle_Active();
+		_uint iID = ((_uint)Engine::Get_ControllerID() + 1) % (_uint)CONTROLLERID::CONTROL_END;
 
-		pGameObject = Engine::Get_CurrScene()->Get_GameObject(L"Layer_Environment", L"DynamicCamera");
-		dynamic_cast<CDynamicCamera*>(pGameObject)->Toggle_Active();
+		Engine::Set_ControllerID((CONTROLLERID)iID);
 	}
 
 	if (Engine::Key_Press(DIK_8))
@@ -147,37 +145,41 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 
 	//Jonghan Change Start
+	//pGameObject = CMonster::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
+
 	pGameObject = CWhiteSuit::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
 
-	pGameObject = CShotGun::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+	//pGameObject = CShotGun::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
-	Engine::CGameObject* pShield = nullptr;
-	pShield = CShield::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pShield, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Shield", pShield), E_FAIL);
-	pGameObject = CBlackMan::Create(m_pGraphicDev, pShield);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
+	//Engine::CGameObject* pShield = nullptr;
+	//pShield = CShield::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pShield, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Shield", pShield), E_FAIL);
+	//pGameObject = CBlackMan::Create(m_pGraphicDev, pShield);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
 
-	pGameObject = CFlyingDrone::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FlyingDrone", pGameObject), E_FAIL);
+	//pGameObject = CFlyingDrone::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FlyingDrone", pGameObject), E_FAIL);
 
-	pGameObject = CSpiderDrone::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SpiderDrone", pGameObject), E_FAIL);
+	//pGameObject = CSpiderDrone::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SpiderDrone", pGameObject), E_FAIL);
 
-	pGameObject = CDogDrone::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DogDrone", pGameObject), E_FAIL);
+	//pGameObject = CDogDrone::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DogDrone", pGameObject), E_FAIL);
 
-	pGameObject = CBoss_Humanoid::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Humanoid", pGameObject), E_FAIL);
+	//pGameObject = CBoss_Humanoid::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Humanoid", pGameObject), E_FAIL);
 
 	//pGameObject = CBoss_Robot::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -224,6 +226,10 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	pUI = CUICrossHair::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
+	pUI = CUIIndicator::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 

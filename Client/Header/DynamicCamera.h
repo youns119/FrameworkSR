@@ -44,15 +44,10 @@ private:
 	void Mouse_Move();
 	void Mouse_Fix();
 
-public:
-	void Toggle_Active();
-
 private:
 	virtual void Free();
 
 private:
 	_bool m_bFix;
 	_bool m_bCheck;
-
-	_bool m_bActive;
 };
