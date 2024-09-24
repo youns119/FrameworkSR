@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "..\Header\Logo.h"
 #include "..\Header\Stage.h"
+#include "..\Header\MapCreate.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
+
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -32,7 +34,6 @@ HRESULT CLogo::Ready_Scene()
 {
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
-
 	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
@@ -53,6 +54,15 @@ _int CLogo::Update_Scene(const _float& _fTimeDelta)
 			NULL_CHECK_RETURN(pStage, -1);
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
+
+			return 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		{
+			Engine::CScene* pMapCreate = CMapCreate::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pMapCreate, -1);
+
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pMapCreate), E_FAIL);
 
 			return 0;
 		}

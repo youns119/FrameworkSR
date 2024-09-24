@@ -41,7 +41,9 @@ int CMainApp::Update_MainApp(const float& _fTimeDelta)
 	Engine::Update_InputDev();
 
 	m_pManagementClass->Update_Scene(_fTimeDelta);
-
+	ImGui_ImplDX9_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 	return 0;
 }
 
@@ -55,6 +57,10 @@ void CMainApp::Render_MainApp()
 	Engine::Render_Begin(D3DXCOLOR(0.f, 0.f, 0.f, 1.f));
 
 	m_pManagementClass->Render_Scene(m_pGraphicDev);
+
+	ImGui::Render();
+	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+	ImGui::EndFrame();
 
 	Engine::Render_End();
 }
@@ -79,6 +85,18 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
 
 	(*_ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	(*_ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+
+	//imgui 초기화 구문
+	IMGUI_CHECKVERSION(); // 버전 체크
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplWin32_Init(g_hWnd);
+	ImGui_ImplDX9_Init(*_ppGraphicDev);
 
 	srand(unsigned int(time(NULL)));
 
@@ -105,7 +123,13 @@ void CMainApp::Free()
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);
 	Safe_Release(m_pManagementClass);
+	
+	ImGui_ImplDX9_Shutdown();
+	ImGui_ImplWin32_Shutdown();
 
+	ImGui::DestroyContext();
 	Engine::Release_Utility();
 	Engine::Release_System();
+
+
 }
