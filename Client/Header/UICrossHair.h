@@ -13,6 +13,16 @@ END
 class CUICrossHair
 	: public Engine::CUI
 {
+public:
+	enum class UI_CROSSHAIR
+	{
+		CROSSHAIR_PISTOL,
+		CROSSHAIR_RIFLE,
+		CROSSHAIR_SNIPER,
+		CROSSHAIR_SHOTGUN,
+		CROSSHAIR_END,
+	};
+
 private:
 	explicit CUICrossHair(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CUICrossHair();
@@ -34,6 +44,8 @@ private:
 
 private:
 	Engine::CRcTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom;
 	Engine::CTransform* m_pTransformCom;
+	Engine::CTexture* m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_END];
+
+	UI_CROSSHAIR m_eCurrCrossHair;
 };

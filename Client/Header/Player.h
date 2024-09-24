@@ -68,6 +68,9 @@ private:
 	virtual ~CPlayer();
 
 public:
+	WEAPON_STATE Get_WeaponState() { return m_WeaponState; }
+
+public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:

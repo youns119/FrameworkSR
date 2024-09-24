@@ -15,7 +15,7 @@ protected:
 
 public:
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
-	UIID Get_UIType() { return m_eUIType; }
+	UITYPE Get_UIType() { return m_eUIType; }
 	bool Get_Active() { return m_bActive; }
 
 	void Set_Active(bool _bActive) { m_bActive = _bActive; }
@@ -35,7 +35,7 @@ protected:
 	map<const _tchar*, CComponent*>	m_mapComponent[(_uint)COMPONENTID::ID_END];
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 
-	UIID m_eUIType;
+	UITYPE m_eUIType;
 	bool m_bActive;
 };
 

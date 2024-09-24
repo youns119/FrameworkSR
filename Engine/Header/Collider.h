@@ -20,11 +20,13 @@ public:
 	_vec3 GetFinalPos() { return m_vFinalPos; }
 	_float GetRadius() { return m_fRadius; }
 	_uint GetID() { return m_iID; }
+	_bool GetActive() { return m_bActive; }
 	_bool GetShow() { return m_bShow; }
 
 	void SetTransform(CTransform* _pTransform) { m_pTransform = _pTransform; }
 	void SetOffsetPos(const _vec3& _vPos) { m_vOffsetPos = _vPos; }
 	void SetRadius(const _float& _fRadius) { m_fRadius = _fRadius; }
+	void SetActive(_bool _bActive) { m_bActive = _bActive; }
 	void SetShow(_bool _bShow) { m_bShow = _bShow; }
 
 public:

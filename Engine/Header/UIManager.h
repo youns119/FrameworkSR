@@ -20,6 +20,9 @@ public:
 	void LateUpdate_UI();
 	void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
+public:
+	list<CUI*>* Get_UIList(UITYPE _eUIType) { return &m_listUI[(_uint)_eUIType]; }
+
 private:
 	void Clear_Render();
 	void Clear_UI();
@@ -28,8 +31,8 @@ private:
 	virtual void Free();
 
 private:
-	list<CUI*> m_listUI[(_uint)UIID::UI_END];
-	list<CUI*> m_listRender[(_uint)UIID::UI_END];
+	list<CUI*> m_listUI[(_uint)UITYPE::UI_END];
+	list<CUI*> m_listRender[(_uint)UITYPE::UI_END];
 
 	_matrix m_matView, m_matOrtho;
 };

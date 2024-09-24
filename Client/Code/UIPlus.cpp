@@ -7,8 +7,9 @@ CUIPlus::CUIPlus(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
 	, m_pTransformCom(nullptr)
+	, m_eCurrPlus(UI_PLUS::PLUS_END)
 {
-	m_eUIType = UIID::UI_PLUS_LEFT;
+	m_eUIType = UITYPE::UI_PLUS;
 }
 
 CUIPlus::~CUIPlus()
@@ -55,15 +56,8 @@ void CUIPlus::Render_UI()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
 	m_pTextureCom->Set_Texture();
-
 	m_pBufferCom->Render_Buffer();
-
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 HRESULT CUIPlus::Add_Component()

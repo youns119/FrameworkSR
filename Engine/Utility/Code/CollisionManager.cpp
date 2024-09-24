@@ -53,6 +53,9 @@ void CCollisionManager::CollisionGroupUpdate(const _tchar* _pLeft, const _tchar*
 			CCollider* pLeftCol = dynamic_cast<CCollider*>(iterLeft->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
 			CCollider* pRightCol = dynamic_cast<CCollider*>(iterRight->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
 
+			if (!pLeftCol->GetActive() || !pRightCol->GetActive())
+				continue;
+
 			COLLIDER_ID ID;
 			ID.iLeft_id = pLeftCol->GetID();
 			ID.iRight_id = pRightCol->GetID();

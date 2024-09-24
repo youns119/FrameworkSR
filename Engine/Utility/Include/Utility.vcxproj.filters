@@ -180,9 +180,6 @@
     <ClInclude Include="..\..\Header\Collider.h">
       <Filter>04.Component\06.Collider</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>04.Component\06.Collider\00.CollisionManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\Bullet.h">
       <Filter>08.Bullet</Filter>
     </ClInclude>
@@ -194,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Animation.h">
       <Filter>04.Component\07.Animator\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\CollisionManager.h">
+      <Filter>04.Component\06.Collider\00.CollisionManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

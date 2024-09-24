@@ -26,7 +26,7 @@ HRESULT CUIManager::Add_UI(CUI* _pUI)
 
 _int CUIManager::Update_UI(const _float& _fTimeDelta)
 {
-	for (_uint i = 0; i < (_uint)UIID::UI_END; i++)
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
 		for (auto& pUI : m_listUI[i])
 			pUI->Update_UI(_fTimeDelta);
 
@@ -35,7 +35,7 @@ _int CUIManager::Update_UI(const _float& _fTimeDelta)
 
 void CUIManager::LateUpdate_UI()
 {
-	for (_uint i = 0; i < (_uint)UIID::UI_END; i++)
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
 		for (auto& pUI : m_listUI[i])
 		{
 			pUI->LateUpdate_UI();
@@ -61,9 +61,15 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	for (_uint i = 0; i < (_uint)UIID::UI_END; i++)
+	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
 		for (auto& pUI : m_listRender[i])
 			pUI->Render_UI();
+
+	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
@@ -75,7 +81,7 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 void CUIManager::Clear_Render()
 {
-	for (_uint i = 0; i < (_uint)UIID::UI_END; i++)
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
 	{
 		for_each(m_listRender[i].begin(), m_listRender[i].end(), CDeleteObj());
 		m_listRender[i].clear();
@@ -84,7 +90,7 @@ void CUIManager::Clear_Render()
 
 void CUIManager::Clear_UI()
 {
-	for (_uint i = 0; i < (_uint)UIID::UI_END; i++)
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
 	{
 		for_each(m_listUI[i].begin(), m_listUI[i].end(), CDeleteObj());
 		m_listUI[i].clear();

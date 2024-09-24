@@ -19,12 +19,12 @@ namespace Engine
 
 	enum class KEYSTATE { KEY_PRESS, KEY_HOLD, KEY_RELEASE, KEY_END };
 
-	enum class UIID
+	enum class UITYPE
 	{
-		UI_PLUS_LEFT,
-		UI_PLUS_CENTER,
-		UI_PLUS_HEAL,
-		UI_PLUS_COMBO,
+		UI_PLUS,
+		UI_UPGRADE,
+		UI_CROSSHAIR,
+		UI_SHOP,
 		UI_END,
 	};
 

@@ -11,4 +11,8 @@ xcopy			/y				.\Engine\Utility\Bin\Utility.dll		.\Tool\Bin\
 xcopy			/y				.\Engine\System\Bin\System.lib			.\Reference\Library\
 xcopy			/y				.\Engine\Utility\Bin\Utility.lib		.\Reference\Library\
 
-xcopy			/d /e /y			.\Resource								.\Client\Bin\Resource\
+xcopy			/d /e /y			.\Resource\Texture					.\Client\Bin\Resource\Texture\
+xcopy			/d /e /y			.\Resource\Sound					.\Client\Bin\Resource\Sound\
+
+xcopy			/d /e /y			.\Resource\FMOD						.\Engine\System\Bin\
+xcopy			/d /e /y			.\Resource\FMOD						.\Client\Bin\

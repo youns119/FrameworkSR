@@ -97,6 +97,11 @@ inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
 }
 
+inline list<CUI*>* Get_UIList(UITYPE _eUIType)
+{
+	CUIManager::GetInstance()->Get_UIList(_eUIType);
+}
+
 // CollisionManager
 inline _bool Get_Render()
 {

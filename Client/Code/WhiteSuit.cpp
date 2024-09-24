@@ -37,6 +37,7 @@ HRESULT CWhiteSuit::Ready_GameObject()
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetActive(true);
 
 	return S_OK;
 }

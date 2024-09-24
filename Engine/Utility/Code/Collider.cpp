@@ -68,6 +68,9 @@ HRESULT CCollider::Ready_Collider()
 
 void CCollider::LateUpdate_Component()
 {
+	if (!m_bActive)
+		return;
+
 	_vec3 vObjectPos;
 	m_pTransform->Get_Info(INFO::INFO_POS, &vObjectPos);
 

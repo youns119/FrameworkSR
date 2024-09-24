@@ -13,6 +13,16 @@ END
 class CUIPlus
 	: public Engine::CUI
 {
+public:
+	enum class UI_PLUS
+	{
+		PLUS_LEFT,
+		PLUS_CENTER,
+		PLUS_HEAL,
+		PLUS_COMBO,
+		PLUS_END,
+	};
+
 private:
 	explicit CUIPlus(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CUIPlus();
@@ -36,4 +46,6 @@ private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
 	Engine::CTransform* m_pTransformCom;
+
+	UI_PLUS m_eCurrPlus;
 };

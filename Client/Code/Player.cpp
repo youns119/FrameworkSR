@@ -64,6 +64,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_pColliderCom->SetTransform(m_pBody_TransformCom);
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetActive(true);
 
 	fSpeed = 10.f;
 	return S_OK;

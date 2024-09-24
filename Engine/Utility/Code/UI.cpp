@@ -2,7 +2,7 @@
 
 CUI::CUI(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
-	, m_eUIType(UIID::UI_END)
+	, m_eUIType(UITYPE::UI_END)
 	, m_bActive(false)
 {
 	for (_uint i = 0; i < (_uint)COMPONENTID::ID_END; i++)
@@ -13,7 +13,7 @@ CUI::CUI(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 CUI::CUI(const CUI& _rhs)
 	: m_pGraphicDev(_rhs.m_pGraphicDev)
-	, m_eUIType(UIID::UI_END)
+	, m_eUIType(UITYPE::UI_END)
 	, m_bActive(_rhs.m_bActive)
 {
 	m_pGraphicDev->AddRef();

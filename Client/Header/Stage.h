@@ -23,6 +23,9 @@
 
 // ¿¬¿í
 #include "UIPlus.h"
+#include "UIUpgrade.h"
+#include "UICrossHair.h"
+#include "UIShop.h"
 
 class CStage
 	: public Engine::CScene

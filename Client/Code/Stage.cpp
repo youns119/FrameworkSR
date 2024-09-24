@@ -221,11 +221,15 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	//Engine::CGameObject* pGameObject = nullptr;
 
 	// ¿¬¿í
-	//Engine::CUI* pUI = nullptr;
+	Engine::CUI* pUI = nullptr;
 
 	//pUI = CUIPlus::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pUI, E_FAIL);
 	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
+	pUI = CUICrossHair::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	//m_mapLayer.insert({ _pLayerTag , pLayer });
 
