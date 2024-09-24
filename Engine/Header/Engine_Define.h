@@ -19,8 +19,8 @@
 #include "Engine_Typedef.h"
 #include "Engine_Function.h"
 
-#include "fmod.h"
-#include "fmod.hpp"
+#include "FMOD/fmod.h"
+#include "FMOD/fmod.hpp"
 #pragma comment(lib, "fmod_vc.lib")
 
 #include <io.h>

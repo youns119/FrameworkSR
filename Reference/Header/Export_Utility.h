@@ -26,7 +26,6 @@
 #include "CollisionManager.h"
 #include "Animator.h"
 #include "Animation.h"
-#include "SoundManager.h"
 
 // kyubin
 #include "Effect.h"
@@ -78,15 +77,6 @@ inline void Add_Collider(CCollider* _pCollider);
 inline void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight);
 inline void Clear_Collider();
 inline void Reset();
-
-// SoundManager
-inline void Ready_SoundManager();
-inline void Play_Sound(const _tchar* _pSoundKey, CHANNELID _eID, _float _fVolume);
-inline void Play_BGM(const _tchar* _pSoundKey, _float _fVolume);
-inline void Play_BGMOnce(const _tchar* _pSoundKey, CHANNELID _eID, _float _fVolume);
-inline void Stop_Sound(CHANNELID _eID);
-inline void Stop_All();
-inline void Set_ChannelVolume(CHANNELID _eID, float _fVolume);
 
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet);

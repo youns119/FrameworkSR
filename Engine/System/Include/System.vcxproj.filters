@@ -28,6 +28,9 @@
     <Filter Include="04.InputDev">
       <UniqueIdentifier>{96911efb-4d4b-4534-a69b-6a9d354b556a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Sound">
+      <UniqueIdentifier>{24a81b13-3ddf-45a9-a0dc-92af181e1183}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDev.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\InputDev.cpp">
       <Filter>04.InputDev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoundManager.cpp">
+      <Filter>05.Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\InputDev.h">
       <Filter>04.InputDev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\SoundManager.h">
+      <Filter>05.Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -138,42 +138,6 @@ inline void Reset()
 	CCollisionManager::GetInstance()->Reset();
 }
 
-// SoundManager
-inline void Ready_SoundManager()
-{
-	CSoundManager::GetInstance()->Ready_SoundManager();
-}
-
-inline void Play_Sound(const _tchar* _pSoundKey, CHANNELID _eID, _float _fVolume)
-{
-	CSoundManager::GetInstance()->Play_Sound(_pSoundKey, _eID, _fVolume);
-}
-
-inline void Play_BGM(const _tchar* _pSoundKey, _float _fVolume)
-{
-	CSoundManager::GetInstance()->Play_BGM(_pSoundKey, _fVolume);
-}
-
-inline void Play_BGMOnce(const _tchar* _pSoundKey, CHANNELID _eID, _float _fVolume)
-{
-	CSoundManager::GetInstance()->Play_BGMOnce(_pSoundKey, _eID, _fVolume);
-}
-
-inline void Stop_Sound(CHANNELID _eID)
-{
-	CSoundManager::GetInstance()->Stop_Sound(_eID);
-}
-
-inline void Stop_All()
-{
-	CSoundManager::GetInstance()->Stop_All();
-}
-
-inline void Set_ChannelVolume(CHANNELID _eID, float _fVolume)
-{
-	CSoundManager::GetInstance()->Set_ChannelVolume(_eID, _fVolume);
-}
-
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet)
 {
@@ -203,6 +167,5 @@ void Release_Utility()
 	CManagement::DestroyInstance();
 	CUIManager::DestroyInstance();
 	CCollisionManager::DestroyInstance();
-	CSoundManager::DestroyInstance();
 	CBulletManager::DestroyInstance();
 }
