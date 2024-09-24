@@ -5,6 +5,7 @@
 #include "FrameManager.h"
 #include "FontManager.h"
 #include "InputDev.h"
+#include "SoundManager.h"
 
 BEGIN(Engine)
 
@@ -52,6 +53,15 @@ inline _bool Mouse_Release(MOUSEKEYSTATE _eMouse);
 inline _long Get_DIMouseMove(MOUSEMOVESTATE _eMouseState);
 inline HRESULT Ready_InputDev(HINSTANCE _hInst, HWND _hWnd);
 inline void	Update_InputDev(void);
+
+// SoundManager
+inline void Ready_SoundManager();
+inline void Play_Sound(const _tchar* _pSoundKey, CHANNELID _eID, _float _fVolume);
+inline void Play_BGM(const _tchar* _pSoundKey, _float _fVolume);
+inline void Play_BGMOnce(const _tchar* _pSoundKey, CHANNELID _eID, _float _fVolume);
+inline void Stop_Sound(CHANNELID _eID);
+inline void Stop_All();
+inline void Set_ChannelVolume(CHANNELID _eID, float _fVolume);
 
 inline void	Release_System();
 

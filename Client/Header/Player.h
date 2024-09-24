@@ -9,6 +9,7 @@ class CRcTex;
 class CTransform;
 class CTexture;
 class CCalculator;
+class CAnimator;
 class CComponentCamera;
 class CCollider;
 
@@ -22,12 +23,16 @@ private:
 		PISTOL_IDLE,
 		PISTOL_SHOOT,
 		PISTOL_RELOAD,
+		PISTOL_CHANGE,
 		RIFLE_IDLE,
 		RIFLE_SHOOT,
 		RIFLE_RELOAD,
 		SHOTGUN_IDLE,
 		SHOTGUN_SHOOT,
 		SHOTGUN_RELOAD,
+		SNIPER_IDLE,
+		SNIPER_SHOOT,
+		SNIPER_RELOAD,
 		RIGHT_STATE_END
 	};
 	enum LEFT_STATE {
@@ -78,9 +83,9 @@ private:
 	void Mouse_Fix();
 	void Jump(const _float& _fTimeDelta);
 	void Picking_Terrain();
-	void Motion_Change();
-	void Move_Frame(const _float& _fTimeDelta);
-	void Update_Pos();
+	void SetAnimation();
+	void Animation_End_Check();
+	void Animation_Pos();
 	_vec3 Picking_OnTerrain();
 
 public:
@@ -108,7 +113,7 @@ private:
 	Engine::CTexture* m_pLeg_TextureCom[LEG_STATE::LEG_STATE_END];
 	//Camera
 	Engine::CComponentCamera* m_pCComponentCamera;
-
+	Engine::CAnimator* m_pAnimator[FINISH];
 	Engine::CCollider* m_pColliderCom;
 private:
 	_bool m_bActive;
@@ -116,6 +121,7 @@ private:
 	_bool bLegUse;
 	_float fJumpPower;
 	_float fTilePos;
+	_float fSpeed;
 
 	RIGHT_STATE m_Right_CurState;
 	RIGHT_STATE m_Right_PreState;
