@@ -131,6 +131,12 @@
     <Filter Include="03.GameObject\02.Monster\03.Boss_Robot">
       <UniqueIdentifier>{604998bb-6d35-4612-9458-ed27a8cb737f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\03.MapCreate">
+      <UniqueIdentifier>{81a8318d-9383-4634-b7eb-ca7941b4551b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.ImGui">
+      <UniqueIdentifier>{77879fc4-f46c-476d-81f2-6e000864e14e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -253,6 +259,33 @@
     <ClInclude Include="..\Header\Boss_Robot.h">
       <Filter>03.GameObject\02.Monster\03.Boss_Robot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MapCreate.h">
+      <Filter>02.Scene\03.MapCreate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imconfig.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imgui_impl_dx9.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imgui_impl_win32.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imgui_internal.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imstb_rectpack.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imstb_textedit.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imstb_truetype.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imgui.h">
+      <Filter>99.ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -362,6 +395,30 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_Robot.cpp">
       <Filter>03.GameObject\02.Monster\03.Boss_Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MapCreate.cpp">
+      <Filter>02.Scene\03.MapCreate</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui.cpp">
+      <Filter>99.ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_demo.cpp">
+      <Filter>99.ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_draw.cpp">
+      <Filter>99.ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_impl_dx9.cpp">
+      <Filter>99.ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_impl_win32.cpp">
+      <Filter>99.ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_tables.cpp">
+      <Filter>99.ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_widgets.cpp">
+      <Filter>99.ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
