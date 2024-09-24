@@ -43,6 +43,8 @@ HRESULT CBoss_Humanoid::Ready_GameObject()
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
 
+	Set_Animation();
+
 	return S_OK;
 }
 
@@ -75,9 +77,7 @@ void CBoss_Humanoid::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	m_pTextureCom[m_eCurState]->Set_Texture((_uint)m_fFrame); //Jonghan Change
-
-
+	m_pAnimatorCom->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -86,12 +86,19 @@ void CBoss_Humanoid::Render_GameObject()
 
 void CBoss_Humanoid::Change_State()
 {
-	if (CBoss_Humanoid::BOSS_SPAWN == m_eCurState)
+	if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
 	{
-		if (m_fFrame > 16.5f)
+		switch (m_eCurState)
 		{
+		case CBoss_Humanoid::BOSS_SPAWN:
 			m_eCurState = CBoss_Humanoid::BOSS_ATTACK;
+			break;
+		case CBoss_Humanoid::BOSS_ATTACK:
+			m_eCurState = CBoss_Humanoid::BOSS_SPAWN;
+			break;
 		}
+		m_pAnimatorCom->GetCurrAnim()->SetFinish(false);
+
 	}
 }
 
@@ -124,6 +131,10 @@ HRESULT CBoss_Humanoid::Add_Component()
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 	pComponent->SetOwner(*this);
 
+	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
+
 	return S_OK;
 }
 
@@ -134,12 +145,10 @@ void CBoss_Humanoid::State_Check()
 		switch (m_eCurState)
 		{
 		case CBoss_Humanoid::BOSS_SPAWN:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 17.f;
+			m_pAnimatorCom->PlayAnimation(L"Spawn", false);
 			break;
 		case CBoss_Humanoid::BOSS_ATTACK:
-			m_fFrame = 0.f;
-			m_fMaxFrame = 21.f;
+			m_pAnimatorCom->PlayAnimation(L"Attack", true);
 			break;
 		}
 
@@ -147,8 +156,28 @@ void CBoss_Humanoid::State_Check()
 	}
 }
 
-void CBoss_Humanoid::Attack()
+void CBoss_Humanoid::Set_Animation()
 {
+	m_pAnimatorCom->CreateAnimation(L"Spawn", m_pTextureCom[BOSS_SPAWN], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Attack", m_pTextureCom[BOSS_ATTACK], 13.f);
+
+	m_pAnimatorCom->PlayAnimation(L"Spawn", false);
+}
+
+void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
+{
+	if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState)
+	{
+		_vec3 vPos, vPlayerPos, vDir;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Body_Transform"));
+		NULL_CHECK(pPlayerTransform, -1);
+
+		pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+
+		vDir = vPlayerPos - vPos;
+	}
 }
 
 void CBoss_Humanoid::Free()

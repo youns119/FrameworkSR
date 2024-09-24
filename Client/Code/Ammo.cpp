@@ -82,7 +82,10 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 
 		m_pTransformCom->Set_WorldMatrix(&(matResult));
 
-
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 5.f), vPos.y + (m_vDir.y * _fTimeDelta * 5.f), vPos.z + (m_vDir.z * _fTimeDelta * 5.f)); //Consider Speed of Bullet
+		CGameObject::Compute_ViewZ(&vPos);
 	//Jonghan Monster Change End
 	}
 
@@ -91,19 +94,6 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 
 void CAmmo::LateUpdate_GameObject()
 {
-	//Jonghan Monster Change Start
-	_vec3 vPos;
-	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-
-	if (m_bisRender)
-	{
-		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * 0.1f), vPos.y + (m_vDir.y * 0.1f), vPos.z + (m_vDir.z * 0.1f)); //Consider Speed of Bullet
-	}
-
-	CGameObject::Compute_ViewZ(&vPos);
-
-
-	//Jonghan Monster Change End
 	Engine::CBullet::LateUpdate_GameObject();
 }
 

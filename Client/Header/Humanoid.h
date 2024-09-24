@@ -16,16 +16,21 @@ public:
 protected:
 	virtual HRESULT Add_Component()PURE;
 	virtual void State_Check()PURE;
-	virtual void Attack()PURE;
-	void Change_State(CHumanoid::HUMANOIDSTATE _eState) { m_eCurState = _eState; }
+	virtual void Attack(const _float& _fTimeDelta)PURE;
+	virtual void Set_Animation()PURE;
+	void Changing_State(CHumanoid::HUMANOIDSTATE _eState) { m_eCurState = _eState; }
 public:
-	void Change_State();
+	virtual void Change_State();
 
 protected:
 	Engine::CTexture* m_pTextureCom[HUMANOIDSTATE::HUMANOID_END];
 
 	HUMANOIDSTATE m_eCurState;
 	HUMANOIDSTATE m_ePreState;
+
+	_bool m_bIsFire;
+	_float m_fFireDelayTime;
+	_uint m_iAttackTiming; // Check from Attack/%d
 
 protected:
 	virtual void Free();

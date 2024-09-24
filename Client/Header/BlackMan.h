@@ -17,8 +17,10 @@ public:
 private:
     virtual HRESULT	Add_Component();
     virtual void State_Check(); //Jonghan Change
-    virtual void Attack();
+    virtual void Attack(const _float& _fTimeDelta);
     void Set_Shield(CGameObject* _pShield) { m_pShield = _pShield; }
+    virtual void Set_Animation();
+    virtual void Change_State();
 
 private:
     CGameObject* m_pShield;

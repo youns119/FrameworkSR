@@ -16,7 +16,8 @@ public:
 private:
 	virtual HRESULT	Add_Component();
 	virtual void State_Check(); //Jonghan Change
-	virtual void Attack();
+	virtual void Attack(const _float& _fTimeDelta);
+	virtual void Set_Animation();
 
 private:
 	virtual void Free();

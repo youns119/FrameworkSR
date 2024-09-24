@@ -10,6 +10,7 @@ class CTexture;
 class CCalculator;
 class CTransform;
 class CCollider;
+class CAnimator;
 
 END
 
@@ -32,7 +33,8 @@ public:
 protected:
 	virtual HRESULT	Add_Component()PURE;
 	virtual void State_Check()PURE; //Jonghan Change
-	virtual void Attack()PURE;
+	virtual void Attack(const _float& _fTimeDelta)PURE;
+	virtual void Set_Animation()PURE;
 
 protected:
 	virtual void Free();
@@ -49,6 +51,7 @@ protected:
 	_float m_fMaxFrame;
 	_float m_fFrameSpeed;
 
+	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;
 
 	//Jonghan Change End

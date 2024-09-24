@@ -9,6 +9,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pTransformCom(nullptr)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
+	, m_pAnimatorCom(nullptr)
 	, m_fFrame(0.f)
 	, m_fMaxFrame(14.f) //Jonghan Change
 	, m_fFrameSpeed(13.f)
@@ -23,26 +24,11 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 {
 	//Jonghan Monster Change Start
 
-	m_fFrame += m_fFrameSpeed * _fTimeDelta;
-
-	if (m_fMaxFrame < m_fFrame) // Jonghan Change
-	{
-		m_fFrame = 0.f;
-		Attack();
-	}
+	
+	Attack(_fTimeDelta);
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
-	//Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-	//	(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Transform"));
-	//NULL_CHECK_RETURN(pPlayerTransform, -1);
-	//
-	//_vec3 vPlayerPos;
-	//pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
-	//
-	//m_pTransformCom->Chase_Target(&vPlayerPos, 5.f * _fTimeDelta);
-
-	//Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 	_matrix		matWorld, matView, matBill, matResult;
 	m_pTransformCom->Get_WorldMatrix(&matWorld);
 
@@ -84,7 +70,7 @@ void CMonster::LateUpdate_GameObject()
 
 	CGameObject::Compute_ViewZ(&vPos);
 
-	Change_State();
+	//Change_State();
 
 	State_Check();
 
