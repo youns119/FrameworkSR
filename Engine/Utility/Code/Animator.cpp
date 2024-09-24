@@ -67,7 +67,7 @@ _int CAnimator::Update_Component(const _float& _fTimeDelta)
 	return 0;
 }
 
-void CAnimator::LateUpdate_Component()
+void CAnimator::Render_Animator()
 {
 	m_pCurrAnimation->GetTexture()->Set_Texture(m_pCurrAnimation->GetCurrFrame());
 }

@@ -25,7 +25,7 @@ public:
 public:
 	HRESULT	Ready_Animator();
 	virtual _int Update_Component(const _float& _fTimeDelta);
-	virtual void LateUpdate_Component();
+	void Render_Animator();
 
 public:
 	void CreateAnimation
@@ -49,6 +49,8 @@ private:
 	CAnimation* m_pCurrAnimation;
 	bool m_bAnimRepeat;
 	bool m_bAnimPause;
+
+
 };
 
 END

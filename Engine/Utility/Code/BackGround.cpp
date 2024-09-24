@@ -42,7 +42,7 @@ HRESULT CBackGround::Ready_GameObject()
 _int CBackGround::Update_GameObject(const _float& _fTimeDelta)
 {
 	if (Key_Press(DIK_W))
-		m_pAnimator->PlayAnimation(L"Test", true);
+		m_pAnimator->PlayAnimation(L"Test", false);
 	if (Key_Press(DIK_S))
 		m_pAnimator->PlayAnimation(L"Loading", true);
 
@@ -68,6 +68,7 @@ void CBackGround::LateUpdate_GameObject()
 
 void CBackGround::Render_GameObject()
 {
+	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 }
 
