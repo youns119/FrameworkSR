@@ -14,5 +14,4 @@ xcopy			/y				.\Engine\Utility\Bin\Utility.lib		.\Reference\Library\
 xcopy			/d /e /y			.\Resource\Texture					.\Client\Bin\Resource\Texture\
 xcopy			/d /e /y			.\Resource\Sound					.\Client\Bin\Resource\Sound\
 
-xcopy			/d /e /y			.\Resource\FMOD						.\Engine\System\Bin\
 xcopy			/d /e /y			.\Resource\FMOD						.\Client\Bin\
