@@ -11,8 +11,6 @@ CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	for (_int i = 0; i < CBoss_Humanoid::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
-
-	m_fMaxFrame = 17.f;
 }
 
 CBoss_Humanoid::~CBoss_Humanoid()

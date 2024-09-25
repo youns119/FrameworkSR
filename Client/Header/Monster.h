@@ -47,10 +47,6 @@ protected:
 	Engine::CCalculator* m_pCalculatorCom;
 	Engine::CCollider* m_pColliderCom;
 
-	_float m_fFrame;
-	_float m_fMaxFrame;
-	_float m_fFrameSpeed;
-
 	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;
 
