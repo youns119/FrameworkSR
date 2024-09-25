@@ -29,6 +29,8 @@
 
 // kyubin
 #include "Effect.h"
+#include "ParticleSystem.h"
+#include "ParticleSpark.h"
 
 //Jonghan Change
 #include "BulletManager.h"

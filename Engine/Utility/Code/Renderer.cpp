@@ -69,6 +69,8 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 	m_RenderGroup[(_uint)RENDERID::RENDER_ALPHA].sort
 	(
 		[](CGameObject* pDst, CGameObject* pSrc)->bool
@@ -80,6 +82,7 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& _pGraphicDev)
 	for (auto& pGameObject : m_RenderGroup[(_uint)RENDERID::RENDER_ALPHA])
 		pGameObject->Render_GameObject();
 
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
@@ -126,6 +129,8 @@ void CRenderer::Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev)
 	D3DXMatrixOrthoLH(&matOrthogonal, WINCX, WINCY, 0.1f, 1000.f);
 	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matOrthogonal);
 
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	
 	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -142,6 +147,7 @@ void CRenderer::Render_Orthogonal(LPDIRECT3DDEVICE9& _pGraphicDev)
 		pGameObject->Render_GameObject();
 
 	_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	_pGraphicDev->SetTransform(D3DTS_VIEW, &matOldView);
 	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matOldProjection);
