@@ -103,6 +103,9 @@
     <Filter Include="04.Component\08. ParticleSystem\00. ParticleSpark">
       <UniqueIdentifier>{be494777-be97-4e6e-a87f-07b129da3fa2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\07.GuideTex">
+      <UniqueIdentifier>{1c075bdd-4d3b-4719-8f75-168caf900891}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -207,6 +210,9 @@
     <ClInclude Include="..\..\Header\ParticleSpark.h">
       <Filter>04.Component\08. ParticleSystem\00. ParticleSpark</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\GuideTex.h">
+      <Filter>04.Component\00.VIBuffer\07.GuideTex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -307,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\ParticleSpark.cpp">
       <Filter>04.Component\08. ParticleSystem\00. ParticleSpark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GuideTex.cpp">
+      <Filter>04.Component\00.VIBuffer\07.GuideTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

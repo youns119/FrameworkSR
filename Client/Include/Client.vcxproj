@@ -164,6 +164,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\EffectPool.h" />
     <ClInclude Include="..\Header\Floor.h" />
     <ClInclude Include="..\Header\FlyingDrone.h" />
+    <ClInclude Include="..\Header\GuideTerrain.h" />
     <ClInclude Include="..\Header\Humanoid.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
@@ -218,6 +219,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\EffectPool.cpp" />
     <ClCompile Include="..\Code\Floor.cpp" />
     <ClCompile Include="..\Code\FlyingDrone.cpp" />
+    <ClCompile Include="..\Code\GuideTerrain.cpp" />
     <ClCompile Include="..\Code\Humanoid.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />

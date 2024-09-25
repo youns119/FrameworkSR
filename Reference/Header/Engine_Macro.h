@@ -10,6 +10,11 @@ namespace Engine
 #define VTXCNTZ		129
 #define VTXITV		1
 
+
+#define	VTXTILEX		30
+#define	VTXTILEZ		30
+
+
 #define VK_MAX		256 
 #define MS_MAX		3
 

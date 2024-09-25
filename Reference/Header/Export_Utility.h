@@ -11,6 +11,7 @@
 #include "RcCol.h"
 #include "RcTex.h"
 #include "TerrainTex.h"
+#include "GuideTex.h"
 #include "CubeTex.h"
 #include "FloorTex.h"
 #include "WallTex.h"
@@ -29,6 +30,8 @@
 
 // kyubin
 #include "Effect.h"
+#include "ParticleSystem.h"
+#include "ParticleSpark.h"
 
 //Jonghan Change
 #include "BulletManager.h"

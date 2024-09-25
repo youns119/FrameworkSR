@@ -28,6 +28,8 @@ CMainApp* CMainApp::Create()
 HRESULT CMainApp::Ready_MainApp()
 {
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);
+	FAILED_CHECK_RETURN(SetUp_ImGuiSetting(&m_pGraphicDev), E_FAIL);
+
 
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
 
@@ -86,10 +88,19 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
 	(*_ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	(*_ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
+	
+	srand(unsigned int(time(NULL)));
+
+	return S_OK;
+}
+
+HRESULT CMainApp::SetUp_ImGuiSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
+{
 	//imgui 초기화 구문
 	IMGUI_CHECKVERSION(); // 버전 체크
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGuiIO& io = ImGui::GetIO();
+	(void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
@@ -98,9 +109,10 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(*_ppGraphicDev);
 
-	srand(unsigned int(time(NULL)));
+	LoadFont();
 
 	return S_OK;
+
 }
 
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagement** _ppManagement)
@@ -118,6 +130,26 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagemen
 	return S_OK;
 }
 
+void CMainApp::LoadFont()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	ImFont* font = nullptr; // imgui용 폰트
+	std::string font_file = "../Font/MaruBuri-Light.ttf";
+
+	std::ifstream ifile;
+	ifile.open(font_file);
+	if (ifile)
+	{
+		font = io.Fonts->AddFontFromFileTTF(font_file.c_str(), 16.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+	}
+	else
+	{
+		MSG_BOX("No Font file");
+		font = io.Fonts->AddFontDefault();
+	}
+	IM_ASSERT(font != NULL);
+}
+
 void CMainApp::Free()
 {
 	Safe_Release(m_pGraphicDev);
@@ -126,8 +158,8 @@ void CMainApp::Free()
 	
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
-
 	ImGui::DestroyContext();
+
 	Engine::Release_Utility();
 	Engine::Release_System();
 

@@ -14,6 +14,22 @@ CFloor::~CFloor()
 {
 }
 
+CFloor* CFloor::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+    CFloor* pFloor = new CFloor(_pGraphicDev);
+
+    if (FAILED(pFloor->Ready_GameObject()))
+    {
+        Safe_Release(pFloor);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pFloor->Setup_Position(_vecPos);
+
+    return pFloor;
+}
+
 CFloor* CFloor::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
     CFloor* pFloor = new CFloor(_pGraphicDev);
@@ -51,7 +67,7 @@ void CFloor::Render_GameObject()
 {
     m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
-   m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
    FAILED_CHECK_RETURN(Setup_Material(), );
 
@@ -60,7 +76,7 @@ void CFloor::Render_GameObject()
     m_pBufferCom->Render_Buffer();
 
     m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-   m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CFloor::Add_Component()
@@ -97,6 +113,11 @@ HRESULT CFloor::Setup_Material()
     m_pGraphicDev->SetMaterial(&tMtrl);
 
     return S_OK;
+}
+
+void CFloor::Setup_Position(_vec3 _vecPos)
+{
+    m_pTransformCom->Set_Pos(_vecPos.x, _vecPos.y, _vecPos.z);
 }
 
 void CFloor::Free()

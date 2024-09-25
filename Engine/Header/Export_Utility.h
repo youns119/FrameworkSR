@@ -11,6 +11,7 @@
 #include "RcCol.h"
 #include "RcTex.h"
 #include "TerrainTex.h"
+#include "GuideTex.h"
 #include "CubeTex.h"
 #include "FloorTex.h"
 #include "WallTex.h"

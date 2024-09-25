@@ -61,7 +61,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& _dwCntX, const _ulong& _dwCntZ, 
 
 	m_hFile = CreateFile
 	(
-		L"../Bin/Resource/Texture/Height.bmp", 
+		L"../Bin/Resource/Texture/Height2.bmp", 
 		GENERIC_READ, 
 		0, 
 		NULL, 

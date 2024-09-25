@@ -21,10 +21,20 @@ public:
 private:
 	HRESULT Ready_LightInfo();
 	HRESULT Ready_Layer_ToolEnvironment(const _tchar* _pLayerTag);
-	HRESULT Ready_Layer_Tile(const _tchar* _pLayerTag);
+	HRESULT Ready_Layer_Terrain(const _tchar* _pLayerTag);
+
+
+	HRESULT Ready_Layer_PickingTile(const _tchar* _pLayerTag);
+	CLayer* Find_Layer_PickingTile();
+	HRESULT Create_Layer_PickingTile(CLayer* _pLayer);
+
+
+	_vec3 TilePiking_OnTerrain();
+	_vec3 TileCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom);
 
 	//imgui ÇÔ¼ö
 	void ShowGUI();
+	void SetMenu();
 
 private:
 	virtual void Free();
