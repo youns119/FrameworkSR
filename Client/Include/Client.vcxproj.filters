@@ -98,9 +98,6 @@
     <Filter Include="03.GameObject\06.Effect\03. EffectFanSpread">
       <UniqueIdentifier>{cd7cba73-985b-436f-9922-412e3270268b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\06.Effect\01. EffectCircleLines">
-      <UniqueIdentifier>{98dc4bf6-a66a-4b22-a767-2b4004439bf2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.GameObject\09.Ammo">
       <UniqueIdentifier>{ab8946bb-e4ee-4c3c-9e5f-acc02aeb4b2f}</UniqueIdentifier>
     </Filter>
@@ -139,6 +136,15 @@
     </Filter>
     <Filter Include="04.UI\04.Indicator">
       <UniqueIdentifier>{48b70013-ae9f-4684-95ef-0718c8e89ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\04. EffectCircleLines">
+      <UniqueIdentifier>{98dc4bf6-a66a-4b22-a767-2b4004439bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\05. EffectSpark">
+      <UniqueIdentifier>{9573ff24-7a8a-49db-ad36-cc93f75fcbbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\99. EffectPool">
+      <UniqueIdentifier>{ba953c38-479a-458a-87ca-52adbcd9a4fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -236,7 +242,7 @@
       <Filter>03.GameObject\06.Effect\03. EffectFanSpread</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectCircleLines.h">
-      <Filter>03.GameObject\06.Effect\01. EffectCircleLines</Filter>
+      <Filter>03.GameObject\06.Effect\04. EffectCircleLines</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Ammo.h">
       <Filter>03.GameObject\09.Ammo</Filter>
@@ -291,6 +297,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\UIIndicator.h">
       <Filter>04.UI\04.Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Spark.h">
+      <Filter>03.GameObject\06.Effect\05. EffectSpark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectPool.h">
+      <Filter>03.GameObject\06.Effect\99. EffectPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -373,7 +385,7 @@
       <Filter>03.GameObject\06.Effect\03. EffectFanSpread</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectCircleLines.cpp">
-      <Filter>03.GameObject\06.Effect\01. EffectCircleLines</Filter>
+      <Filter>03.GameObject\06.Effect\04. EffectCircleLines</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Ammo.cpp">
       <Filter>03.GameObject\09.Ammo</Filter>
@@ -428,6 +440,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIIndicator.cpp">
       <Filter>04.UI\04.Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Spark.cpp">
+      <Filter>03.GameObject\06.Effect\05. EffectSpark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectPool.cpp">
+      <Filter>03.GameObject\06.Effect\99. EffectPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

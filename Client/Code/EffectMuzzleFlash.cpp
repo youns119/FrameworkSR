@@ -33,7 +33,7 @@ CEffectMuzzleFlash* CEffectMuzzleFlash::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 HRESULT CEffectMuzzleFlash::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-    m_fViewZ = 1.f;
+    m_fViewZ = 100.f;
     m_vInitPosition = { 40.f, 40.f, m_fViewZ };
     for (_uint i = 0; i < m_vecTransformCom.size(); ++i)
     {
@@ -95,11 +95,12 @@ void CEffectMuzzleFlash::Render_GameObject()
     if (!m_pEffectCom->Get_Visibility())
         return;
 
-    m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+    //m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     m_pTextureCom->Set_Texture();
 
+    //Setup_Material();
     Animate_UV();
     for (_uint i = 0; i < m_vecTransformCom.size(); ++i)
     {
@@ -107,7 +108,7 @@ void CEffectMuzzleFlash::Render_GameObject()
         m_pBufferCom->Render_Buffer();
     }
 
-    m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+    //m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 }
 

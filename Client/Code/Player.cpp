@@ -2,6 +2,8 @@
 #include "..\Header\Player.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
+// ±Ôºó
+#include "../Header/EffectPool.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
@@ -381,13 +383,29 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	if (Engine::Key_Press(DIK_Z))
 	{
 		CComponent* pComponent(nullptr);
+		CGameObject* pGameObject(nullptr);
 		//CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
 		//static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBloodSplater", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBloodSplater", L"Com_Effect");
+		//static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+		_vec3 vPos, vLook;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectFanSpread", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
+		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
+		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+		static_cast<CEffectPool*>(pGameObject)->Operate();
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
+		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 2.f);
+		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+		static_cast<CEffectPool*>(pGameObject)->Operate();
 	}
 	if (Engine::Key_Press(DIK_LSHIFT))
 	{

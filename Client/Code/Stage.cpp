@@ -3,11 +3,8 @@
 #include "Export_Utility.h"
 #include "Export_System.h"
 #include "..\Header\DynamicCamera.h"
-#include "../Header/EffectMuzzleFlash.h"
-#include "../Header/EffectPlayerBlood.h"
-#include "../Header/EffectBloodSplater.h"
-#include "../Header/EffectFanSpread.h"
-#include "../Header/EffectCircleLines.h"
+// 규빈 (이텍트 해당하는 클래스 헤더 모음)
+#include "../Header/Header_Effect.h"
 
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -254,9 +251,17 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPlayerBlood", pGameObject), E_FAIL);
 
-	pGameObject = CEffectBloodSplater::Create(m_pGraphicDev);
+	pGameObject = CEffectPool::Create(m_pGraphicDev, (CGameObject * (*)(LPDIRECT3DDEVICE9))CEffectBloodSplater::Create);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBloodSplater", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_BloodSplater", pGameObject), E_FAIL);
+
+	pGameObject = CEffectPool::Create(m_pGraphicDev, (CGameObject * (*)(LPDIRECT3DDEVICE9))CSpark::Create);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_Spark", pGameObject), E_FAIL);
+
+	//pGameObject = CEffectBloodSplater::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBloodSplater", pGameObject), E_FAIL);
 
 	pGameObject = CEffectFanSpread::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -267,6 +272,11 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectCircleLines", pGameObject), E_FAIL);
 	m_mapLayer.insert({ _pLayerTag , pLayer });
+
+	//pGameObject = CSpark::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectSpark", pGameObject), E_FAIL);
+	//m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
 }

@@ -97,6 +97,12 @@
     <Filter Include="04.Component\07.Animator\00.Animation">
       <UniqueIdentifier>{f3a261b9-4428-4ba7-9288-2b15c3d83033}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\08. ParticleSystem">
+      <UniqueIdentifier>{2dd80ce5-e1f2-4703-ba11-4f87c420ec8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\08. ParticleSystem\00. ParticleSpark">
+      <UniqueIdentifier>{be494777-be97-4e6e-a87f-07b129da3fa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -195,6 +201,12 @@
     <ClInclude Include="..\..\Header\CollisionManager.h">
       <Filter>04.Component\06.Collider\00.CollisionManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\ParticleSystem.h">
+      <Filter>04.Component\08. ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\ParticleSpark.h">
+      <Filter>04.Component\08. ParticleSystem\00. ParticleSpark</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -289,6 +301,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Animation.cpp">
       <Filter>04.Component\07.Animator\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ParticleSystem.cpp">
+      <Filter>04.Component\08. ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ParticleSpark.cpp">
+      <Filter>04.Component\08. ParticleSystem\00. ParticleSpark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

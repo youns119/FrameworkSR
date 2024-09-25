@@ -161,6 +161,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\EffectFanSpread.h" />
     <ClInclude Include="..\Header\EffectMuzzleFlash.h" />
     <ClInclude Include="..\Header\EffectPlayerBlood.h" />
+    <ClInclude Include="..\Header\EffectPool.h" />
     <ClInclude Include="..\Header\Floor.h" />
     <ClInclude Include="..\Header\FlyingDrone.h" />
     <ClInclude Include="..\Header\Humanoid.h" />
@@ -174,6 +175,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
+    <ClInclude Include="..\Header\Spark.h" />
     <ClInclude Include="..\Header\SpiderDrone.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Terrain.h" />
@@ -213,6 +215,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\EffectFanSpread.cpp" />
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp" />
     <ClCompile Include="..\Code\EffectPlayerBlood.cpp" />
+    <ClCompile Include="..\Code\EffectPool.cpp" />
     <ClCompile Include="..\Code\Floor.cpp" />
     <ClCompile Include="..\Code\FlyingDrone.cpp" />
     <ClCompile Include="..\Code\Humanoid.cpp" />
@@ -225,6 +228,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
+    <ClCompile Include="..\Code\Spark.cpp" />
     <ClCompile Include="..\Code\SpiderDrone.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
