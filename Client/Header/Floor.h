@@ -15,6 +15,7 @@ private:
 	virtual ~CFloor();
 
 public:
+	static CFloor* Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 	static CFloor* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
@@ -26,6 +27,7 @@ public:
 private:
 	HRESULT Add_Component();
 	HRESULT Setup_Material();
+	void Setup_Position(_vec3 _vecPos);
 
 private:
 	virtual void Free();

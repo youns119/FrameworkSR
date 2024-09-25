@@ -6,6 +6,7 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 #include "Logo.h"
+#include <fstream>
 
 class CMainApp 
 	: public CBase
@@ -25,7 +26,10 @@ public :
 
 private :
 	HRESULT	SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev);
+	HRESULT SetUp_ImGuiSetting(LPDIRECT3DDEVICE9* _ppGraphicDev); // imgui 기본 세팅 
 	HRESULT	Ready_Scene(LPDIRECT3DDEVICE9 _pGraphicDev, Engine::CManagement** _ppManagement);
+
+	void LoadFont();//imgui 폰트적용(한글)
 
 private :
 	virtual void Free();

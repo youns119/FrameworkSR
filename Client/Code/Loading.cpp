@@ -74,10 +74,10 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcCol", Engine::CRcCol::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeTex", Engine::CCubeTex::Create(m_pGraphicDev)), E_FAIL);
-	//YuBhin: Floor Buffer - FirstFloor
+	//YuBhin: Floor,Wall
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FloorTex", Engine::CFloorTex::Create(m_pGraphicDev)), E_FAIL);
-	//YuBhin: Wall Buffer - AcidWall
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WallTex", Engine::CWallTex::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_GuideTex", Engine::CGuideTex::Create(m_pGraphicDev, VTXTILEX, VTXTILEZ, VTXITV)), E_FAIL);
 
 	//Beomseung
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RightArmBuffer", Engine::CRcTex::Create(m_pGraphicDev)), E_FAIL);
@@ -175,11 +175,9 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Leg_Sliding", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Player/PlayerSliding/%d.png", TEXTUREID::TEX_NORMAL, 5)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Leg_Idle", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Player/PlayerLeg/IDLE/%d.png", TEXTUREID::TEX_NORMAL, 1)), E_FAIL);
 
-	//YuBhin: Floor Texture - FirstFloor
+	//YuBhin: Floor Texture
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FirstFloor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Floor/Floor1.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	//YuBhin: Floor Texture - Attribute Acid
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AcidFloor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Floor/ACID A LUM.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	//YuBhin: Wall Texture - Attribute Acid
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AcidWall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_wall/ACID C.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 
 	// Kyubin
