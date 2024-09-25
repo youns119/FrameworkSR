@@ -25,8 +25,10 @@ typedef struct tagParticleInfo
 	_vec3 vAcceleration;
 	_float fLifeTime;
 	_float fAge;
-	D3DCOLOR tColor;
-	D3DCOLOR tColorFade;
+	//D3DCOLOR tColor;
+	//D3DCOLOR tColorFade;
+	_vec4 vColor;
+	_vec4 vColorFade;
 	_bool bIsAlive;
 
 } PARTICLEINFO;
@@ -43,6 +45,7 @@ DWORD FtoDW(_float _f);
 _float Get_RandomFloat(_float _fMin, _float _fMax);
 _vec3 Get_RandomVec3(_vec3 _vMin, _vec3 _vMax);
 _vec3 Get_RandomVec3(BOUNDINGBOX tBox);
+D3DCOLOR Vector_to_Color(_vec4 _vColor);
 
 
 class ENGINE_DLL CParticleSystem : public CComponent
@@ -56,8 +59,10 @@ public:
 		_vec3 vInitVelocity;
 		_vec3 vAcceleration;
 		_float fLifeTime;
-		D3DCOLOR tColor;
-		D3DCOLOR tColorFade;
+		//D3DCOLOR tColor;
+		//D3DCOLOR tColorFade;
+		_vec4 vColor;
+		_vec4 vColorFade;
 
 		_float fEmitRate;
 		_float fSize;
@@ -81,6 +86,7 @@ public:
 		GRAVITY,
 		ALPHATEST,
 		ZWRITE,
+		POINT_SCALE_DISABLE,
 
 		OPTION_END
 

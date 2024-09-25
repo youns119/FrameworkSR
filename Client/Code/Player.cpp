@@ -4,6 +4,7 @@
 #include "Export_Utility.h"
 // 痹后
 #include "../Header/EffectPool.h"
+#include "../Header/EffectMuzzleFlash.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
@@ -450,30 +451,66 @@ void CPlayer::Mouse_Move()
 		m_pBody_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(dwMouseMove / 20.f));
 	}
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB)) {
+
+		// 痹后
+		_vec3 vMuzzlePos{};
+		m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
+
 		switch (m_WeaponState) {
 		case PISTOL:
 			m_Right_CurState = PISTOL_SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Shoot", false);
+
+			// 痹后
+			vMuzzlePos.x -= 100.f;
+			vMuzzlePos.y += 200.f;
+
 			break;
 		case RIFLE:
 			m_Right_CurState = RIFLE_SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Shoot", false);
+
+			// 痹后
+			vMuzzlePos.x += -120.f;
+			vMuzzlePos.y += 100.f;
 			break;
 		case SHOTGUN:
 			m_Right_CurState = SHOTGUN_SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Shoot", false);
+
+			// 痹后
+			vMuzzlePos.x += -180.f;
+			vMuzzlePos.y += 210.f;
 			break;
 		case SNIPER:
 			m_Right_CurState = SNIPER_SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Shoot", false);
+
+			// 痹后
+			vMuzzlePos.x += -160.f;
+			vMuzzlePos.y += 200.f;
 			break;
 		}
+
 		// 痹后
 		CComponent* pComponent(nullptr);
+		CEffectMuzzleFlash* pMuzzleFlash(nullptr);
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
+		pMuzzleFlash = static_cast<CEffectMuzzleFlash*>(static_cast<CTransform*>(pComponent)->GetOwner());
+		pMuzzleFlash->Set_InitPos(vMuzzlePos);
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
+	}
+
+	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {
+		m_Left_CurState = DRINK;
+		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
+
+		// 痹后
+		CComponent* pComponent(nullptr);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
 	}
 
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {

@@ -188,6 +188,7 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CircleLinesTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/CircleLines/CircleLines (%d).png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FanSpreadTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/fan spread.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Glow_White", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/Glow White.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LIKES", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/LIKES.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 
 	// ¿¬¿í
 	// UI_Plus

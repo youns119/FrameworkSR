@@ -36,6 +36,9 @@ private:
 	void Animate_UV();
 	void Reset();
 
+public:
+	void Set_InitPos(const _vec3& _vPos) { m_vInitPosition = _vPos; }
+
 private:
 	vector<Engine::CTransform*> m_vecTransformCom;
 	Engine::CTexture* m_pTextureCom;

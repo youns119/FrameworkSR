@@ -155,6 +155,9 @@
     <Filter Include="99.ImGui\Header">
       <UniqueIdentifier>{c539c9b8-6cd5-4172-b780-c3643b6effca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\06. EffectHeal">
+      <UniqueIdentifier>{fbaa0d51-1960-404f-b588-597674b28bca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -316,6 +319,12 @@
     <ClInclude Include="..\imgui\imstb_truetype.h">
       <Filter>99.ImGui\Header</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Header_Effect.h">
+      <Filter>03.GameObject\06.Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectHeal.h">
+      <Filter>03.GameObject\06.Effect\06. EffectHeal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -461,6 +470,9 @@
     </ClCompile>
     <ClCompile Include="..\imgui\imgui_widgets.cpp">
       <Filter>99.ImGui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectHeal.cpp">
+      <Filter>03.GameObject\06.Effect\06. EffectHeal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
