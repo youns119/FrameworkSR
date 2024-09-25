@@ -39,6 +39,9 @@ HRESULT CEffectPlayerBlood::Ready_GameObject()
 
 _int CEffectPlayerBlood::Update_GameObject(const _float& _fTimeDelta)
 {
+    if (!m_pEffectCom->Get_Visibility())
+        return 0;
+
     Engine::Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
     //Engine::Add_RenderGroup(RENDERID::RENDER_UI, this);
 
@@ -48,6 +51,9 @@ _int CEffectPlayerBlood::Update_GameObject(const _float& _fTimeDelta)
 
 void CEffectPlayerBlood::LateUpdate_GameObject()
 {
+    if (!m_pEffectCom->Get_Visibility())
+        return;
+
     _float fPersentage = m_pEffectCom->Get_ElapsedPersentage();
     m_iCurFrame = m_iTotalFrame * fPersentage;
 

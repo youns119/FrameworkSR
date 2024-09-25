@@ -278,6 +278,11 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectSpark", pGameObject), E_FAIL);
 	//m_mapLayer.insert({ _pLayerTag , pLayer });
 
+	pGameObject = CEffectHeal::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectHeal", pGameObject), E_FAIL);
+	m_mapLayer.insert({ _pLayerTag , pLayer });
+
 	return S_OK;
 }
 

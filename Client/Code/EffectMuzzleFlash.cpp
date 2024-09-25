@@ -118,11 +118,13 @@ HRESULT CEffectMuzzleFlash::Add_Component()
 
     pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcSpriteTex"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
+    pComponent->SetOwner(*this);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
     pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MuzzleFlashTexture"));
     //pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::Clone_Proto(L"Proto_PlayerTex"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
+    pComponent->SetOwner(*this);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
     constexpr _uint iSize = 5;
@@ -132,12 +134,14 @@ HRESULT CEffectMuzzleFlash::Add_Component()
         m_vecTransformCom.push_back(static_cast<Engine::CTransform*>(Engine::Clone_Proto(L"Proto_Transform")));
         pComponent = m_vecTransformCom.back();
         NULL_CHECK_RETURN(pComponent, E_FAIL);
+        pComponent->SetOwner(*this);
         swprintf_s(szTransformTag[i], 32, L"Com_Transform%d", i);
         m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ szTransformTag[i], pComponent });
     }
 
     pComponent = m_pEffectCom = static_cast<Engine::CEffect*>(Engine::Clone_Proto(L"Proto_Effect"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
+    pComponent->SetOwner(*this);
     m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Effect", pComponent });
 
     return S_OK;
@@ -188,10 +192,7 @@ void CEffectMuzzleFlash::Set_RandomRotation(void* _this)
     CEffectMuzzleFlash* pThis = reinterpret_cast<CEffectMuzzleFlash*>(_this);
 
     CComponent* pComponent(nullptr);
-    pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Right_Transform");
-    dynamic_cast<CTransform*>(pComponent)->Get_Info(INFO::INFO_POS, &pThis->m_vInitPosition);
-    pThis->m_vInitPosition.x -= 100.f;
-    pThis->m_vInitPosition.y += 200.f;
+
 
     pThis->Reset();
 

@@ -3,7 +3,7 @@
 #include "Export_Utility.h"
 
 CSpark::CSpark(LPDIRECT3DDEVICE9 _pGraphicDev)
-    : CGameObject(_pGraphicDev)
+	: CGameObject(_pGraphicDev)
 {
 }
 
@@ -31,9 +31,9 @@ _int CSpark::Update_GameObject(const _float& _fTimeDelta)
 {
 	if (!m_pEffectCom->Get_Visibility())
 		return 0;
-    Engine::Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+	Engine::Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
-    return Engine::CGameObject::Update_GameObject(_fTimeDelta);
+	return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
 
 void CSpark::LateUpdate_GameObject()
@@ -45,7 +45,7 @@ void CSpark::LateUpdate_GameObject()
 	m_pTransformCom->Get_Info(Engine::INFO::INFO_POS, &vTemp);
 	CGameObject::Compute_ViewZ(&vTemp);
 
-    Engine::CGameObject::LateUpdate_GameObject();
+	Engine::CGameObject::LateUpdate_GameObject();
 }
 
 void CSpark::Render_GameObject()
@@ -53,28 +53,28 @@ void CSpark::Render_GameObject()
 	if (!m_pEffectCom->Get_Visibility())
 		return;
 
-    m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
-    m_pTextureCom->Set_Texture();
-    m_pParticleSystem->Render_Parcitle();
+	m_pTextureCom->Set_Texture();
+	m_pParticleSystem->Render_Parcitle();
 }
 
 CSpark* CSpark::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-    CSpark* pObj = new CSpark(_pGraphicDev);
+	CSpark* pObj = new CSpark(_pGraphicDev);
 
-    if (FAILED(pObj->Ready_GameObject()))
-    {
-        Safe_Release(pObj);
-        MSG_BOX("Spark Particle Create Failed");
-        return nullptr;
-    }
-    return pObj;
+	if (FAILED(pObj->Ready_GameObject()))
+	{
+		Safe_Release(pObj);
+		MSG_BOX("Spark Particle Create Failed");
+		return nullptr;
+	}
+	return pObj;
 }
 
 void CSpark::Free()
 {
-    Engine::CGameObject::Free();
+	Engine::CGameObject::Free();
 }
 
 HRESULT CSpark::Add_Component()
@@ -111,7 +111,8 @@ void CSpark::Set_ParticleParam()
 	tParticleParam.tStartBoundary.vMax = { 0.f, 0.f, 0.f };
 	tParticleParam.vInitVelocity = { 0.f, 2.f, 0.f };
 	//tParticleParam.vVelocityNoise = { 2.f, 2.f, 2.f };
-	tParticleParam.tColor = D3DCOLOR_ARGB(255, 255, 255, 230);
+	//tParticleParam.tColor = D3DCOLOR_ARGB(255, 255, 255, 230);
+	tParticleParam.vColor = _vec4(1.f, 1.f, 0.9f, 1.0f);
 	tParticleParam.fSize = 0.05f;
 	tParticleParam.fLifeTime = 0.5f;
 	tParticleParam.fGravity = 9.8f;
@@ -130,7 +131,7 @@ void CSpark::Set_ParticleParam()
 		m_pParticleSystem->Add_Particle();
 	}
 
-	
+
 }
 
 void CSpark::OnOperate(void* _pParam)

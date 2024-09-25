@@ -59,7 +59,7 @@ void CParticleSpark::Reset_Particle(PARTICLEINFO* _pInfo)
 	_pInfo->vPosition = vPosition;
 
 	//_pInfo->vAcceleration = -_pInfo->vVelocity * 1.f;
-	_pInfo->tColor = m_tParam.tColor;
+	_pInfo->vColor = m_tParam.vColor;
 	_float fT = Get_RandomFloat(0.1f, 1.0f);
 	//_pInfo->fLifeTime = m_tParam.fLifeTime * fT * fT * fT;
 	_pInfo->fLifeTime = m_tParam.fLifeTime * fT * fT;

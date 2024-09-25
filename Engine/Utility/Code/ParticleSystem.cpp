@@ -34,6 +34,20 @@ _vec3 Engine::Get_RandomVec3(BOUNDINGBOX tBox)
 	return Engine::Get_RandomVec3(tBox.vMin, tBox.vMax);
 }
 
+D3DCOLOR Engine::Vector_to_Color(_vec4 _vColor)
+{
+	_vColor.x = min(1.f, _vColor.x);
+	_vColor.y = min(1.f, _vColor.y);
+	_vColor.z = min(1.f, _vColor.z);
+	_vColor.w = min(1.f, _vColor.w);
+
+	_vColor.x = max(0.f, _vColor.x);
+	_vColor.y = max(0.f, _vColor.y);
+	_vColor.z = max(0.f, _vColor.z);
+	_vColor.w = max(0.f, _vColor.w);
+	return D3DCOLOR_COLORVALUE(_vColor.x, _vColor.y, _vColor.z, _vColor.w);
+}
+
 CParticleSystem::CParticleSystem()
 {
 }
@@ -207,7 +221,14 @@ void CParticleSystem::Render_Parcitle()
 		//	iter->vColor.y,
 		//	iter->vColor.z,
 		//	iter->vColor.w);
-		pParticle->dwColor = iter->tColor;
+		if (Check_Option(OPTION::COLOR_FADE))
+		{
+			_float fElapsed = iter->fAge / iter->fLifeTime;
+			pParticle->dwColor = Vector_to_Color(fElapsed * (iter->vColorFade - iter->vColor) + iter->vColor);
+		}
+		else
+			pParticle->dwColor = Vector_to_Color(iter->vColor);
+
 		pParticle->vUV = { 0.5f, 1.5f };
 
 		++pParticle;
@@ -277,7 +298,8 @@ void CParticleSystem::Set_PreRenderState()
 
 
 	m_pGraphicDev->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE); // 카메라 위치에 따라서 작게 그리고도록
+	if (!Check_Option(OPTION::POINT_SCALE_DISABLE))
+		m_pGraphicDev->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);	// 카메라 위치에 따라서 작게 그리고도록
 
 	m_pGraphicDev->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_tParam.fSize));
 	m_pGraphicDev->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
@@ -334,7 +356,8 @@ void CParticleSystem::Reset_Particle(PARTICLEINFO* _pInfo)
 	_pInfo->vVelocity = m_tParam.vInitVelocity + Get_RandomVec3(-m_tParam.vVelocityNoise, m_tParam.vVelocityNoise);
 	_pInfo->vAcceleration = m_tParam.vAcceleration;
 
-	_pInfo->tColor = m_tParam.tColor;
+	_pInfo->vColor = m_tParam.vColor;
+	_pInfo->vColorFade = m_tParam.vColorFade;
 	_pInfo->fLifeTime = m_tParam.fLifeTime;
 	_pInfo->fAge = 0.f;
 }
@@ -387,3 +410,4 @@ _float CParticleSystem::Compute_ParticleViewZ(const PARTICLEINFO& _tParticle, co
 	_vec3 vDist = _tParticle.vPosition - _vCameraPos;
 	return D3DXVec3Length(&vDist);
 }
+
