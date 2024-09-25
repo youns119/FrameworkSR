@@ -6,7 +6,6 @@
 CSpiderDrone::CSpiderDrone(LPDIRECT3DDEVICE9 _pGraphicDev) : 
     CDrone(_pGraphicDev)
 {
-	m_fMaxFrame = 5.f;
 }
 
 CSpiderDrone::~CSpiderDrone()
