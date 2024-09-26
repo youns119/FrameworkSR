@@ -33,7 +33,7 @@ CEffectMuzzleFlash* CEffectMuzzleFlash::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 HRESULT CEffectMuzzleFlash::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-    m_fViewZ = 100.f;
+    m_fViewZ = 20.f;
     m_vInitPosition = { 40.f, 40.f, m_fViewZ };
     for (_uint i = 0; i < m_vecTransformCom.size(); ++i)
     {

@@ -121,7 +121,7 @@ void CSpark::Set_ParticleParam()
 	//m_pParticleSystem->Set_Option(CParticleSystem::OPTION::REPEAT, TRUE);
 	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::GRAVITY, TRUE);
 	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::DEATH_OVER_TIME, TRUE);
-	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::ZWRITE, TRUE);
+	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::ZWRITE_DISABLE, TRUE);
 
 	m_pParticleSystem->Set_Diraction({ 1.f, 1.0f, -1.f });
 	m_pParticleSystem->Set_Speed({ 2.f, 5.f });

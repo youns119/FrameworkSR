@@ -97,6 +97,7 @@ void CEffect::Operate_Effect()
 	Set_Visibility(TRUE);
 }
 
+// 에이시 함수이름 왜이리 헷갈려 나도 헷갈려이젠
 void CEffect::Stop_Effect()
 {
 	m_fElapsed = 0.f;

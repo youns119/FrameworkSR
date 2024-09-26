@@ -59,15 +59,14 @@ public:
 		_vec3 vInitVelocity;
 		_vec3 vAcceleration;
 		_float fLifeTime;
-		//D3DCOLOR tColor;
-		//D3DCOLOR tColorFade;
 		_vec4 vColor;
 		_vec4 vColorFade;
 
 		_float fEmitRate;
+		_uint iEmitCnt;
 		_float fSize;
 		_vec3 vVelocityNoise;
-		_int iMaxParticle;
+		_uint iTotalCnt;
 		_float fGravity;
 		BOUNDINGBOX tBoundary;
 
@@ -85,8 +84,10 @@ public:
 		COLOR_FADE,
 		GRAVITY,
 		ALPHATEST,
-		ZWRITE,
+		ZWRITE_DISABLE,
 		POINT_SCALE_DISABLE,
+		EMISSION_CONTROL,
+		ALPHA_SORT,
 
 		OPTION_END
 
@@ -124,6 +125,7 @@ public:
 	void Add_Particle();
 	_bool Is_Empty();
 	_bool Is_Dead();
+	void SetUp_Particle();
 
 protected:
 	void Remove_DeadParticles();
@@ -142,11 +144,12 @@ private:
 
 protected:
 	std::list<PARTICLEINFO> m_ParticleList;
+	std::list<PARTICLEINFO> m_ReadyParticleList;
 	LPDIRECT3DVERTEXBUFFER9	m_pVB;
 
 	PARAM m_tParam;
-
 	_ulong m_dwOptions;
+	_float m_fEmitTime;
 
 	DWORD m_dwBufferSize;
 	DWORD m_dwBufferOffset;
