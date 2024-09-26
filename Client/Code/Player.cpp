@@ -17,6 +17,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
 	, bJumpCheck(false)
+	, bLeftHandUse(true)
 	, bLegUse(false)
 	, fJumpPower(0.f)
 	, fTilePos(0.f)
@@ -127,7 +128,7 @@ void CPlayer::Render_GameObject()
 	m_pAnimator[RIGHT]->Render_Animator();
 	m_pRight_BufferCom->Render_Buffer();
 
-	if (m_Right_CurState != RIFLE_RELOAD) {
+	if (bLeftHandUse) {
 		mat = *m_pLeft_TransformCom->Get_WorldMatrix();
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &mat);
 		m_pAnimator[LEFT]->Render_Animator();
@@ -215,6 +216,18 @@ HRESULT CPlayer::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_Reload", pComponent });
 
+	pComponent = m_pRight_TextureCom[SNIPER_ZOOMIN] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomIn")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_ZoomIn", pComponent });
+
+	pComponent = m_pRight_TextureCom[SNIPER_ZOOMING] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomIng")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_ZoomIng", pComponent });
+
+	pComponent = m_pRight_TextureCom[SNIPER_ZOOMOUT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomOut")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_ZoomOut", pComponent });
+
 	//Left
 	pComponent = m_pLeft_TextureCom[LEFT_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftArmTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -292,7 +305,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	_vec3 vLook;
 	_vec3 vRight;
 	_vec3 vUp;
-
 	m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 	m_pBody_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
 	m_pBody_TransformCom->Get_Info(INFO::INFO_UP, &vUp);
@@ -329,6 +341,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		case RIFLE:
 			m_Right_CurState = RIFLE_RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Reload", false);
+			bLeftHandUse = false;
 			break;
 		case SHOTGUN:
 			m_Right_CurState = SHOTGUN_RELOAD;
@@ -337,6 +350,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		case SNIPER:
 			m_Right_CurState = SNIPER_RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Reload", false);
+			bLeftHandUse = false;
 			break;
 		}
 	}
@@ -436,7 +450,20 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -3.f, 2.f);
 		fSpeed -= 100;
 	}
-
+	if (m_WeaponState == SNIPER) {
+		if (Engine::Key_Press(DIK_L))
+		{
+			m_Right_CurState = SNIPER_ZOOMIN;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomIn", false);
+			bLeftHandUse = false;
+		}
+		if (Engine::Key_Release(DIK_L))
+		{
+			m_Right_CurState = SNIPER_ZOOMOUT;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomOut", false);
+			bLeftHandUse = false;
+		}
+	}
 }
 
 void CPlayer::Mouse_Move()
@@ -594,6 +621,9 @@ void CPlayer::SetAnimation()
 	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Idle", m_pRight_TextureCom[SNIPER_IDLE], 8.f);
 	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Shoot", m_pRight_TextureCom[SNIPER_SHOOT], 13.f);
 	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Reload", m_pRight_TextureCom[SNIPER_RELOAD], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomIn", m_pRight_TextureCom[SNIPER_ZOOMIN], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomIng", m_pRight_TextureCom[SNIPER_ZOOMING], 5.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomOut", m_pRight_TextureCom[SNIPER_ZOOMOUT], 13.f);
 
 	//Left
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Idle", m_pLeft_TextureCom[LEFT_IDLE], 8.f);
@@ -624,24 +654,35 @@ void CPlayer::Animation_End_Check()
 		m_Leg_CurState = LEG_IDLE;
 		bLegUse = false;
 	}
+
 	if (m_pAnimator[RIGHT]->GetCurrAnim()->GetFinish())
 	{
 		switch (m_WeaponState) {
 		case PISTOL:
 			m_Right_CurState = PISTOL_IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Idle", true);
+			bLeftHandUse = true;
 			break;
 		case RIFLE:
 			m_Right_CurState = RIFLE_IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Idle", true);
+			bLeftHandUse = true;
 			break;
 		case SHOTGUN:
 			m_Right_CurState = SHOTGUN_IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Idle", true);
+			bLeftHandUse = true;
 			break;
 		case SNIPER:
+			if (m_Right_CurState == SNIPER_ZOOMIN)
+			{
+				m_Right_CurState = SNIPER_ZOOMING;
+				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomIng", true);
+				break;
+			}
 			m_Right_CurState = SNIPER_IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
+			bLeftHandUse = true;
 			break;
 		}
 	}
@@ -669,15 +710,50 @@ void CPlayer::Animation_Pos()
 			m_pRight_TransformCom->Set_Pos(0.f, -WINCY / 3.f, 2.f);
 		}
 		else {
+			m_pRight_TransformCom->Set_Scale(250.f, 250.f, 0.f);
 			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
 		}
 	}
+	else if (m_Right_CurState == SNIPER_RELOAD)
+	{
+		m_pRight_TransformCom->Set_Scale(500.f, 500.f, 0.f);
+		m_pRight_TransformCom->Set_Pos(0.f, WINCY / -4.f, 2.f);
+	}
+
+	else if (m_Right_CurState == SNIPER_ZOOMIN)
+	{
+		m_pRight_TransformCom->Set_Scale(500.f, 500.f, 0.f);
+		m_pRight_TransformCom->Set_Pos(0.f, WINCY / -4.f, 2.f);
+	}
+	else if (m_Right_CurState == SNIPER_ZOOMING)
+	{
+		m_pRight_TransformCom->Set_Scale(1000.f, 1000.f, 0.f);
+		m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
+	}
 	else {
 		m_pRight_TransformCom->Set_Scale(500.f, 500.f, 0.f);
+		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
 	}
 
 }
 
+void CPlayer::OnCollision(CCollider& _pOther)
+{
+
+
+}
+
+void CPlayer::OnCollisionEnter(CCollider& _pOther)
+{
+	CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+	static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+}
+
+void CPlayer::OnCollisionExit(CCollider& _pOther)
+{
+
+}
 
 _vec3 CPlayer::Picking_OnTerrain()
 {

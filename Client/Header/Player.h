@@ -31,6 +31,9 @@ private:
 		SHOTGUN_SHOOT,
 		SHOTGUN_RELOAD,
 		SNIPER_IDLE,
+		SNIPER_ZOOMIN,
+		SNIPER_ZOOMING,
+		SNIPER_ZOOMOUT,
 		SNIPER_SHOOT,
 		SNIPER_RELOAD,
 		RIGHT_STATE_END
@@ -90,7 +93,10 @@ private:
 	void Animation_End_Check();
 	void Animation_Pos();
 	_vec3 Picking_OnTerrain();
-
+public:
+	void OnCollision(CCollider& _pOther);
+	void OnCollisionEnter(CCollider& _pOther);
+	void OnCollisionExit(CCollider& _pOther);
 private:
 	virtual void Free();
 
@@ -118,6 +124,7 @@ private:
 private:
 	_bool bJumpCheck;
 	_bool bLegUse;
+	_bool bLeftHandUse;
 	_float fJumpPower;
 	_float fTilePos;
 	_float fSpeed;
