@@ -6,21 +6,22 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CTransform;
 class CAnimator;
 
 END
 
-class CBackGround 
+class CBackGround
 	: public Engine::CGameObject
 {
-private :
+private:
 	explicit CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CBackGround();
 
-public :
+public:
 	static CBackGround* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
-public :
+public:
 	virtual HRESULT	Ready_GameObject();
 	virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
@@ -30,11 +31,14 @@ private:
 	HRESULT	Add_Component();
 	void Set_Animation();
 
-private :
+private:
 	virtual void Free();
 
-private :
+private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
+	Engine::CTransform* m_pTransformCom;
 	Engine::CAnimator* m_pAnimator;
+
+	_matrix	m_matView, m_matProj;
 };

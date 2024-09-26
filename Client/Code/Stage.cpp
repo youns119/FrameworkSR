@@ -6,6 +6,13 @@
 // 규빈 (이텍트 해당하는 클래스 헤더 모음)
 #include "../Header/Header_Effect.h"
 
+// 연욱
+#include "../Header/UICrossHair.h"
+#include "../Header/UIPlus.h"
+#include "../Header/UIShop.h"
+#include "../Header/UIOverlay.h"
+#include "../Header/UIUpgradeCard.h"
+#include "../Header/UIIndicator.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -57,6 +64,7 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 		_uint iID = ((_uint)Engine::Get_ControllerID() + 1) % (_uint)CONTROLLERID::CONTROL_END;
 
 		Engine::Set_ControllerID((CONTROLLERID)iID);
+		Engine::Toggle_UILayer(UITYPE::UI_INDICATOR);
 	}
 
 	if (Engine::Key_Press(DIK_8))

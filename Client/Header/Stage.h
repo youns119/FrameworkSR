@@ -21,14 +21,6 @@
 #include "Floor.h"
 #include "Wall.h"
 
-// ¿¬¿í
-#include "UICrossHair.h"
-#include "UIPlus.h"
-#include "UIShop.h"
-#include "UIOverlay.h"
-#include "UIUpgradeCard.h"
-#include "UIIndicator.h"
-
 class CStage
 	: public Engine::CScene
 {

@@ -7,8 +7,11 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
+	, m_pTransformCom(nullptr)
 	, m_pAnimator(nullptr)
 {
+	D3DXMatrixIdentity(&m_matView);
+	D3DXMatrixOrthoLH(&m_matProj, WINCX, WINCY, 0.0f, 1.f);
 }
 
 CBackGround::~CBackGround()
@@ -33,6 +36,9 @@ HRESULT CBackGround::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransformCom->Set_Scale(WINCX * 0.5f, WINCY * 0.5f, 0.f);
+	//m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
+
 	Set_Animation();
 
 	return S_OK;
@@ -54,6 +60,10 @@ void CBackGround::LateUpdate_GameObject()
 
 void CBackGround::Render_GameObject()
 {
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);
+
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 }
@@ -69,6 +79,10 @@ HRESULT CBackGround::Add_Component()
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Loading"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
 	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::Clone_Proto(L"Proto_Animator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

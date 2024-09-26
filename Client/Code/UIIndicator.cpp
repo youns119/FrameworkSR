@@ -34,7 +34,7 @@ HRESULT CUIIndicator::Ready_UI()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(20.f, 20.f, 0.f);
+	m_pTransformCom->Set_Scale(25.f, 25.f, 0.f);
 
 	m_bRender = true;
 
@@ -46,22 +46,34 @@ _int CUIIndicator::Update_UI(const _float& _fTimeDelta)
 	if (!m_bRender)
 		return 0;
 
-	CComponent* pComponent = static_cast<CPlayer*>(m_pGameObject)->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider");
-	_vec3 vColliderPos = static_cast<CCollider*>(pComponent)->GetFinalPos();
-	vColliderPos = vColliderPos + _vec3(0.f, 2.f, 0.f);
+	_vec3 vPos{};
+	CComponent* pComponent = static_cast<CPlayer*>(m_pGameObject)->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform");
+	static_cast<CTransform*>(pComponent)->Get_Info(INFO::INFO_POS, &vPos);
 
-	_vec3 vPos;
+	D3DVIEWPORT9 tViewport;
 	_matrix matWorld, matView, matProj;
-	m_pGraphicDev->GetTransform(D3DTS_WORLD, &matWorld);
+
+	m_pGraphicDev->GetViewport(&tViewport);
+	D3DXMatrixIdentity(&matWorld);
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 
-	D3DVIEWPORT9 tViewport;
-	m_pGraphicDev->GetViewport(&tViewport);
+	_vec3 vScreenPos{};
+	D3DXVec3Project(&vScreenPos, &vPos, &tViewport, &matProj, &matView, &matWorld);
 
-	D3DXVec3Project(&vPos, &vColliderPos, &tViewport, &matProj, &matView, &matWorld);
+	if (vScreenPos.z < 0.f || vScreenPos.z > 1.f)
+		return 0;
 
-	m_pTransformCom->Set_Pos(vPos);
+	vScreenPos.x -= WINCX * 0.5f;
+	vScreenPos.y = -vScreenPos.y + WINCY * 0.5f;
+	vScreenPos.z = 0.f;
+
+	if (vScreenPos.x <= -WINCX * 0.5f) vScreenPos.x = -WINCX * 0.5f;
+	else if (vScreenPos.x >= WINCX * 0.5f) vScreenPos.x = WINCX * 0.5f;
+	if (vScreenPos.y <= -WINCY * 0.5f) vScreenPos.y = -WINCY * 0.5f;
+	else if (vScreenPos.y >= WINCY * 0.5f) vScreenPos.x = WINCY * 0.5f;
+
+	m_pTransformCom->Set_Pos(vScreenPos);
 
 	return Engine::CUI::Update_UI(_fTimeDelta);
 }

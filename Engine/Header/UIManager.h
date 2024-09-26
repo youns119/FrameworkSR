@@ -22,7 +22,7 @@ public:
 
 public:
 	vector<CUI*>* Get_UIGroup(UITYPE _eUIType) { return &m_vecUI[(_uint)_eUIType]; }
-	_bool Get_UILayerRender(UITYPE _eUIType) { return m_LayerRender[(_uint)_eUIType]; }
+	_bool Get_UILayerRender(UITYPE _eUIType) const { return m_LayerRender[(_uint)_eUIType]; }
 
 	void Set_UILayerRender(UITYPE _eUIType, _bool _bRender) { m_LayerRender[(_uint)_eUIType] = _bRender; }
 

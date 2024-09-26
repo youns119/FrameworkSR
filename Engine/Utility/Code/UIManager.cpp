@@ -63,9 +63,9 @@ void CUIManager::LateUpdate_UI()
 void CUIManager::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
 	_matrix matView, matProj;
+
 	_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 	_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
-
 	_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matOrtho);
 
