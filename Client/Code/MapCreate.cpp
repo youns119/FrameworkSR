@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "../Header/MapCreate.h"
-#include "..\Header\DynamicCamera.h"
+#include "..\Header\MapCamera.h"
 #include "..\Header\SkyBox.h"
 #include "..\Header\Floor.h"
 #include "..\Header\Wall.h"
@@ -97,7 +97,7 @@ HRESULT CMapCreate::Ready_Layer_ToolEnvironment(const _tchar* _pLayerTag)
 	_vec3 vAt(0.f, 0.f, 1.f);
 	_vec3 vUp(0.f, 1.f, 0.f);
 
-	pGameObject = CDynamicCamera::Create
+	pGameObject = CMapCamera::Create
 	(
 		m_pGraphicDev,
 		&vEye,

@@ -164,6 +164,9 @@
     <Filter Include="04.UI\01.Upgrade\01.UpgradeCard">
       <UniqueIdentifier>{359f6c77-6959-46a6-9a0c-c0ebdc32a83d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\04.DynamicCamera\MapCamera">
+      <UniqueIdentifier>{d744003d-d767-41cf-bf27-8e388c32bb20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -334,6 +337,9 @@
     <ClInclude Include="..\Header\UIUpgradeCard.h">
       <Filter>04.UI\01.Upgrade\01.UpgradeCard</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MapCamera.h">
+      <Filter>03.GameObject\04.DynamicCamera\MapCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -485,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIUpgradeCard.cpp">
       <Filter>04.UI\01.Upgrade\01.UpgradeCard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MapCamera.cpp">
+      <Filter>03.GameObject\04.DynamicCamera\MapCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
