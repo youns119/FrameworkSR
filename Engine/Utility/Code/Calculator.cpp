@@ -38,6 +38,8 @@ _float CCalculator::Compute_HeightOnTerrain
 )
 {
 	_ulong dwIndex = _ulong(_pPos->z / _dwVtxItv) * _dwCntX + _ulong(_pPos->x / _dwVtxItv);
+	if (_dwCntX * _dwCntZ <= dwIndex)
+		return 0;
 
 	_float fRatioX = (_pPos->x - _pTerrainVtxPos[dwIndex + _dwCntX].x) / _dwVtxItv;
 	_float fRatioZ = (_pTerrainVtxPos[dwIndex + _dwCntX].z - _pPos->z) / _dwVtxItv;

@@ -7,11 +7,19 @@ CRcCol::CRcCol()
 CRcCol::CRcCol(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CVIBuffer(_pGraphicDev)
 {
+	vPos[0] = { -0.5f, 1.f, 0.f };
+	vPos[1] = { 0.5f, 1.f, 0.f };
+	vPos[2] = { 0.5f, -1.f, 0.f };
+	vPos[3] = { -0.5f, -1.f, 0.f };
 }
 
 CRcCol::CRcCol(const CRcCol& _rhs)
 	: CVIBuffer(_rhs)
 {
+	vPos[0] = _rhs.vPos[0];
+	vPos[1] = _rhs.vPos[1];
+	vPos[2] = _rhs.vPos[2];
+	vPos[3] = _rhs.vPos[3];
 }
 
 CRcCol::~CRcCol()
@@ -48,17 +56,17 @@ HRESULT CRcCol::Ready_Buffer()
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 
-	pVertex[0].vPosition = { -1.f, 1.f, 0.f };
+	pVertex[0].vPosition = vPos[0];
 	pVertex[0].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 
-	pVertex[1].vPosition = { 1.f, 1.f, 0.f };
-	pVertex[1].dwColor = D3DXCOLOR(0.f, 1.f, 0.f, 1.f);
+	pVertex[1].vPosition = vPos[1];
+	pVertex[1].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 
-	pVertex[2].vPosition = { 1.f, -1.f, 0.f };
-	pVertex[2].dwColor = D3DXCOLOR(0.f, 0.f, 1.f, 1.f);
+	pVertex[2].vPosition = vPos[2];
+	pVertex[2].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 
-	pVertex[3].vPosition = { -1.f, -1.f, 0.f };
-	pVertex[3].dwColor = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+	pVertex[3].vPosition = vPos[3];
+	pVertex[3].dwColor = D3DXCOLOR(0.f, 1.f, 0.f, 1.f);
 
 	m_pVB->Unlock();
 

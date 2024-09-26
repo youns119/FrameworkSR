@@ -31,7 +31,7 @@ protected:
 	_bool m_bIsFire;
 	_float m_fFireDelayTime;
 	_float m_fAttackTimer;
-
+	_bool bColShow;
 protected:
 	virtual void Free();
 };

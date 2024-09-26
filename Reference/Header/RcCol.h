@@ -15,7 +15,10 @@ private :
 
 public :
 	static CRcCol* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
-
+	_vec3* VertexPos(_int iIndex)
+	{
+		return &vPos[iIndex];
+	}
 public :
 	virtual	HRESULT	Ready_Buffer();
 	virtual	void Render_Buffer();
@@ -25,6 +28,8 @@ public :
 
 private :
 	virtual void Free();
+private:
+	_vec3 vPos[4];
 };
 
 END

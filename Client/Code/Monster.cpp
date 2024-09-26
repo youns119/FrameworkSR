@@ -10,6 +10,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
 	, m_pAnimatorCom(nullptr)
+	, m_pHitBufferCom(nullptr)
 {
 }
 

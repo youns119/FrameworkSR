@@ -95,6 +95,11 @@ inline void LateUpdate_Bullet();
 
 inline void	Release_Utility();
 
+//Beomseung
+inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
+inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
+
+
 #include "Export_Utility.inl"
 
 END
