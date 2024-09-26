@@ -7,7 +7,6 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
-	, m_pTextureCom_Test(nullptr)
 	, m_pAnimator(nullptr)
 {
 }
@@ -41,19 +40,6 @@ HRESULT CBackGround::Ready_GameObject()
 
 _int CBackGround::Update_GameObject(const _float& _fTimeDelta)
 {
-	if (Key_Press(DIK_W))
-		m_pAnimator->PlayAnimation(L"Test", false);
-	if (Key_Press(DIK_S))
-		m_pAnimator->PlayAnimation(L"Loading", true);
-
-	if (Key_Press(DIK_D))
-		m_pAnimator->GetCurrAnim()->SetAnimSpeed(m_pAnimator->GetCurrAnim()->GetAnimSpeed() + 5.f);
-	if (Key_Press(DIK_A))
-		m_pAnimator->GetCurrAnim()->SetAnimSpeed(m_pAnimator->GetCurrAnim()->GetAnimSpeed() - 5.f);
-
-	if (Key_Press(DIK_SPACE))
-		m_pAnimator->Toggle_Pause();
-
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDERID::RENDER_PRIORITY, this);
@@ -84,10 +70,6 @@ HRESULT CBackGround::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
-	pComponent = m_pTextureCom_Test = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Test"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Test", pComponent });
-
 	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::Clone_Proto(L"Proto_Animator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
@@ -97,8 +79,7 @@ HRESULT CBackGround::Add_Component()
 
 void CBackGround::Set_Animation()
 {
-	m_pAnimator->CreateAnimation(L"Loading", m_pTextureCom, 5.f);
-	m_pAnimator->CreateAnimation(L"Test", m_pTextureCom_Test, 5.f);
+	m_pAnimator->CreateAnimation(L"Loading", m_pTextureCom, 3.f);
 
 	m_pAnimator->PlayAnimation(L"Loading", true);
 }

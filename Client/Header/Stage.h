@@ -22,10 +22,11 @@
 #include "Wall.h"
 
 // ¿¬¿í
-#include "UIPlus.h"
-#include "UIUpgrade.h"
 #include "UICrossHair.h"
+#include "UIPlus.h"
 #include "UIShop.h"
+#include "UIOverlay.h"
+#include "UIUpgradeCard.h"
 #include "UIIndicator.h"
 
 class CStage
@@ -56,4 +57,7 @@ private:
 
 private:
 	virtual void Free();
+
+private:
+	CPlayer* m_pPlayer;
 };

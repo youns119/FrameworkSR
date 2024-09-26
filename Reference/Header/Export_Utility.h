@@ -72,7 +72,10 @@ inline HRESULT Add_UI(CUI* _pUI);
 inline _int Update_UI(const _float& _fTimeDelta);
 inline void LateUpdate_UI();
 inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
-inline list<CUI*>* Get_UIList(UITYPE _eUIType);
+inline vector<CUI*>* Get_UIGroup(UITYPE _eUIType);
+inline _bool Get_UILayerRender(UITYPE _eUIType);
+inline void Set_UILayerRender(UITYPE _eUIType, _bool _bRender);
+inline void Toggle_UILayer(UITYPE _eUIType);
 
 // CollisionManager
 inline _bool Get_ColliderRender();

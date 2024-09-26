@@ -107,9 +107,24 @@ inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
 }
 
-inline list<CUI*>* Get_UIList(UITYPE _eUIType)
+inline vector<CUI*>* Get_UIGroup(UITYPE _eUIType)
 {
-	CUIManager::GetInstance()->Get_UIList(_eUIType);
+	CUIManager::GetInstance()->Get_UIGroup(_eUIType);
+}
+
+inline _bool Get_UILayerRender(UITYPE _eUIType)
+{
+	return CUIManager::GetInstance()->Get_UILayerRender(_eUIType);
+}
+
+inline void Set_UILayerRender(UITYPE _eUIType, _bool _bRender)
+{
+	CUIManager::GetInstance()->Set_UILayerRender(_eUIType, _bRender);
+}
+
+inline void Toggle_UILayer(UITYPE _eUIType)
+{
+	CUIManager::GetInstance()->Toggle_UILayer(_eUIType);
 }
 
 // CollisionManager

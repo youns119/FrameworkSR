@@ -23,7 +23,7 @@ CUIIndicator* CUIIndicator::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	if (FAILED(pUIIndicator->Ready_UI()))
 	{
 		Safe_Release(pUIIndicator);
-		MSG_BOX("Effect MuzzleFlash create Failed");
+		MSG_BOX("UIIndicator create Failed");
 		return nullptr;
 	}
 
@@ -36,14 +36,17 @@ HRESULT CUIIndicator::Ready_UI()
 
 	m_pTransformCom->Set_Scale(20.f, 20.f, 0.f);
 
-	m_bActive = true;
+	m_bRender = true;
 
 	return S_OK;
 }
 
 _int CUIIndicator::Update_UI(const _float& _fTimeDelta)
 {
-	CComponent* pComponent = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider");
+	if (!m_bRender)
+		return 0;
+
+	CComponent* pComponent = static_cast<CPlayer*>(m_pGameObject)->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider");
 	_vec3 vColliderPos = static_cast<CCollider*>(pComponent)->GetFinalPos();
 	vColliderPos = vColliderPos + _vec3(0.f, 2.f, 0.f);
 
@@ -65,6 +68,9 @@ _int CUIIndicator::Update_UI(const _float& _fTimeDelta)
 
 void CUIIndicator::LateUpdate_UI()
 {
+	if (!m_bRender)
+		return;
+
 	Engine::CUI::LateUpdate_UI();
 }
 

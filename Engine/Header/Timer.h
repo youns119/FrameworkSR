@@ -24,7 +24,7 @@ public:
 	void Update_Timer();
 
 public:
-	void OnOff_Timer() { m_bStop = !m_bStop; }
+	void Stop_Timer(_bool _bStop) { m_bStop = _bStop; }
 
 private:
 	virtual void Free();

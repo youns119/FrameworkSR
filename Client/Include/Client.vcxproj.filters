@@ -158,6 +158,12 @@
     <Filter Include="03.GameObject\06.Effect\06. EffectHeal">
       <UniqueIdentifier>{fbaa0d51-1960-404f-b588-597674b28bca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\01.Upgrade\00.Overlay">
+      <UniqueIdentifier>{2c8fba4c-95a9-450a-a100-84541a571394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\01.Upgrade\01.UpgradeCard">
+      <UniqueIdentifier>{359f6c77-6959-46a6-9a0c-c0ebdc32a83d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -262,9 +268,6 @@
     <ClInclude Include="..\Header\TileContorl.h">
       <Filter>03.GameObject\07.TileControl</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UIUpgrade.h">
-      <Filter>04.UI\01.Upgrade</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UICrossHair.h">
       <Filter>04.UI\02.CrossHair</Filter>
     </ClInclude>
@@ -324,6 +327,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\EffectHeal.h">
       <Filter>03.GameObject\06.Effect\06. EffectHeal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIOverlay.h">
+      <Filter>04.UI\01.Upgrade\00.Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIUpgradeCard.h">
+      <Filter>04.UI\01.Upgrade\01.UpgradeCard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -414,9 +423,6 @@
     <ClCompile Include="..\Code\TileContorl.cpp">
       <Filter>03.GameObject\07.TileControl</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UIUpgrade.cpp">
-      <Filter>04.UI\01.Upgrade</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UICrossHair.cpp">
       <Filter>04.UI\02.CrossHair</Filter>
     </ClCompile>
@@ -473,6 +479,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectHeal.cpp">
       <Filter>03.GameObject\06.Effect\06. EffectHeal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIOverlay.cpp">
+      <Filter>04.UI\01.Upgrade\00.Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIUpgradeCard.cpp">
+      <Filter>04.UI\01.Upgrade\01.UpgradeCard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

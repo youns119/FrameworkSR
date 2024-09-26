@@ -34,9 +34,9 @@ HRESULT	Ready_Timer(const _tchar* _pTimerTag)
 	return CTimerManager::GetInstance()->Ready_Timer(_pTimerTag);
 }
 
-inline void OnOff_Timer()
+inline void Stop_Timer(_bool _bStop)
 {
-	CTimerManager::GetInstance()->OnOff_Timer();
+	CTimerManager::GetInstance()->Stop_Timer(_bStop);
 }
 
 // FrameManager

@@ -44,9 +44,9 @@ HRESULT CTimerManager::Ready_Timer(const _tchar* _pTimerTag)
 	return S_OK;
 }
 
-void CTimerManager::OnOff_Timer()
+void CTimerManager::Stop_Timer(_bool _bStop)
 {
-	m_pCurrTimer->OnOff_Timer();
+	m_pCurrTimer->Stop_Timer(_bStop);
 }
 
 CTimer* CTimerManager::Find_Timer(const _tchar* _pTimerTag)

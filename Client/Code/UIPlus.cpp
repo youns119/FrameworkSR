@@ -18,16 +18,16 @@ CUIPlus::~CUIPlus()
 
 CUIPlus* CUIPlus::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-	CUIPlus* pUI_Plus = new CUIPlus(_pGraphicDev);
+	CUIPlus* pUIPlus = new CUIPlus(_pGraphicDev);
 
-	if (FAILED(pUI_Plus->Ready_UI()))
+	if (FAILED(pUIPlus->Ready_UI()))
 	{
-		Safe_Release(pUI_Plus);
-		MSG_BOX("pUI_Plus Create Failed");
+		Safe_Release(pUIPlus);
+		MSG_BOX("UIPlus Create Failed");
 		return nullptr;
 	}
 
-	return pUI_Plus;
+	return pUIPlus;
 }
 
 HRESULT CUIPlus::Ready_UI()
@@ -37,18 +37,24 @@ HRESULT CUIPlus::Ready_UI()
 	m_pTransformCom->Set_Pos(0.f, 200.f, 0.f);
 	m_pTransformCom->Set_Scale(50.f, 20.f, 0.f);
 
-	m_bActive = true;
+	m_bRender = false;
 
 	return S_OK;
 }
 
 _int CUIPlus::Update_UI(const _float& _fTimeDelta)
 {
+	if (!m_bRender)
+		return 0;
+
 	return Engine::CUI::Update_UI(_fTimeDelta);
 }
 
 void CUIPlus::LateUpdate_UI()
 {
+	if (!m_bRender)
+		return;
+
 	Engine::CUI::LateUpdate_UI();
 }
 

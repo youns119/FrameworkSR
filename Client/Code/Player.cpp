@@ -79,9 +79,11 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 		Picking_Terrain();
 		Key_Input(_fTimeDelta);
 		Mouse_Move();
-		Mouse_Fix();
 		Animation_End_Check();
 	}
+
+	if (!Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
+		Mouse_Fix();
 
 	Jump(_fTimeDelta);
 

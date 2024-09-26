@@ -16,9 +16,11 @@ protected:
 public:
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
 	UITYPE Get_UIType() { return m_eUIType; }
-	bool Get_Active() { return m_bActive; }
+	_bool Get_Render() { return m_bRender; }
+	CGameObject* Get_GameObject() { return m_pGameObject; }
 
-	void Set_Active(bool _bActive) { m_bActive = _bActive; }
+	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
+	void Set_GameObject(CGameObject* _pGameObject) { m_pGameObject = _pGameObject; }
 
 public:
 	virtual _int Update_UI(const _float& _fTimeDelta);
@@ -36,9 +38,9 @@ protected:
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 
 	UITYPE m_eUIType;
-	bool m_bActive;
+	bool m_bRender;
 
-	_float m_fViewZ;
+	CGameObject* m_pGameObject;
 };
 
 END

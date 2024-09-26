@@ -12,7 +12,6 @@ CComponentCamera::CComponentCamera(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fAspect(0.f)
 	, m_fNear(0.f)
 	, m_fFar(0.f)
-	, m_bActive(true)
 {
 	D3DXMatrixIdentity(&m_matView);
 	D3DXMatrixIdentity(&m_matProj);
@@ -46,9 +45,6 @@ HRESULT CComponentCamera::Ready_ComponentCamera()
 
 _int CComponentCamera::Update_Component(const _float& _fTimeDelta)
 {
-	if (!m_bActive)
-		return 0;
-
 	auto target_transform = dynamic_cast<CTransform*>(m_pOwner->Get_Component(Engine::COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform"));
 
 	D3DXMatrixInverse(&m_matView, 0, target_transform->Get_WorldMatrix());
@@ -73,15 +69,6 @@ CComponentCamera* CComponentCamera::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 	return pComponentCamera;
 }
-
-void CComponentCamera::Toggle_Active()
-{
-	m_bActive = !m_bActive;
-
-	if (m_bActive)
-		Ready_ComponentCamera();
-}
-
 
 CComponentCamera* CComponentCamera::Clone()
 {

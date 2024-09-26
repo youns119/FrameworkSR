@@ -48,7 +48,7 @@ _int CLogo::Update_Scene(const _float& _fTimeDelta)
 
 	if (m_pLoading->Get_Finish() == true)
 	{
-		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
+		if (Engine::Key_Press(DIK_RETURN))
 		{
 			Engine::CScene* pStage = CStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pStage, -1);
@@ -57,7 +57,7 @@ _int CLogo::Update_Scene(const _float& _fTimeDelta)
 
 			return 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		if (Engine::Key_Press(DIK_SPACE))
 		{
 			Engine::CScene* pMapCreate = CMapCreate::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pMapCreate, -1);
@@ -86,7 +86,6 @@ void CLogo::Render_Scene()
 HRESULT CLogo::Ready_Prototype()
 {
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Loading", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Loading/REJECT_%d.png", TEXTUREID::TEX_NORMAL, 3)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Test", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Player/PlayerRight/IDLE/%d.png", TEXTUREID::TEX_NORMAL, 5)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTex", Engine::CRcTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Animator", Engine::CAnimator::Create(m_pGraphicDev)), E_FAIL);
 

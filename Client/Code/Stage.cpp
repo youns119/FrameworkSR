@@ -9,6 +9,7 @@
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
+	, m_pPlayer(nullptr)
 {
 }
 
@@ -59,7 +60,18 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 	}
 
 	if (Engine::Key_Press(DIK_8))
-		Engine::CTimerManager::GetInstance()->OnOff_Timer();
+		if (!Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
+			Engine::Stop_Timer(!Engine::Get_Stop());
+
+	if (Engine::Key_Press(DIK_TAB))
+	{
+		if (!Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
+			Engine::Stop_Timer(true);
+		else
+			Engine::Stop_Timer(false);
+
+		Engine::Toggle_UILayer(UITYPE::UI_UPGRADE);
+	}
 
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
@@ -140,6 +152,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
+	m_pPlayer = static_cast<CPlayer*>(pGameObject);
 
 	//Jonghan Change Start
 	//pGameObject = CMonster::Create(m_pGraphicDev);
@@ -150,17 +163,17 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
 
-	pGameObject = CShotGun::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+	//pGameObject = CShotGun::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
-	Engine::CGameObject* pShield = nullptr;
-	pShield = CShield::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pShield, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Shield", pShield), E_FAIL);
-	pGameObject = CBlackMan::Create(m_pGraphicDev, pShield);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
+	//Engine::CGameObject* pShield = nullptr;
+	//pShield = CShield::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pShield, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Shield", pShield), E_FAIL);
+	//pGameObject = CBlackMan::Create(m_pGraphicDev, pShield);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
 
 	//pGameObject = CFlyingDrone::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -200,8 +213,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
 
-
-
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
@@ -209,12 +220,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 
 HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 {
-	// 연욱
-	//Engine::CLayer* pLayer = CLayer::Create();
-	//NULL_CHECK_RETURN(pLayer, E_FAIL);
-
-	//Engine::CGameObject* pGameObject = nullptr;
-
 	// 연욱
 	Engine::CUI* pUI = nullptr;
 
@@ -225,12 +230,31 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	pUI = CUICrossHair::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
 
 	pUI = CUIIndicator::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
 
-	//m_mapLayer.insert({ _pLayerTag , pLayer });
+	pUI = CUIOverlay::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
+	for (int i = 0; i < 10; i++)
+	{
+		_vec3 vPos;
+
+		if (i < 5) vPos = { -WINCX / 2.f + (WINCX / 6.f) * (i + 1), 100.f, 0.f };
+		else vPos = { -WINCX / 2.f + (WINCX / 6.f) * (i - 4), -200.f, 0.f };
+
+		pUI = CUIUpgradeCard::Create(m_pGraphicDev, vPos);
+		NULL_CHECK_RETURN(pUI, E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	}
+
+	Engine::Set_UILayerRender(UITYPE::UI_CROSSHAIR, true);
+	Engine::Set_UILayerRender(UITYPE::UI_PLUS, true);
 
 	return S_OK;
 }

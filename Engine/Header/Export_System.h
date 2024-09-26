@@ -19,7 +19,7 @@ inline _float Get_TimeDelta(const _tchar* _pTimerTag);
 inline _bool Get_Stop();
 inline void Set_TimeDelta(const _tchar* _pTimerTag);
 inline HRESULT Ready_Timer(const _tchar* _pTimerTag);
-inline void OnOff_Timer();
+inline void Stop_Timer(_bool _bStop);
 
 // FrameManager
 inline HRESULT Ready_Frame(const _tchar* _pFrameTag, const _float& _fCallLimit);

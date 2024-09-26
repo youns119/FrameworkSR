@@ -8,7 +8,7 @@ CTexture::CTexture(LPDIRECT3DDEVICE9 _pGraphicDev)
 CTexture::CTexture(const CTexture& _rhs)
 	: CComponent(_rhs)
 {
-	_uint iSize = _rhs.m_vecTexture.size();
+	_uint iSize = (_uint)_rhs.m_vecTexture.size();
 	m_vecTexture.reserve(iSize);
 
 	m_vecTexture = _rhs.m_vecTexture;

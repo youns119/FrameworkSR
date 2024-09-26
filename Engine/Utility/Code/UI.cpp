@@ -3,8 +3,8 @@
 CUI::CUI(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
 	, m_eUIType(UITYPE::UI_END)
-	, m_bActive(false)
-	, m_fViewZ(0.f)
+	, m_bRender(false)
+	, m_pGameObject(nullptr)
 {
 	for (_uint i = 0; i < (_uint)COMPONENTID::ID_END; i++)
 		m_mapComponent[i].clear();
@@ -15,7 +15,8 @@ CUI::CUI(LPDIRECT3DDEVICE9 _pGraphicDev)
 CUI::CUI(const CUI& _rhs)
 	: m_pGraphicDev(_rhs.m_pGraphicDev)
 	, m_eUIType(UITYPE::UI_END)
-	, m_bActive(_rhs.m_bActive)
+	, m_bRender(_rhs.m_bRender)
+	, m_pGameObject(_rhs.m_pGameObject)
 {
 	m_pGraphicDev->AddRef();
 }

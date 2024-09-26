@@ -22,7 +22,7 @@ public:
 	HRESULT	Ready_Timer(const _tchar* _pTimerTag);
 
 public:
-	void OnOff_Timer();
+	void Stop_Timer(_bool _bStop);
 
 private:
 	CTimer* Find_Timer(const _tchar* _pTimerTag);

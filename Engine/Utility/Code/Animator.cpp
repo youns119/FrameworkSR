@@ -69,7 +69,7 @@ _int CAnimator::Update_Component(const _float& _fTimeDelta)
 
 void CAnimator::Render_Animator()
 {
-	m_pCurrAnimation->GetTexture()->Set_Texture(m_pCurrAnimation->GetCurrFrame());
+	m_pCurrAnimation->GetTexture()->Set_Texture((_uint)m_pCurrAnimation->GetCurrFrame());
 }
 
 void CAnimator::CreateAnimation(const _tchar* _strName, CTexture* _pTexture, float _fAnimSpeed)

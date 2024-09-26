@@ -187,7 +187,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIIndicator.h" />
     <ClInclude Include="..\Header\UIPlus.h" />
     <ClInclude Include="..\Header\UIShop.h" />
-    <ClInclude Include="..\Header\UIUpgrade.h" />
+    <ClInclude Include="..\Header\UIOverlay.h" />
+    <ClInclude Include="..\Header\UIUpgradeCard.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\WhiteSuit.h" />
     <ClInclude Include="..\imgui\imconfig.h" />
@@ -242,7 +243,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIIndicator.cpp" />
     <ClCompile Include="..\Code\UIPlus.cpp" />
     <ClCompile Include="..\Code\UIShop.cpp" />
-    <ClCompile Include="..\Code\UIUpgrade.cpp" />
+    <ClCompile Include="..\Code\UIOverlay.cpp" />
+    <ClCompile Include="..\Code\UIUpgradeCard.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\WhiteSuit.cpp" />
     <ClCompile Include="..\imgui\imgui.cpp">

@@ -21,7 +21,13 @@ public:
 	void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
 
 public:
-	list<CUI*>* Get_UIList(UITYPE _eUIType) { return &m_listUI[(_uint)_eUIType]; }
+	vector<CUI*>* Get_UIGroup(UITYPE _eUIType) { return &m_vecUI[(_uint)_eUIType]; }
+	_bool Get_UILayerRender(UITYPE _eUIType) { return m_LayerRender[(_uint)_eUIType]; }
+
+	void Set_UILayerRender(UITYPE _eUIType, _bool _bRender) { m_LayerRender[(_uint)_eUIType] = _bRender; }
+
+public:
+	void Toggle_UILayer(UITYPE _eUIType) { m_LayerRender[(_uint)_eUIType] = !m_LayerRender[(_uint)_eUIType]; }
 
 private:
 	void Clear_Render();
@@ -31,8 +37,10 @@ private:
 	virtual void Free();
 
 private:
-	list<CUI*> m_listUI[(_uint)UITYPE::UI_END];
-	list<CUI*> m_listRender[(_uint)UITYPE::UI_END];
+	vector<CUI*> m_vecUI[(_uint)UITYPE::UI_END];
+	vector<CUI*> m_vecRender[(_uint)UITYPE::UI_END];
+
+	_bool m_LayerRender[(_uint)UITYPE::UI_END];
 
 	_matrix m_matView, m_matOrtho;
 };
