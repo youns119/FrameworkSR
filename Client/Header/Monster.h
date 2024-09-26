@@ -18,6 +18,9 @@ END
 class CMonster 
 	: public Engine::CGameObject
 {
+public:
+	enum MONSTERBODY { MONSTERBODY_HEAD, MONSTERBODY_BULL, MONSTERBODY_BODY, MONSTERBODY_END };
+
 protected:
 	explicit CMonster(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CMonster();
@@ -29,7 +32,7 @@ public:
 	virtual void Render_GameObject()PURE;
 
 public:
-	virtual void Change_State() PURE; //Jonghan Change
+	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f) PURE;
 
 protected:
 	virtual HRESULT	Add_Component()PURE;

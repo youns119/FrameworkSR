@@ -31,30 +31,16 @@ void CDrone::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CDrone::Change_State()
+void CDrone::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
 {
-	if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
+	switch (_eMonsterBody)
 	{
-		switch (m_eCurState)
-		{
-		case CDrone::DRONE_ATTACK:
-			m_eCurState = CDrone::DRONE_IDLE;
-			break;
-		case CDrone::DRONE_IDLE:
-			m_eCurState = CDrone::DRONE_WALK;
-			break;
-		case CDrone::DRONE_WALK:
-			m_eCurState = CDrone::DRONE_DAMAGED;
-			break;
-		case CDrone::DRONE_DAMAGED:
-			m_eCurState = CDrone::DRONE_HEADSHOT;
-			break;
-		case CDrone::DRONE_HEADSHOT:
-			m_eCurState = CDrone::DRONE_ATTACK;
-			break;
-		}
-		m_pAnimatorCom->GetCurrAnim()->SetFinish(false);
-
+	case CMonster::MONSTERBODY_HEAD:
+		Changing_State(CDrone::DRONE_HEADSHOT);
+		break;
+	default:
+		Changing_State(CDrone::DRONE_DAMAGED);
+		break;
 	}
 }
 
