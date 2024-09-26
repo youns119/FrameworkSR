@@ -106,6 +106,9 @@
     <Filter Include="04.Component\00.VIBuffer\07.GuideTex">
       <UniqueIdentifier>{1c075bdd-4d3b-4719-8f75-168caf900891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\Character">
+      <UniqueIdentifier>{5bfe2abe-52c7-4ba2-95df-2a70854ac302}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -213,6 +216,9 @@
     <ClInclude Include="..\..\Header\GuideTex.h">
       <Filter>04.Component\00.VIBuffer\07.GuideTex</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Character.h">
+      <Filter>03.GameObject\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -316,6 +322,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\GuideTex.cpp">
       <Filter>04.Component\00.VIBuffer\07.GuideTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Character.cpp">
+      <Filter>03.GameObject\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

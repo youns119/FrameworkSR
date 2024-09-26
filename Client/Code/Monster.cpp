@@ -4,13 +4,14 @@
 #include "Export_System.h" // Jonghan Change
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: Engine::CGameObject(_pGraphicDev)
+	: Engine::CCharacter(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
 	, m_pAnimatorCom(nullptr)
 	, m_pHitBufferCom(nullptr)
+	, m_bIsDead(false)
 {
 }
 
@@ -22,8 +23,8 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 {
 	//Jonghan Monster Change Start
 
-	
-	Attack(_fTimeDelta);
+	if (!m_bIsDead)
+		Attack(_fTimeDelta);
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
@@ -74,6 +75,21 @@ void CMonster::LateUpdate_GameObject()
 
 	//Jonghan Monster Change End
 	Engine::CGameObject::LateUpdate_GameObject();
+}
+
+void CMonster::Damaged(const _int& _iEnumNumber, const _float& _fAttackDamage)
+{
+	CMonster::MONSTERBODY eTemp = MONSTERBODY_END;
+	switch (_iEnumNumber)
+	{
+	case 0: eTemp = MONSTERBODY_HEAD;
+		break;
+	case 1: eTemp = MONSTERBODY_BULL;
+		break;
+	default:eTemp = MONSTERBODY_BODY;
+		break;
+	}
+	Damaged_By_Player(eTemp, _fAttackDamage);
 }
 
 void CMonster::Free()

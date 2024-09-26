@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Character.h"
 #include "Define.h"
 
 BEGIN(Engine)
@@ -16,7 +16,7 @@ class CCollider;
 END
 
 class CPlayer
-	: public Engine::CGameObject
+	: public Engine::CCharacter
 {
 private:
 	enum RIGHT_STATE {
