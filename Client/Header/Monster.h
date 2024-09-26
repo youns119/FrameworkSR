@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Character.h"
 
 BEGIN(Engine)
 
@@ -16,7 +16,7 @@ class CAnimator;
 END
 
 class CMonster 
-	: public Engine::CGameObject
+	: public Engine::CCharacter
 {
 public:
 	enum MONSTERBODY { MONSTERBODY_HEAD, MONSTERBODY_BULL, MONSTERBODY_BODY, MONSTERBODY_END };
@@ -32,6 +32,7 @@ public:
 	virtual void Render_GameObject()PURE;
 
 public:
+	virtual void Damaged(const _int& _iEnumNumber = 2, const _float& _fAttackDamage = 0.f);
 	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f) PURE;
 
 protected:
@@ -54,6 +55,8 @@ protected:
 
 	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;
+
+	_bool m_bIsDead;
 
 	//Jonghan Change End
 };

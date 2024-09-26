@@ -7,7 +7,7 @@
 #include "../Header/EffectMuzzleFlash.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: Engine::CGameObject(_pGraphicDev)
+	: Engine::CCharacter(_pGraphicDev)
 	, m_pRight_BufferCom(nullptr)
 	, m_pRight_TransformCom(nullptr)
 	, m_pBody_TransformCom(nullptr)

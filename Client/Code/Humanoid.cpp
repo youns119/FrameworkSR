@@ -72,6 +72,7 @@ void CHumanoid::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAtt
 
 		break;
 	}
+	m_bIsDead = true;
 }
 
 

@@ -44,6 +44,7 @@ HRESULT CStage::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Monster(L"Layer_Monster"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
 
@@ -162,10 +163,27 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	m_pPlayer = static_cast<CPlayer*>(pGameObject);
 
+	pGameObject = CFloor::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
+
+	pGameObject = CWall::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+
+	m_mapLayer.insert({ _pLayerTag , pLayer });
+
+	return S_OK;
+}
+
+HRESULT CStage::Ready_Layer_Monster(const _tchar* _pLayerTag)
+{
+	Engine::CLayer* pLayer = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	Engine::CGameObject* pGameObject = nullptr;
+
 	//Jonghan Change Start
-	//pGameObject = CMonster::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
 
 	pGameObject = CWhiteSuit::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -212,14 +230,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 		FAILED_CHECK_RETURN(Engine::Add_Bullet(pAmmo), E_FAIL);
 	}
 	//Jonghan Change End
-
-	pGameObject = CFloor::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
-
-	pGameObject = CWall::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

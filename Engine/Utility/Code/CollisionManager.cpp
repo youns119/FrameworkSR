@@ -190,7 +190,7 @@ vector<CGameObject*> CCollisionManager::RayCast(_vec3 vRayStart, _vec3 vRayDir)
 
 _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 {
-	auto Objects = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_GameLogic");
+	auto Objects = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_Monster");
 	for (auto pair : *Objects) {
 
 		CGameObject* pTargetObject = pair.second;
@@ -215,6 +215,7 @@ _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 		_bool intersected = D3DXIntersectTri(&v0, &v1, &v2, &vRayStart, &vRayDir, &u, &v, &dist);
 		_bool intersected2 = D3DXIntersectTri(&v0, &v2, &v3, &vRayStart, &vRayDir, &u, &v, &dist);
 		if (intersected || intersected2) {
+			dynamic_cast<CCharacter*>(pTargetObject)->Damaged();
 			return true;
 		}
 		return false;

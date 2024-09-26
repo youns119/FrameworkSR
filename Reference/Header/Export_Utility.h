@@ -35,6 +35,7 @@
 
 //Jonghan Change
 #include "BulletManager.h"
+#include "Character.h"
 
 BEGIN(Engine)
 
