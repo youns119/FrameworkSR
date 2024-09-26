@@ -55,6 +55,7 @@ CParticleSystem::CParticleSystem()
 CParticleSystem::CParticleSystem(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CComponent(_pGraphicDev)
 	, m_dwOptions(0)
+	, m_fEmitTime(0.f)
 {
 	ZeroMemory(&m_tParam, sizeof(CParticleSystem::PARAM));
 }
@@ -67,6 +68,7 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _rhs)
 	, m_pVB(_rhs.m_pVB)
 	, m_tParam(_rhs.m_tParam)
 	, m_dwOptions(_rhs.m_dwOptions)
+	, m_fEmitTime(0.f)
 {
 	//m_ParticleList.assign(_rhs.m_ParticleList.begin(), _rhs.m_ParticleList.end());
 }
@@ -110,7 +112,29 @@ HRESULT CParticleSystem::Ready_ParticleSystem()
 
 _int CParticleSystem::Update_Component(const _float& _fTimeDelta)
 {
-	//Temp snow code
+	if (Check_Option(OPTION::EMISSION_CONTROL))
+	{
+		m_fEmitTime += _fTimeDelta;
+		if (m_fEmitTime > 1.f / m_tParam.fEmitRate)
+		{
+			m_fEmitTime -= 1.f / m_tParam.fEmitRate;
+			for (_uint i = 0; i < m_tParam.iEmitCnt; ++i)
+			{
+				if (m_ReadyParticleList.empty())
+					break;
+
+				PARTICLEINFO tParticle = m_ReadyParticleList.front();
+				m_ReadyParticleList.pop_front();
+				m_ParticleList.push_back(tParticle);
+			}
+		}
+	}
+	else
+	{
+		if (!m_ReadyParticleList.empty())
+			m_ParticleList.splice(m_ParticleList.end(), m_ReadyParticleList, m_ReadyParticleList.begin(), m_ReadyParticleList.end());
+	}
+
 	std::list<PARTICLEINFO>::iterator iter;
 	for (iter = m_ParticleList.begin(); iter != m_ParticleList.end(); ++iter)
 	{
@@ -144,10 +168,18 @@ _int CParticleSystem::Update_Component(const _float& _fTimeDelta)
 
 	if (m_dwOptions & 1 << (_ulong)OPTION::REPEAT)
 	{
-		for (iter = m_ParticleList.begin(); iter != m_ParticleList.end(); ++iter)
+		for (iter = m_ParticleList.begin(); iter != m_ParticleList.end(); )
 		{
 			if (!iter->bIsAlive)
+			{
+				auto iterCopy = iter;
+				++iterCopy;
 				Reset_Particle(&(*iter));
+				m_ReadyParticleList.splice(m_ReadyParticleList.end(), m_ParticleList, iter);
+				iter = iterCopy;
+			}
+			else
+				++iter;
 		}
 	}
 
@@ -158,29 +190,32 @@ void CParticleSystem::LateUpdate_Component()
 {
 
 #pragma region ALPHA_SORTING
-	// Get Camera Pos
-	_vec3 vCameraPos = { 0, 0, 0.f };
-	_matrix matCamWorld{};
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matCamWorld);
-	D3DXMatrixInverse(&matCamWorld, 0, &matCamWorld);
+	if (Check_Option(OPTION::ALPHA_SORT))
+	{
+		// Get Camera Pos
+		_vec3 vCameraPos = { 0, 0, 0.f };
+		_matrix matCamWorld{};
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matCamWorld);
+		D3DXMatrixInverse(&matCamWorld, 0, &matCamWorld);
 
-	memcpy(&vCameraPos, &matCamWorld.m[3][0], sizeof(_vec3));
+		memcpy(&vCameraPos, &matCamWorld.m[3][0], sizeof(_vec3));
 
-	// 캠을 로컬로 변경하던지, 파티클들을 전부 월드로 이동하던지 필요함.
-	// 물론 캠을 로컬로 변경하는게 연산량이 적겠지만,
-	// 어쨋든 얘의 오너 게임 오브젝트의 월드 좌표가 필요함 !
-	// 이래서 Get_owner()를 만들어달라했지!
-	CGameObject* pGameObject = GetOwner();
-	CComponent* pTransformCom = pGameObject->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform");
-	_matrix matInversedWorld = *(dynamic_cast<CTransform*>(pTransformCom)->Get_WorldMatrix());
-	D3DXMatrixInverse(&matInversedWorld, 0, &matInversedWorld);
+		// 캠을 로컬로 변경하던지, 파티클들을 전부 월드로 이동하던지 필요함.
+		// 물론 캠을 로컬로 변경하는게 연산량이 적겠지만,
+		// 어쨋든 얘의 오너 게임 오브젝트의 월드 좌표가 필요함 !
+		// 이래서 Get_owner()를 만들어달라했지!
+		CGameObject* pGameObject = GetOwner();
+		CComponent* pTransformCom = pGameObject->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform");
+		_matrix matInversedWorld = *(dynamic_cast<CTransform*>(pTransformCom)->Get_WorldMatrix());
+		D3DXMatrixInverse(&matInversedWorld, 0, &matInversedWorld);
 
-	D3DXVec3TransformCoord(&vCameraPos, &vCameraPos, &matInversedWorld);
+		D3DXVec3TransformCoord(&vCameraPos, &vCameraPos, &matInversedWorld);
 
-	m_ParticleList.sort([this, &vCameraPos](const PARTICLEINFO& _tSrc, const PARTICLEINFO& _tDst)->bool
-		{
-			return this->Compute_ParticleViewZ(_tSrc, vCameraPos) > this->Compute_ParticleViewZ(_tDst, vCameraPos);
-		});
+		m_ParticleList.sort([this, &vCameraPos](const PARTICLEINFO& _tSrc, const PARTICLEINFO& _tDst)->bool
+			{
+				return this->Compute_ParticleViewZ(_tSrc, vCameraPos) > this->Compute_ParticleViewZ(_tDst, vCameraPos);
+			});
+	}
 #pragma endregion
 }
 
@@ -285,7 +320,7 @@ void CParticleSystem::Set_PreRenderState()
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	// zwrite // 가려지기는 하는데 얘로 뭔갈 가릴수는 없음
-	if (Check_Option(OPTION::ZWRITE))
+	if (Check_Option(OPTION::ZWRITE_DISABLE))
 		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	// Alpha Test
@@ -335,16 +370,21 @@ void CParticleSystem::Set_PostRenderState()
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 
-	if (Check_Option(OPTION::ZWRITE))
+	if (Check_Option(OPTION::ZWRITE_DISABLE))
 		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 }
 
 void CParticleSystem::Reset()
 {
+	// emit rate 를 사용하기 전과 후로 나뉜다. 
+	// 사용법 통일이 안되는 느낌
 	std::list<PARTICLEINFO>::iterator iter;
 	for (iter = m_ParticleList.begin(); iter != m_ParticleList.end(); ++iter)
 		Reset_Particle(&(*iter));
+
+	m_ReadyParticleList.splice(m_ReadyParticleList.end(), m_ParticleList, m_ParticleList.begin(), m_ParticleList.end());
+	m_fEmitTime = 0.f;
 }
 
 void CParticleSystem::Reset_Particle(PARTICLEINFO* _pInfo)
@@ -384,6 +424,35 @@ _bool CParticleSystem::Is_Dead()
 	}
 
 	return TRUE;
+}
+
+void CParticleSystem::SetUp_Particle()
+{
+	if (Check_Option(OPTION::EMISSION_CONTROL))
+	{
+		if (m_tParam.fEmitRate <= 0 || m_tParam.iEmitCnt == 0)
+		{
+			MSG_BOX("Check Particle Emission Option");
+			return;
+		}
+		for (_uint i = 0; i < m_tParam.iTotalCnt; ++i)
+		{
+			PARTICLEINFO tParticleInfo;
+			Reset_Particle(&tParticleInfo);
+			m_ReadyParticleList.push_back(tParticleInfo);
+		}
+	}
+	else
+	{
+		for (_uint i = 0; i < m_tParam.iTotalCnt; ++i)
+		{
+			PARTICLEINFO tParticleInfo;
+			Reset_Particle(&tParticleInfo);
+			m_ParticleList.push_back(tParticleInfo);
+		}
+
+	}
+
 }
 
 void CParticleSystem::Remove_DeadParticles()

@@ -14,12 +14,12 @@ CEffectHeal::~CEffectHeal()
 HRESULT CEffectHeal::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_fViewZ = 0.5f;
+	m_fViewZ = 0.1f;
 	Set_ParticleParam();
 
 	m_pTransformCom->Set_Pos(0.f, 0.f, m_fViewZ);
 
-	m_pEffectCom->Set_LifeTime(2.25f);
+	m_pEffectCom->Set_LifeTime(2.f);
 	m_pEffectCom->Set_Repeatable(FALSE);
 	m_pEffectCom->Set_Visibility(FALSE);
 	m_pEffectCom->Set_CallBack(OnOperate);
@@ -72,7 +72,7 @@ CEffectHeal* CEffectHeal::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 void CEffectHeal::Free()
 {
-    Engine::CGameObject::Free();
+	Engine::CGameObject::Free();
 }
 
 HRESULT CEffectHeal::Add_Component()
@@ -105,30 +105,36 @@ void CEffectHeal::Set_ParticleParam()
 {
 	CParticleSystem::PARAM tParticleParam;
 	ZeroMemory(&tParticleParam, sizeof(CParticleSystem::PARAM));
-	tParticleParam.tStartBoundary.vMin = { - WINCX * 0.5f, - WINCY * 0.45f, 0.f };
-	tParticleParam.tStartBoundary.vMax = { WINCX * 0.5f, - WINCY * 0.1f, 0.f };
+	tParticleParam.tStartBoundary.vMin = { -WINCX * 0.5f, -WINCY * 0.45f, 0.f };
+	tParticleParam.tStartBoundary.vMax = { WINCX * 0.5f, -WINCY * 0.1f, 0.f };
 	//tParticleParam.tBoundary.vMin = { -WINCX * 0.5f, -20.f, 0.f };
 	//tParticleParam.tBoundary.vMax = { WINCX * 0.5f, -10.f, 0.f };
 	tParticleParam.vInitVelocity = { 0.f, 150.f, 0.f };
 	tParticleParam.vVelocityNoise = { 0.f, 0.f, 0.f };
 	tParticleParam.vColor = _vec4(1.0f, 1.f, 1.f, 1.f);
-	tParticleParam.vColorFade= _vec4(-0.5f, 1.f, -0.5f, 0.0f); // 255 대신 500 넣어서 투명해지기 전에 더 빨리 초록색이 되도록
+	tParticleParam.vColorFade = _vec4(-0.5f, 1.f, -0.5f, 0.0f); // 255 대신 500 넣어서 투명해지기 전에 더 빨리 초록색이 되도록
+	tParticleParam.iTotalCnt = 10;
 
 	tParticleParam.fSize = 50.f;
 	tParticleParam.fLifeTime = 0.75f;
+
+	tParticleParam.fEmitRate = 4.f;
+	tParticleParam.iEmitCnt = 2;
 
 	m_pParticleSystem->Set_Parameter(tParticleParam);
 	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::REPEAT, TRUE);
 	//m_pParticleSystem->Set_Option(CParticleSystem::OPTION::DEATH_OVER_BOUNDARY, TRUE);
 	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::DEATH_OVER_TIME, TRUE);
-	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::ZWRITE, TRUE);
+	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::ZWRITE_DISABLE, TRUE);
 	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::COLOR_FADE, TRUE);
 	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::POINT_SCALE_DISABLE, TRUE);
+	m_pParticleSystem->Set_Option(CParticleSystem::OPTION::EMISSION_CONTROL, TRUE);
 
-	for (int i = 0; i < 10; ++i)
-	{
-		m_pParticleSystem->Add_Particle();
-	}
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	m_pParticleSystem->Add_Particle();
+	//}
+	m_pParticleSystem->SetUp_Particle();
 }
 
 void CEffectHeal::OnOperate(void* _pParam)
@@ -136,4 +142,5 @@ void CEffectHeal::OnOperate(void* _pParam)
 	CEffectHeal* pThis = (CEffectHeal*)_pParam;
 
 	pThis->m_pParticleSystem->Reset();
+	pThis->m_pEffectCom->Stop_Effect();
 }

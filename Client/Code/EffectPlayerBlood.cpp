@@ -27,7 +27,7 @@ CEffectPlayerBlood* CEffectPlayerBlood::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 HRESULT CEffectPlayerBlood::Ready_GameObject()
 {
-    m_fViewZ = 10.f;
+    m_fViewZ = 8.f;
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
     m_pTransformCom->Set_Pos(0.f, 0.f, m_fViewZ);
     m_pTransformCom->Set_Scale((_float)WINCX / 2.f, (_float)WINCY / 2.f, 100.f);

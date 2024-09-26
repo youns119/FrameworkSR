@@ -69,6 +69,9 @@ HRESULT CPlayer::Ready_GameObject()
 	m_pColliderCom->SetActive(true);
 
 	fSpeed = 10.f;
+
+	// 규빈 : 알파소팅을 위한 설정, 
+	m_fViewZ = 10.f;
 	return S_OK;
 }
 
