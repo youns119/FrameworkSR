@@ -48,6 +48,36 @@ HRESULT CBoss_Humanoid::Ready_GameObject()
 	return S_OK;
 }
 
+_int CBoss_Humanoid::Update_GameObject(const _float& _fTimeDelta)
+{
+	Attack(_fTimeDelta);
+
+	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
+
+	_matrix		matWorld, matView, matBill, matResult;
+	m_pTransformCom->Get_WorldMatrix(&matWorld);
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMatrixIdentity(&matBill);
+
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
+
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	matResult = matBill * matWorld;
+
+	m_pTransformCom->Set_WorldMatrix(&(matResult));
+
+	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+	Engine::Add_Collider(m_pColliderCom);
+
+	return iExit;
+}
+
 void CBoss_Humanoid::LateUpdate_GameObject()
 {
 	_vec3 vPos;
@@ -132,6 +162,11 @@ void CBoss_Humanoid::Damaged_ReAction()
 HRESULT CBoss_Humanoid::Add_Component()
 {
 	CComponent* pComponent = NULL;
+
+	pComponent = m_pHitBufferCom = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HitBufferCom", pComponent });
+	pComponent->SetOwner(*this);
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

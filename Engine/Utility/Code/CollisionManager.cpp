@@ -218,8 +218,8 @@ _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 			dynamic_cast<CCharacter*>(pTargetObject)->Damaged();
 			return true;
 		}
-		return false;
 	}
+	return false;
 }
 
 void CCollisionManager::Free()
