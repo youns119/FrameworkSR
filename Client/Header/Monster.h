@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CTriCol;
 class CRcTex;
+class CRcCol;
 class CTexture;
 class CCalculator;
 class CTransform;
@@ -46,6 +47,7 @@ protected:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CCalculator* m_pCalculatorCom;
 	Engine::CCollider* m_pColliderCom;
+	Engine::CRcCol* m_pHitBufferCom;
 
 	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;

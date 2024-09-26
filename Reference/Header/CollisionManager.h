@@ -45,6 +45,9 @@ public:
 	void Reset();
 
 public:
+	vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
+	_bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
+public:
 	virtual void Free();
 
 private:

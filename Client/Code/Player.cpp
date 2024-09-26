@@ -503,6 +503,11 @@ void CPlayer::Mouse_Move()
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
+		_vec3 RayStart;
+		_vec3 RayDir;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
+		Engine::RayCast2(RayStart, RayDir);
 	}
 
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {

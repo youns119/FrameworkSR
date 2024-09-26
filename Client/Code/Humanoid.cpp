@@ -10,6 +10,7 @@ CHumanoid::CHumanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsFire(false)
 	, m_fFireDelayTime(0.f)
 	, m_fAttackTimer(0.f)
+	, bColShow(false)
 {
 	for (_int i = 0; i < HUMANOIDSTATE::HUMANOID_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -26,11 +27,19 @@ void CHumanoid::Render_GameObject()
 
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	m_pGraphicDev->SetTexture(0, nullptr);
 
-
+	if (Engine::Key_Hold(DIK_B)) {
+		bColShow = true;
+	}
+	if(Engine::Key_Hold(DIK_V)) {
+		bColShow = false;
+	}
+	if (bColShow) {
+		m_pHitBufferCom->Render_Buffer();
+	}
 	m_pAnimatorCom->Render_Animator();
 	m_pBufferCom->Render_Buffer();
-
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
