@@ -261,6 +261,15 @@ void CBlackMan::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAtt
 
 		break;
 	}
+	if (m_bIsShield)
+	{
+		m_bIsShield = false;
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		dynamic_cast<CShield*>(m_pShield)->Spawn_Shield(vPos);
+	}
+	else if (!m_bIsShield)
+		m_bIsDead = true;
 }
 
 void CBlackMan::Free()

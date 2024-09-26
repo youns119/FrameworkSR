@@ -42,6 +42,7 @@ void CDrone::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttack
 		Changing_State(CDrone::DRONE_DAMAGED);
 		break;
 	}
+	m_bIsDead = true;
 }
 
 void CDrone::Free()
