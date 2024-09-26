@@ -4,7 +4,14 @@ class CBoss_Robot :
     public CMonster
 {
 public:
-    enum BOSS_ROBOTSTATE { BOSS_SPAWN, BOSS_ATTACK, BOSS_END };
+	enum BOSS_ROBOTSTATE {		BOSS_IDLE_NORMAL, BOSS_IDLE_DAMAGED, BOSS_IDLE_MOREDAMAGED
+							  , BOSS_ATTACK_NORMAL_TWOHAND, BOSS_ATTACK_NORMAL_ONEHAND, BOSS_ATTACK_DAMAGED_TWOHAND, BOSS_ATTACK_DAMAGED_ONEHAND
+							  , BOSS_HIT_NORMAL, BOSS_HIT_DAMAGED
+							  , BOSS_SHIELD_NORMAL, BOSS_SHIELD_DAMAGED
+							  , BOSS_TALKING
+							  , BOSS_END
+	}; //Talking == Spawning(or Cinematic) if you don't need it, Delete plz)
+	enum BOSS_ROBOTHEALTHSTATE { BOSSHEALTH_NORMAL, BOSSHEALTH_DAMAGED, BOSSHEALTH_MOREDAMAGED, BOSSHEALTH_SHIELD, BOSSHEALTH_END };
 
 private:
     explicit CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -20,7 +27,7 @@ public:
 	virtual void Render_GameObject();
 
 public:
-	virtual void Change_State() ; //Jonghan Change
+	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f);
 
 private:
 	virtual HRESULT	Add_Component();
@@ -28,12 +35,18 @@ private:
 	virtual void Attack(const _float& _fTimeDelta);
 	virtual void Set_Animation();
 	void Changing_State(BOSS_ROBOTSTATE _eState) { m_eCurState = _eState; }
+	_bool Check_Phase();
 
 private:
 	Engine::CTexture* m_pTextureCom[CBoss_Robot::BOSS_END];
 
 	BOSS_ROBOTSTATE m_eCurState;
 	BOSS_ROBOTSTATE m_ePreState;
+
+	BOSS_ROBOTHEALTHSTATE m_eCurHealthState;
+
+	_float m_fBoss_HP;
+	_float m_fShield_HP;
 
 private:
 	virtual void Free();

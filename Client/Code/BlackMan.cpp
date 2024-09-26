@@ -233,47 +233,33 @@ void CBlackMan::Set_Animation()
 	m_pAnimatorCom->PlayAnimation(L"Idle", true);
 }
 
-void CBlackMan::Change_State()
+void CBlackMan::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
 {
-	if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
-	{
-		switch (m_eCurState)
-		{
-		case CHumanoid::HUMANOID_IDLE:
-			if (m_bIsShield)
-			{
-				m_eCurState = CHumanoid::HUMANOID_SHIELDATTACK;
-				break;
-			}
-			m_eCurState = CHumanoid::HUMANOID_ATTACK;
-			break;
-		case CHumanoid::HUMANOID_SHIELDATTACK:
-			m_eCurState = CHumanoid::HUMANOID_HEADSHOT;
-			break;
-		case CHumanoid::HUMANOID_ATTACK:
-			m_eCurState = CHumanoid::HUMANOID_HEADSHOT;
-			break;
-		case CHumanoid::HUMANOID_HEADSHOT:
-			m_eCurState = CHumanoid::HUMANOID_PUSH_ONE;
-			break;
-		case CHumanoid::HUMANOID_PUSH_ONE:
-			m_eCurState = CHumanoid::HUMANOID_PUSH_TWO;
-			break;
-		case CHumanoid::HUMANOID_PUSH_TWO:
-			m_eCurState = CHumanoid::HUMANOID_BULLSHOT;
-			break;
-		case CHumanoid::HUMANOID_BULLSHOT:
-			m_eCurState = CHumanoid::HUMANOID_SHOT_ONE;
-			break;
-		case CHumanoid::HUMANOID_SHOT_ONE:
-			m_eCurState = CHumanoid::HUMANOID_SHOT_TWO;
-			break;
-		case CHumanoid::HUMANOID_SHOT_TWO:
-			m_eCurState = CHumanoid::HUMANOID_IDLE;
-			break;
-		}
-		m_pAnimatorCom->GetCurrAnim()->SetFinish(false);
+	_int iTemp(0);
 
+	switch (_eMonsterBody)
+	{
+	case CMonster::MONSTERBODY_HEAD:
+		Changing_State(CHumanoid::HUMANOID_HEADSHOT);
+		break;
+	case CMonster::MONSTERBODY_BULL:
+		Changing_State(CHumanoid::HUMANOID_BULLSHOT);
+		break;
+	case CMonster::MONSTERBODY_BODY:
+
+		iTemp = _int(rand() % 64);
+
+		if (0 == _int(iTemp % 4))
+			Changing_State(CHumanoid::HUMANOID_SHOT_ONE);
+		else if (1 == _int(iTemp % 4))
+			Changing_State(CHumanoid::HUMANOID_SHOT_TWO);
+		else if (2 == _int(iTemp % 4))
+			Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
+		else
+			Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
+
+
+		break;
 	}
 }
 

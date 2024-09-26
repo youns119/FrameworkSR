@@ -20,7 +20,7 @@ protected:
 	virtual void Set_Animation()PURE;
 	void Changing_State(CHumanoid::HUMANOIDSTATE _eState) { m_eCurState = _eState; }
 public:
-	virtual void Change_State();
+	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f);
 
 protected:
 	Engine::CTexture* m_pTextureCom[HUMANOIDSTATE::HUMANOID_END];

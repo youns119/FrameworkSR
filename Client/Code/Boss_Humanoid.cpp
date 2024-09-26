@@ -7,7 +7,9 @@ CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CMonster(_pGraphicDev)
 	, m_eCurState(CBoss_Humanoid::BOSS_SPAWN)
 	, m_ePreState(CBoss_Humanoid::BOSS_SPAWN)
-	
+	, m_bIsDamaged(false)
+	, m_fSpawnTimer(2.5f)
+	, m_iBossKillCount(0)
 {
 	for (_int i = 0; i < CBoss_Humanoid::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -60,7 +62,7 @@ void CBoss_Humanoid::LateUpdate_GameObject()
 
 	CGameObject::Compute_ViewZ(&vPos);
 
-	Change_State(); //this is Instance code for check Animation of Monster
+	Change_State(); 
 
 	State_Check();
 
@@ -82,6 +84,11 @@ void CBoss_Humanoid::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
+void CBoss_Humanoid::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
+{
+	Changing_State(CBoss_Humanoid::BOSS_DAMAGED); // Need to Interaction with EffectManager(Body or Blodd Explosion)
+}
+
 void CBoss_Humanoid::Change_State()
 {
 	if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
@@ -97,6 +104,28 @@ void CBoss_Humanoid::Change_State()
 		}
 		m_pAnimatorCom->GetCurrAnim()->SetFinish(false);
 
+	}
+}
+
+_vec3 CBoss_Humanoid::Calculate_NextPos(const _float& _fMinX, const _float& _fMaxX, const _float& _fMinY, const _float& _fMaxY)
+{
+	_float x, y, z(25.f);
+	x = _float(_int(rand()) % _int(_fMaxX - _fMinX)) + _fMinX;
+	y = _float(_int(rand()) % _int(_fMaxY - _fMinY)) + _fMinY;
+
+	_vec3 vPos = { x,y,z }; // we need Position.x & Position.y, Need Not Position.z
+
+	return vPos;
+}
+
+void CBoss_Humanoid::Damaged_ReAction()
+{
+	m_pAnimatorCom->Toggle_Pause();
+	m_bIsDamaged = true;
+	m_iBossKillCount++;
+	if (5 <= m_iBossKillCount)
+	{
+		//Change Scene or Do Something to change Boss_Robot
 	}
 }
 
@@ -140,13 +169,19 @@ void CBoss_Humanoid::State_Check()
 {
 	if (m_eCurState != m_ePreState)
 	{
+		_vec3 vPos;
 		switch (m_eCurState)
 		{
 		case CBoss_Humanoid::BOSS_SPAWN:
+			vPos = Calculate_NextPos(10.f, 20.f, 10.f, 20.f); // We need to Know WindowsTexture X Y Z
+			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_pAnimatorCom->PlayAnimation(L"Spawn", false);
 			break;
 		case CBoss_Humanoid::BOSS_ATTACK:
-			m_pAnimatorCom->PlayAnimation(L"Attack", true);
+			m_pAnimatorCom->PlayAnimation(L"Attack", false);
+			break;
+		case CBoss_Humanoid::BOSS_DAMAGED:
+			Damaged_ReAction();
 			break;
 		}
 
@@ -157,14 +192,29 @@ void CBoss_Humanoid::State_Check()
 void CBoss_Humanoid::Set_Animation()
 {
 	m_pAnimatorCom->CreateAnimation(L"Spawn", m_pTextureCom[BOSS_SPAWN], 13.f);
-	m_pAnimatorCom->CreateAnimation(L"Attack", m_pTextureCom[BOSS_ATTACK], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Attack", m_pTextureCom[BOSS_ATTACK], 9.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Spawn", false);
 }
 
 void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 {
-	if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState)
+	if (Engine::Key_Press(DIK_SPACE)) {
+		Damaged_By_Player();
+	}
+	if (CBoss_Humanoid::BOSS_DAMAGED == m_eCurState)
+	{
+		if (0.f >= m_fSpawnTimer)
+		{
+			m_bIsDamaged = false;
+			m_pAnimatorCom->Toggle_Pause();
+			m_eCurState = CBoss_Humanoid::BOSS_SPAWN;
+			m_fSpawnTimer = 2.5f;
+		}
+		else
+			m_fSpawnTimer -= _fTimeDelta;
+	}
+	else if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState)
 	{
 		_vec3 vPos, vPlayerPos, vDir;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);

@@ -20,7 +20,10 @@ private:
     virtual void Attack(const _float& _fTimeDelta);
     void Set_Shield(CGameObject* _pShield) { m_pShield = _pShield; }
     virtual void Set_Animation();
-    virtual void Change_State();
+    
+
+public:
+    virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f);
 
 private:
     CGameObject* m_pShield;
