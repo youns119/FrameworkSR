@@ -399,6 +399,15 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	{
 		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
+	}
+	if (Engine::Key_Release(DIK_X))
+	{
+		CComponent* pComponent(nullptr);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Stop_Effect();
 	}
 	if (Engine::Key_Press(DIK_Z))
 	{

@@ -157,6 +157,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Drone.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\EffectBloodSplater.h" />
+    <ClInclude Include="..\Header\EffectBossRobotBooster.h" />
     <ClInclude Include="..\Header\EffectCircleLines.h" />
     <ClInclude Include="..\Header\EffectFanSpread.h" />
     <ClInclude Include="..\Header\EffectHeal.h" />
@@ -216,6 +217,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Drone.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\EffectBloodSplater.cpp" />
+    <ClCompile Include="..\Code\EffectBossRobotBooster.cpp" />
     <ClCompile Include="..\Code\EffectCircleLines.cpp" />
     <ClCompile Include="..\Code\EffectFanSpread.cpp" />
     <ClCompile Include="..\Code\EffectHeal.cpp" />

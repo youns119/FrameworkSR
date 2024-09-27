@@ -6,5 +6,6 @@
 #include "../Header/EffectMuzzleFlash.h"
 #include "../Header/EffectPlayerBlood.h"
 #include "../Header/Spark.h"
+#include "../Header/EffectBossRobotBooster.h"
 
 #include "../Header/EffectPool.h"
