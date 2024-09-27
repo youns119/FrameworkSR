@@ -4,6 +4,8 @@
 
 class CBlackMan : public CHumanoid
 {
+public:
+    enum SHIELDSTATE { SHIELDSTATE_IDLE, SHIELDSTATE_ATTACK, SHIELDSTATE_ATTACK_DELAY, SHIELDSTATE_END };
 private:
     explicit CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev);
     virtual ~CBlackMan();
@@ -26,6 +28,8 @@ public:
     virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f);
 
 private:
+    Engine::CTexture* m_pShieldTextureCom[SHIELDSTATE::SHIELDSTATE_END];
+
     CGameObject* m_pShield;
     _bool m_bIsShield;
 
