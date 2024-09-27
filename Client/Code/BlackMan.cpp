@@ -11,6 +11,8 @@ CBlackMan::CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev) :
 {
 	m_fFireDelayTime = 5.f;
 	m_fAttackTimer = 6.f;
+	for (_int i = 0; i < SHIELDSTATE::SHIELDSTATE_END; ++i)
+		m_pShieldTextureCom[i] = nullptr;
 }
 
 CBlackMan::~CBlackMan()
@@ -59,19 +61,23 @@ HRESULT CBlackMan::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
+	pComponent = m_pShieldTextureCom[SHIELDSTATE::SHIELDSTATE_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManShieldAttackTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShieldAttackTexture", pComponent });
+
+	pComponent = m_pShieldTextureCom[SHIELDSTATE::SHIELDSTATE_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManShieldIdleTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShieldIdleTexture", pComponent });
+
 	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManIdleTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_IdleTexture", pComponent });
-
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_SHIELDATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManShieldAttackTex"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShieldAttackTexture", pComponent });
 
 	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManAttackTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackTexture", pComponent });
 
-	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK_DELAY] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManIdleTex"));
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_ATTACK_DELAY] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManAttackDelayTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackDelayTexture", pComponent });
 
@@ -126,20 +132,24 @@ void CBlackMan::State_Check()
 		switch (m_eCurState)
 		{
 		case CHumanoid::HUMANOID_IDLE:
-			m_pAnimatorCom->PlayAnimation(L"Idle", true);
+			if (!m_bIsShield)
+				m_pAnimatorCom->PlayAnimation(L"Idle", true);
+			else
+				m_pAnimatorCom->PlayAnimation(L"Idle_Shield", true);
 			break;
 		case CHumanoid::HUMANOID_ATTACK:
-			m_pAnimatorCom->PlayAnimation(L"Attack", false);
+			if (!m_bIsShield)
+				m_pAnimatorCom->PlayAnimation(L"Attack", false);
+			else
+				m_pAnimatorCom->PlayAnimation(L"Attack_Shield", false);
 			m_bIsFire = false;
 			m_fAttackTimer = 0.f;
 			break;
 		case CHumanoid::HUMANOID_ATTACK_DELAY:
-			m_pAnimatorCom->PlayAnimation(L"Attack_Delay", true);
-			break;
-		case CHumanoid::HUMANOID_SHIELDATTACK:
-			m_pAnimatorCom->PlayAnimation(L"Shield_Attack", false);
-			m_bIsFire = false;
-			m_fAttackTimer = 0.f;
+			if (!m_bIsShield)
+				m_pAnimatorCom->PlayAnimation(L"Attack_Delay", true);
+			else
+				m_pAnimatorCom->PlayAnimation(L"Attack_Delay_Shield", true);
 			break;
 		case CHumanoid::HUMANOID_HEADSHOT:
 			m_pAnimatorCom->PlayAnimation(L"HeadShot", false);
@@ -185,18 +195,10 @@ void CBlackMan::Attack(const _float& _fTimeDelta)
 	{
 		if (m_fAttackTimer > m_fFireDelayTime || m_eCurState == CHumanoid::HUMANOID_IDLE)
 		{
-			if (m_bIsShield)
-			{
-				Changing_State(CHumanoid::HUMANOID_SHIELDATTACK);
-			}
-			else
-			{
-				Changing_State(CHumanoid::HUMANOID_ATTACK);
-				D3DXVec3Normalize(&vDir, &vDir);
-				Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5, CBulletManager::BULLET_PISTOL);
-				m_bIsFire = true;
-			}
-
+			Changing_State(CHumanoid::HUMANOID_ATTACK);
+			D3DXVec3Normalize(&vDir, &vDir);
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5, CBulletManager::BULLET_PISTOL);
+			m_bIsFire = true;
 		}
 		else if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
 		{
@@ -207,13 +209,6 @@ void CBlackMan::Attack(const _float& _fTimeDelta)
 	if (m_eCurState == CHumanoid::HUMANOID_ATTACK_DELAY)
 	{
 		m_fAttackTimer += _fTimeDelta; // check delay, Player is not far from it
-	}
-
-	if (m_eCurState == CHumanoid::HUMANOID_SHIELDATTACK && 5.f < m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() && !m_bIsFire)
-	{
-		D3DXVec3Normalize(&vDir, &vDir);
-		Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5, CBulletManager::BULLET_PISTOL);
-		m_bIsFire = true;
 	}
 }
 
@@ -228,48 +223,53 @@ void CBlackMan::Set_Animation()
 	m_pAnimatorCom->CreateAnimation(L"Push_Two", m_pTextureCom[HUMANOID_PUSH_TWO], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Shot_One", m_pTextureCom[HUMANOID_SHOT_ONE], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Shot_Two", m_pTextureCom[HUMANOID_SHOT_TWO], 13.f);
-	m_pAnimatorCom->CreateAnimation(L"Shield_Attack", m_pTextureCom[HUMANOID_SHIELDATTACK], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Idle_Shield", m_pShieldTextureCom[SHIELDSTATE_IDLE], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Attack_Shield", m_pShieldTextureCom[SHIELDSTATE_ATTACK], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Attack_Delay_Shield", m_pShieldTextureCom[SHIELDSTATE_IDLE], 13.f);
 
-	m_pAnimatorCom->PlayAnimation(L"Idle", true);
+	m_pAnimatorCom->PlayAnimation(L"Idle_Shield", true);
 }
 
 void CBlackMan::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
 {
 	_int iTemp(0);
 
-	switch (_eMonsterBody)
-	{
-	case CMonster::MONSTERBODY_HEAD:
-		Changing_State(CHumanoid::HUMANOID_HEADSHOT);
-		break;
-	case CMonster::MONSTERBODY_BULL:
-		Changing_State(CHumanoid::HUMANOID_BULLSHOT);
-		break;
-	case CMonster::MONSTERBODY_BODY:
-
-		iTemp = _int(rand() % 64);
-
-		if (0 == _int(iTemp % 4))
-			Changing_State(CHumanoid::HUMANOID_SHOT_ONE);
-		else if (1 == _int(iTemp % 4))
-			Changing_State(CHumanoid::HUMANOID_SHOT_TWO);
-		else if (2 == _int(iTemp % 4))
-			Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
-		else
-			Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
-
-
-		break;
-	}
 	if (m_bIsShield)
 	{
 		m_bIsShield = false;
 		_vec3 vPos;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 		dynamic_cast<CShield*>(m_pShield)->Spawn_Shield(vPos);
+		if (m_eCurState == CHumanoid::HUMANOID_IDLE)
+			m_pAnimatorCom->PlayAnimation(L"Idle", true);
 	}
 	else if (!m_bIsShield)
+	{
+		switch (_eMonsterBody)
+		{
+		case CMonster::MONSTERBODY_HEAD:
+			Changing_State(CHumanoid::HUMANOID_HEADSHOT);
+			break;
+		case CMonster::MONSTERBODY_BULL:
+			Changing_State(CHumanoid::HUMANOID_BULLSHOT);
+			break;
+		case CMonster::MONSTERBODY_BODY:
+
+			iTemp = _int(rand() % 64);
+
+			if (0 == _int(iTemp % 4))
+				Changing_State(CHumanoid::HUMANOID_SHOT_ONE);
+			else if (1 == _int(iTemp % 4))
+				Changing_State(CHumanoid::HUMANOID_SHOT_TWO);
+			else if (2 == _int(iTemp % 4))
+				Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
+			else
+				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
+
+			break;
+		}
 		m_bIsDead = true;
+	}
 }
 
 void CBlackMan::Free()
