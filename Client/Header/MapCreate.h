@@ -26,11 +26,22 @@ private:
 
 	HRESULT Ready_Layer_PickingTile(const _tchar* _pLayerTag);
 	CLayer* Find_Layer_PickingTile();
-	HRESULT Create_Layer_PickingTile(CLayer* _pLayer);
+
+
+	HRESULT Create_Layer_PickingFloor(CLayer* _pLayer);
+	HRESULT Create_Layer_PickingWall(CLayer* _pLayer);
 
 
 	_vec3 TilePiking_OnTerrain();
-	_vec3 TileCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom);
+	_vec3 FloorCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom);
+	_vec3 WallCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom);
+
+
+	void MapSave(CLayer* _pLayer);
+	void MapLoad(CLayer* _pLayer);
+
+
+
 
 	//imgui ÇÔ¼ö
 	void ShowGUI();
