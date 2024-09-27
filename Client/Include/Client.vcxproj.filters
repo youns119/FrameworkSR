@@ -167,6 +167,9 @@
     <Filter Include="03.GameObject\04.DynamicCamera\MapCamera">
       <UniqueIdentifier>{d744003d-d767-41cf-bf27-8e388c32bb20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\07. EffectBossRobotBooster">
+      <UniqueIdentifier>{7b7483dc-deb4-4b9e-b5c5-5d5408f8469a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -340,6 +343,9 @@
     <ClInclude Include="..\Header\MapCamera.h">
       <Filter>03.GameObject\04.DynamicCamera\MapCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectBossRobotBooster.h">
+      <Filter>03.GameObject\06.Effect\07. EffectBossRobotBooster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -494,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\MapCamera.cpp">
       <Filter>03.GameObject\04.DynamicCamera\MapCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBossRobotBooster.cpp">
+      <Filter>03.GameObject\06.Effect\07. EffectBossRobotBooster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
