@@ -22,6 +22,9 @@ HRESULT CAmmo::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pColliderCom->SetTransform(m_pTransformCom);
+	m_pColliderCom->SetRadius(0.1f);
+	m_pColliderCom->SetShow(true);
 	_matrix matWorld;
 	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
 	m_pTransformCom->Get_WorldMatrix(&matWorld);
@@ -31,6 +34,7 @@ HRESULT CAmmo::Ready_GameObject()
 
 	m_pTransformCom->Set_WorldMatrix(&matWorld);
 
+
 	return S_OK;
 }
 
@@ -38,6 +42,7 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 {
 	//Jonghan Monster Change Start
 	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+	Engine::Add_Collider(m_pColliderCom);
 
 	_int iExit = Engine::CBullet::Update_GameObject(_fTimeDelta);
 
@@ -94,6 +99,12 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 
 void CAmmo::LateUpdate_GameObject()
 {
+
+	if (m_bisRender)
+		m_pColliderCom->SetActive(true);
+	else
+		m_pColliderCom->SetActive(false);
+
 	Engine::CBullet::LateUpdate_GameObject();
 }
 
@@ -155,6 +166,12 @@ HRESULT CAmmo::Add_Component()
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_AmmoTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AmmoTexture", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+	pComponent->SetOwner(*this);
+	return S_OK;
 }
 
 void CAmmo::Free()

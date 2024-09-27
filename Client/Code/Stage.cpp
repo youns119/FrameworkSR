@@ -228,6 +228,7 @@ HRESULT CStage::Ready_Layer_Monster(const _tchar* _pLayerTag)
 
 		NULL_CHECK_RETURN(pAmmo, E_FAIL);
 		FAILED_CHECK_RETURN(Engine::Add_Bullet(pAmmo), E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bullet", pAmmo), E_FAIL);
 	}
 	//Jonghan Change End
 
@@ -331,6 +332,7 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 void CStage::Set_Collision()
 {
 	Engine::CheckGroup(L"Layer_GameLogic", L"Layer_GameLogic");
+	Engine::CheckGroup(L"Layer_GameLogic", L"Layer_Monster");
 }
 
 void CStage::Free()
