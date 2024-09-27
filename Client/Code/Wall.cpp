@@ -28,6 +28,22 @@ CWall* CWall::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
     return pWall;
 }
 
+CWall* CWall::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+
+    return pWall;
+}
+
 HRESULT CWall::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -95,6 +111,11 @@ HRESULT CWall::Setup_Material()
     m_pGraphicDev->SetMaterial(&tMtrl);
 
     return S_OK;
+}
+
+void CWall::Setup_Position(_vec3 _vecPos)
+{
+    m_pTransformCom->Set_Pos(_vecPos.x, _vecPos.y, _vecPos.z);
 }
 
 void CWall::Free()

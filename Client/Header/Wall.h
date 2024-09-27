@@ -15,6 +15,7 @@ private:
 
 public:
 	static CWall* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CWall* Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 
 public:
 	virtual HRESULT	Ready_GameObject();
@@ -25,6 +26,7 @@ public:
 private:
 	HRESULT Add_Component();
 	HRESULT Setup_Material();
+	void Setup_Position(_vec3 _vecPos);
 
 private:
 	virtual void Free();

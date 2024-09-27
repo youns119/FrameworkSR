@@ -8,13 +8,14 @@ CFloor::CFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pTransformCom(nullptr)
     , m_pTextureCom(nullptr)
 {
+
 }
 
 CFloor::~CFloor()
 {
 }
 
-CFloor* CFloor::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+CFloor* CFloor::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos )
 {
     CFloor* pFloor = new CFloor(_pGraphicDev);
 
@@ -26,6 +27,26 @@ CFloor* CFloor::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
     }
 
     pFloor->Setup_Position(_vecPos);
+    pFloor->m_vecPos = _vecPos;
+
+    return pFloor;
+}
+
+CFloor* CFloor::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName)
+{
+    CFloor* pFloor = new CFloor(_pGraphicDev);
+
+    pFloor->Setup_ImageName(_pName);
+
+    if (FAILED(pFloor->Ready_GameObject()))
+    {
+        Safe_Release(pFloor);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pFloor->Setup_Position(_vecPos);
+    pFloor->m_vecPos = _vecPos;
 
     return pFloor;
 }
@@ -87,7 +108,7 @@ HRESULT CFloor::Add_Component()
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_FirstFloor"));
+    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(m_pName));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -119,6 +140,12 @@ void CFloor::Setup_Position(_vec3 _vecPos)
 {
     m_pTransformCom->Set_Pos(_vecPos.x, _vecPos.y, _vecPos.z);
 }
+
+void CFloor::Setup_ImageName(const _tchar* _pName)
+{
+    m_pName = _pName;
+}
+
 
 void CFloor::Free()
 {
