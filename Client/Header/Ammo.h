@@ -5,6 +5,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CTransform;
+class CCollider;
 END
 
 class CAmmo :
@@ -30,6 +31,7 @@ private:
     Engine::CRcTex* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CTransform* m_pTransformCom;
+    Engine::CCollider* m_pColliderCom;
 
     _float m_fTimer;
     _float m_fFrame;

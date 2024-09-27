@@ -89,6 +89,6 @@ void CBulletManager::LateUpdate_Bullet()
 
 void CBulletManager::Free()
 {
-	for_each(m_vecBullet.begin(), m_vecBullet.end(), CDeleteObj());
+	//for_each(m_vecBullet.begin(), m_vecBullet.end(), CDeleteObj());
 	m_vecBullet.clear();
 }
