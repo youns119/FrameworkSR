@@ -72,6 +72,7 @@ private:
 
 public:
 	WEAPON_STATE Get_WeaponState() { return m_WeaponState; }
+	_bool Get_HasItem() { return m_bIsHasItem; }
 	void Rooting_Item(Engine::ITEM_TYPE _eItemType) { m_eItemType = _eItemType; m_bIsHasItem = true; } //Jonghan Change
 
 public:

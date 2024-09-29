@@ -6,7 +6,7 @@
 CItem::CItem(LPDIRECT3DDEVICE9 _pGraphicDev)
     : CGameObject(_pGraphicDev)
     , m_bisRender(true)
-    , m_eItemType(Engine::ITEM_TYPE::ITEM_KNIFE)
+    , m_eItemType(Engine::ITEM_TYPE::ITEM_END)
     , m_pBufferCom(nullptr)
     , m_pTextureCom(nullptr)
     , m_pColliderCom(nullptr)
@@ -32,21 +32,7 @@ CItem* CItem::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
     return pItem;
 }
 
-HRESULT CItem::Ready_GameObject()
-{
-    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_pColliderCom->SetTransform(m_pTransformCom);
-    m_pColliderCom->SetRadius(0.1f);
-    m_pColliderCom->SetShow(true);
-    m_pColliderCom->SetActive(true);
-    _matrix matWorld;
-    m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
-    m_pTransformCom->Set_Pos(5.f, 0.1f, 5.f);
-    m_pTransformCom->Set_Angle(D3DXToRadian(90.f), 0.f, 0.f);
-
-    return S_OK;
-}
 
 _int CItem::Update_GameObject(const _float& _fTimeDelta)
 {
@@ -111,37 +97,9 @@ void CItem::Render_GameObject()
     }
 }
 
-void CItem::OnCollisionEnter(CCollider& _pOther)
-{
-    m_pColliderCom->SetActive(false);
-    m_bisRender = false;
-    CGameObject* pGame = Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player");
-    dynamic_cast<CPlayer*>(pGame)->Rooting_Item(Engine::ITEM_TYPE::ITEM_AXE);
-}
 
-HRESULT CItem::Add_Component()
-{
-    CComponent* pComponent = NULL;
 
-    pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
-    NULL_CHECK_RETURN(pComponent, E_FAIL);
-    m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
-    pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
-    NULL_CHECK_RETURN(pComponent, E_FAIL);
-    m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
-
-    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_DropKnifeTex"));
-    NULL_CHECK_RETURN(pComponent, E_FAIL);
-    m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_DropKnifeTexture", pComponent });
-
-    pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
-    NULL_CHECK_RETURN(pComponent, E_FAIL);
-    m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
-    pComponent->SetOwner(*this);
-
-    return S_OK;
-}
 
 void CItem::Free()
 {
