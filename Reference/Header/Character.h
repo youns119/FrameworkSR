@@ -15,7 +15,7 @@ public:
     virtual	_int Update_GameObject(const _float& _fTimeDelta);
     virtual	void LateUpdate_GameObject();
 
-    virtual void Damaged(const _int& _iEnumNumber = 2, const _float& _fAttackDamage = 0.f) {}
+    virtual void Damaged(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f) {}
 
 protected:
     virtual void Free();

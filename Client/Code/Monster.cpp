@@ -77,19 +77,21 @@ void CMonster::LateUpdate_GameObject()
 	Engine::CGameObject::LateUpdate_GameObject();
 }
 
-void CMonster::Damaged(const _int& _iEnumNumber, const _float& _fAttackDamage)
+void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	CMonster::MONSTERBODY eTemp = MONSTERBODY_END;
-	switch (_iEnumNumber)
+	switch (_eDamagedState)
 	{
-	case 0: eTemp = MONSTERBODY_HEAD;
+	case DAMAGED_STATE::DAMAGED_HEADSHOT: eTemp = MONSTERBODY_HEAD;
 		break;
-	case 1: eTemp = MONSTERBODY_BULL;
+	case DAMAGED_STATE::DAMAGED_BULLSHOT: eTemp = MONSTERBODY_BULL;
 		break;
 	default:eTemp = MONSTERBODY_BODY;
 		break;
 	}
 	Damaged_By_Player(eTemp, _fAttackDamage);
+
+	m_pColliderCom->SetActive(false); //To BeomSeung, Check RcCol from collider active plz
 }
 
 void CMonster::Free()

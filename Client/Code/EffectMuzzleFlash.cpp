@@ -220,7 +220,7 @@ void CEffectMuzzleFlash::Set_RandomRotation(void* _this)
 
     D3DLIGHT9 tLight;
     pThis->m_pGraphicDev->GetLight(1, &tLight);
-    pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Body_Transform");
+    pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform");
     dynamic_cast<CTransform*>(pComponent)->Get_Info(INFO::INFO_POS, &vPos);
     tLight.Position = vPos;
     pThis->m_pGraphicDev->SetLight(1, &tLight);

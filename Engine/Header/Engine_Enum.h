@@ -47,6 +47,23 @@ namespace Engine
 		CONTROL_FREECAM,
 		CONTROL_END,
 	};
+
+	//Jonghan Change
+	enum class DAMAGED_STATE
+	{
+		DAMAGED_HEADSHOT,
+		DAMAGED_BULLSHOT,
+		DAMAGED_BODYSHOT,
+		DAMAGED_KATANA,
+		DAMAGED_END,
+	};
+
+	enum class ITEM_TYPE
+	{
+		ITEM_KNIFE,
+		ITEM_AXE,
+		ITEM_END,
+	};
 }
 
 #endif // Engine_Enum_h__

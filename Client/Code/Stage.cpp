@@ -44,9 +44,11 @@ HRESULT CStage::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Player(L"Layer_Player"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Monster(L"Layer_Monster"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL);
 
 	Set_Collision();
 
@@ -158,18 +160,35 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
 
-	pGameObject = CPlayer::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
-	m_pPlayer = static_cast<CPlayer*>(pGameObject);
+	//pGameObject = CPlayer::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
+	//m_pPlayer = static_cast<CPlayer*>(pGameObject);
 
-	pGameObject = CFloor::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
+	//pGameObject = CFloor::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
 
 	pGameObject = CWall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+
+	m_mapLayer.insert({ _pLayerTag , pLayer });
+
+	return S_OK;
+}
+
+HRESULT CStage::Ready_Layer_Player(const _tchar* _pLayerTag)
+{
+	Engine::CLayer* pLayer = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CPlayer::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
+	m_pPlayer = static_cast<CPlayer*>(pGameObject);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
@@ -334,10 +353,27 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
+HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
+{
+	Engine::CLayer* pLayer = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CItem::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Knife", pGameObject), E_FAIL);
+
+	m_mapLayer.insert({ _pLayerTag , pLayer });
+
+	return S_OK;
+}
+
 void CStage::Set_Collision()
 {
-	Engine::CheckGroup(L"Layer_GameLogic", L"Layer_GameLogic");
-	Engine::CheckGroup(L"Layer_GameLogic", L"Layer_Monster");
+	Engine::CheckGroup(L"Layer_Player", L"Layer_GameLogic");
+	Engine::CheckGroup(L"Layer_Player", L"Layer_Monster");
+	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
 }
 
 void CStage::Free()

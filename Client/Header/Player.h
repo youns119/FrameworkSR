@@ -72,6 +72,7 @@ private:
 
 public:
 	WEAPON_STATE Get_WeaponState() { return m_WeaponState; }
+	void Rooting_Item(Engine::ITEM_TYPE _eItemType) { m_eItemType = _eItemType; m_bIsHasItem = true; } //Jonghan Change
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -143,4 +144,8 @@ private:
 	_float m_fFrameStart[SELECT::FINISH];
 	_float m_fFrameEnd[SELECT::FINISH];
 	_float m_fFrameSpeed[SELECT::FINISH];
+
+	//Jonghan Change
+	_bool m_bIsHasItem;
+	Engine::ITEM_TYPE m_eItemType;
 };
