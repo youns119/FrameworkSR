@@ -149,6 +149,7 @@ call Copy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\Ammo.h" />
+    <ClInclude Include="..\Header\Axe.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\BlackMan.h" />
     <ClInclude Include="..\Header\Boss_Humanoid.h" />
@@ -170,6 +171,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Header_Effect.h" />
     <ClInclude Include="..\Header\Humanoid.h" />
     <ClInclude Include="..\Header\Item.h" />
+    <ClInclude Include="..\Header\Knife.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
@@ -211,6 +213,7 @@ call Copy.bat</Command>
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Utility\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Ammo.cpp" />
+    <ClCompile Include="..\Code\Axe.cpp" />
     <ClCompile Include="..\Code\BlackMan.cpp" />
     <ClCompile Include="..\Code\Boss_Humanoid.cpp" />
     <ClCompile Include="..\Code\Boss_Robot.cpp" />
@@ -230,6 +233,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\GuideTerrain.cpp" />
     <ClCompile Include="..\Code\Humanoid.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
+    <ClCompile Include="..\Code\Knife.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />

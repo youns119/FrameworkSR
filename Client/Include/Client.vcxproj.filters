@@ -173,6 +173,12 @@
     <Filter Include="03.GameObject\10.Item">
       <UniqueIdentifier>{2b389256-ccc7-4604-8503-473af9336ae7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\10.Item\00.Knife">
+      <UniqueIdentifier>{69956e67-fa93-46fa-97ad-5d590fcc2eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\10.Item\01.Axe">
+      <UniqueIdentifier>{623ccd0c-ae19-4e84-865e-cd4cf709fa6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -352,6 +358,12 @@
     <ClInclude Include="..\Header\Item.h">
       <Filter>03.GameObject\10.Item</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Knife.h">
+      <Filter>03.GameObject\10.Item\00.Knife</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Axe.h">
+      <Filter>03.GameObject\10.Item\01.Axe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -512,6 +524,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Item.cpp">
       <Filter>03.GameObject\10.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Knife.cpp">
+      <Filter>03.GameObject\10.Item\00.Knife</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Axe.cpp">
+      <Filter>03.GameObject\10.Item\01.Axe</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
