@@ -170,6 +170,9 @@
     <Filter Include="03.GameObject\06.Effect\07. EffectBossRobotBooster">
       <UniqueIdentifier>{7b7483dc-deb4-4b9e-b5c5-5d5408f8469a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\10.Item">
+      <UniqueIdentifier>{2b389256-ccc7-4604-8503-473af9336ae7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -346,6 +349,9 @@
     <ClInclude Include="..\Header\EffectBossRobotBooster.h">
       <Filter>03.GameObject\06.Effect\07. EffectBossRobotBooster</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Item.h">
+      <Filter>03.GameObject\10.Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -503,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectBossRobotBooster.cpp">
       <Filter>03.GameObject\06.Effect\07. EffectBossRobotBooster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Item.cpp">
+      <Filter>03.GameObject\10.Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

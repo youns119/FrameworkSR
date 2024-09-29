@@ -15,6 +15,7 @@
 #include "Boss_Humanoid.h"
 #include "Boss_Robot.h"
 #include "Shield.h"
+#include "Item.h"
 
 #include "Terrain.h"
 #include "SkyBox.h"
@@ -41,9 +42,11 @@ private:
 	HRESULT Ready_LightInfo();
 	HRESULT Ready_Layer_Environment(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_GameLogic(const _tchar* _pLayerTag);
+	HRESULT Ready_Layer_Player(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_Monster(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_Effect(const _tchar* _pLayerTag);
+	HRESULT Ready_Layer_Item(const _tchar* _pLayerTag);
 
 private:
 	void Set_Collision();

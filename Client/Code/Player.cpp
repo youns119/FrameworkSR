@@ -29,6 +29,8 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_Leg_CurState(LEG_IDLE)
 	, m_Leg_PreState(LEG_STATE_END)
 	, m_WeaponState(PISTOL)
+	, m_bIsHasItem(false)
+	, m_eItemType(Engine::ITEM_TYPE::ITEM_END)
 	//Beomseung
 {
 	ZeroMemory(&m_fFrameStart, sizeof(m_fFrameStart));

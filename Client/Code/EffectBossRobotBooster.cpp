@@ -44,7 +44,7 @@ _int CEffectBossRobotBooster::Update_GameObject(const _float& _fTimeDelta)
 {
     Engine::Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
-    CComponent* pComponenet = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Body_Transform");
+    CComponent* pComponenet = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform");
     _vec3 vPos, vLook; 
     static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_POS, &vPos);
     static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_LOOK, &vLook);
