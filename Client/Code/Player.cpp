@@ -845,13 +845,13 @@ void CPlayer::Animation_Pos()
 
 void CPlayer::OnCollision(CCollider& _pOther)
 {
-	if(_pOther.GetOwner())
+	//if(_pOther.GetOwner())
 
-	/*if (m_Leg_CurState == KICK) {
-		_vec3 vLook;
-		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-		dynamic_cast<CMonster*>(_pOther.GetOwner())->AddForce(30.f, vLook);
-	}*/
+	///*if (m_Leg_CurState == KICK) {
+	//	_vec3 vLook;
+	//	m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+	//	dynamic_cast<CMonster*>(_pOther.GetOwner())->AddForce(30.f, vLook);
+	//}*/
 
 }
 
@@ -859,6 +859,12 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 {
 	CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 	static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+	/*if (m_Leg_CurState == KICK && m_pAnimator[LEG]->GetCurrAnim()->GetCurrFrame() <= 1.f)
+	{
+		_vec3 vLook;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+		dynamic_cast<CMonster*>(_pOther.GetOwner())->AddForce(30.f, vLook);
+	}*/
 
 }
 
