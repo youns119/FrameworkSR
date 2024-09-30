@@ -3,7 +3,7 @@
 class CHumanoid : public CMonster
 {
 public:
-	enum HUMANOIDSTATE { HUMANOID_IDLE, HUMANOID_ATTACK, HUMANOID_ATTACK_DELAY, HUMANOID_HEADSHOT, HUMANOID_PUSH_ONE, HUMANOID_PUSH_TWO, HUMANOID_BULLSHOT, HUMANOID_SHOT_ONE, HUMANOID_SHOT_TWO, HUMANOID_END }; //Jonghan Change
+	enum HUMANOIDSTATE { HUMANOID_IDLE, HUMANOID_ATTACK, HUMANOID_ATTACK_DELAY, HUMANOID_HEADSHOT, HUMANOID_PUSH_ONE, HUMANOID_PUSH_TWO, HUMANOID_BULLSHOT, HUMANOID_SHOT_ONE, HUMANOID_SHOT_TWO, HUMANOID_KATANA, HUMANOID_END }; //Jonghan Change
 
 protected:
 	explicit CHumanoid(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -20,7 +20,7 @@ protected:
 	virtual void Set_Animation()PURE;
 	void Changing_State(CHumanoid::HUMANOIDSTATE _eState) { m_eCurState = _eState; }
 public:
-	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f);
+	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
 
 protected:
 	Engine::CTexture* m_pTextureCom[HUMANOIDSTATE::HUMANOID_END];

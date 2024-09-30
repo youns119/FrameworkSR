@@ -36,6 +36,9 @@ HRESULT CFlyingDrone::Ready_GameObject()
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
 	Set_Animation();
+	m_pHitBufferCom->SetvOffSet({ 0.f,0.f,0.f });
+	m_pHeadHit->SetvOffSet({ 0.5f,0.5f,0.f });
+	m_pCriticalHit->SetvOffSet({ -0.5f,0.5f,0.f });
 
 	return S_OK;
 }
@@ -47,6 +50,16 @@ HRESULT CFlyingDrone::Add_Component()
 	pComponent = m_pHitBufferCom = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HitBufferCom", pComponent });
+	pComponent->SetOwner(*this);
+
+	pComponent = m_pHeadHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadHit", pComponent });
+	pComponent->SetOwner(*this);
+
+	pComponent = m_pCriticalHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_CriticalHit", pComponent });
 	pComponent->SetOwner(*this);
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
@@ -72,6 +85,10 @@ HRESULT CFlyingDrone::Add_Component()
 	pComponent = m_pTextureCom[DRONESTATE::DRONE_DAMAGED] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_FlyingDroneDamagedTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_DamagedTexture", pComponent });
+
+	pComponent = m_pTextureCom[DRONESTATE::DRONE_KATANA] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_FlyingDroneKatanaRightTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_KatanaRightTexture", pComponent });
 
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -114,6 +131,9 @@ void CFlyingDrone::State_Check()
 		case CDrone::DRONE_HEADSHOT:
 			m_pAnimatorCom->PlayAnimation(L"HeadShot", false);
 			break;
+		case CDrone::DRONE_KATANA:
+			m_pAnimatorCom->PlayAnimation(L"Katana", false);
+			break;
 		}
 
 		m_ePreState = m_eCurState;
@@ -149,6 +169,7 @@ void CFlyingDrone::Set_Animation()
 	m_pAnimatorCom->CreateAnimation(L"Damaged", m_pTextureCom[DRONE_DAMAGED], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Walk", m_pTextureCom[DRONE_WALK], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"HeadShot", m_pTextureCom[DRONE_HEADSHOT], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Katana", m_pTextureCom[DRONE_KATANA], 13.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Attack", true);
 }

@@ -46,19 +46,22 @@ void CHumanoid::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CHumanoid::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
+void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	_int iTemp(0);
 
-	switch (_eMonsterBody)
+	switch (_eDamagedState)
 	{
-	case CMonster::MONSTERBODY_HEAD:
+	case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
 		Changing_State(CHumanoid::HUMANOID_HEADSHOT);
 		break;
-	case CMonster::MONSTERBODY_BULL:
+	case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
 		Changing_State(CHumanoid::HUMANOID_BULLSHOT);
 		break;
-	case CMonster::MONSTERBODY_BODY:
+	case Engine::DAMAGED_STATE::DAMAGED_KATANA:
+		Changing_State(CHumanoid::HUMANOID_KATANA);
+		break;
+	case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
 
 		iTemp = _int(rand() % 64);
 
@@ -70,8 +73,6 @@ void CHumanoid::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAtt
 			Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
 		else
 			Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
-
-
 		break;
 	}
 	m_bIsDead = true;

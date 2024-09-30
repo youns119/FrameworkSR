@@ -1,15 +1,6 @@
 #pragma once
 #include "Drone.h"
 
-BEGIN(Engine)
-
-class CTriCol;
-class CRcTex;
-class CTexture;
-class CCalculator;
-class CTransform;
-
-END
 
 class CSpiderDrone : public CDrone
 {

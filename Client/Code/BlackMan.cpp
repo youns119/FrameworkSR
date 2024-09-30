@@ -118,6 +118,10 @@ HRESULT CBlackMan::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotTwoTexture", pComponent });
 
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_KATANA] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BlackManKatanaDownTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_KatanaTexture", pComponent });
+
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Calculator", pComponent });
@@ -182,6 +186,9 @@ void CBlackMan::State_Check()
 		case CHumanoid::HUMANOID_SHOT_TWO:
 			m_pAnimatorCom->PlayAnimation(L"Shot_Two", false);
 			break;
+		case CHumanoid::HUMANOID_KATANA:
+			m_pAnimatorCom->PlayAnimation(L"Katana", false);
+			break;
 		}
 
 		m_ePreState = m_eCurState;
@@ -239,11 +246,12 @@ void CBlackMan::Set_Animation()
 	m_pAnimatorCom->CreateAnimation(L"Idle_Shield", m_pShieldTextureCom[SHIELDSTATE_IDLE], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Attack_Shield", m_pShieldTextureCom[SHIELDSTATE_ATTACK], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Attack_Delay_Shield", m_pShieldTextureCom[SHIELDSTATE_IDLE], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Katana", m_pTextureCom[HUMANOID_KATANA], 13.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Idle_Shield", true);
 }
 
-void CBlackMan::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
+void CBlackMan::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	_int iTemp(0);
 
@@ -258,15 +266,18 @@ void CBlackMan::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAtt
 	}
 	else if (!m_bIsShield)
 	{
-		switch (_eMonsterBody)
+		switch (_eDamagedState)
 		{
-		case CMonster::MONSTERBODY_HEAD:
+		case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
 			Changing_State(CHumanoid::HUMANOID_HEADSHOT);
 			break;
-		case CMonster::MONSTERBODY_BULL:
+		case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
 			Changing_State(CHumanoid::HUMANOID_BULLSHOT);
 			break;
-		case CMonster::MONSTERBODY_BODY:
+		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
+			Changing_State(CHumanoid::HUMANOID_KATANA);
+			break;
+		case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
 
 			iTemp = _int(rand() % 64);
 
@@ -278,7 +289,6 @@ void CBlackMan::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAtt
 				Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
 			else
 				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
-
 			break;
 		}
 		m_bIsDead = true;

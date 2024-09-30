@@ -194,6 +194,9 @@ _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 	for (auto pair : *Objects) {
 
 		CGameObject* pTargetObject = pair.second;
+		CCharacter* pCharacter = dynamic_cast<CCharacter*>(pTargetObject);
+		if (nullptr != pCharacter && pCharacter->Get_IsDead())
+			continue;
 		CComponent* pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_HitBufferCom");
 		if (pTargetComponent == nullptr)
 			continue;

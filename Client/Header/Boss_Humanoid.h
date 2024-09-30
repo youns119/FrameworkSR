@@ -20,7 +20,7 @@ public:
 	virtual void Render_GameObject();
 
 public:
-	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f);
+	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
 
 private:
 	virtual HRESULT	Add_Component();

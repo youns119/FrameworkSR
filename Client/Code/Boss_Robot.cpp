@@ -80,7 +80,7 @@ void CBoss_Robot::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CBoss_Robot::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
+void CBoss_Robot::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	if (Check_Phase())
 		m_fShield_HP -= _fAttackDamage;

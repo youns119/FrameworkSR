@@ -34,6 +34,7 @@ public:
 public:
 	void Set_Repeatable(_bool _bRepeatable) { m_bRepeatable = _bRepeatable; }
 	void Set_Visibility(_bool _bIsVisible) { m_bIsVisible = _bIsVisible; }
+	void Set_Billboard(_bool _bBillboard) { m_bBillboard = _bBillboard; }
 	void Set_LifeTime(_float _fLifeTime) { m_fLifeTime = _fLifeTime; }
 
 	_bool Get_Visibility() { return m_bIsVisible; }
@@ -47,6 +48,7 @@ private:
 	_float m_fElapsed;
 	_bool m_bIsVisible;
 	_bool m_bRepeatable;
+	_bool m_bBillboard;
 
 public:
 	void Set_CallBack(void (*_pCallBack)(void*)) { m_pCallBack = _pCallBack; }

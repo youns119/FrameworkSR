@@ -5,7 +5,7 @@
 class CDrone : public CMonster
 {
 public:
-	enum DRONESTATE {DRONE_ATTACK, DRONE_IDLE, DRONE_WALK, DRONE_DAMAGED, DRONE_HEADSHOT, DRONE_END};
+	enum DRONESTATE {DRONE_ATTACK, DRONE_IDLE, DRONE_WALK, DRONE_DAMAGED, DRONE_HEADSHOT, DRONE_KATANA, DRONE_END};
 
 protected:
 	explicit CDrone(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -23,7 +23,7 @@ protected:
 	void Changing_State(CDrone::DRONESTATE _eState) { m_eCurState = _eState; }
 
 public:
-	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f);
+	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
 
 protected:
 	Engine::CTexture* m_pTextureCom[DRONESTATE::DRONE_END];

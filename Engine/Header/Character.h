@@ -16,6 +16,10 @@ public:
     virtual	void LateUpdate_GameObject();
 
     virtual void Damaged(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f) {}
+    _bool Get_IsDead() { return m_bIsDead; }
+
+protected:
+    _bool m_bIsDead;
 
 protected:
     virtual void Free();
