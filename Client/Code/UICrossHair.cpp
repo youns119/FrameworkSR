@@ -112,6 +112,10 @@ HRESULT CUICrossHair::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_ShotGun", pComponent });
 
+	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_KATANA] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Katana"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_Katana", pComponent });
+
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });

@@ -34,13 +34,16 @@ public:
 public:
 	virtual void Damaged(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
 	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f) PURE;
-
+	//넉백시킬 크기 세팅해주는 함수
+	virtual void AddForce(_float pPower, _vec3 vLook);
 protected:
 	virtual HRESULT	Add_Component()PURE;
 	virtual void State_Check()PURE; //Jonghan Change
 	virtual void Attack(const _float& _fTimeDelta)PURE;
 	virtual void Set_Animation()PURE;
-
+private:
+	//넉백시키는 함수
+	virtual void KnockBack(const _float& _fTimeDelta);
 protected:
 	virtual void Free();
 
@@ -52,11 +55,14 @@ protected:
 	Engine::CCalculator* m_pCalculatorCom;
 	Engine::CCollider* m_pColliderCom;
 	Engine::CRcCol* m_pHitBufferCom;
+	Engine::CRcCol* m_pHeadHit;
+	Engine::CRcCol* m_pCriticalHit;
 
 	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;
 
 	_bool m_bIsDead;
-
+	//넉백 크기
+	_vec3 vKnockBackForce;
 	//Jonghan Change End
 };

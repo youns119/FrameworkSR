@@ -32,11 +32,13 @@ void CHumanoid::Render_GameObject()
 	if (Engine::Key_Hold(DIK_B)) {
 		bColShow = true;
 	}
-	if(Engine::Key_Hold(DIK_V)) {
+	if (Engine::Key_Hold(DIK_V)) {
 		bColShow = false;
 	}
 	if (bColShow) {
 		m_pHitBufferCom->Render_Buffer();
+		m_pHeadHit->Render_Buffer();
+		m_pCriticalHit->Render_Buffer();
 	}
 	m_pAnimatorCom->Render_Animator();
 	m_pBufferCom->Render_Buffer();

@@ -50,6 +50,9 @@ _int CComponentCamera::Update_Component(const _float& _fTimeDelta)
 	D3DXMatrixInverse(&m_matView, 0, target_transform->Get_WorldMatrix());
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 
+	D3DXMatrixPerspectiveFovLH(&m_matProj, m_fFov, m_fAspect, m_fNear, m_fFar);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);
+
 	return 0;
 }
 
