@@ -12,6 +12,7 @@ public:
 	virtual	HRESULT	Ready_ComponentCamera();
 	virtual	_int Update_Component(const _float& _fTimeDelta);
 	virtual	void LateUpdate_Component();
+	void SetFov(_float pFov) { m_fFov = pFov; }
 public:
 	static CComponentCamera* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 

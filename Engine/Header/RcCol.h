@@ -17,10 +17,13 @@ public :
 	static CRcCol* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 	_vec3* VertexPos(_int iIndex)
 	{
-		return &vPos[iIndex];
+		_vec3 Result = vPos[iIndex] + vOffSet;
+		return &Result;
 	}
+	void SetvOffSet(_vec3 pOffSet) { vOffSet = pOffSet; }
 public :
 	virtual	HRESULT	Ready_Buffer();
+	virtual HRESULT OffSet_Buffer();
 	virtual	void Render_Buffer();
 
 public :
@@ -30,6 +33,7 @@ private :
 	virtual void Free();
 private:
 	_vec3 vPos[4];
+	_vec3 vOffSet;
 };
 
 END

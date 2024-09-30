@@ -215,7 +215,48 @@ _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 		_bool intersected = D3DXIntersectTri(&v0, &v1, &v2, &vRayStart, &vRayDir, &u, &v, &dist);
 		_bool intersected2 = D3DXIntersectTri(&v0, &v2, &v3, &vRayStart, &vRayDir, &u, &v, &dist);
 		if (intersected || intersected2) {
-			dynamic_cast<CCharacter*>(pTargetObject)->Damaged();
+			//헤드피격
+			pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_HeadHit");
+			pTargetCol = dynamic_cast<CRcCol*>(pTargetComponent);
+
+			v0 = *pTargetCol->VertexPos(0);
+			v1 = *pTargetCol->VertexPos(1);
+			v2 = *pTargetCol->VertexPos(2);
+			v3 = *pTargetCol->VertexPos(3);
+
+			D3DXVec3TransformCoord(&v0, &v0, TargetWorld);
+			D3DXVec3TransformCoord(&v1, &v1, TargetWorld);
+			D3DXVec3TransformCoord(&v2, &v2, TargetWorld);
+			D3DXVec3TransformCoord(&v3, &v3, TargetWorld);
+
+			intersected = D3DXIntersectTri(&v0, &v1, &v2, &vRayStart, &vRayDir, &u, &v, &dist);
+			intersected2 = D3DXIntersectTri(&v0, &v2, &v3, &vRayStart, &vRayDir, &u, &v, &dist);
+			if (intersected || intersected2) {
+				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_HEADSHOT);
+				return true;
+			}
+			//급소피격
+			pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_CriticalHit");
+			pTargetCol = dynamic_cast<CRcCol*>(pTargetComponent);
+
+			v0 = *pTargetCol->VertexPos(0);
+			v1 = *pTargetCol->VertexPos(1);
+			v2 = *pTargetCol->VertexPos(2);
+			v3 = *pTargetCol->VertexPos(3);
+
+			D3DXVec3TransformCoord(&v0, &v0, TargetWorld);
+			D3DXVec3TransformCoord(&v1, &v1, TargetWorld);
+			D3DXVec3TransformCoord(&v2, &v2, TargetWorld);
+			D3DXVec3TransformCoord(&v3, &v3, TargetWorld);
+
+			intersected = D3DXIntersectTri(&v0, &v1, &v2, &vRayStart, &vRayDir, &u, &v, &dist);
+			intersected2 = D3DXIntersectTri(&v0, &v2, &v3, &vRayStart, &vRayDir, &u, &v, &dist);
+			if (intersected || intersected2) {
+				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BULLSHOT);
+				return true;
+			}
+			//몸체피격
+			dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT);
 			return true;
 		}
 	}

@@ -34,6 +34,7 @@ public :
 	{
 		m_vInfo[(_uint)INFO::INFO_POS] = { _fX, _fY, _fZ };
 	}
+	void Set_Scale(const _vec3& _vScale) { m_vScale = _vScale; }
 	void Set_Scale(_float _fX, _float _fY, _float _fZ)
 	{
 		m_vScale = { _fX, _fY, _fZ };

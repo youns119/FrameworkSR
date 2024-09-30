@@ -39,7 +39,9 @@ HRESULT CShotGun::Ready_GameObject()
 	m_pColliderCom->SetShow(true);
 
 	Set_Animation();
-
+	m_pHitBufferCom->SetvOffSet({ 0.f,0.f,0.f });
+	m_pHeadHit->SetvOffSet({ 0.5f,0.5f,0.f });
+	m_pCriticalHit->SetvOffSet({ -0.5f,0.5f,0.f });
 	return S_OK;
 }
 
@@ -50,6 +52,16 @@ HRESULT CShotGun::Add_Component()
 	pComponent = m_pHitBufferCom = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HitBufferCom", pComponent });
+	pComponent->SetOwner(*this);
+
+	pComponent = m_pHeadHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadHit", pComponent });
+	pComponent->SetOwner(*this);
+
+	pComponent = m_pCriticalHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_CriticalHit", pComponent });
 	pComponent->SetOwner(*this);
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));

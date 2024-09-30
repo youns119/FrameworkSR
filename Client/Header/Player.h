@@ -27,15 +27,21 @@ private:
 		RIFLE_IDLE,
 		RIFLE_SHOOT,
 		RIFLE_RELOAD,
+		RIFLE_CHANGE,
 		SHOTGUN_IDLE,
 		SHOTGUN_SHOOT,
 		SHOTGUN_RELOAD,
+		SHOTGUN_CHANGE,
 		SNIPER_IDLE,
 		SNIPER_ZOOMIN,
 		SNIPER_ZOOMING,
 		SNIPER_ZOOMOUT,
 		SNIPER_SHOOT,
 		SNIPER_RELOAD,
+		KATANA_IDLE,
+		KATANA_SHOOT,
+		KATANA_CHANGE,
+		FINISHKILL,
 		RIGHT_STATE_END
 	};
 	enum LEFT_STATE {
@@ -63,6 +69,7 @@ private:
 		RIFLE,
 		SNIPER,
 		SHOTGUN,
+		KATANA,
 		WEAPON_STATE_END
 	};
 
@@ -107,9 +114,7 @@ private:
 
 	//Beomseung
 	//Buffer
-	Engine::CRcTex* m_pRight_BufferCom;
-	Engine::CRcTex* m_pLeft_BufferCom;
-	Engine::CRcTex* m_pLeg_BufferCom;
+	Engine::CRcTex* m_pPlayer_Buffer;
 	//Transform
 	Engine::CTransform* m_pBody_TransformCom;
 	Engine::CTransform* m_pRight_TransformCom;
@@ -121,15 +126,21 @@ private:
 	Engine::CTexture* m_pLeg_TextureCom[LEG_STATE::LEG_STATE_END];
 	//Camera
 	Engine::CComponentCamera* m_pCComponentCamera;
+	//Animator
 	Engine::CAnimator* m_pAnimator[FINISH];
+	//Collider
 	Engine::CCollider* m_pColliderCom;
 private:
 	_bool bJumpCheck;
 	_bool bLegUse;
 	_bool bLeftHandUse;
+	_bool m_bIsHasItem;
 	_float fJumpPower;
 	_float fTilePos;
 	_float fSpeed;
+	_float flinear;
+	_vec3 vDefaultPos[FINISH];
+	_vec3 vDefaultSize[FINISH];
 
 	RIGHT_STATE m_Right_CurState;
 	RIGHT_STATE m_Right_PreState;
@@ -141,12 +152,9 @@ private:
 	LEG_STATE m_Leg_PreState;
 
 	WEAPON_STATE m_WeaponState;
+	ITEM_TYPE m_eItemType;
 
 	_float m_fFrameStart[SELECT::FINISH];
 	_float m_fFrameEnd[SELECT::FINISH];
 	_float m_fFrameSpeed[SELECT::FINISH];
-
-	//Jonghan Change
-	_bool m_bIsHasItem;
-	Engine::ITEM_TYPE m_eItemType;
 };

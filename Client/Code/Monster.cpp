@@ -11,7 +11,10 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pColliderCom(nullptr)
 	, m_pAnimatorCom(nullptr)
 	, m_pHitBufferCom(nullptr)
+	, m_pHeadHit(nullptr)
+	, m_pCriticalHit(nullptr)
 	, m_bIsDead(false)
+	, vKnockBackForce({ 0.f,0.f,0.f })
 {
 }
 
@@ -26,6 +29,7 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 	if (!m_bIsDead)
 		Attack(_fTimeDelta);
 
+	KnockBack(_fTimeDelta);
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
 	_matrix		matWorld, matView, matBill, matResult;
@@ -92,6 +96,29 @@ void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAtta
 	Damaged_By_Player(eTemp, _fAttackDamage);
 
 	m_pColliderCom->SetActive(false); //To BeomSeung, Check RcCol from collider active plz
+}
+
+void CMonster::AddForce(_float pPower, _vec3 vLook)
+{
+	D3DXVec3Normalize(&vLook, &vLook);
+	vLook *= pPower;
+	vKnockBackForce = vLook;
+}
+
+void CMonster::KnockBack(const _float& _fTimeDelta)
+{
+	_float vLength = D3DXVec3Length(&vKnockBackForce);
+	vLength -= 1.f;
+	if (vLength <= 0)
+	{
+		vLength = 0;
+	}
+	_vec3 vPos;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	vPos += vKnockBackForce * _fTimeDelta;
+	m_pTransformCom->Set_Pos(vPos);
+	D3DXVec3Normalize(&vKnockBackForce, &vKnockBackForce);
+	vKnockBackForce *= vLength;
 }
 
 void CMonster::Free()
