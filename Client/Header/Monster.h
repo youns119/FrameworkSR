@@ -18,9 +18,6 @@ END
 class CMonster 
 	: public Engine::CCharacter
 {
-public:
-	enum MONSTERBODY { MONSTERBODY_HEAD, MONSTERBODY_BULL, MONSTERBODY_BODY, MONSTERBODY_END };
-
 protected:
 	explicit CMonster(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CMonster();
@@ -33,7 +30,7 @@ public:
 
 public:
 	virtual void Damaged(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
-	virtual void Damaged_By_Player(MONSTERBODY _eMonsterBody = MONSTERBODY::MONSTERBODY_BODY, const _float& _fAttackDamage = 0.f) PURE;
+	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f) PURE;
 	//넉백시킬 크기 세팅해주는 함수
 	virtual void AddForce(_float pPower, _vec3 vLook);
 protected:
@@ -61,7 +58,6 @@ protected:
 	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;
 
-	_bool m_bIsDead;
 	//넉백 크기
 	_vec3 vKnockBackForce;
 	//Jonghan Change End

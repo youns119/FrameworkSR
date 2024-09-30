@@ -31,17 +31,21 @@ void CDrone::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CDrone::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
+void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
-	switch (_eMonsterBody)
+	switch (_eDamagedState)
 	{
-	case CMonster::MONSTERBODY_HEAD:
+	case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
 		Changing_State(CDrone::DRONE_HEADSHOT);
+		break;
+	case Engine::DAMAGED_STATE::DAMAGED_KATANA:
+		Changing_State(CDrone::DRONE_KATANA);
 		break;
 	default:
 		Changing_State(CDrone::DRONE_DAMAGED);
 		break;
 	}
+
 	m_bIsDead = true;
 }
 

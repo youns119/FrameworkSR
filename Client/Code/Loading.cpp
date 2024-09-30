@@ -92,6 +92,9 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterPushTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Push/Push_2/%d.png", TEXTUREID::TEX_NORMAL, 22)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterShotOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Shot/Shot_1/%d.png", TEXTUREID::TEX_NORMAL, 24)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterShotTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Shot/Shot_2/%d.png", TEXTUREID::TEX_NORMAL, 19)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterKatanaDownTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Katana/Down/%d.png", TEXTUREID::TEX_NORMAL, 21)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterKatanaUpFrontTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Katana/Up/Front/%d.png", TEXTUREID::TEX_NORMAL, 19)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterKatanaUpBackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Katana/Up/Back/%d.png", TEXTUREID::TEX_NORMAL, 16)), E_FAIL);
 	////ShotGunMan
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunIdleTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Idle/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Attack/%d.png", TEXTUREID::TEX_NORMAL, 9)), E_FAIL);
@@ -102,6 +105,8 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunPushTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Push/Push_2/%d.png", TEXTUREID::TEX_NORMAL, 23)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunShotOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Shot/Shot_1/%d.png", TEXTUREID::TEX_NORMAL, 23)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunShotTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Shot/Shot_2/%d.png", TEXTUREID::TEX_NORMAL, 18)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunKatanaDownTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Katana/Down/%d.png", TEXTUREID::TEX_NORMAL, 21)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunKatanaUpTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Katana/Up/Back/%d.png", TEXTUREID::TEX_NORMAL, 11)), E_FAIL);
 	//////BlackMan
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BlackManIdleTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Idle/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BlackManShieldIdleTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Idle_Shield/%d.png", TEXTUREID::TEX_NORMAL, 9)), E_FAIL);
@@ -114,21 +119,29 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BlackManPushTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Push/Push_2/%d.png", TEXTUREID::TEX_NORMAL, 23)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BlackManShotOneTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Shot/Shot_1/%d.png", TEXTUREID::TEX_NORMAL, 24)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BlackManShotTwoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Shot/Shot_2/%d.png", TEXTUREID::TEX_NORMAL, 15)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BlackManKatanaDownTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Katana/Down/%d.png", TEXTUREID::TEX_NORMAL, 21)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BlackManKatanaUpTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Katana/Up/Back/%d.png", TEXTUREID::TEX_NORMAL, 13)), E_FAIL);
 	////// FlyingDrone -> Drone's Action_Count is 5, So i have to change the count of list
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FlyingDroneAttackTex", Engine::CTexture::Create(m_pGraphicDev,   L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Attack/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FlyingDroneAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Attack/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FlyingDroneIdleTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Idle/%d.png", TEXTUREID::TEX_NORMAL, 12)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FlyingDroneDamagedTex", Engine::CTexture::Create(m_pGraphicDev,  L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FlyingDroneDamagedTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FlyingDroneKatanaRightTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Katana/Right/%d.png", TEXTUREID::TEX_NORMAL, 9)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FlyingDroneKatanaLeftTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Katana/Left/%d.png", TEXTUREID::TEX_NORMAL, 9)), E_FAIL);
 	//////SpiderDrone
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneAttackTex", Engine::CTexture::Create(m_pGraphicDev,  L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Attack/%d.png", TEXTUREID::TEX_NORMAL, 5)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneIdleTex", Engine::CTexture::Create(m_pGraphicDev,    L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Idle/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneWalkTex", Engine::CTexture::Create(m_pGraphicDev,    L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Walk/%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Attack/%d.png", TEXTUREID::TEX_NORMAL, 5)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneIdleTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Idle/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneWalkTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Walk/%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneDamagedTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneKatanaRightTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Katana/Right/%d.png", TEXTUREID::TEX_NORMAL, 11)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SpiderDroneKatanaLeftTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Katana/Left/%d.png", TEXTUREID::TEX_NORMAL, 11)), E_FAIL);
 	//////DogDrone
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneAttackTex", Engine::CTexture::Create(m_pGraphicDev,   L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Attack/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneIdleTex", Engine::CTexture::Create(m_pGraphicDev,     L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Idle/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneWalkTex", Engine::CTexture::Create(m_pGraphicDev,     L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Walk/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneDamagedTex", Engine::CTexture::Create(m_pGraphicDev,  L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Attack/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneIdleTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Idle/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneWalkTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Walk/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneDamagedTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneHeadShotTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/HeadShot/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneKatanaRightTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Katana/Right/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneKatanaLeftTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Katana/Left/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	//Ammo (Monster Bullet)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AmmoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
 	//Shield (Monster Shield)

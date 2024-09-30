@@ -104,6 +104,10 @@ HRESULT CShotGun::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ShotTwoTexture", pComponent });
 
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_KATANA] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunKatanaDownTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_KatanaTexture", pComponent });
+
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Calculator", pComponent });
@@ -159,6 +163,9 @@ void CShotGun::State_Check()
 		case CHumanoid::HUMANOID_SHOT_TWO:
 			m_pAnimatorCom->PlayAnimation(L"Shot_Two", false);
 			break;
+		case CHumanoid::HUMANOID_KATANA:
+			m_pAnimatorCom->PlayAnimation(L"Katana", false);
+			break;
 		}
 
 		m_ePreState = m_eCurState;
@@ -176,6 +183,7 @@ void CShotGun::Set_Animation()
 	m_pAnimatorCom->CreateAnimation(L"Push_Two", m_pTextureCom[HUMANOID_PUSH_TWO], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Shot_One", m_pTextureCom[HUMANOID_SHOT_ONE], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Shot_Two", m_pTextureCom[HUMANOID_SHOT_TWO], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Katana", m_pTextureCom[HUMANOID_KATANA], 13.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Idle", true);
 }

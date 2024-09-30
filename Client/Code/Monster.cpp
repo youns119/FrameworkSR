@@ -13,7 +13,6 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pHitBufferCom(nullptr)
 	, m_pHeadHit(nullptr)
 	, m_pCriticalHit(nullptr)
-	, m_bIsDead(false)
 	, vKnockBackForce({ 0.f,0.f,0.f })
 {
 }
@@ -83,7 +82,7 @@ void CMonster::LateUpdate_GameObject()
 
 void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
-	CMonster::MONSTERBODY eTemp = MONSTERBODY_END;
+	/*CMonster::MONSTERBODY eTemp = MONSTERBODY_END;
 	switch (_eDamagedState)
 	{
 	case DAMAGED_STATE::DAMAGED_HEADSHOT: eTemp = MONSTERBODY_HEAD;
@@ -92,8 +91,8 @@ void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAtta
 		break;
 	default:eTemp = MONSTERBODY_BODY;
 		break;
-	}
-	Damaged_By_Player(eTemp, _fAttackDamage);
+	}*/
+	Damaged_By_Player(_eDamagedState, _fAttackDamage);
 
 	m_pColliderCom->SetActive(false); //To BeomSeung, Check RcCol from collider active plz
 }

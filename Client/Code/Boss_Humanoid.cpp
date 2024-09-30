@@ -42,6 +42,9 @@ HRESULT CBoss_Humanoid::Ready_GameObject()
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
+	m_pHitBufferCom->SetvOffSet({ 0.f,0.f,0.f });
+	m_pHeadHit->SetvOffSet({ 0.5f,0.5f,0.f });
+	m_pCriticalHit->SetvOffSet({ -0.5f,0.5f,0.f });
 
 	Set_Animation();
 
@@ -114,7 +117,7 @@ void CBoss_Humanoid::Render_GameObject()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CBoss_Humanoid::Damaged_By_Player(MONSTERBODY _eMonsterBody, const _float& _fAttackDamage)
+void CBoss_Humanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	Changing_State(CBoss_Humanoid::BOSS_DAMAGED); // Need to Interaction with EffectManager(Body or Blodd Explosion)
 }
@@ -166,6 +169,16 @@ HRESULT CBoss_Humanoid::Add_Component()
 	pComponent = m_pHitBufferCom = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HitBufferCom", pComponent });
+	pComponent->SetOwner(*this);
+
+	pComponent = m_pHeadHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadHit", pComponent });
+	pComponent->SetOwner(*this);
+
+	pComponent = m_pCriticalHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_CriticalHit", pComponent });
 	pComponent->SetOwner(*this);
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));

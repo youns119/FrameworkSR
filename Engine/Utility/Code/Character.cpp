@@ -2,6 +2,7 @@
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 _pGraphicDev)
 	:CGameObject(_pGraphicDev)
+	, m_bIsDead(false)
 {
 }
 
