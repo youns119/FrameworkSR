@@ -16,6 +16,8 @@
 #include "FloorTex.h"
 #include "WallTex.h"
 
+#include "WallTBTex.h"
+
 #include "Texture.h"
 
 #include "Transform.h"

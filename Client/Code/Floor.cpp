@@ -8,7 +8,7 @@ CFloor::CFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pTransformCom(nullptr)
     , m_pTextureCom(nullptr)
 {
-
+    m_pName = L"Proto_FirstFloor";
 }
 
 CFloor::~CFloor()
@@ -23,6 +23,7 @@ CFloor* CFloor::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos )
     {
         Safe_Release(pFloor);
         MSG_BOX("pTerrain Create Failed");
+
         return nullptr;
     }
 

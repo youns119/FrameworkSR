@@ -165,13 +165,76 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	//m_pPlayer = static_cast<CPlayer*>(pGameObject);
 
-	//pGameObject = CFloor::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			pGameObject = CFloor::Create_Pos(m_pGraphicDev,{(float)j,0.f,(float)i});
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			pGameObject = CFloor::Create_Pos(m_pGraphicDev, { (float)j,4.f,(float)i });
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
+		}
+	}
 
-	pGameObject = CWall::Create(m_pGraphicDev);
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,0.f,0.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,0.f,2.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,0.f,0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,0.f,2.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,2.f,0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,2.f,2.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,2.f,0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,2.f,2.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
+	
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,0.f, 0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,0.f,0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,0.f,4.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,0.f,4.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
+	
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,2.f, 0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,2.f,0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,2.f,4.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
+	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,2.f,4.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
