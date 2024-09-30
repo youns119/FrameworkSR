@@ -5,6 +5,7 @@
 #include "..\Header\DynamicCamera.h"
 // 규빈 (이텍트 해당하는 클래스 헤더 모음)
 #include "../Header/Header_Effect.h"
+#include "../Header/FilterFundo.h"
 
 // 연욱
 #include "../Header/UICrossHair.h"
@@ -412,6 +413,15 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBossRobotBooster", pGameObject), E_FAIL);
 	m_mapLayer.insert({ _pLayerTag , pLayer });
+
+
+	//pGameObject = CFilterFundo::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FilterFundo", pGameObject), E_FAIL);
+
+	pGameObject = CEffectPool::Create(m_pGraphicDev, (CGameObject * (*)(LPDIRECT3DDEVICE9))CEffectMinigunShell::Create);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_MinigunShell", pGameObject), E_FAIL);
 
 	return S_OK;
 }

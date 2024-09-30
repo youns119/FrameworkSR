@@ -472,10 +472,15 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
-		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 2.f);
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
+		//static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 2.f);
+		//pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+		//static_cast<CEffectPool*>(pGameObject)->Operate();
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_MinigunShell", L"Com_Transform");
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		static_cast<CEffectPool*>(pGameObject)->Operate();
+
 	}
 	if (Engine::Key_Press(DIK_LSHIFT))
 	{

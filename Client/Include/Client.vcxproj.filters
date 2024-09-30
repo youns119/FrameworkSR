@@ -182,6 +182,15 @@
     <Filter Include="03.GameObject\07.TileControl\01.Wall\WallTB">
       <UniqueIdentifier>{32bda2b5-0c84-45d8-8c76-114698face5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\08. EffectMinigunShell">
+      <UniqueIdentifier>{e141e39e-34a7-4195-8931-08128d0906ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\11.Filter">
+      <UniqueIdentifier>{641ff991-ebc8-4dc3-8c7e-1e0d2735d573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\11.Filter\00. FUNDO">
+      <UniqueIdentifier>{d12a4402-27e7-4dbd-8001-66bfd9632aae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -370,6 +379,12 @@
     <ClInclude Include="..\Header\WallTB.h">
       <Filter>03.GameObject\07.TileControl\01.Wall\WallTB</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectMinigunShell.h">
+      <Filter>03.GameObject\06.Effect\08. EffectMinigunShell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FilterFundo.h">
+      <Filter>03.GameObject\11.Filter\00. FUNDO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -539,6 +554,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\WallTB.cpp">
       <Filter>03.GameObject\07.TileControl\01.Wall\WallTB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectMinigunShell.cpp">
+      <Filter>03.GameObject\06.Effect\08. EffectMinigunShell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FilterFundo.cpp">
+      <Filter>03.GameObject\11.Filter\00. FUNDO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
