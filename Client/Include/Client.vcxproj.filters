@@ -179,6 +179,9 @@
     <Filter Include="03.GameObject\10.Item\01.Axe">
       <UniqueIdentifier>{623ccd0c-ae19-4e84-865e-cd4cf709fa6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\07.TileControl\01.Wall\WallTB">
+      <UniqueIdentifier>{32bda2b5-0c84-45d8-8c76-114698face5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -364,6 +367,9 @@
     <ClInclude Include="..\Header\Axe.h">
       <Filter>03.GameObject\10.Item\01.Axe</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\WallTB.h">
+      <Filter>03.GameObject\07.TileControl\01.Wall\WallTB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -530,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Axe.cpp">
       <Filter>03.GameObject\10.Item\01.Axe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WallTB.cpp">
+      <Filter>03.GameObject\07.TileControl\01.Wall\WallTB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

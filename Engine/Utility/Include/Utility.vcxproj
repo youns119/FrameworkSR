@@ -178,6 +178,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\UI.h" />
     <ClInclude Include="..\..\Header\UIManager.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
+    <ClInclude Include="..\..\Header\WallTBTex.h" />
     <ClInclude Include="..\..\Header\WallTex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +216,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\UI.cpp" />
     <ClCompile Include="..\Code\UIManager.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
+    <ClCompile Include="..\Code\WallTBTex.cpp" />
     <ClCompile Include="..\Code\WallTex.cpp" />
   </ItemGroup>
   <ItemGroup>

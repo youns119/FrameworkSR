@@ -18,6 +18,8 @@ private:
 
 public:
 	static CGuideTerrain* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	void Set_Position(_vec3 _vecPos) { m_vecPos = _vecPos; }
+
 
 public:
 	virtual HRESULT	Ready_GameObject();
@@ -35,6 +37,7 @@ private:
 private:
 	Engine::CGuideTex* m_pBufferCom;
 	Engine::CTransform* m_pTransformCom;
+	_vec3 m_vecPos;
 	//Engine::CTexture* m_pTextureCom;
 };
 

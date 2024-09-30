@@ -73,6 +73,7 @@ _uint CLoading::Loading_Stage()
 	//YuBhin: Floor,Wall
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FloorTex", Engine::CFloorTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WallTex", Engine::CWallTex::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WallTBTex", Engine::CWallTBTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_GuideTex", Engine::CGuideTex::Create(m_pGraphicDev, VTXTILEX, VTXTILEZ, VTXITV)), E_FAIL);
 
 	//Beomseung

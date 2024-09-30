@@ -22,6 +22,7 @@
 #include "SkyBox.h"
 #include "Floor.h"
 #include "Wall.h"
+#include "WallTB.h"
 
 class CStage
 	: public Engine::CScene

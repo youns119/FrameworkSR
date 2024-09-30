@@ -35,12 +35,29 @@ CWall* CWall::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
     if (FAILED(pWall->Ready_GameObject()))
     {
         Safe_Release(pWall);
-        MSG_BOX("pTerrain Create Failed");
+        MSG_BOX("pWall Create Failed");
         return nullptr;
     }
 
     pWall->Setup_Position(_vecPos);
+    pWall->m_vecPos = _vecPos;
 
+    return pWall;
+}
+
+CWall* CWall::Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pWall Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+    pWall->Setup_Angle(_vecRot);
     return pWall;
 }
 
@@ -116,6 +133,11 @@ HRESULT CWall::Setup_Material()
 void CWall::Setup_Position(_vec3 _vecPos)
 {
     m_pTransformCom->Set_Pos(_vecPos.x, _vecPos.y, _vecPos.z);
+}
+
+void CWall::Setup_Angle(_vec3 _vecRot)
+{
+    m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
 
 void CWall::Free()
