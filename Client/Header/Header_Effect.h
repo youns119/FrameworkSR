@@ -7,5 +7,6 @@
 #include "../Header/EffectPlayerBlood.h"
 #include "../Header/Spark.h"
 #include "../Header/EffectBossRobotBooster.h"
+#include "../Header/EffectMinigunShell.h"
 
 #include "../Header/EffectPool.h"

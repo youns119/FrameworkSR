@@ -14,13 +14,16 @@ void CEffectPool::Operate()
 		if (pEffect->Get_Visibility())
 			continue;
 
+		// pool 의 transform 을 이용해서 effect의 방향과 위치를 설정해주는 코드
 		pComponent = pObj->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform");
-		CTransform* pTransform = static_cast<CTransform*>(pComponent);
-		//m_pTransformCom->Set_WorldMatrix(pTransform->Get_WorldMatrix());
-		_vec3 vPos;
-		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		pTransform->Set_Pos(vPos);
-
+		if (pComponent)
+		{
+			CTransform* pTransform = static_cast<CTransform*>(pComponent);
+			//m_pTransformCom->Set_WorldMatrix(pTransform->Get_WorldMatrix());
+			_vec3 vPos;
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			pTransform->Set_Pos(vPos);
+		}
 
 		pEffect->Operate_Effect();
 		break;

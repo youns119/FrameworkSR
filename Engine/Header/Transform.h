@@ -22,7 +22,7 @@ public :
 		*_pInfo = m_vInfo[(_uint)_eType];
 	}
 	const _vec3* Get_Scale() { return &m_vScale; }
-	const _vec3* Get_Angle() { return &m_vScale; }
+	const _vec3* Get_Angle() { return &m_vAngle; }
 
 	void Set_WorldMatrix(const _matrix* _pWorld)
 	{

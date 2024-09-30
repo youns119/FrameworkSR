@@ -42,10 +42,11 @@ int CMainApp::Update_MainApp(const float& _fTimeDelta)
 {
 	Engine::Update_InputDev();
 
-	m_pManagementClass->Update_Scene(_fTimeDelta);
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	m_pManagementClass->Update_Scene(_fTimeDelta);
 	return 0;
 }
 

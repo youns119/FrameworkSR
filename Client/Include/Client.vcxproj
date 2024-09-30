@@ -162,9 +162,11 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\EffectCircleLines.h" />
     <ClInclude Include="..\Header\EffectFanSpread.h" />
     <ClInclude Include="..\Header\EffectHeal.h" />
+    <ClInclude Include="..\Header\EffectMinigunShell.h" />
     <ClInclude Include="..\Header\EffectMuzzleFlash.h" />
     <ClInclude Include="..\Header\EffectPlayerBlood.h" />
     <ClInclude Include="..\Header\EffectPool.h" />
+    <ClInclude Include="..\Header\FilterFundo.h" />
     <ClInclude Include="..\Header\Floor.h" />
     <ClInclude Include="..\Header\FlyingDrone.h" />
     <ClInclude Include="..\Header\GuideTerrain.h" />
@@ -226,9 +228,11 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\EffectCircleLines.cpp" />
     <ClCompile Include="..\Code\EffectFanSpread.cpp" />
     <ClCompile Include="..\Code\EffectHeal.cpp" />
+    <ClCompile Include="..\Code\EffectMinigunShell.cpp" />
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp" />
     <ClCompile Include="..\Code\EffectPlayerBlood.cpp" />
     <ClCompile Include="..\Code\EffectPool.cpp" />
+    <ClCompile Include="..\Code\FilterFundo.cpp" />
     <ClCompile Include="..\Code\Floor.cpp" />
     <ClCompile Include="..\Code\FlyingDrone.cpp" />
     <ClCompile Include="..\Code\GuideTerrain.cpp" />
