@@ -23,10 +23,10 @@ HRESULT CAmmo::Ready_GameObject()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
-	m_pColliderCom->SetRadius(0.1f);
+	m_pColliderCom->SetRadius(0.05f);
 	m_pColliderCom->SetShow(true);
 	_matrix matWorld;
-	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
+	m_pTransformCom->Set_Scale(0.05f, 0.05f, 0.05f);
 	m_pTransformCom->Get_WorldMatrix(&matWorld);
 
 	matWorld._41 = 0.f;

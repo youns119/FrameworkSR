@@ -193,6 +193,7 @@ void CWhiteSuit::Attack(const _float& _fTimeDelta)
 {
 	_vec3 vPos, vPlayerPos, vDir;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	vPos.y += 0.65f;
 	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
 		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
 	NULL_CHECK(pPlayerTransform, -1);
