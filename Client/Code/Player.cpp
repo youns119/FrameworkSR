@@ -22,7 +22,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, flinear(0.f)
 	, fTilePos(0.f)
 	, fSpeed(0.f)
-	, m_Right_CurState(PISTOL_CHANGE)
+	, m_Right_CurState(CHANGE)
 	, m_Right_PreState(RIGHT_STATE_END)
 	, m_Left_CurState(LEFT_IDLE)
 	, m_Left_PreState(LEFT_STATE_END)
@@ -40,7 +40,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
 	vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -3.f,2.f };
 	vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
-	vDefaultSize[LEFT] = { 500.f,500.f,0.f };
+	vDefaultSize[LEFT] = { 300.f,300.f,0.f };
 	vDefaultSize[LEG] = { 500.f,500.f,0.f };
 }
 
@@ -105,6 +105,7 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 	Animation_Pos();
 	m_pLeg_TransformCom->Update_Component(_fTimeDelta);
 	m_pRight_TransformCom->Update_Component(_fTimeDelta);
+	m_pLeft_TransformCom->Update_Component(_fTimeDelta);
 	return iExit;
 
 }
@@ -118,16 +119,8 @@ void CPlayer::LateUpdate_GameObject()
 void CPlayer::Render_GameObject()
 {
 	//Beomseung Fix
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-
-	if (bLegUse) {
-		_matrix mat = *m_pLeg_TransformCom->Get_WorldMatrix();
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &mat);
-		m_pAnimator[LEG]->Render_Animator();
-		m_pPlayer_Buffer->Render_Buffer();
-	}
 
 	_matrix mat = *m_pRight_TransformCom->Get_WorldMatrix();
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &mat);
@@ -139,6 +132,12 @@ void CPlayer::Render_GameObject()
 		mat = *m_pLeft_TransformCom->Get_WorldMatrix();
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &mat);
 		m_pAnimator[LEFT]->Render_Animator();
+		m_pPlayer_Buffer->Render_Buffer();
+	}
+	if (bLegUse) {
+		_matrix mat = *m_pLeg_TransformCom->Get_WorldMatrix();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &mat);
+		m_pAnimator[LEG]->Render_Animator();
 		m_pPlayer_Buffer->Render_Buffer();
 	}
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -160,98 +159,101 @@ HRESULT CPlayer::Add_Component()
 
 	//Right
 	//Pistol
-	pComponent = m_pRight_TextureCom[PISTOL_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_IDLE")));
+	pComponent = m_pRight_TextureCom[PISTOL][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_IDLE")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Pistol_IDLE", pComponent });
 
-	pComponent = m_pRight_TextureCom[PISTOL_SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_Shoot")));
+	pComponent = m_pRight_TextureCom[PISTOL][SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_Shoot")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Pistol_Shoot", pComponent });
 
-	pComponent = m_pRight_TextureCom[PISTOL_RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_Reload")));
+	pComponent = m_pRight_TextureCom[PISTOL][RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_Reload")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Pistol_Reload", pComponent });
 
-	pComponent = m_pRight_TextureCom[PISTOL_CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_Change")));
+	pComponent = m_pRight_TextureCom[PISTOL][CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_Change")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Pistol_Change", pComponent });
 
 	//Rifle
-	pComponent = m_pRight_TextureCom[RIFLE_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_IDLE")));
+	pComponent = m_pRight_TextureCom[RIFLE][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_IDLE")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Rifle_IDLE", pComponent });
 
-	pComponent = m_pRight_TextureCom[RIFLE_SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_Shoot")));
+	pComponent = m_pRight_TextureCom[RIFLE][SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_Shoot")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Rifle_Shoot", pComponent });
 
-	pComponent = m_pRight_TextureCom[RIFLE_RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_Reload")));
+	pComponent = m_pRight_TextureCom[RIFLE][RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_Reload")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Rifle_Reload", pComponent });
 
-	pComponent = m_pRight_TextureCom[RIFLE_CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_Change")));
+	pComponent = m_pRight_TextureCom[RIFLE][CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_Change")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Rifle_Change", pComponent });
 
 	//Shotgun
-	pComponent = m_pRight_TextureCom[SHOTGUN_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_IDLE")));
+	pComponent = m_pRight_TextureCom[SHOTGUN][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_IDLE")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Shotgun_IDLE", pComponent });
 
-	pComponent = m_pRight_TextureCom[SHOTGUN_SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_Shoot")));
+	pComponent = m_pRight_TextureCom[SHOTGUN][SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_Shoot")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Shotgun_Shoot", pComponent });
 
-	pComponent = m_pRight_TextureCom[SHOTGUN_RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_Reload")));
+	pComponent = m_pRight_TextureCom[SHOTGUN][RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_Reload")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Shotgun_Reload", pComponent });
 
-	pComponent = m_pRight_TextureCom[SHOTGUN_CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_Change")));
+	pComponent = m_pRight_TextureCom[SHOTGUN][CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Shotgun_Change")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Shotgun_Change", pComponent });
 
 	//Sniper
-	pComponent = m_pRight_TextureCom[SNIPER_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_IDLE")));
+	pComponent = m_pRight_TextureCom[SNIPER][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_IDLE")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_IDLE", pComponent });
 
-	pComponent = m_pRight_TextureCom[SNIPER_SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_Shoot")));
+	pComponent = m_pRight_TextureCom[SNIPER][SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_Shoot")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_Shoot", pComponent });
 
-	pComponent = m_pRight_TextureCom[SNIPER_RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_Reload")));
+	pComponent = m_pRight_TextureCom[SNIPER][RELOAD] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_Reload")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_Reload", pComponent });
 
-	pComponent = m_pRight_TextureCom[SNIPER_ZOOMIN] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomIn")));
+	pComponent = m_pRight_TextureCom[SNIPER][ZOOMIN] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomIn")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_ZoomIn", pComponent });
 
-	pComponent = m_pRight_TextureCom[SNIPER_ZOOMING] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomIng")));
+	pComponent = m_pRight_TextureCom[SNIPER][ZOOMING] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomIng")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_ZoomIng", pComponent });
 
-	pComponent = m_pRight_TextureCom[SNIPER_ZOOMOUT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomOut")));
+	pComponent = m_pRight_TextureCom[SNIPER][ZOOMOUT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Sniper_ZoomOut")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Sniper_ZoomOut", pComponent });
 
-	pComponent = m_pRight_TextureCom[FINISHKILL] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_FinishKill")));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_FinishKill", pComponent });
-
 	//Katana
-	pComponent = m_pRight_TextureCom[KATANA_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Katana_IDLE")));
+	pComponent = m_pRight_TextureCom[KATANA][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Katana_IDLE")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Katana_IDLE", pComponent });
 
-	pComponent = m_pRight_TextureCom[KATANA_SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Katana_Shoot")));
+	pComponent = m_pRight_TextureCom[KATANA][SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Katana_Shoot")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Katana_Shoot", pComponent });
 
-	pComponent = m_pRight_TextureCom[KATANA_CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Katana_Change")));
+	pComponent = m_pRight_TextureCom[KATANA][CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Katana_Change")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Katana_Change", pComponent });
 
+	pComponent = m_pRight_TextureCom[MINIGUN][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_GunPoint_IDLE")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_GunPoint_IDLE", pComponent });
+
+	pComponent = m_pRight_TextureCom[MINIGUN][SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_GunPoint_Shoot")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_GunPoint_Shoot", pComponent });
 
 	//Left
 	pComponent = m_pLeft_TextureCom[LEFT_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftArmTex"));
@@ -261,6 +263,14 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pLeft_TextureCom[DRINK] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftDrink")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_LeftDrink", pComponent });
+
+	pComponent = m_pLeft_TextureCom[MINIGUN_BODY_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_Body_IDLE")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_Body_IDLE", pComponent });
+
+	pComponent = m_pLeft_TextureCom[MINIGUN_BODY_CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_Body_Change")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_Body_Change", pComponent });
 
 	//Leg
 	pComponent = m_pLeg_TextureCom[LEG_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Leg_Idle")));
@@ -274,6 +284,14 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pLeg_TextureCom[SLIDING] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Leg_Sliding")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Leg_Sliding", pComponent });
+
+	pComponent = m_pLeg_TextureCom[MINIGUN_PANEL_CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_Panel_Change")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_Panel_Change", pComponent });
+
+	pComponent = m_pLeg_TextureCom[MINIGUN_PANEL_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_Panel_IDLE")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_Panel_IDLE", pComponent });
 
 	//Transform
 	pComponent = m_pRight_TransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Right_Transform"));
@@ -367,57 +385,84 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	if (Engine::Key_Hold(DIK_R)) {
 		switch (m_WeaponState) {
 		case PISTOL:
-			m_Right_CurState = PISTOL_RELOAD;
+			m_Right_CurState = RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Reload", false);
 			break;
 		case RIFLE:
-			m_Right_CurState = RIFLE_RELOAD;
+			m_Right_CurState = RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Reload", false);
 			bLeftHandUse = false;
 			break;
 		case SHOTGUN:
-			m_Right_CurState = SHOTGUN_RELOAD;
+			m_Right_CurState = RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Reload", false);
 			break;
 		case SNIPER:
-			m_Right_CurState = SNIPER_RELOAD;
+			m_Right_CurState = RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Reload", false);
 			bLeftHandUse = false;
+			break;
+		default:
 			break;
 		}
 	}
 
 	if (Engine::Key_Hold(DIK_1)) {
+		bLeftHandUse = true;
+		bLegUse = false;
 		m_WeaponState = PISTOL;
-		m_Right_CurState = PISTOL_CHANGE;
+		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
+		flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_2)) {
 		m_WeaponState = RIFLE;
-		m_Right_CurState = RIFLE_CHANGE;
+		bLegUse = false;
+		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Change", false);
 		bLeftHandUse = false;
+		flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_3)) {
 		bLeftHandUse = false;
+		bLegUse = false;
 		m_WeaponState = SHOTGUN;
-		m_Right_CurState = SHOTGUN_CHANGE;
+		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Change", false);
+		flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_4)) {
+		bLeftHandUse = true;
+		bLegUse = false;
 		m_WeaponState = SNIPER;
-		m_Right_CurState = SNIPER_IDLE;
+		m_Right_CurState = IDLE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
+		flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_5)) {
 		bLeftHandUse = false;
+		bLegUse = false;
 		m_WeaponState = KATANA;
-		m_Right_CurState = KATANA_CHANGE;
+		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Change", false);
+		flinear = 0.f;
+	}
+
+	if (Engine::Key_Hold(DIK_6)) {
+		bLegUse = true;
+		bLeftHandUse = true;
+		m_WeaponState = MINIGUN;
+		m_Right_CurState = IDLE;
+		m_Left_CurState = MINIGUN_BODY_CHANGE;
+		m_Leg_CurState = MINIGUN_PANEL_CHANGE;
+		m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", true);
+		m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Change", false);
+		m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Change", false);
+		flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_P)) {
@@ -508,14 +553,14 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	if (m_WeaponState == SNIPER) {
 		if (Engine::Key_Press(DIK_L))
 		{
-			m_Right_CurState = SNIPER_ZOOMIN;
+			m_Right_CurState = ZOOMIN;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomIn", false);
 			bLeftHandUse = false;
 		}
 		if (Engine::Key_Release(DIK_L))
 		{
-			if (m_Right_CurState == SNIPER_ZOOMING || m_Right_CurState == SNIPER_ZOOMIN) {
-				m_Right_CurState = SNIPER_ZOOMOUT;
+			if (m_Right_CurState == ZOOMING || m_Right_CurState == ZOOMIN) {
+				m_Right_CurState = ZOOMOUT;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomOut", false);
 				bLeftHandUse = false;
 			}
@@ -541,13 +586,17 @@ void CPlayer::Mouse_Move()
 	}
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB)) {
 
+		_vec3 RayStart;
+		_vec3 RayDir;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
 		// 痹后
 		_vec3 vMuzzlePos{};
 		m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
 
 		switch (m_WeaponState) {
 		case PISTOL:
-			m_Right_CurState = PISTOL_SHOOT;
+			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Shoot", false);
 
 			// 痹后
@@ -556,7 +605,7 @@ void CPlayer::Mouse_Move()
 
 			break;
 		case RIFLE:
-			m_Right_CurState = RIFLE_SHOOT;
+			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Shoot", false);
 
 			// 痹后
@@ -564,7 +613,7 @@ void CPlayer::Mouse_Move()
 			vMuzzlePos.y += 100.f;
 			break;
 		case SHOTGUN:
-			m_Right_CurState = SHOTGUN_SHOOT;
+			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Shoot", false);
 
 			// 痹后
@@ -572,7 +621,7 @@ void CPlayer::Mouse_Move()
 			vMuzzlePos.y += 210.f;
 			break;
 		case SNIPER:
-			m_Right_CurState = SNIPER_SHOOT;
+			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Shoot", false);
 
 			// 痹后
@@ -580,8 +629,13 @@ void CPlayer::Mouse_Move()
 			vMuzzlePos.y += 200.f;
 			break;
 		case KATANA:
-			m_Right_CurState = KATANA_SHOOT;
+			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Shoot", false);
+			break;
+		case MINIGUN:
+			m_Right_CurState = SHOOT;
+			m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Shoot", false);
+			Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_PISTOL);
 			break;
 		}
 
@@ -594,11 +648,9 @@ void CPlayer::Mouse_Move()
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
-		_vec3 RayStart;
-		_vec3 RayDir;
-		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
-		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
-		Engine::RayCast2(RayStart, RayDir);
+		if (m_WeaponState != KATANA && m_WeaponState != MINIGUN) {
+			Engine::RayCast2(RayStart, RayDir);
+		}
 	}
 
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {
@@ -666,32 +718,39 @@ void CPlayer::SetAnimation()
 {
 	//Beomseung
 	//Right
-	m_pAnimator[RIGHT]->CreateAnimation(L"FinishKill", m_pRight_TextureCom[FINISHKILL], 1.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Idle", m_pRight_TextureCom[PISTOL_IDLE], 8.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Shoot", m_pRight_TextureCom[PISTOL_SHOOT], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Reload", m_pRight_TextureCom[PISTOL_RELOAD], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Change", m_pRight_TextureCom[PISTOL_CHANGE], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Idle", m_pRight_TextureCom[PISTOL][IDLE], 8.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Shoot", m_pRight_TextureCom[PISTOL][SHOOT], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Reload", m_pRight_TextureCom[PISTOL][RELOAD], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Change", m_pRight_TextureCom[PISTOL][CHANGE], 18.f);
 
-	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Idle", m_pRight_TextureCom[RIFLE_IDLE], 8.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Shoot", m_pRight_TextureCom[RIFLE_SHOOT], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Reload", m_pRight_TextureCom[RIFLE_RELOAD], 10.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Change", m_pRight_TextureCom[RIFLE_CHANGE], 15.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Idle", m_pRight_TextureCom[RIFLE][IDLE], 8.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Shoot", m_pRight_TextureCom[RIFLE][SHOOT], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Reload", m_pRight_TextureCom[RIFLE][RELOAD], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Rifle_Change", m_pRight_TextureCom[RIFLE][CHANGE], 18.f);
 
-	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Idle", m_pRight_TextureCom[SHOTGUN_IDLE], 8.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Shoot", m_pRight_TextureCom[SHOTGUN_SHOOT], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Reload", m_pRight_TextureCom[SHOTGUN_RELOAD], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Change", m_pRight_TextureCom[SHOTGUN_CHANGE], 15.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Idle", m_pRight_TextureCom[SHOTGUN][IDLE], 8.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Shoot", m_pRight_TextureCom[SHOTGUN][SHOOT], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Reload", m_pRight_TextureCom[SHOTGUN][RELOAD], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Shotgun_Change", m_pRight_TextureCom[SHOTGUN][CHANGE], 18.f);
 
-	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Idle", m_pRight_TextureCom[SNIPER_IDLE], 8.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Shoot", m_pRight_TextureCom[SNIPER_SHOOT], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Reload", m_pRight_TextureCom[SNIPER_RELOAD], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomIn", m_pRight_TextureCom[SNIPER_ZOOMIN], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomIng", m_pRight_TextureCom[SNIPER_ZOOMING], 5.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomOut", m_pRight_TextureCom[SNIPER_ZOOMOUT], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Idle", m_pRight_TextureCom[SNIPER][IDLE], 8.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Shoot", m_pRight_TextureCom[SNIPER][SHOOT], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_Reload", m_pRight_TextureCom[SNIPER][RELOAD], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomIn", m_pRight_TextureCom[SNIPER][ZOOMIN], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomIng", m_pRight_TextureCom[SNIPER][ZOOMING], 5.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomOut", m_pRight_TextureCom[SNIPER][ZOOMOUT], 13.f);
 
-	m_pAnimator[RIGHT]->CreateAnimation(L"Katana_Idle", m_pRight_TextureCom[KATANA_IDLE], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Katana_Shoot", m_pRight_TextureCom[KATANA_SHOOT], 13.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Katana_Change", m_pRight_TextureCom[KATANA_CHANGE], 13.f);
+	//MiniGun
+	m_pAnimator[RIGHT]->CreateAnimation(L"MiniGun_GunPoint_Idle", m_pRight_TextureCom[MINIGUN][IDLE], 8.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"MiniGun_GunPoint_Shoot", m_pRight_TextureCom[MINIGUN][SHOOT], 13.f);
+	m_pAnimator[LEFT]->CreateAnimation(L"MiniGun_Body_Idle", m_pLeft_TextureCom[MINIGUN_BODY_IDLE], 13.f);
+	m_pAnimator[LEFT]->CreateAnimation(L"MiniGun_Body_Change", m_pLeft_TextureCom[MINIGUN_BODY_CHANGE], 13.f);
+	m_pAnimator[LEG]->CreateAnimation(L"MiniGun_Panel_Change", m_pLeg_TextureCom[MINIGUN_PANEL_CHANGE], 13.f);
+	m_pAnimator[LEG]->CreateAnimation(L"MiniGun_Panel_Idle", m_pLeg_TextureCom[MINIGUN_PANEL_IDLE], 13.f);
+
+	m_pAnimator[RIGHT]->CreateAnimation(L"Katana_Idle", m_pRight_TextureCom[KATANA][IDLE], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Katana_Shoot", m_pRight_TextureCom[KATANA][SHOOT], 18.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Katana_Change", m_pRight_TextureCom[KATANA][CHANGE], 18.f);
 
 	//Left
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Idle", m_pLeft_TextureCom[LEFT_IDLE], 8.f);
@@ -699,15 +758,15 @@ void CPlayer::SetAnimation()
 
 	//Leg
 	m_pAnimator[LEG]->CreateAnimation(L"Leg_Idle", m_pLeg_TextureCom[LEG_IDLE], 8.f);
-	m_pAnimator[LEG]->CreateAnimation(L"Leg_Kick", m_pLeg_TextureCom[KICK], 13.f);
-	m_pAnimator[LEG]->CreateAnimation(L"Leg_Sliding", m_pLeg_TextureCom[SLIDING], 13.f);
+	m_pAnimator[LEG]->CreateAnimation(L"Leg_Kick", m_pLeg_TextureCom[KICK], 18.f);
+	m_pAnimator[LEG]->CreateAnimation(L"Leg_Sliding", m_pLeg_TextureCom[SLIDING], 18.f);
 
 	m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
 	m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
 	m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
 
 	m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
-	m_pLeft_TransformCom->Set_Scale(300.f, 300.f, 0.f);
+	m_pLeft_TransformCom->Set_Scale(vDefaultSize[LEFT]);
 	m_pLeft_TransformCom->Set_Pos(vDefaultPos[LEFT]);
 
 	m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
@@ -719,38 +778,49 @@ void CPlayer::Animation_End_Check()
 {
 	if (m_pAnimator[LEG]->GetCurrAnim()->GetFinish())
 	{
-		m_Leg_CurState = LEG_IDLE;
-		bLegUse = false;
+		if (m_WeaponState == MINIGUN)
+		{
+			m_Leg_CurState = MINIGUN_PANEL_IDLE;
+			m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Idle", false);
+		}
+		else {
+			m_Leg_CurState = LEG_IDLE;
+			bLegUse = false;
+		}
 	}
 
 	if (m_pAnimator[RIGHT]->GetCurrAnim()->GetFinish())
 	{
 		switch (m_WeaponState) {
 		case PISTOL:
-			m_Right_CurState = PISTOL_IDLE;
+			m_Right_CurState = IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Idle", true);
 			break;
 		case RIFLE:
-			m_Right_CurState = RIFLE_IDLE;
+			m_Right_CurState = IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Idle", true);
 			break;
 		case SHOTGUN:
-			m_Right_CurState = SHOTGUN_IDLE;
+			m_Right_CurState = IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Idle", true);
 			break;
 		case SNIPER:
-			if (m_Right_CurState == SNIPER_ZOOMIN)
+			if (m_Right_CurState == ZOOMIN)
 			{
-				m_Right_CurState = SNIPER_ZOOMING;
+				m_Right_CurState = ZOOMING;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomIng", true);
 				break;
 			}
-			m_Right_CurState = SNIPER_IDLE;
+			m_Right_CurState = IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
 			break;
 		case KATANA:
-			m_Right_CurState = KATANA_IDLE;
+			m_Right_CurState = IDLE;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Idle", true);
+			break;
+		case MINIGUN:
+			m_Right_CurState = IDLE;
+			m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", true);
 			break;
 		}
 		bLeftHandUse = true;
@@ -758,105 +828,179 @@ void CPlayer::Animation_End_Check()
 	}
 	if (m_pAnimator[LEFT]->GetCurrAnim()->GetFinish())
 	{
-		m_Left_CurState = LEFT_IDLE;
-		m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
+		if (m_WeaponState == MINIGUN) {
+			m_Left_CurState = MINIGUN_BODY_IDLE;
+			m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Idle", false);
+		}
+		else {
+			m_Left_CurState = LEFT_IDLE;
+			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
+		}
 	}
 }
 
 void CPlayer::Animation_Pos()
 {
-	if ((m_Leg_CurState == KICK) && m_pAnimator[LEG]->GetCurrAnim()->GetCurrFrame() >= 5)
-	{
-		m_pLeg_TransformCom->Set_Pos(0, -400, 2.f);
-	}
-	else {
-		m_pLeg_TransformCom->Set_Pos(0, WINCY / -3.f, 2.f);
-	}
+	_vec3 vPos;
+	_vec3 vStart;
+	_vec3 vEnd;
 
-	if (m_WeaponState == RIFLE) {
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] / 2.f);
-		if (m_Right_CurState == RIFLE_RELOAD || m_Right_CurState == RIFLE_CHANGE) {
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-			m_pRight_TransformCom->Set_Pos(0.f, -WINCY / 3.f, 2.f);
+	switch (m_Leg_CurState) {
+	case KICK:
+		if (m_pAnimator[LEG]->GetCurrAnim()->GetCurrFrame() >= 5)
+		{
+			m_pLeg_TransformCom->Set_Pos(0, -400, 2.f);
 		}
-		else {
+		break;
+	case MINIGUN_PANEL_CHANGE:
+	case MINIGUN_PANEL_IDLE:
+		m_pLeg_TransformCom->Set_Scale(vDefaultSize[LEG] * 1.2f);
+		break;
+	default:
+		m_pLeg_TransformCom->Set_Pos(0, WINCY / -3.f, 2.f);
+		break;
+	}
+	switch (m_WeaponState)
+	{
+	case PISTOL:
+		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+		m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+		break;
+	case RIFLE:
+		switch (m_Right_CurState)
+		{
+		case IDLE:
+		case SHOOT:
 			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] / 2.f);
 			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			break;
+		case RELOAD:
+		case CHANGE:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(0.f, -WINCY / 3.f, 2.f);
+			break;
 		}
-	}
-	else if (m_Right_CurState == SNIPER_RELOAD)
-	{
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-		m_pRight_TransformCom->Set_Pos(0.f, WINCY / -3.f, 2.f);
-	}
-
-	else if (m_Right_CurState == SNIPER_ZOOMIN)
-	{
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-		m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
-	}
-	else if (m_Right_CurState == SNIPER_ZOOMING)
-	{
-		bLeftHandUse = false;
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 2);
-		m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
-		m_pCComponentCamera->SetFov(D3DXToRadian(10.f));
-	}
-	else if (m_Right_CurState == SHOTGUN_CHANGE)
-	{
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.2f);
-		if (m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() >= 10)
+		break;
+	case SHOTGUN:
+		switch (m_Right_CurState)
 		{
-			_vec3 vRight;
-			m_pRight_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
-			m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), 1, 10.f);
+		case IDLE:
+		case SHOOT:
+		case RELOAD:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			break;
+		case CHANGE:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.2f);
+			if (m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() >= 10)
+			{
+				_vec3 vRight;
+				m_pRight_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
+				m_pRight_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), 1, 10.f);
+			}
+			else {
+				m_pRight_TransformCom->Set_Pos(0.f, WINCY / -4.f, 2.f);
+			}
 		}
-		else {
-			m_pRight_TransformCom->Set_Pos(0.f, WINCY / -4.f, 2.f);
+		break;
+	case SNIPER:
+		switch (m_Right_CurState)
+		{
+		case IDLE:
+		case SHOOT:
+		case ZOOMOUT:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			m_pCComponentCamera->SetFov(D3DXToRadian(60.f));
+			break;
+		case RELOAD:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(0.f, WINCY / -3.f, 2.f);
+			break;
+		case ZOOMIN:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			break;
+		case ZOOMING:
+			bLeftHandUse = false;
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 2);
+			m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
+			m_pCComponentCamera->SetFov(D3DXToRadian(10.f));
+			break;
 		}
-	}
-	else if (m_Right_CurState == FINISHKILL)
-	{
-		_vec3 vPos;
-		_vec3 vStart = vDefaultPos[LEFT];
-		_vec3 vEnd = { 0.f,WINCY / -3.f,2.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd, flinear);
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-		m_pRight_TransformCom->Set_Pos(vPos);
+		break;
+	case KATANA:
+		switch (m_Right_CurState)
+		{
+		case IDLE:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.1f);
+			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -4.f, 2.f);
+			break;
+		case SHOOT:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.4f);
+			m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
+			break;
+		case CHANGE:
+			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.5f);
+			m_pRight_TransformCom->Set_Pos(0.f, WINCY / -3.f, 2.f);
+			break;
+		}
+		break;
+	case MINIGUN:
+		if (flinear >= 1.f) {
+			flinear = 1.f;
+		}
 		flinear += 0.1f;
+		vPos;
+		vStart = { 0.f, WINCY / -4.f , 2.f };
+		vEnd = { 0.f,-100.f,2.f };
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, flinear);
+		m_pRight_TransformCom->Set_Pos(vPos);
+		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 0.5f);
+		break;
 	}
-	else if (m_Right_CurState == KATANA_IDLE)
+	switch (m_Left_CurState)
 	{
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.1f);
-		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -4.f, 2.f);
+	case LEFT_IDLE:
+	case DRINK:
+		m_pLeft_TransformCom->Set_Scale(vDefaultSize[LEFT]);
+		m_pLeft_TransformCom->Set_Pos(vDefaultPos[LEFT]);
+		break;
+	case MINIGUN_BODY_IDLE:
+	case MINIGUN_BODY_CHANGE:
+		if (flinear >= 1.f) {
+			flinear = 1.f;
+		}
+		vStart = { 0.f, WINCY / -4.f , 2.f };
+		vEnd = { 0.f,-150.f,2.f };
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, flinear);
+		m_pLeft_TransformCom->Set_Pos(vPos);
+		m_pLeft_TransformCom->Set_Scale(vDefaultSize[LEFT] * 0.5f);
+		break;
 	}
-	else if (m_Right_CurState == KATANA_CHANGE)
-	{
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.5f);
-		m_pRight_TransformCom->Set_Pos(0.f, WINCY / -3.f, 2.f);
-	}
-	else if (m_Right_CurState == KATANA_SHOOT)
-	{
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.5f);
-		m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
-	}
-	else {
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-		m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
-		m_pCComponentCamera->SetFov(D3DXToRadian(60.f));
-	}
-
 }
 
 void CPlayer::OnCollision(CCollider& _pOther)
 {
-	//if(_pOther.GetOwner())
+	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther.GetOwner());
 
-	///*if (m_Leg_CurState == KICK) {
-	//	_vec3 vLook;
-	//	m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-	//	dynamic_cast<CMonster*>(_pOther.GetOwner())->AddForce(30.f, vLook);
-	//}*/
+	if (m_Leg_CurState == KICK && m_pAnimator[LEG]->GetCurrAnim()->GetCurrFrame() <= 1.f)
+	{
+		_vec3 vLook;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+		if (pMonster == nullptr) {
+			return;
+		}
+		pMonster->AddForce(30.f, vLook);
+	}
+	if (m_WeaponState == KATANA && m_Right_CurState == SHOOT && m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() <= 1.f)
+	{
+		if (pMonster == nullptr) {
+			return;
+		}
+		pMonster->Damaged_By_Player(DAMAGED_STATE::DAMAGED_KATANA);
+
+	}
 
 }
 
@@ -864,13 +1008,6 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 {
 	CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 	static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
-	/*if (m_Leg_CurState == KICK && m_pAnimator[LEG]->GetCurrAnim()->GetCurrFrame() <= 1.f)
-	{
-		_vec3 vLook;
-		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-		dynamic_cast<CMonster*>(_pOther.GetOwner())->AddForce(30.f, vLook);
-	}*/
-
 }
 
 void CPlayer::OnCollisionExit(CCollider& _pOther)
