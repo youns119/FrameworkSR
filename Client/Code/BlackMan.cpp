@@ -197,15 +197,29 @@ void CBlackMan::State_Check()
 
 void CBlackMan::Attack(const _float& _fTimeDelta)
 {
-	_vec3 vPos, vPlayerPos, vDir;
-	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	_vec3 vPos, vPlayerPos, vDir, vUp, vRight;
+
 	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
 		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
 	NULL_CHECK(pPlayerTransform, -1);
 
 	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
-
-	vDir = vPlayerPos - vPos;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	if (m_bIsShield)
+	{
+		m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
+		vPos.y += 0.5f;
+		vDir = vPlayerPos - vPos;
+		D3DXVec3Cross(&vRight, &vUp, &vDir);
+		D3DXVec3Normalize(&vRight, &vRight);
+		vPos += (vRight * 0.4f);
+		vDir = vPlayerPos - vPos;
+	}
+	else
+	{
+		vPos.y += 0.65f;
+		vDir = vPlayerPos - vPos;
+	}
 
 	if (15.f < D3DXVec3Length(&vDir))
 	{

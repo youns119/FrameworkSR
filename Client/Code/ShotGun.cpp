@@ -190,14 +190,21 @@ void CShotGun::Set_Animation()
 
 void CShotGun::Attack(const _float& _fTimeDelta)
 {
-	_vec3 vPos, vPlayerPos, vDir;
+	_vec3 vPos, vPlayerPos, vDir, vUp, vRight;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
+	vPos.y += 0.2f;
+
 	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
 		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
 	NULL_CHECK(pPlayerTransform, -1);
 
 	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
+	vDir = vPlayerPos - vPos;
+	D3DXVec3Cross(&vRight, &vUp, &vDir);
+	D3DXVec3Normalize(&vRight, &vRight);
+	vPos += (vRight * 0.2f);
 	vDir = vPlayerPos - vPos;
 
 	if (15.f < D3DXVec3Length(&vDir))
