@@ -73,6 +73,85 @@ void CTexture::Set_Texture(const _uint& _iIndex)
 	m_pGraphicDev->SetTexture(0, m_vecTexture[_iIndex]);
 }
 
+void CTexture::Change_TextureColor(_float _fHue, _float _fSaturation, _float _fValue)
+{
+	D3DCOLOR tColor = Get_HSVRGB(_fHue, _fSaturation, _fValue);
+
+	D3DLOCKED_RECT tLockRect;
+	IDirect3DBaseTexture9* pTexture;
+
+	m_pGraphicDev->GetTexture(0, &pTexture);
+	IDirect3DTexture9* pLockTexture = static_cast<IDirect3DTexture9*>(pTexture);
+
+	pLockTexture->LockRect(0, &tLockRect, NULL, 0);
+
+	DWORD* pTexels = (DWORD*)tLockRect.pBits;
+	D3DSURFACE_DESC tDesc;
+
+	pLockTexture->GetLevelDesc(0, &tDesc);
+
+	for (UINT y = 0; y < tDesc.Height; y++)
+		for (UINT x = 0; x < tDesc.Width; x++)
+		{
+			D3DCOLOR currentColor = pTexels[x + y * (tLockRect.Pitch / 4)];
+			BYTE alpha = (BYTE)(currentColor >> 24);
+
+			if (alpha != 0)
+				pTexels[x + y * (tLockRect.Pitch / 4)] = tColor;
+		}
+
+	pLockTexture->UnlockRect(0);
+}
+
+void CTexture::Change_Alpha(_float _fAlpha)
+{
+	DWORD textureFactor;
+
+	textureFactor = D3DCOLOR_ARGB((int)(_fAlpha * 255), 255, 255, 255);
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, textureFactor);
+
+	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+}
+
+D3DCOLOR CTexture::Get_HSVRGB(_float _fHue, _float _fSaturation, _float _fValue)
+{
+	_float fRed(0.f), fGreen(0.f), fBlue(0.f);
+
+	_int iDigit = int(_fHue / 60.0f) % 6;
+	_float fDec = (_fHue / 60.0f) - iDigit;
+	_float fRatio1 = _fValue * (1 - _fSaturation);
+	_float fRatio2 = _fValue * (1 - fDec * _fSaturation);
+	_float fRatio3 = _fValue * (1 - (1 - fDec) * _fSaturation);
+
+	switch (iDigit)
+	{
+	case 0:
+		fRed = _fValue; fGreen = fRatio3; fBlue = fRatio1;
+		break;
+	case 1:
+		fRed = fRatio2; fGreen = _fValue; fBlue = fRatio1;
+		break;
+	case 2:
+		fRed = fRatio1; fGreen = _fValue; fBlue = fRatio3;
+		break;
+	case 3:
+		fRed = fRatio1; fGreen = fRatio2; fBlue = _fValue;
+		break;
+	case 4:
+		fRed = fRatio3; fGreen = fRatio1; fBlue = _fValue;
+		break;
+	case 5:
+		fRed = _fValue; fGreen = fRatio1; fBlue = fRatio2;
+		break;
+	default:
+		break;
+	}
+
+	return D3DCOLOR_XRGB(int(fRed * 255), int(fGreen * 255), int(fBlue * 255));
+}
+
 CComponent* CTexture::Clone()
 {
 	return new CTexture(*this);

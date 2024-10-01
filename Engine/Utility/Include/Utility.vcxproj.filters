@@ -112,6 +112,12 @@
     <Filter Include="04.Component\00.VIBuffer\06.WallTex\WallTBTex">
       <UniqueIdentifier>{73b38a8a-fa92-433e-810e-ce008bef7d29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07.UI\01.UIBase">
+      <UniqueIdentifier>{acd8f491-9bb6-4143-af2f-0b14b364c71e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.UI\02.UIUnit">
+      <UniqueIdentifier>{e95ca0de-f339-4a37-9f9f-e1dcd4842be9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -183,9 +189,6 @@
     <ClInclude Include="..\..\Header\Effect.h">
       <Filter>04.Component\04. Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\UI.h">
-      <Filter>07.UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\UIManager.h">
       <Filter>07.UI\00.UIManager</Filter>
     </ClInclude>
@@ -224,6 +227,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\WallTBTex.h">
       <Filter>04.Component\00.VIBuffer\06.WallTex\WallTBTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\UI.h">
+      <Filter>07.UI\01.UIBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\UIUnit.h">
+      <Filter>07.UI\02.UIUnit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +302,6 @@
     <ClCompile Include="..\Code\Effect.cpp">
       <Filter>04.Component\04. Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UI.cpp">
-      <Filter>07.UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UIManager.cpp">
       <Filter>07.UI\00.UIManager</Filter>
     </ClCompile>
@@ -334,6 +340,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\WallTBTex.cpp">
       <Filter>04.Component\00.VIBuffer\06.WallTex\WallTBTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UI.cpp">
+      <Filter>07.UI\01.UIBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIUnit.cpp">
+      <Filter>07.UI\02.UIUnit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

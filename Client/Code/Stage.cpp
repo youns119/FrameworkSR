@@ -8,12 +8,11 @@
 #include "../Header/FilterFundo.h"
 
 // 연욱
-#include "../Header/UICrossHair.h"
+#include "../Header/UINormal.h"
 #include "../Header/UIPlus.h"
 #include "../Header/UIShop.h"
-#include "../Header/UIOverlay.h"
-#include "../Header/UIUpgradeCard.h"
-#include "../Header/UIIndicator.h"
+#include "../Header/UIInventory.h"
+#include "../Header/UIFreeCam.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -60,29 +59,54 @@ HRESULT CStage::Ready_Scene()
 
 _int CStage::Update_Scene(const _float& _fTimeDelta)
 {
-	if (Engine::Key_Press(DIK_0))
+	if (Engine::Key_Press(DIK_F1))
 		Engine::Toggle_Collider();
 
-	if (Engine::Key_Press(DIK_9))
+	if (Engine::Key_Press(DIK_F2))
 	{
 		_uint iID = ((_uint)Engine::Get_ControllerID() + 1) % (_uint)CONTROLLERID::CONTROL_END;
 
 		Engine::Set_ControllerID((CONTROLLERID)iID);
-		Engine::Toggle_UILayer(UITYPE::UI_INDICATOR);
+
+		if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
+			Engine::Deactivate_UI(UITYPE::UI_FREECAM);
+		else
+			Engine::Activate_UI(UITYPE::UI_FREECAM);
 	}
 
-	if (Engine::Key_Press(DIK_8))
-		if (!Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
+	if (Engine::Key_Press(DIK_F3))
+		if (Engine::Get_ListUI(UITYPE::UI_INVENTORY)->empty())
 			Engine::Stop_Timer(!Engine::Get_Stop());
+
+	if (Engine::Key_Press(DIK_F4))
+	{
+		_vec3 vPos = { (float)(rand() % 10), 1.f, (float)(rand() % 10) };
+
+		CUI* pUI = Engine::Activate_UI(UITYPE::UI_PLUS);
+		static_cast<CUIPlus*>(pUI)->Set_Pos(vPos);
+		static_cast<CUIPlus*>(pUI)->Set_Index(Engine::Get_ListUI(UITYPE::UI_PLUS)->size());
+	}
+
+	if (Engine::Key_Press(DIK_F5))
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
+			Engine::Activate_UI(UITYPE::UI_SHOP);
+		else
+			Engine::Deactivate_UI(UITYPE::UI_SHOP);
+	}
 
 	if (Engine::Key_Press(DIK_TAB))
 	{
-		if (!Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
+		if (Engine::Get_ListUI(UITYPE::UI_INVENTORY)->empty())
+		{
+			Engine::Activate_UI(UITYPE::UI_INVENTORY);
 			Engine::Stop_Timer(true);
+		}
 		else
+		{
+			Engine::Deactivate_UI(UITYPE::UI_INVENTORY);
 			Engine::Stop_Timer(false);
-
-		Engine::Toggle_UILayer(UITYPE::UI_UPGRADE);
+		}
 	}
 
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
@@ -325,38 +349,35 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	// 연욱
 	Engine::CUI* pUI = nullptr;
 
-	//pUI = CUIPlus::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pUI, E_FAIL);
-	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUICrossHair::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
-
-	pUI = CUIIndicator::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
-
-	pUI = CUIOverlay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		_vec3 vPos;
-
-		if (i < 5) vPos = { -WINCX / 2.f + (WINCX / 6.f) * (i + 1), 100.f, 0.f };
-		else vPos = { -WINCX / 2.f + (WINCX / 6.f) * (i - 4), -200.f, 0.f };
-
-		pUI = CUIUpgradeCard::Create(m_pGraphicDev, vPos);
+		pUI = CUIPlus::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pUI, E_FAIL);
 		FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+		pUI->Set_GameObject(m_pPlayer);
 	}
 
-	Engine::Set_UILayerRender(UITYPE::UI_CROSSHAIR, true);
-	Engine::Set_UILayerRender(UITYPE::UI_PLUS, true);
+	pUI = CUINormal::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
+
+	pUI = CUIInventory::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
+
+	pUI = CUIShop::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
+
+	pUI = CUIFreeCam::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
+
+	Engine::Activate_UI(UITYPE::UI_NORMAL);
 
 	return S_OK;
 }

@@ -4,25 +4,13 @@
 
 BEGIN(Engine)
 
-class CRcTex;
-class CTexture;
-class CTransform;
+class CUIUnit;
 
 END
 
 class CUIPlus
 	: public Engine::CUI
 {
-public:
-	enum class UI_PLUS
-	{
-		PLUS_LEFT,
-		PLUS_CENTER,
-		PLUS_HEAL,
-		PLUS_COMBO,
-		PLUS_END,
-	};
-
 private:
 	explicit CUIPlus(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CUIPlus();
@@ -37,15 +25,20 @@ public:
 	virtual	void Render_UI();
 
 private:
-	HRESULT Add_Component();
+	HRESULT Add_Unit();
+
+public:
+	void Set_Pos(_vec3 _vPos);
+	void Set_Index(_int _iIndex);
 
 private:
 	virtual void Free();
 
 private:
-	Engine::CRcTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom;
-	Engine::CTransform* m_pTransformCom;
+	Engine::CUIUnit* m_pUIPlusCenter;
+	Engine::CUIUnit* m_pUIPlusLeft;
 
-	UI_PLUS m_eCurrPlus;
+	_float m_fLifeTime;
+	_float m_fElapsed;
+	_int m_iBlink;
 };

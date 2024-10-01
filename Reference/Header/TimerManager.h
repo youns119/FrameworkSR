@@ -14,7 +14,8 @@ private:
 
 public:
 	_float Get_TimeDelta(const _tchar* _pTimerTag);
-	_bool Get_Stop() { return m_pCurrTimer->Get_Stop(); }
+	_float Get_Elapsed() const { return m_pCurrTimer->Get_Elapsed(); }
+	_bool Get_Stop() const { return m_pCurrTimer->Get_Stop(); }
 
 	void Set_TimeDelta(const _tchar* _pTimerTag);
 

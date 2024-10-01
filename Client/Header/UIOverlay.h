@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UI.h"
+#include "UIUnit.h"
 
 BEGIN(Engine)
 
@@ -11,7 +11,7 @@ class CTransform;
 END
 
 class CUIOverlay
-	: public Engine::CUI
+	: public Engine::CUIUnit
 {
 public:
 	enum class UI_OVERLAY
@@ -29,10 +29,10 @@ public:
 	static CUIOverlay* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
-	HRESULT Ready_UI();
-	virtual	_int Update_UI(const _float& _fTimeDelta);
-	virtual	void LateUpdate_UI();
-	virtual	void Render_UI();
+	HRESULT Ready_Unit();
+	virtual	_int Update_Unit(const _float& _fTimeDelta);
+	virtual	void LateUpdate_Unit();
+	virtual	void Render_Unit();
 
 private:
 	HRESULT Add_Component();

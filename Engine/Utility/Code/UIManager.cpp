@@ -7,9 +7,6 @@ CUIManager::CUIManager()
 {
 	Clear_UI();
 
-	for (_uint i = 0; i < (_uint)UITYPE::UI_END; ++i)
-		m_LayerRender[i] = false;
-
 	D3DXMatrixIdentity(&m_matView);
 	D3DXMatrixOrthoLH(&m_matOrtho, (_float)WINCX, (_float)WINCY, 0.f, 1.f);
 }
@@ -23,41 +20,36 @@ HRESULT CUIManager::Add_UI(CUI* _pUI)
 {
 	NULL_CHECK_RETURN(_pUI, E_FAIL);
 
-	m_vecUI[(_uint)_pUI->Get_UIType()].push_back(_pUI);
+	m_queueUI[(_uint)_pUI->Get_UIType()].push(_pUI);
 
 	return S_OK;
 }
 
 _int CUIManager::Update_UI(const _float& _fTimeDelta)
 {
-	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
-	{
-		if (!m_LayerRender[i]) continue;
-
-		for (auto& pUI : m_vecUI[i])
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; ++i)
+		for (auto& pUI : m_listUI[i])
 			pUI->Update_UI(_fTimeDelta);
-	}
 
 	return 0;
 }
 
 void CUIManager::LateUpdate_UI()
 {
-	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; ++i)
 	{
-		if (!m_LayerRender[i]) continue;
-
-		for (auto& pUI : m_vecUI[i])
+		for (auto pUI = m_listUI[i].begin(); pUI != m_listUI[i].end();)
 		{
-			pUI->LateUpdate_UI();
-
-			if (pUI->Get_Render())
+			if (!(*pUI)->Get_Render())
 			{
-				m_vecRender[i].push_back(pUI);
-				pUI->AddRef();
+				(*pUI)->Reset();
+				m_queueUI[(_uint)(*pUI)->Get_UIType()].push(*pUI);
+				pUI = m_listUI[i].erase(pUI);
 			}
+			else pUI++;
 		}
 	}
+
 }
 
 void CUIManager::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
@@ -78,16 +70,16 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 	if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
 	{
-		for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
-		{
-			if (!m_LayerRender[i] || i == (_uint)UITYPE::UI_INDICATOR) continue;
-
-			for (auto& pUI : m_vecRender[i])
-				pUI->Render_UI();
-		}
+		for (_uint i = 0; i < (_uint)UITYPE::UI_END; ++i)
+			for (auto& pUI : m_listUI[i])
+			{
+				if (pUI->Get_UIType() == UITYPE::UI_FREECAM) continue;
+				else pUI->Render_UI();
+			}
 	}
-	else if (m_LayerRender[(_uint)UITYPE::UI_INDICATOR])
-		m_vecRender[(_uint)UITYPE::UI_INDICATOR][0]->Render_UI();
+	else
+		for (auto& pUI : m_listUI[(_uint)UITYPE::UI_FREECAM])
+			pUI->Render_UI();
 
 	_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -96,28 +88,47 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 
 	_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
 	_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-
-	Clear_Render();
 }
 
-void CUIManager::Clear_Render()
+CUI* CUIManager::Activate_UI(UITYPE _eUIType)
 {
-	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
+	CUI* pUI = m_queueUI[(_uint)_eUIType].front();
+	pUI->Set_Render(true);
+
+	m_listUI[(_uint)_eUIType].push_back(pUI);
+	m_queueUI[(_uint)_eUIType].pop();
+
+	return pUI;
+}
+
+void CUIManager::Deactivate_UI(UITYPE _eUIType)
+{
+	for (auto pUI = m_listUI[(_uint)_eUIType].begin(); pUI != m_listUI[(_uint)_eUIType].end();)
 	{
-		for_each(m_vecRender[i].begin(), m_vecRender[i].end(), CDeleteObj());
-		m_vecRender[i].clear();
+		(*pUI)->Reset();
+		(*pUI)->Set_Render(false);
+
+		m_queueUI[(_uint)(*pUI)->Get_UIType()].push(*pUI);
+		pUI = m_listUI[(_uint)_eUIType].erase(pUI);
 	}
 }
 
 void CUIManager::Clear_UI()
 {
-	for (_uint i = 0; i < (_uint)UITYPE::UI_END; i++)
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; ++i)
 	{
-		for_each(m_vecUI[i].begin(), m_vecUI[i].end(), CDeleteObj());
-		m_vecUI[i].clear();
+		for_each(m_listUI[i].begin(), m_listUI[i].end(), CDeleteObj());
+		m_listUI[i].clear();
 	}
 
-	Clear_Render();
+	for (_uint i = 0; i < (_uint)UITYPE::UI_END; ++i)
+	{
+		while (!m_queueUI[i].empty())
+		{
+			Safe_Release(m_queueUI[i].front());
+			m_queueUI[i].pop();
+		}
+	}
 }
 
 void CUIManager::Free()

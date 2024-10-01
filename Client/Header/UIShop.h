@@ -4,9 +4,7 @@
 
 BEGIN(Engine)
 
-class CRcTex;
-class CTexture;
-class CTransform;
+class CUIUnit;
 
 END
 
@@ -27,13 +25,11 @@ public:
 	virtual	void Render_UI();
 
 private:
-	HRESULT Add_Component();
+	HRESULT Add_Unit();
 
 private:
 	virtual void Free();
 
 private:
-	Engine::CRcTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom;
-	Engine::CTransform* m_pTransformCom;
+	Engine::CUIUnit* m_pUIShopBase;
 };

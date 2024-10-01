@@ -110,15 +110,6 @@
     <Filter Include="03.GameObject\07.TileControl\01.Wall">
       <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\01.Upgrade">
-      <UniqueIdentifier>{4275d29b-407c-4a16-815e-5b70e85a6612}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\02.CrossHair">
-      <UniqueIdentifier>{730a0b5d-7591-4921-95e0-ca58108c8842}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\03.Shop">
-      <UniqueIdentifier>{bd378911-9d00-451e-98b4-0c818352e5de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.GameObject\08.Shield">
       <UniqueIdentifier>{ede84e59-cfb6-4b4e-a22d-a52a0e825d92}</UniqueIdentifier>
     </Filter>
@@ -133,9 +124,6 @@
     </Filter>
     <Filter Include="99.ImGui">
       <UniqueIdentifier>{77879fc4-f46c-476d-81f2-6e000864e14e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\04.Indicator">
-      <UniqueIdentifier>{48b70013-ae9f-4684-95ef-0718c8e89ff7}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.GameObject\06.Effect\04. EffectCircleLines">
       <UniqueIdentifier>{98dc4bf6-a66a-4b22-a767-2b4004439bf2}</UniqueIdentifier>
@@ -157,12 +145,6 @@
     </Filter>
     <Filter Include="03.GameObject\06.Effect\06. EffectHeal">
       <UniqueIdentifier>{fbaa0d51-1960-404f-b588-597674b28bca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\01.Upgrade\00.Overlay">
-      <UniqueIdentifier>{2c8fba4c-95a9-450a-a100-84541a571394}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\01.Upgrade\01.UpgradeCard">
-      <UniqueIdentifier>{359f6c77-6959-46a6-9a0c-c0ebdc32a83d}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.GameObject\04.DynamicCamera\MapCamera">
       <UniqueIdentifier>{d744003d-d767-41cf-bf27-8e388c32bb20}</UniqueIdentifier>
@@ -190,6 +172,48 @@
     </Filter>
     <Filter Include="03.GameObject\11.Filter\00. FUNDO">
       <UniqueIdentifier>{d12a4402-27e7-4dbd-8001-66bfd9632aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\00.Plus\00.PlusCenter">
+      <UniqueIdentifier>{6586fb86-10ba-4a83-86e5-ec680d381036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\00.Plus\01.PlusLeft">
+      <UniqueIdentifier>{70d68206-0f7d-4a64-82ec-66887647b5c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\02.Inventory">
+      <UniqueIdentifier>{4275d29b-407c-4a16-815e-5b70e85a6612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\02.Inventory\00.Overlay">
+      <UniqueIdentifier>{2c8fba4c-95a9-450a-a100-84541a571394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\02.Inventory\01.UpgradeCard">
+      <UniqueIdentifier>{359f6c77-6959-46a6-9a0c-c0ebdc32a83d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\03.Normal">
+      <UniqueIdentifier>{730a0b5d-7591-4921-95e0-ca58108c8842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\03.Normal\00.CrossHair">
+      <UniqueIdentifier>{a8b74315-eff2-4d10-921e-e208c68ac0fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\04.Shop">
+      <UniqueIdentifier>{bd378911-9d00-451e-98b4-0c818352e5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\04.Shop\00.ShopBase">
+      <UniqueIdentifier>{30cad455-18ef-474a-bfdf-7cdc02f1eeaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\05.FreeCam">
+      <UniqueIdentifier>{48b70013-ae9f-4684-95ef-0718c8e89ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\05.FreeCam\00.Indicator">
+      <UniqueIdentifier>{60de8278-55f1-4212-b9b4-9e064baed9a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\01.Combo">
+      <UniqueIdentifier>{8c12b94b-4536-458a-a33a-03c418577b33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\01.Combo\00.ComboLeft">
+      <UniqueIdentifier>{e8a6e9ec-bba0-426c-b6d4-5f4f3881160b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\01.Combo\01.ComboRight">
+      <UniqueIdentifier>{7470e5dd-6212-4f22-80dd-849d40170dc9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -295,11 +319,8 @@
     <ClInclude Include="..\Header\TileContorl.h">
       <Filter>03.GameObject\07.TileControl</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UICrossHair.h">
-      <Filter>04.UI\02.CrossHair</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UIShop.h">
-      <Filter>04.UI\03.Shop</Filter>
+      <Filter>04.UI\04.Shop</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Shield.h">
       <Filter>03.GameObject\08.Shield</Filter>
@@ -312,9 +333,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\MapCreate.h">
       <Filter>02.Scene\03.MapCreate</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\UIIndicator.h">
-      <Filter>04.UI\04.Indicator</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Spark.h">
       <Filter>03.GameObject\06.Effect\05. EffectSpark</Filter>
@@ -356,10 +374,10 @@
       <Filter>03.GameObject\06.Effect\06. EffectHeal</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIOverlay.h">
-      <Filter>04.UI\01.Upgrade\00.Overlay</Filter>
+      <Filter>04.UI\02.Inventory\00.Overlay</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIUpgradeCard.h">
-      <Filter>04.UI\01.Upgrade\01.UpgradeCard</Filter>
+      <Filter>04.UI\02.Inventory\01.UpgradeCard</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MapCamera.h">
       <Filter>03.GameObject\04.DynamicCamera\MapCamera</Filter>
@@ -384,6 +402,39 @@
     </ClInclude>
     <ClInclude Include="..\Header\FilterFundo.h">
       <Filter>03.GameObject\11.Filter\00. FUNDO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIPlusCenter.h">
+      <Filter>04.UI\00.Plus\00.PlusCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIPlusLeft.h">
+      <Filter>04.UI\00.Plus\01.PlusLeft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UICombo.h">
+      <Filter>04.UI\01.Combo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIComboLeft.h">
+      <Filter>04.UI\01.Combo\00.ComboLeft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIComboRight.h">
+      <Filter>04.UI\01.Combo\01.ComboRight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIInventory.h">
+      <Filter>04.UI\02.Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UICrossHair.h">
+      <Filter>04.UI\03.Normal\00.CrossHair</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UINormal.h">
+      <Filter>04.UI\03.Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIShopBase.h">
+      <Filter>04.UI\04.Shop\00.ShopBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIIndicator.h">
+      <Filter>04.UI\05.FreeCam\00.Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIFreeCam.h">
+      <Filter>04.UI\05.FreeCam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -474,11 +525,8 @@
     <ClCompile Include="..\Code\TileContorl.cpp">
       <Filter>03.GameObject\07.TileControl</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UICrossHair.cpp">
-      <Filter>04.UI\02.CrossHair</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UIShop.cpp">
-      <Filter>04.UI\03.Shop</Filter>
+      <Filter>04.UI\04.Shop</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Loading.cpp">
       <Filter>02.Scene\02.Loading</Filter>
@@ -494,9 +542,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\MapCreate.cpp">
       <Filter>02.Scene\03.MapCreate</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\UIIndicator.cpp">
-      <Filter>04.UI\04.Indicator</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Spark.cpp">
       <Filter>03.GameObject\06.Effect\05. EffectSpark</Filter>
@@ -532,10 +577,10 @@
       <Filter>03.GameObject\06.Effect\06. EffectHeal</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIOverlay.cpp">
-      <Filter>04.UI\01.Upgrade\00.Overlay</Filter>
+      <Filter>04.UI\02.Inventory\00.Overlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIUpgradeCard.cpp">
-      <Filter>04.UI\01.Upgrade\01.UpgradeCard</Filter>
+      <Filter>04.UI\02.Inventory\01.UpgradeCard</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MapCamera.cpp">
       <Filter>03.GameObject\04.DynamicCamera\MapCamera</Filter>
@@ -560,6 +605,39 @@
     </ClCompile>
     <ClCompile Include="..\Code\FilterFundo.cpp">
       <Filter>03.GameObject\11.Filter\00. FUNDO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPlusCenter.cpp">
+      <Filter>04.UI\00.Plus\00.PlusCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPlusLeft.cpp">
+      <Filter>04.UI\00.Plus\01.PlusLeft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UICombo.cpp">
+      <Filter>04.UI\01.Combo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIComboLeft.cpp">
+      <Filter>04.UI\01.Combo\00.ComboLeft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIComboRight.cpp">
+      <Filter>04.UI\01.Combo\01.ComboRight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIInventory.cpp">
+      <Filter>04.UI\02.Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UICrossHair.cpp">
+      <Filter>04.UI\03.Normal\00.CrossHair</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UINormal.cpp">
+      <Filter>04.UI\03.Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIShopBase.cpp">
+      <Filter>04.UI\04.Shop\00.ShopBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIIndicator.cpp">
+      <Filter>04.UI\05.FreeCam\00.Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIFreeCam.cpp">
+      <Filter>04.UI\05.FreeCam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

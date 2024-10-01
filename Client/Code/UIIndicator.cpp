@@ -1,15 +1,14 @@
 #include "pch.h"
 #include "..\Header\UIIndicator.h"
 #include "Export_Utility.h"
-#include "..\Header\Player.h"
 
 CUIIndicator::CUIIndicator(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: CUI(_pGraphicDev)
+	: CUIUnit(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
 	, m_pTransformCom(nullptr)
+	, m_vPos{}
 {
-	m_eUIType = UITYPE::UI_INDICATOR;
 }
 
 CUIIndicator::~CUIIndicator()
@@ -20,7 +19,7 @@ CUIIndicator* CUIIndicator::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CUIIndicator* pUIIndicator = new CUIIndicator(_pGraphicDev);
 
-	if (FAILED(pUIIndicator->Ready_UI()))
+	if (FAILED(pUIIndicator->Ready_Unit()))
 	{
 		Safe_Release(pUIIndicator);
 		MSG_BOX("UIIndicator create Failed");
@@ -30,7 +29,7 @@ CUIIndicator* CUIIndicator::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pUIIndicator;
 }
 
-HRESULT CUIIndicator::Ready_UI()
+HRESULT CUIIndicator::Ready_Unit()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -41,15 +40,8 @@ HRESULT CUIIndicator::Ready_UI()
 	return S_OK;
 }
 
-_int CUIIndicator::Update_UI(const _float& _fTimeDelta)
+_int CUIIndicator::Update_Unit(const _float& _fTimeDelta)
 {
-	if (!m_bRender)
-		return 0;
-
-	_vec3 vPos{};
-	CComponent* pComponent = static_cast<CPlayer*>(m_pGameObject)->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform");
-	static_cast<CTransform*>(pComponent)->Get_Info(INFO::INFO_POS, &vPos);
-
 	D3DVIEWPORT9 tViewport;
 	_matrix matWorld, matView, matProj;
 
@@ -59,7 +51,7 @@ _int CUIIndicator::Update_UI(const _float& _fTimeDelta)
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 
 	_vec3 vScreenPos{};
-	D3DXVec3Project(&vScreenPos, &vPos, &tViewport, &matProj, &matView, &matWorld);
+	D3DXVec3Project(&vScreenPos, &m_vPos, &tViewport, &matProj, &matView, &matWorld);
 
 	if (vScreenPos.z < 0.f || vScreenPos.z > 1.f)
 		return 0;
@@ -71,22 +63,19 @@ _int CUIIndicator::Update_UI(const _float& _fTimeDelta)
 	if (vScreenPos.x <= -WINCX * 0.5f) vScreenPos.x = -WINCX * 0.5f;
 	else if (vScreenPos.x >= WINCX * 0.5f) vScreenPos.x = WINCX * 0.5f;
 	if (vScreenPos.y <= -WINCY * 0.5f) vScreenPos.y = -WINCY * 0.5f;
-	else if (vScreenPos.y >= WINCY * 0.5f) vScreenPos.x = WINCY * 0.5f;
+	else if (vScreenPos.y >= WINCY * 0.5f) vScreenPos.y = WINCY * 0.5f;
 
 	m_pTransformCom->Set_Pos(vScreenPos);
 
-	return Engine::CUI::Update_UI(_fTimeDelta);
+	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
-void CUIIndicator::LateUpdate_UI()
+void CUIIndicator::LateUpdate_Unit()
 {
-	if (!m_bRender)
-		return;
-
-	Engine::CUI::LateUpdate_UI();
+	Engine::CUIUnit::LateUpdate_Unit();
 }
 
-void CUIIndicator::Render_UI()
+void CUIIndicator::Render_Unit()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
@@ -115,5 +104,5 @@ HRESULT CUIIndicator::Add_Component()
 
 void CUIIndicator::Free()
 {
-	Engine::CUI::Free();
+	Engine::CUIUnit::Free();
 }

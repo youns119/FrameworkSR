@@ -3,15 +3,13 @@
 #include "Export_Utility.h"
 
 CUIUpgradeCard::CUIUpgradeCard(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: CUI(_pGraphicDev)
+	: CUIUnit(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_eCurrCard(UI_CARD::CARD_BLANK)
 {
 	for (_uint i = 0; i < (_uint)UI_CARD::CARD_END; ++i)
 		m_pTextureCom[i] = nullptr;
-
-	m_eUIType = UITYPE::UI_UPGRADE;
 }
 
 CUIUpgradeCard::~CUIUpgradeCard()
@@ -22,7 +20,7 @@ CUIUpgradeCard* CUIUpgradeCard::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vP
 {
 	CUIUpgradeCard* pUIUpgradeCard = new CUIUpgradeCard(_pGraphicDev);
 
-	if (FAILED(pUIUpgradeCard->Ready_UI(_vPos)))
+	if (FAILED(pUIUpgradeCard->Ready_Unit(_vPos)))
 	{
 		Safe_Release(pUIUpgradeCard);
 		MSG_BOX("UIUpgradeCard create Failed");
@@ -32,7 +30,7 @@ CUIUpgradeCard* CUIUpgradeCard::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vP
 	return pUIUpgradeCard;
 }
 
-HRESULT CUIUpgradeCard::Ready_UI(_vec3 _vPos)
+HRESULT CUIUpgradeCard::Ready_Unit(_vec3 _vPos)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -40,27 +38,22 @@ HRESULT CUIUpgradeCard::Ready_UI(_vec3 _vPos)
 	m_pTransformCom->Set_Pos(_vPos);
 
 	m_bRender = true;
+	m_fViewZ = 9.f;
 
 	return S_OK;
 }
 
-_int CUIUpgradeCard::Update_UI(const _float& _fTimeDelta)
+_int CUIUpgradeCard::Update_Unit(const _float& _fTimeDelta)
 {
-	if (!m_bRender)
-		return 0;
-
-	return Engine::CUI::Update_UI(_fTimeDelta);
+	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
-void CUIUpgradeCard::LateUpdate_UI()
+void CUIUpgradeCard::LateUpdate_Unit()
 {
-	if (!m_bRender)
-		return;
-
-	Engine::CUI::LateUpdate_UI();
+	Engine::CUIUnit::LateUpdate_Unit();
 }
 
-void CUIUpgradeCard::Render_UI()
+void CUIUpgradeCard::Render_Unit()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
@@ -95,5 +88,5 @@ HRESULT CUIUpgradeCard::Add_Component()
 
 void CUIUpgradeCard::Free()
 {
-	Engine::CUI::Free();
+	Engine::CUIUnit::Free();
 }

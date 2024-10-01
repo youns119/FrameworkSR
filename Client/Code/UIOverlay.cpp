@@ -3,14 +3,12 @@
 #include "Export_Utility.h"
 
 CUIOverlay::CUIOverlay(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: CUI(_pGraphicDev)
+	: CUIUnit(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 {
 	for (_uint i = 0; i < (_uint)UI_OVERLAY::OVERLAY_END; ++i)
 		m_pTextureCom[i] = nullptr;
-
-	m_eUIType = UITYPE::UI_UPGRADE;
 }
 
 CUIOverlay::~CUIOverlay()
@@ -21,7 +19,7 @@ CUIOverlay* CUIOverlay::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CUIOverlay* pUIOverlay = new CUIOverlay(_pGraphicDev);
 
-	if (FAILED(pUIOverlay->Ready_UI()))
+	if (FAILED(pUIOverlay->Ready_Unit()))
 	{
 		Safe_Release(pUIOverlay);
 		MSG_BOX("UIOverlay create Failed");
@@ -31,7 +29,7 @@ CUIOverlay* CUIOverlay::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pUIOverlay;
 }
 
-HRESULT CUIOverlay::Ready_UI()
+HRESULT CUIOverlay::Ready_Unit()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -39,60 +37,38 @@ HRESULT CUIOverlay::Ready_UI()
 	m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
 
 	m_bRender = true;
+	m_fViewZ = 10.f;
 
 	return S_OK;
 }
 
-_int CUIOverlay::Update_UI(const _float& _fTimeDelta)
+_int CUIOverlay::Update_Unit(const _float& _fTimeDelta)
 {
-	if (!m_bRender)
-		return 0;
-
-	return Engine::CUI::Update_UI(_fTimeDelta);
+	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
-void CUIOverlay::LateUpdate_UI()
+void CUIOverlay::LateUpdate_Unit()
 {
-	if (!m_bRender)
-		return;
-
-	Engine::CUI::LateUpdate_UI();
+	Engine::CUIUnit::LateUpdate_Unit();
 }
 
-void CUIOverlay::Render_UI()
+void CUIOverlay::Render_Unit()
 {
-	float fAlpha1, fAlpha2 = 0.1f;
-	fAlpha1 = 0.3f; fAlpha2 = 0.6f;
-	DWORD preFactor, textureFactor;
-	textureFactor = D3DCOLOR_ARGB((int)(fAlpha1 * 255), 255, 255, 255);
-	m_pGraphicDev->GetRenderState(D3DRS_TEXTUREFACTOR, &preFactor);
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, textureFactor);
+	float fAlpha1(0.3f), fAlpha2(0.6f);
+	DWORD tPreFactor;
 
+	m_pGraphicDev->GetRenderState(D3DRS_TEXTUREFACTOR, &tPreFactor);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
+	m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_BACK]->Change_Alpha(fAlpha1);
 	m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_BACK]->Set_Texture();
-
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-
 	m_pBufferCom->Render_Buffer();
 
-	textureFactor = D3DCOLOR_ARGB((int)(fAlpha2 * 255), 255, 255, 255);
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, textureFactor);
-
+	m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_BACK]->Change_Alpha(fAlpha2);
 	m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_BASE]->Set_Texture();
-
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, preFactor);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, tPreFactor);
 }
 
 HRESULT CUIOverlay::Add_Component()
@@ -120,5 +96,5 @@ HRESULT CUIOverlay::Add_Component()
 
 void CUIOverlay::Free()
 {
-	Engine::CUI::Free();
+	Engine::CUIUnit::Free();
 }

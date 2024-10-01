@@ -88,13 +88,19 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 	if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
 	{
 		Picking_Terrain();
-		Key_Input(_fTimeDelta);
-		Mouse_Move();
+
+		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
+		{
+			Key_Input(_fTimeDelta);
+			Mouse_Move();
+		}
+
 		Animation_End_Check();
 	}
 
-	if (!Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
-		Mouse_Fix();
+	if (Engine::Get_ListUI(UITYPE::UI_INVENTORY)->empty())
+		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
+			Mouse_Fix();
 
 	Jump(_fTimeDelta);
 

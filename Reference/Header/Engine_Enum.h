@@ -21,11 +21,11 @@ namespace Engine
 
 	enum class UITYPE
 	{
-		UI_PLUS,
 		UI_SHOP,
-		UI_INDICATOR,
-		UI_UPGRADE,
-		UI_CROSSHAIR,
+		UI_PLUS,
+		UI_INVENTORY,
+		UI_NORMAL,
+		UI_FREECAM,
 		UI_END,
 	};
 

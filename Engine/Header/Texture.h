@@ -25,6 +25,13 @@ public :
 	HRESULT	Ready_Texture(const _tchar* _pPath, TEXTUREID _eType, const int& _iCnt);
 	void Set_Texture(const _uint& _iIndex = 0);
 
+public:
+	void Change_TextureColor(_float _fHue, _float _fSaturation, _float _fValue);
+	void Change_Alpha(_float _fAlpha);
+
+private:
+	D3DCOLOR Get_HSVRGB(_float _fHue, _float _fSaturation, _float _fValue);
+
 public :
 	virtual CComponent* Clone();
 

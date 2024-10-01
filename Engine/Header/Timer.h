@@ -14,6 +14,7 @@ private:
 
 public:
 	_float Get_TimeDelta() const { return m_fTimeDelta; }
+	_float Get_Elapsed() const { return m_fElapsedTime; }
 	_bool Get_Stop() const { return m_bStop; }
 
 public:
@@ -36,6 +37,7 @@ private:
 	LARGE_INTEGER m_tCpuTick;
 
 	_float m_fTimeDelta;
+	_float m_fElapsedTime;
 
 	_bool m_bStop;
 };

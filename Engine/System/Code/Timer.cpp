@@ -2,6 +2,7 @@
 
 CTimer::CTimer()
 	: m_fTimeDelta(0.f)
+	, m_fElapsedTime(0.f)
 	, m_bStop(false)
 {
 	ZeroMemory(&m_tFrameTime, sizeof(LARGE_INTEGER));
@@ -54,6 +55,8 @@ void CTimer::Update_Timer()
 
 	if (m_bStop)
 		m_fTimeDelta = 0.f;
+
+	m_fElapsedTime += m_fTimeDelta;
 }
 
 void CTimer::Free()

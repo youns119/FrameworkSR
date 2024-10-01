@@ -4,15 +4,14 @@
 #include "..\Header\Player.h"
 
 CUICrossHair::CUICrossHair(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: CUI(_pGraphicDev)
+	: CUIUnit(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_eCurrCrossHair(UI_CROSSHAIR::CROSSHAIR_END)
+	, m_bFree(false)
 {
 	for (_uint i = 0; i < (_uint)UI_CROSSHAIR::CROSSHAIR_END; ++i)
 		m_pTextureCom[i] = nullptr;
-
-	m_eUIType = UITYPE::UI_CROSSHAIR;
 }
 
 CUICrossHair::~CUICrossHair()
@@ -23,7 +22,7 @@ CUICrossHair* CUICrossHair::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CUICrossHair* pUICrossHair = new CUICrossHair(_pGraphicDev);
 
-	if (FAILED(pUICrossHair->Ready_UI()))
+	if (FAILED(pUICrossHair->Ready_Unit()))
 	{
 		Safe_Release(pUICrossHair);
 		MSG_BOX("UICrossHair create Failed");
@@ -33,7 +32,7 @@ CUICrossHair* CUICrossHair::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pUICrossHair;
 }
 
-HRESULT CUICrossHair::Ready_UI()
+HRESULT CUICrossHair::Ready_Unit()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -45,12 +44,9 @@ HRESULT CUICrossHair::Ready_UI()
 	return S_OK;
 }
 
-_int CUICrossHair::Update_UI(const _float& _fTimeDelta)
+_int CUICrossHair::Update_Unit(const _float& _fTimeDelta)
 {
-	if (!m_bRender)
-		return 0;
-
-	if (Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
+	if (m_bFree)
 	{
 		POINT tMouse{};
 
@@ -59,28 +55,18 @@ _int CUICrossHair::Update_UI(const _float& _fTimeDelta)
 
 		m_pTransformCom->Set_Pos((_float)(tMouse.x - WINCX / 2.f), (_float)(WINCY / 2.f - tMouse.y), 0.f);
 	}
-
-	if (Engine::Get_UILayerRender(UITYPE::UI_UPGRADE))
-		m_eCurrCrossHair = (UI_CROSSHAIR::CROSSHAIR_PISTOL);
 	else
-	{
-		int iHairNum = static_cast<CPlayer*>(m_pGameObject)->Get_WeaponState();
-		m_eCurrCrossHair = (UI_CROSSHAIR)iHairNum;
 		m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
-	}
 
-	return Engine::CUI::Update_UI(_fTimeDelta);
+	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
-void CUICrossHair::LateUpdate_UI()
+void CUICrossHair::LateUpdate_Unit()
 {
-	if (!m_bRender)
-		return;
-
-	Engine::CUI::LateUpdate_UI();
+	Engine::CUIUnit::LateUpdate_Unit();
 }
 
-void CUICrossHair::Render_UI()
+void CUICrossHair::Render_Unit()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
@@ -116,10 +102,6 @@ HRESULT CUICrossHair::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_Katana", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_MINIGUN] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_MiniGun"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_MiniGun", pComponent });
-
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
@@ -129,5 +111,5 @@ HRESULT CUICrossHair::Add_Component()
 
 void CUICrossHair::Free()
 {
-	Engine::CUI::Free();
+	Engine::CUIUnit::Free();
 }

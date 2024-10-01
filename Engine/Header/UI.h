@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Base.h"
-#include "Component.h"
+#include "UIUnit.h"
 
 BEGIN(Engine)
 
@@ -14,33 +14,33 @@ protected:
 	virtual ~CUI();
 
 public:
-	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
 	UITYPE Get_UIType() const { return m_eUIType; }
-	_bool Get_Render() const { return m_bRender; }
-	CGameObject* Get_GameObject() { return m_pGameObject; }
+	_float Get_ViewZ() const { return m_fViewZ; }
+	_float Get_Render() const { return m_bRender; }
 
-	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
 	void Set_GameObject(CGameObject* _pGameObject) { m_pGameObject = _pGameObject; }
+	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
 
 public:
 	virtual _int Update_UI(const _float& _fTimeDelta);
 	virtual void LateUpdate_UI();
-	virtual void Render_UI() PURE;
+	virtual void Render_UI();
 
-private:
-	CComponent* Find_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
+public:
+	virtual void Reset();
 
 protected:
 	virtual void Free();
 
 protected:
-	map<const _tchar*, CComponent*>	m_mapComponent[(_uint)COMPONENTID::ID_END];
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 
-	UITYPE m_eUIType;
-	bool m_bRender;
+	vector<CUIUnit*> m_vecUIUnit;
 
 	CGameObject* m_pGameObject;
+	UITYPE m_eUIType;
+	bool m_bRender;
+	float m_fViewZ;
 };
 
 END

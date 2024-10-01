@@ -1,13 +1,16 @@
 #include "pch.h"
 #include "..\Header\UIPlus.h"
+#include "..\Header\UIPlusCenter.h"
+#include "..\Header\UIPlusLeft.h"
 #include "Export_Utility.h"
 
 CUIPlus::CUIPlus(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
-	, m_pBufferCom(nullptr)
-	, m_pTextureCom(nullptr)
-	, m_pTransformCom(nullptr)
-	, m_eCurrPlus(UI_PLUS::PLUS_END)
+	, m_pUIPlusCenter(nullptr)
+	, m_pUIPlusLeft(nullptr)
+	, m_fLifeTime(0.f)
+	, m_fElapsed(0.f)
+	, m_iBlink(0)
 {
 	m_eUIType = UITYPE::UI_PLUS;
 }
@@ -23,7 +26,7 @@ CUIPlus* CUIPlus::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	if (FAILED(pUIPlus->Ready_UI()))
 	{
 		Safe_Release(pUIPlus);
-		MSG_BOX("UIPlus Create Failed");
+		MSG_BOX("UIPlus create Failed");
 		return nullptr;
 	}
 
@@ -32,57 +35,65 @@ CUIPlus* CUIPlus::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 HRESULT CUIPlus::Ready_UI()
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	FAILED_CHECK_RETURN(Add_Unit(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(0.f, 200.f, 0.f);
-	m_pTransformCom->Set_Scale(50.f, 20.f, 0.f);
-
-	m_bRender = false;
+	m_fLifeTime = 5.f;
 
 	return S_OK;
 }
 
 _int CUIPlus::Update_UI(const _float& _fTimeDelta)
 {
-	if (!m_bRender)
-		return 0;
+	m_fElapsed += _fTimeDelta;
+
+	if (m_fLifeTime < m_fElapsed)
+	{
+		m_fElapsed = 0.f;
+		m_bRender = false;
+	}
+	else if (m_fLifeTime - m_fElapsed <= 1.f && _fTimeDelta != 0.f)
+		m_iBlink++;
 
 	return Engine::CUI::Update_UI(_fTimeDelta);
 }
 
 void CUIPlus::LateUpdate_UI()
 {
-	if (!m_bRender)
-		return;
-
 	Engine::CUI::LateUpdate_UI();
 }
 
 void CUIPlus::Render_UI()
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	if (m_iBlink == 5)
+	{
+		m_iBlink = 0;
+		return;
+	}
 
-	m_pTextureCom->Set_Texture();
-	m_pBufferCom->Render_Buffer();
+	Engine::CUI::Render_UI();
 }
 
-HRESULT CUIPlus::Add_Component()
+HRESULT CUIPlus::Add_Unit()
 {
-	CComponent* pComponent = NULL;
+	CUIUnit* pUIUnit = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
+	pUIUnit = m_pUIPlusCenter = CUIPlusCenter::Create(m_pGraphicDev);
+	m_vecUIUnit.push_back(pUIUnit);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIPlus"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
-
-	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+	pUIUnit = m_pUIPlusLeft = CUIPlusLeft::Create(m_pGraphicDev);
+	m_vecUIUnit.push_back(pUIUnit);
 
 	return S_OK;
+}
+
+void CUIPlus::Set_Pos(_vec3 _vPos)
+{
+	static_cast<CUIPlusCenter*>(m_pUIPlusCenter)->Set_Pos(_vPos);
+}
+
+void CUIPlus::Set_Index(_int _iIndex)
+{
+	static_cast<CUIPlusLeft*>(m_pUIPlusLeft)->Set_Index(_iIndex);
 }
 
 void CUIPlus::Free()

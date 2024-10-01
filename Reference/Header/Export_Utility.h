@@ -4,7 +4,10 @@
 #include "ComponentManager.h"
 #include "Renderer.h"
 #include "LightManager.h"
+
 // 연욱
+#include "UIUnit.h"
+#include "UI.h"
 #include "UIManager.h"
 
 #include "TriCol.h"
@@ -71,14 +74,13 @@ inline HRESULT Ready_Light
 
 // 연욱
 // UIManager
+inline list<CUI*>* Get_ListUI(UITYPE _eUIType);
 inline HRESULT Add_UI(CUI* _pUI);
 inline _int Update_UI(const _float& _fTimeDelta);
 inline void LateUpdate_UI();
 inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev);
-inline vector<CUI*>* Get_UIGroup(UITYPE _eUIType);
-inline _bool Get_UILayerRender(UITYPE _eUIType);
-inline void Set_UILayerRender(UITYPE _eUIType, _bool _bRender);
-inline void Toggle_UILayer(UITYPE _eUIType);
+inline CUI* Activate_UI(UITYPE _eUIType);
+inline void Deactivate_UI(UITYPE _eUIType);
 
 // CollisionManager
 inline _bool Get_ColliderRender();

@@ -87,6 +87,11 @@ inline HRESULT Ready_Light
 
 // ¿¬¿í
 // UIManager
+inline list<CUI*>* Get_ListUI(UITYPE _eUIType)
+{
+	return CUIManager::GetInstance()->Get_ListUI(_eUIType);
+}
+
 inline HRESULT Add_UI(CUI* _pUI)
 {
 	return CUIManager::GetInstance()->Add_UI(_pUI);
@@ -107,24 +112,14 @@ inline void Render_UI(LPDIRECT3DDEVICE9& _pGraphicDev)
 	CUIManager::GetInstance()->Render_UI(_pGraphicDev);
 }
 
-inline vector<CUI*>* Get_UIGroup(UITYPE _eUIType)
+inline CUI* Activate_UI(UITYPE _eUIType)
 {
-	CUIManager::GetInstance()->Get_UIGroup(_eUIType);
+	return CUIManager::GetInstance()->Activate_UI(_eUIType);
 }
 
-inline _bool Get_UILayerRender(UITYPE _eUIType)
+inline void Deactivate_UI(UITYPE _eUIType)
 {
-	return CUIManager::GetInstance()->Get_UILayerRender(_eUIType);
-}
-
-inline void Set_UILayerRender(UITYPE _eUIType, _bool _bRender)
-{
-	CUIManager::GetInstance()->Set_UILayerRender(_eUIType, _bRender);
-}
-
-inline void Toggle_UILayer(UITYPE _eUIType)
-{
-	CUIManager::GetInstance()->Toggle_UILayer(_eUIType);
+	CUIManager::GetInstance()->Deactivate_UI(_eUIType);
 }
 
 // CollisionManager
