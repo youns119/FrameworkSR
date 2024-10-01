@@ -50,6 +50,7 @@ HRESULT CStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL);
 
+	MapLoad(Find_Layer(L"Layer_GameLogic"));
 	Set_Collision();
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -189,77 +190,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	//m_pPlayer = static_cast<CPlayer*>(pGameObject);
-
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			pGameObject = CFloor::Create_Pos(m_pGraphicDev,{(float)j,0.f,(float)i});
-			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
-		}
-	}
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			pGameObject = CFloor::Create_Pos(m_pGraphicDev, { (float)j,4.f,(float)i });
-			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Floor", pGameObject), E_FAIL);
-		}
-	}
-
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,0.f,0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,0.f,2.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,0.f,0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,0.f,2.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,2.f,0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 0.f ,2.f,2.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,2.f,0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	pGameObject = CWall::Create_Pos(m_pGraphicDev, { 4.f ,2.f,2.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Wall", pGameObject), E_FAIL);
-	
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,0.f, 0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,0.f,0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,0.f,4.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,0.f,4.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
-	
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,2.f, 0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,2.f,0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 0.f ,2.f,4.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
-	pGameObject = CWallTB::Create_Pos(m_pGraphicDev, { 2.f ,2.f,4.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"WallTB", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
@@ -472,6 +402,91 @@ void CStage::Set_Collision()
 	Engine::CheckGroup(L"Layer_Player", L"Layer_GameLogic");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Monster");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
+}
+
+CLayer* CStage::Find_Layer(const _tchar* _pLayerTag)
+{
+	CLayer* pLayer = nullptr;
+
+	auto iter = find_if(m_mapLayer.begin(), m_mapLayer.end(), CTag_Finder(_pLayerTag));
+	pLayer = iter->second;
+
+	return pLayer;
+}
+
+void CStage::MapLoad(CLayer* _pLayer)
+{
+	HANDLE		hFile = CreateFile(L"../Data/Stage2.txt",	// 파일 이름까지 포함된 경로
+		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
+		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
+		NULL,				// 보안 속성
+		OPEN_EXISTING,		// 생성 방식(CREATE_ALWAYS : 파일이 없다면 생성, 있으면 덮어쓰기, OPEN_EXISTING : 파일이 있는 경우에만 불러오기)
+		FILE_ATTRIBUTE_NORMAL, // 파일 속성(아무런 속성이 없는 파일로 생성)
+		NULL);				// 생성될 파일의 속성을 제공할 템플릿 파일
+
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Load File", _T("Fail"), MB_OK);
+		return;
+	}
+
+	DWORD	dwByte(0);
+	DWORD dwStringSize(0);
+
+	_vec3 pPos{};
+	_vec3 pRot{};
+
+	while (true)
+	{
+		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
+		TCHAR* pTemp = new TCHAR[dwStringSize];
+		ReadFile(hFile, pTemp, dwStringSize, &dwByte, nullptr);
+		ReadFile(hFile, &pPos, sizeof(_vec3), &dwByte, nullptr);
+
+
+		if (0 == dwByte)
+		{
+			if (pTemp)
+			{
+				delete[] pTemp;
+				pTemp = nullptr;
+			}
+			break;
+		}
+		if (wcscmp(pTemp, L"Floor") == 0)
+		{
+			ReadFile(hFile, &pRot, sizeof(_vec3), &dwByte, nullptr);
+
+			Engine::CGameObject* pGameObject = nullptr;
+
+			pGameObject = CFloor::Create_InfoTest(m_pGraphicDev, pPos, pRot, L"Proto_FirstFloor");
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"Floor", pGameObject);
+		}
+		if (wcscmp(pTemp, L"Wall") == 0)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
+
+			pGameObject = CWall::Create_Pos(m_pGraphicDev, pPos);
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"Wall", pGameObject);
+		}
+		if (wcscmp(pTemp, L"WallTB") == 0)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
+
+			pGameObject = CWallTB::Create_Pos(m_pGraphicDev, pPos);
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"WallTB", pGameObject);
+		}
+
+	}
+
+	CloseHandle(hFile);
+
+
+	MessageBox(g_hWnd, L"Load 완료", _T("성공"), MB_OK);
 }
 
 void CStage::Free()

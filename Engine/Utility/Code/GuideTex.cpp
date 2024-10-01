@@ -2,18 +2,21 @@
 
 CGuideTex::CGuideTex()
 	:m_pPos(nullptr)
+	, m_fY(0)
 {
 }
 
 CGuideTex::CGuideTex(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CVIBuffer(pGraphicDev)
 	, m_pPos(nullptr)
+	, m_fY(0)
 {
 }
 
 CGuideTex::CGuideTex(const CGuideTex& rhs)
 	: CVIBuffer(rhs)
 	, m_pPos(rhs.m_pPos)
+	, m_fY(0)
 {
 }
 
@@ -51,7 +54,7 @@ HRESULT CGuideTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, cons
 		{
 			dwIndex = i * dwCntX + j;
 
-			pVertex[dwIndex].vPosition = _vec3(_float(j) * dwVtxItv, 0.f, _float(i) * dwVtxItv);
+			pVertex[dwIndex].vPosition = _vec3(_float(j) * dwVtxItv, m_fY, _float(i) * dwVtxItv);
 			pVertex[dwIndex].vTexUV = _vec2(_float(j) / (dwCntX - 1) * 20.f, _float(i) / (dwCntZ - 1) * 20.f);
 			
 			m_pPos[dwIndex] = pVertex[dwIndex].vPosition;
