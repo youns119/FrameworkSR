@@ -81,10 +81,10 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 	if (Engine::Key_Press(DIK_F4))
 	{
 		_vec3 vPos = { (float)(rand() % 10), 1.f, (float)(rand() % 10) };
+		_int iIndex = rand() % 13;
 
 		CUI* pUI = Engine::Activate_UI(UITYPE::UI_PLUS);
-		static_cast<CUIPlus*>(pUI)->Set_Pos(vPos);
-		static_cast<CUIPlus*>(pUI)->Set_Index(Engine::Get_ListUI(UITYPE::UI_PLUS)->size());
+		static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
 	}
 
 	if (Engine::Key_Press(DIK_F5))

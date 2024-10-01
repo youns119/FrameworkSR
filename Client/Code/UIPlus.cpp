@@ -8,6 +8,7 @@ CUIPlus::CUIPlus(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
 	, m_pUIPlusCenter(nullptr)
 	, m_pUIPlusLeft(nullptr)
+	, m_ePlusType(UI_PLUS::PLUS_END)
 	, m_fLifeTime(0.f)
 	, m_fElapsed(0.f)
 	, m_iBlink(0)
@@ -86,14 +87,15 @@ HRESULT CUIPlus::Add_Unit()
 	return S_OK;
 }
 
-void CUIPlus::Set_Pos(_vec3 _vPos)
+void CUIPlus::Init(_vec3 _vPos, UI_PLUS _ePlusType)
 {
-	static_cast<CUIPlusCenter*>(m_pUIPlusCenter)->Set_Pos(_vPos);
-}
+	CUIPlusCenter* pUIPlusCenter = static_cast<CUIPlusCenter*>(m_pUIPlusCenter);
+	CUIPlusLeft* pUIPlusLeft = static_cast<CUIPlusLeft*>(m_pUIPlusLeft);
 
-void CUIPlus::Set_Index(_int _iIndex)
-{
-	static_cast<CUIPlusLeft*>(m_pUIPlusLeft)->Set_Index(_iIndex);
+	pUIPlusCenter->Set_Pos(_vPos);
+	pUIPlusCenter->Set_Sec((_int)_ePlusType);
+	pUIPlusLeft->Set_Index(Engine::Get_ListUI(UITYPE::UI_PLUS)->size());
+	pUIPlusLeft->Set_Text((_int)_ePlusType);
 }
 
 void CUIPlus::Free()

@@ -40,6 +40,9 @@ public:
 private:
 	HRESULT Add_Component();
 
+public:
+	void Set_Sec(_int _iIndex);
+
 private:
 	virtual void Reset();
 
@@ -52,6 +55,7 @@ private:
 	Engine::CTransform* m_pTransformCom[(_uint)UI_PLUSCENTER::PLUSCENTER_END];
 
 	_vec3 m_vPos;
-	float m_fScaleRatio;
-	float m_fAlphaRatio;
+	_float m_fScaleRatio;
+	_float m_fAlphaRatio;
+	_int m_iSecIndex;
 };

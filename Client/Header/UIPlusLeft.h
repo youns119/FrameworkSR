@@ -46,6 +46,9 @@ public:
 private:
 	HRESULT Add_Component();
 
+public:
+	void Set_Text(_int _iIndex);
+
 private:
 	virtual void Reset();
 
@@ -63,5 +66,7 @@ private:
 	_float m_fScaleSpeed;
 	_float m_fTextTime;
 	_float m_fElapsed;
+	_int m_iTextIndex;
+	_int m_iSecIndex;
 	_int m_iIndex;
 };

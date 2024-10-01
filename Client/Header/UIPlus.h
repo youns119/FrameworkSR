@@ -11,6 +11,25 @@ END
 class CUIPlus
 	: public Engine::CUI
 {
+public:
+	enum class UI_PLUS
+	{
+		PLUS_AIR,
+		PLUS_SCOLD,
+		PLUS_BAN,
+		PLUS_EXECUTE,
+		PLUS_GOODBYE,
+		PLUS_GRINDER,
+		PLUS_HEADSHOT,
+		PLUS_NUTSHOT,
+		PLUS_SAYONARA,
+		PLUS_THUNDER,
+		PLUS_SHATTER,
+		PLUS_SHOCK,
+		PLUS_HIT,
+		PLUS_END,
+	};
+
 private:
 	explicit CUIPlus(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CUIPlus();
@@ -28,8 +47,7 @@ private:
 	HRESULT Add_Unit();
 
 public:
-	void Set_Pos(_vec3 _vPos);
-	void Set_Index(_int _iIndex);
+	void Init(_vec3 _vPos, UI_PLUS _ePlusType);
 
 private:
 	virtual void Free();
@@ -38,6 +56,7 @@ private:
 	Engine::CUIUnit* m_pUIPlusCenter;
 	Engine::CUIUnit* m_pUIPlusLeft;
 
+	UI_PLUS m_ePlusType;
 	_float m_fLifeTime;
 	_float m_fElapsed;
 	_int m_iBlink;

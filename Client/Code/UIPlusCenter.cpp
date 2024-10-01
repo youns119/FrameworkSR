@@ -9,6 +9,7 @@ CUIPlusCenter::CUIPlusCenter(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_vPos{}
 	, m_fScaleRatio(0.f)
 	, m_fAlphaRatio(0.f)
+	, m_iSecIndex(0)
 {
 	for (_uint i = 0; i < (_uint)UI_PLUSCENTER::PLUSCENTER_END; ++i)
 	{
@@ -112,7 +113,7 @@ void CUIPlusCenter::Render_Unit()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_PLUSCENTER::PLUSCENTER_SEC]->Get_WorldMatrix());
 
 	m_pTextureCom[(_uint)UI_PLUSCENTER::PLUSCENTER_BACK]->Change_Alpha(m_fAlphaRatio);
-	m_pTextureCom[(_uint)UI_PLUSCENTER::PLUSCENTER_SEC]->Set_Texture(0);
+	m_pTextureCom[(_uint)UI_PLUSCENTER::PLUSCENTER_SEC]->Set_Texture(m_iSecIndex);
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, tPreFactor);
@@ -143,6 +144,38 @@ HRESULT CUIPlusCenter::Add_Component()
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Plus", pComponent });
 
 	return S_OK;
+}
+
+void CUIPlusCenter::Set_Sec(_int _iIndex)
+{
+	switch (_iIndex)
+	{
+	case 1:
+	case 2:
+	case 10:
+	case 12:
+		m_iSecIndex = 1;
+		break;
+	case 0:
+	case 6:
+	case 7:
+	case 8:
+		m_iSecIndex = 2;
+		break;
+	case 4:
+	case 9:
+	case 11:
+		m_iSecIndex = 3;
+		break;
+	case 5:
+		m_iSecIndex = 4;
+		break;
+	case 3:
+		m_iSecIndex = 9;
+		break;
+	default:
+		break;
+	}
 }
 
 void CUIPlusCenter::Reset()
