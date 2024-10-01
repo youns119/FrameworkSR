@@ -20,33 +20,21 @@ class CPlayer
 {
 private:
 	enum RIGHT_STATE {
-		PISTOL_IDLE,
-		PISTOL_SHOOT,
-		PISTOL_RELOAD,
-		PISTOL_CHANGE,
-		RIFLE_IDLE,
-		RIFLE_SHOOT,
-		RIFLE_RELOAD,
-		RIFLE_CHANGE,
-		SHOTGUN_IDLE,
-		SHOTGUN_SHOOT,
-		SHOTGUN_RELOAD,
-		SHOTGUN_CHANGE,
-		SNIPER_IDLE,
-		SNIPER_ZOOMIN,
-		SNIPER_ZOOMING,
-		SNIPER_ZOOMOUT,
-		SNIPER_SHOOT,
-		SNIPER_RELOAD,
-		KATANA_IDLE,
-		KATANA_SHOOT,
-		KATANA_CHANGE,
 		FINISHKILL,
+		IDLE,
+		SHOOT,
+		RELOAD,
+		CHANGE,
+		ZOOMIN,
+		ZOOMING,
+		ZOOMOUT,
 		RIGHT_STATE_END
 	};
 	enum LEFT_STATE {
 		LEFT_IDLE,
 		DRINK,
+		MINIGUN_BODY_IDLE,
+		MINIGUN_BODY_CHANGE,
 		LEFT_STATE_END
 	};
 
@@ -54,6 +42,8 @@ private:
 		LEG_IDLE,
 		KICK,
 		SLIDING,
+		MINIGUN_PANEL_CHANGE,
+		MINIGUN_PANEL_IDLE,
 		LEG_STATE_END
 	};
 
@@ -70,6 +60,7 @@ private:
 		SNIPER,
 		SHOTGUN,
 		KATANA,
+		MINIGUN,
 		WEAPON_STATE_END
 	};
 
@@ -121,7 +112,7 @@ private:
 	Engine::CTransform* m_pLeft_TransformCom;
 	Engine::CTransform* m_pLeg_TransformCom;
 	//Texture
-	Engine::CTexture* m_pRight_TextureCom[RIGHT_STATE::RIGHT_STATE_END];
+	Engine::CTexture* m_pRight_TextureCom[WEAPON_STATE::WEAPON_STATE_END][RIGHT_STATE::RIGHT_STATE_END];
 	Engine::CTexture* m_pLeft_TextureCom[LEFT_STATE::LEFT_STATE_END];
 	Engine::CTexture* m_pLeg_TextureCom[LEG_STATE::LEG_STATE_END];
 	//Camera
