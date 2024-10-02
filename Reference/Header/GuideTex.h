@@ -13,6 +13,8 @@ private:
 	virtual ~CGuideTex();
 public:
 	const _vec3* Get_VtxPos() const { return m_pPos; }
+	void Set_ChangeY(float _fY) { m_fY = _fY; }
+
 public:
 	HRESULT		Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);
 	virtual		void		Render_Buffer();
@@ -24,6 +26,7 @@ public:
 private:
 	virtual void		Free();
 	_vec3* m_pPos;
+	float m_fY;
 };
 
 END

@@ -52,6 +52,27 @@ CFloor* CFloor::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const
     return pFloor;
 }
 
+CFloor* CFloor::Create_InfoTest(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _tchar* _pName)
+{
+    CFloor* pFloor = new CFloor(_pGraphicDev);
+
+    pFloor->Setup_ImageName(_pName);
+
+    if (FAILED(pFloor->Ready_GameObject()))
+    {
+        Safe_Release(pFloor);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pFloor->Setup_Position(_vecPos);
+    pFloor->Setup_Rotation(_vecRot);
+    pFloor->m_vecPos = _vecPos;
+    pFloor->m_vecRot = _vecRot;
+
+    return pFloor;
+}
+
 CFloor* CFloor::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
     CFloor* pFloor = new CFloor(_pGraphicDev);
@@ -140,6 +161,11 @@ HRESULT CFloor::Setup_Material()
 void CFloor::Setup_Position(_vec3 _vecPos)
 {
     m_pTransformCom->Set_Pos(_vecPos.x, _vecPos.y, _vecPos.z);
+}
+
+void CFloor::Setup_Rotation(_vec3 _vecRot)
+{
+    m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
 
 void CFloor::Setup_ImageName(const _tchar* _pName)

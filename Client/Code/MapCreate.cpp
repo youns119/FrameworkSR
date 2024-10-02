@@ -11,6 +11,9 @@
 CMapCreate::CMapCreate(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
 	, m_bCreateCheck(false)
+	, m_fHeight(0.f)
+	, m_vecRot(0.f, 0.f, 0.f)
+	, m_iRidian(0)
 {
 }
 
@@ -25,7 +28,7 @@ CMapCreate* CMapCreate::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	if (FAILED(pMapCreate->Ready_Scene()))
 	{
 		Safe_Release(pMapCreate);
-		MSG_BOX("Stage Create Failed");
+		MSG_BOX("pMapCreate Create Failed");
 		return nullptr;
 	}
 
@@ -51,41 +54,79 @@ _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 {
 	if (Engine::Key_Hold(DIK_Z) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
 	{
-		PickingTile_PosCheck(Find_Layer_PickingTile());
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"Floor");
 		// 바닥 타일 생성
 		if (m_bCreateCheck == true)
 		{
-			Create_Layer_PickingFloor(Find_Layer_PickingTile());
+			Create_Layer_PickingFloor(Find_Layer(L"Layer_PickingTile"));
 
 		}
 	}
 	if (Engine::Key_Hold(DIK_X) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
 	{
-		Create_Layer_PickingWall(Find_Layer_PickingTile());
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"Wall");
+		if (m_bCreateCheck == true)
+		{
+			Create_Layer_PickingWall(Find_Layer(L"Layer_PickingTile"));
+		}
 	}
 	if (Engine::Key_Hold(DIK_C) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+
 	{
-		Create_Layer_PickingWallTB(Find_Layer_PickingTile());
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"WallTB");
+		if (m_bCreateCheck == true)
+		{
+			Create_Layer_PickingWallTB(Find_Layer(L"Layer_PickingTile"));
+		}
 	}
-	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
+	if (Engine::Key_Hold(DIK_Z) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
 	{
 		//생성된 타일 삭제
-		PickingTile_PosDelete(Find_Layer_PickingTile());
+		PickingTile_PosDelete(Find_Layer(L"Layer_PickingTile"), L"Floor");
+	}
+	if (Engine::Key_Hold(DIK_X) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
+	{
+		//생성된 타일 삭제
+		PickingTile_PosDelete(Find_Layer(L"Layer_PickingTile"), L"Wall");
+	}
+	if (Engine::Key_Hold(DIK_C) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
+	{
+		//생성된 타일 삭제
+		PickingTile_PosDelete(Find_Layer(L"Layer_PickingTile"), L"WallTB");
 	}
 	if (Engine::Key_Press(DIK_O))
 	{
-		MapSave(Find_Layer_PickingTile());
+		MapSave(Find_Layer(L"Layer_PickingTile"));
 	}
 	if (Engine::Key_Press(DIK_P))
 	{
-		MapLoad(Find_Layer_PickingTile());
+		MapLoad(Find_Layer(L"Layer_PickingTile"));
 	}
 	if (Engine::Key_Press(DIK_K))
 	{
+		m_fHeight += 1.f;
+		CGuideTex* pGuideBufferCom = dynamic_cast<CGuideTex*>(Engine::Get_Component(Engine::COMPONENTID::ID_STATIC, L"Layer_GuideTerrain", L"GuideTerrain", L"Com_Buffer"));
+		pGuideBufferCom->Set_ChangeY(m_fHeight);
+		pGuideBufferCom->Ready_Buffer(VTXTILEX, VTXTILEZ, VTXITV);
 
 	}
 	if (Engine::Key_Press(DIK_L))
 	{
+		m_fHeight -= 1.f;
+		CGuideTex* pGuideBufferCom = dynamic_cast<CGuideTex*>(Engine::Get_Component(Engine::COMPONENTID::ID_STATIC, L"Layer_GuideTerrain", L"GuideTerrain", L"Com_Buffer"));
+		pGuideBufferCom->Set_ChangeY(m_fHeight);
+		pGuideBufferCom->Ready_Buffer(VTXTILEX, VTXTILEZ, VTXITV);
+	}
+	if (Engine::Key_Press(DIK_N))
+	{
+		m_iRidian += 45;
+		m_vecRot = { D3DXToRadian(m_iRidian),D3DXToRadian(0),D3DXToRadian(0) };
+
+	}
+	if (Engine::Key_Press(DIK_M))
+	{
+		m_iRidian -= 45;
+		m_vecRot = { D3DXToRadian(m_iRidian),D3DXToRadian(0),D3DXToRadian(0) };
 
 	}
 
@@ -183,11 +224,12 @@ HRESULT CMapCreate::Ready_Layer_PickingTile(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-CLayer* CMapCreate::Find_Layer_PickingTile()
+CLayer* CMapCreate::Find_Layer(const _tchar* _pLayerTag)
 {
+	// 레이어 태그 매개 변수로 해서 원하는 레이어 받아오도록 설정하기
 	CLayer* pLayer = nullptr;
 
-	auto iter = find_if(m_mapLayer.begin(), m_mapLayer.end(), CTag_Finder(L"Layer_PickingTile"));
+	auto iter = find_if(m_mapLayer.begin(), m_mapLayer.end(), CTag_Finder(_pLayerTag));
 	pLayer = iter->second;
 
 	return pLayer;
@@ -197,7 +239,7 @@ HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CFloor::Create_Info(m_pGraphicDev, TilePiking_OnTerrain(1),L"Proto_FirstFloor");
+	pGameObject = CFloor::Create_InfoTest(m_pGraphicDev, TilePiking_OnTerrain(1), m_vecRot, L"Proto_FirstFloor");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Floor", pGameObject);
 
@@ -306,7 +348,7 @@ _vec3 CMapCreate::FloorCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 				return _vec3
 				(
 					(pGuideTexPos[dwVtxId[1]].x + fU * (pGuideTexPos[dwVtxId[2]].x - pGuideTexPos[dwVtxId[1]].x)) - 1,
-					0.f,
+					pGuideTexPos[dwVtxId[0]].y,
 					(pGuideTexPos[dwVtxId[1]].z + fV * (pGuideTexPos[dwVtxId[0]].z - pGuideTexPos[dwVtxId[1]].z) - 1)
 				);
 			}
@@ -328,7 +370,7 @@ _vec3 CMapCreate::FloorCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 				return _vec3
 				(
 					pGuideTexPos[dwVtxId[2]].x + fU * (pGuideTexPos[dwVtxId[0]].x - pGuideTexPos[dwVtxId[2]].x),
-					0.f,
+					pGuideTexPos[dwVtxId[0]].y,
 					pGuideTexPos[dwVtxId[2]].z + fV * (pGuideTexPos[dwVtxId[1]].z - pGuideTexPos[dwVtxId[2]].z)
 				);
 			}
@@ -401,7 +443,7 @@ _vec3 CMapCreate::WallCreate_OnTerrain1(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 				return _vec3
 				(
 					(pGuideTexPos[dwVtxId[1]].x + fU * (pGuideTexPos[dwVtxId[2]].x - pGuideTexPos[dwVtxId[1]].x)),
-					0.f,
+					pGuideTexPos[dwVtxId[0]].y,
 					(pGuideTexPos[dwVtxId[1]].z + fV * (pGuideTexPos[dwVtxId[0]].z - pGuideTexPos[dwVtxId[1]].z) - 1)
 				);
 			}
@@ -422,7 +464,7 @@ _vec3 CMapCreate::WallCreate_OnTerrain1(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 				return _vec3
 				(
 					pGuideTexPos[dwVtxId[2]].x + fU * (pGuideTexPos[dwVtxId[0]].x - pGuideTexPos[dwVtxId[2]].x),
-					0.f,
+					pGuideTexPos[dwVtxId[0]].y,
 					pGuideTexPos[dwVtxId[2]].z + fV * (pGuideTexPos[dwVtxId[1]].z - pGuideTexPos[dwVtxId[2]].z)
 				);
 			}
@@ -494,7 +536,7 @@ _vec3 CMapCreate::WallCreate_OnTerrain2(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 				return _vec3
 				(
 					(pGuideTexPos[dwVtxId[1]].x + fU * (pGuideTexPos[dwVtxId[2]].x - pGuideTexPos[dwVtxId[1]].x))-1,
-					0.f,
+					pGuideTexPos[dwVtxId[0]].y,
 					(pGuideTexPos[dwVtxId[1]].z + fV * (pGuideTexPos[dwVtxId[0]].z - pGuideTexPos[dwVtxId[1]].z))
 				);
 			}
@@ -515,7 +557,7 @@ _vec3 CMapCreate::WallCreate_OnTerrain2(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 				return _vec3
 				(
 					pGuideTexPos[dwVtxId[2]].x + fU * (pGuideTexPos[dwVtxId[0]].x - pGuideTexPos[dwVtxId[2]].x),
-					0.f,
+					pGuideTexPos[dwVtxId[0]].y,
 					pGuideTexPos[dwVtxId[2]].z + fV * (pGuideTexPos[dwVtxId[1]].z - pGuideTexPos[dwVtxId[2]].z)
 				);
 			}
@@ -525,32 +567,43 @@ _vec3 CMapCreate::WallCreate_OnTerrain2(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 	return _vec3(0.f, 0.f, 0.f);
 }
 
-HRESULT CMapCreate::PickingTile_PosDelete(CLayer* _pLayer)
+HRESULT CMapCreate::PickingTile_PosDelete(CLayer* _pLayer, const _tchar* _TileTag)
 {
 	multimap<const _tchar*, CGameObject*>::iterator it = _pLayer->Get_LayerObjects()->begin();
 	while (it != _pLayer->Get_LayerObjects()->end())
 	{
-		if (dynamic_cast<CFloor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(true))
+		if (_TileTag == L"Floor" && _TileTag == (*it).first)
 		{
-			_pLayer->Get_LayerObjects()->erase(it++);
+			if (dynamic_cast<CFloor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(1))
+			{
+				_pLayer->Get_LayerObjects()->erase(it++);
+			}
+			else
+			{
+				++it;
+			}
 		}
-		else
+		else if (_TileTag == L"Wall" && _TileTag == (*it).first)
 		{
-			++it;
+			if (dynamic_cast<CWall*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(2))
+			{
+				_pLayer->Get_LayerObjects()->erase(it++);
+			}
+			else
+			{
+				++it;
+			}
 		}
-	}
-	return S_OK;
-}
-
-void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer)
-{
-	multimap<const _tchar*, CGameObject*>::iterator it = _pLayer->Get_LayerObjects()->begin();
-	while (it != _pLayer->Get_LayerObjects()->end())
-	{
-		if (dynamic_cast<CFloor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(true))
+		else if (_TileTag == L"WallTB" && _TileTag == (*it).first)
 		{
-			m_bCreateCheck = false;
-			break;
+			if (dynamic_cast<CWallTB*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(3))
+			{
+				_pLayer->Get_LayerObjects()->erase(it++);
+			}
+			else
+			{
+				++it;
+			}
 		}
 		else
 		{
@@ -558,6 +611,61 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer)
 			++it;
 		}
 	}
+	return S_OK;
+}
+
+void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
+{
+	multimap<const _tchar*, CGameObject*>::iterator it = _pLayer->Get_LayerObjects()->begin();
+	while (it != _pLayer->Get_LayerObjects()->end())
+	{
+		if (_TileTag == L"Floor" && _TileTag == (*it).first)
+		{
+			if (dynamic_cast<CFloor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(1))
+			{
+				m_bCreateCheck = false;
+				break;
+			}
+			else
+			{
+				m_bCreateCheck = true;
+				++it;
+			}
+		}
+		else if (_TileTag == L"Wall" && _TileTag == (*it).first)
+		{
+			if (dynamic_cast<CWall*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(2))
+			{
+				m_bCreateCheck = false;
+				break;
+			}
+			else
+			{
+				m_bCreateCheck = true;
+				++it;
+			}
+		}
+		else if (_TileTag == L"WallTB" && _TileTag == (*it).first)
+		{
+			if (dynamic_cast<CWallTB*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(3))
+			{
+				m_bCreateCheck = false;
+				break;
+			}
+			else
+			{
+				m_bCreateCheck = true;
+				++it;
+			}
+		}
+		else
+		{
+			m_bCreateCheck = true;
+			++it;
+		}
+
+	}
+	// 최초 생성 예외처리
 	if (_pLayer->Get_LayerObjects()->size() == 0)
 	{
 		m_bCreateCheck = true;
@@ -566,8 +674,7 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer)
 
 void CMapCreate::MapSave(CLayer* _pLayer)
 {
-
-	HANDLE		hFile = CreateFile(L"../Data/Stage1.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/Stage3.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -582,54 +689,31 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 	}
 
 	DWORD	dwByte(0);
-
-	int iMapSize(0);
-	iMapSize = _pLayer->Get_LayerObjects()->size();
-
-	_vec3 test;
-	_matrix teste;
-
-	int iSize(0);
+	DWORD dwStringSize(0);
 
 	multimap<const _tchar*, CGameObject*>::iterator it;
 	for (it = _pLayer->Get_LayerObjects()->begin(); it != _pLayer->Get_LayerObjects()->end(); it++)
 	{
-
-		//teste = (dynamic_cast<CFloor*>((*it).second)->Get_FloorTransform()->Get_WorldMatrix());
-
-		//WriteFile(hFile, (*it).first, wcslen((*it).first) * 2, &dwByte, nullptr);
+		dwStringSize = sizeof(wchar_t) * (wcslen((*it).first) + 1);
+		WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
+		WriteFile(hFile, (*it).first, dwStringSize, &dwByte, nullptr);
 		//WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_FloorName(), wcslen((dynamic_cast<CFloor*>((*it).second)->Get_FloorName())) * 2, &dwByte, nullptr);
-		
+
 		if ((*it).first == L"Floor")
 		{
 			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
-			iSize++;
+			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr);
 		}
-		
-	}
-	m_iFloor = iSize;
-	iSize = 0;
-
-	for (it = _pLayer->Get_LayerObjects()->begin(); it != _pLayer->Get_LayerObjects()->end(); it++)
-	{
 		if ((*it).first == L"Wall")
 		{
 			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
-			iSize++;
 		}
-	}
-	m_iWall = iSize;
-	iSize = 0;
-	for (it = _pLayer->Get_LayerObjects()->begin(); it != _pLayer->Get_LayerObjects()->end(); it++)
-	{
 		if ((*it).first == L"WallTB")
 		{
 			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
-			iSize++;
 		}
 	}
 
-	m_iWallTB = iSize;
 	CloseHandle(hFile);
 
 	MessageBox(g_hWnd, L"Save 완료", _T("성공"), MB_OK);
@@ -638,20 +722,19 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 
 void CMapCreate::MapLoad(CLayer* _pLayer)
 {
-
 	multimap<const _tchar*, CGameObject*>::iterator it;
 	it = _pLayer->Get_LayerObjects()->find(L"Floor");
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
-	
+
 	it = _pLayer->Get_LayerObjects()->find(L"Wall");
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
-	
+
 	it = _pLayer->Get_LayerObjects()->find(L"WallTB");
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
 
 
-	HANDLE		hFile = CreateFile(L"../Data/Stage1.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/Stage3.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -667,55 +750,60 @@ void CMapCreate::MapLoad(CLayer* _pLayer)
 	}
 
 	DWORD	dwByte(0);
+	DWORD dwStringSize(0);
 
-	const _tchar* pObjName{};
-	const _tchar* pImageName{};
-	_vec3 pMatrix{};
-
-	int iFloor = m_iFloor;
-	int iWall = m_iWall;
-	int iWallTB = m_iWallTB;
+	_vec3 pPos{};
+	_vec3 pRot{};
 
 
 	while (true)
 	{
-		//ReadFile(hFile, &pObjName, sizeof(const _tchar*) * 5, &dwByte, nullptr);
-		//ReadFile(hFile, &pImageName, wcslen(pImageName) * 2, &dwByte, nullptr);
- 		ReadFile(hFile, &pMatrix, sizeof(_vec3 ), &dwByte, nullptr);
+		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
+		TCHAR* pTemp = new TCHAR[dwStringSize];
+		ReadFile(hFile, pTemp, dwStringSize, &dwByte, nullptr);
+		ReadFile(hFile, &pPos, sizeof(_vec3), &dwByte, nullptr);
+
 
 		if (0 == dwByte)
-			break;
-
-		if (iFloor > 0)
 		{
+			if (pTemp)
+			{
+				delete[] pTemp;
+				pTemp = nullptr;
+			}
+			break;
+		}
+		if (wcscmp(pTemp, L"Floor") == 0)
+		{
+			ReadFile(hFile, &pRot, sizeof(_vec3), &dwByte, nullptr);
+
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CFloor::Create_Info(m_pGraphicDev, pMatrix, L"Proto_FirstFloor");
+			pGameObject = CFloor::Create_InfoTest(m_pGraphicDev, pPos, pRot, L"Proto_FirstFloor");
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"Floor", pGameObject);
-			iFloor--;
 		}
-		else if (iWall > 0)
+		if (wcscmp(pTemp, L"Wall") == 0)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CWall::Create_Pos(m_pGraphicDev, pMatrix);
+			pGameObject = CWall::Create_Pos(m_pGraphicDev, pPos);
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"Wall", pGameObject);
-			iWall--;
 		}
-		else if (iWallTB > 0)
+		if (wcscmp(pTemp, L"WallTB") == 0)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CWallTB::Create_Pos(m_pGraphicDev, pMatrix);
+			pGameObject = CWallTB::Create_Pos(m_pGraphicDev, pPos);
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"WallTB", pGameObject);
-			iWallTB--;
 		}
+
 	}
 
 	CloseHandle(hFile);
+
 
 	MessageBox(g_hWnd, L"Load 완료", _T("성공"), MB_OK);
 }

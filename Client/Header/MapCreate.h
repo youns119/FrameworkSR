@@ -27,13 +27,12 @@ private:
 	//타일 저장할 레이어
 	HRESULT Ready_Layer_PickingTile(const _tchar* _pLayerTag);
 	//타일 저장한 레이어 찾아서 가져오기
-	CLayer* Find_Layer_PickingTile();
+	CLayer* Find_Layer(const _tchar* _pLayerTag);
 
 	//바닥 오브젝트 생성
 	HRESULT Create_Layer_PickingFloor(CLayer* _pLayer);
 	//벽 오브젝트 생성
 	HRESULT Create_Layer_PickingWall(CLayer* _pLayer);
-
 	//벽 오브젝트 생성
 	HRESULT Create_Layer_PickingWallTB(CLayer* _pLayer);
 
@@ -50,14 +49,10 @@ private:
 	_vec3 WallCreate_OnTerrain2(HWND _hWnd, CGuideTex* _pGuideBufferCom);
 
 
-
 	// 바닥 버퍼와 마우스 좌표를 통해 삭제
-	HRESULT PickingTile_PosDelete(CLayer* _pLayer);
+	HRESULT PickingTile_PosDelete(CLayer* _pLayer, const _tchar* _TileTag);
 	// 이미 타일이 있으면 생성 X
-	void PickingTile_PosCheck(CLayer* _pLayer);
-
-
-
+	void PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag);
 
 
 	void MapSave(CLayer* _pLayer);
@@ -73,12 +68,12 @@ private:
 
 
 private:
-	bool m_bCreateCheck;
-	_vec3 m_vecWallRot;
+	bool m_bCreateCheck;//타일 생성 여부 체크
+	_vec3 m_vecRot;//바닥 회전 적용
+	int m_iRidian;//바닥 회전 값
+	float m_fHeight;// 가이드 지형 높이
+	int m_iByte;
 
-	int m_iFloor;
-	int m_iWall;
-	int m_iWallTB;
 
 };
 

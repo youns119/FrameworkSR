@@ -52,6 +52,10 @@ private:
 
 private:
 	void Set_Collision();
+	// 레이어 찾을려는 용도 - 유빈
+	CLayer* Find_Layer(const _tchar* _pLayerTag);
+	// 맵 불러오기 - 유빈
+	void MapLoad(CLayer* _pLayer);
 
 private:
 	virtual void Free();
