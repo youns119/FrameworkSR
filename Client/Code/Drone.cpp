@@ -10,6 +10,8 @@ CDrone::CDrone(LPDIRECT3DDEVICE9 _pGraphicDev) :
 {
 	for (_int i = 0; i < DRONESTATE::DRONE_END; ++i)
 		m_pTextureCom[i] = nullptr;
+
+	m_fHP = 3.f;
 }
 
 CDrone::~CDrone()
@@ -33,20 +35,23 @@ void CDrone::Render_GameObject()
 
 void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
-	switch (_eDamagedState)
+	if (0.f >= m_fHP)
 	{
-	case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
-		Changing_State(CDrone::DRONE_HEADSHOT);
-		break;
-	case Engine::DAMAGED_STATE::DAMAGED_KATANA:
-		Changing_State(CDrone::DRONE_KATANA);
-		break;
-	default:
-		Changing_State(CDrone::DRONE_DAMAGED);
-		break;
+		switch (_eDamagedState)
+		{
+		case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
+			Changing_State(CDrone::DRONE_HEADSHOT);
+			break;
+		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
+			Changing_State(CDrone::DRONE_KATANA);
+			break;
+		default:
+			Changing_State(CDrone::DRONE_DAMAGED);
+			break;
+		}
+		m_pColliderCom->SetActive(false);
+		m_bIsDead = true;
 	}
-
-	m_bIsDead = true;
 }
 
 void CDrone::Free()

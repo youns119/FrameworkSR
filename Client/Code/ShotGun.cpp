@@ -37,6 +37,7 @@ HRESULT CShotGun::Ready_GameObject()
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetActive(true);
 
 	Set_Animation();
 	m_pHitBufferCom->SetvOffSet({ 0.f,0.f,0.f });

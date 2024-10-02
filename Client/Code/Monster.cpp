@@ -14,6 +14,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pHeadHit(nullptr)
 	, m_pCriticalHit(nullptr)
 	, vKnockBackForce({ 0.f,0.f,0.f })
+	, m_fHP(0.f)
 {
 }
 
@@ -82,19 +83,14 @@ void CMonster::LateUpdate_GameObject()
 
 void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
-	/*CMonster::MONSTERBODY eTemp = MONSTERBODY_END;
-	switch (_eDamagedState)
+	if (Engine::DAMAGED_STATE::DAMAGED_BODYSHOT == _eDamagedState || Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT == _eDamagedState)
 	{
-	case DAMAGED_STATE::DAMAGED_HEADSHOT: eTemp = MONSTERBODY_HEAD;
-		break;
-	case DAMAGED_STATE::DAMAGED_BULLSHOT: eTemp = MONSTERBODY_BULL;
-		break;
-	default:eTemp = MONSTERBODY_BODY;
-		break;
-	}*/
-	Damaged_By_Player(_eDamagedState, _fAttackDamage);
-
-	m_pColliderCom->SetActive(false); //To BeomSeung, Check RcCol from collider active plz
+		Damaged_By_Player(_eDamagedState, _fAttackDamage);
+	}
+	else
+	{
+		Damaged_By_Player(_eDamagedState, 15.f); //if Monster isn't Boss, it'll be Must Dead
+	}
 }
 
 void CMonster::AddForce(_float pPower, _vec3 vLook)
@@ -102,6 +98,7 @@ void CMonster::AddForce(_float pPower, _vec3 vLook)
 	D3DXVec3Normalize(&vLook, &vLook);
 	vLook *= pPower;
 	vKnockBackForce = vLook;
+	Damaged(Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT, 5.f);
 }
 
 void CMonster::KnockBack(const _float& _fTimeDelta)

@@ -14,6 +14,8 @@ CHumanoid::CHumanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	for (_int i = 0; i < HUMANOIDSTATE::HUMANOID_END; ++i)
 		m_pTextureCom[i] = nullptr;
+
+	m_fHP = 12.f;
 }
 
 CHumanoid::~CHumanoid()
@@ -49,33 +51,46 @@ void CHumanoid::Render_GameObject()
 void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	_int iTemp(0);
-
-	switch (_eDamagedState)
+	m_fHP -= _fAttackDamage;
+	if (0.f >= m_fHP)
 	{
-	case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
-		Changing_State(CHumanoid::HUMANOID_HEADSHOT);
-		break;
-	case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
-		Changing_State(CHumanoid::HUMANOID_BULLSHOT);
-		break;
-	case Engine::DAMAGED_STATE::DAMAGED_KATANA:
-		Changing_State(CHumanoid::HUMANOID_KATANA);
-		break;
-	case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
+		switch (_eDamagedState)
+		{
+		case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
+			Changing_State(CHumanoid::HUMANOID_HEADSHOT);
+			break;
+		case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
+			Changing_State(CHumanoid::HUMANOID_BULLSHOT);
+			break;
+		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
+			Changing_State(CHumanoid::HUMANOID_KATANA);
+			break;
+		case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
 
-		iTemp = _int(rand() % 64);
+			iTemp = _int(rand() % 64);
 
-		if (0 == _int(iTemp % 4))
-			Changing_State(CHumanoid::HUMANOID_SHOT_ONE);
-		else if (1 == _int(iTemp % 4))
-			Changing_State(CHumanoid::HUMANOID_SHOT_TWO);
-		else if (2 == _int(iTemp % 4))
-			Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
-		else
-			Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
-		break;
+			if (0 == _int(iTemp % 4))
+				Changing_State(CHumanoid::HUMANOID_SHOT_ONE);
+			else if (1 == _int(iTemp % 4))
+				Changing_State(CHumanoid::HUMANOID_SHOT_TWO);
+			else if (2 == _int(iTemp % 4))
+				Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
+			else
+				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
+			break;
+		case Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT:
+
+			iTemp = _int(rand() % 8);
+
+			if (0 == _int(iTemp % 2))
+				Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
+			else
+				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
+			break;
+		}
+		m_pColliderCom->SetActive(false);
+		m_bIsDead = true;
 	}
-	m_bIsDead = true;
 }
 
 

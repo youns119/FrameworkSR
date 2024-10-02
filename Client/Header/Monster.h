@@ -58,6 +58,8 @@ protected:
 	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;
 
+	_float m_fHP;
+
 	//³Ë¹é Å©±â
 	_vec3 vKnockBackForce;
 	//Jonghan Change End

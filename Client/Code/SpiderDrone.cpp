@@ -35,6 +35,7 @@ HRESULT CSpiderDrone::Ready_GameObject()
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetActive(true);
 	m_pHitBufferCom->SetvOffSet({ 0.f,0.f,0.f });
 	m_pHeadHit->SetvOffSet({ 0.5f,0.5f,0.f });
 	m_pCriticalHit->SetvOffSet({ -0.5f,0.5f,0.f });
