@@ -249,6 +249,7 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Sniper", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/SNIPER.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_ShotGun", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/SHOTGUN.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Katana", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/KATANA.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Minigun", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/DEFAULT.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_Shop
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Shop_Hand.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Badge", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/POLICE_BADGE_%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
