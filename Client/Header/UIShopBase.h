@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CTransform;
+class CAnimator;
 
 END
 
@@ -16,11 +17,9 @@ class CUIShopBase
 public:
 	enum class UI_SHOPBASE
 	{
-		SHOPBASE_HAND,
-		SHOPBASE_BADGE,
-		SHOPBASE_STATIC,
-		SHOPBASE_PHONE,
-		SHOPBASE_BUZZ,
+		SHOPBASE_START,
+		SHOPBASE_LOAD,
+		SHOPBASE_BASE,
 		SHOPBASE_END,
 	};
 
@@ -41,12 +40,19 @@ private:
 	HRESULT Add_Component();
 
 private:
+	void Set_Animation();
+
+private:
+	virtual void Reset();
+
+private:
 	virtual void Free();
 
 private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_END];
-	Engine::CTransform* m_pTransformCom[2];
+	Engine::CTransform* m_pTransformCom;
+	Engine::CAnimator* m_pAnimatorCom;
 
 	_float m_fScaleRatio;
 };

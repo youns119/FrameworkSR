@@ -251,9 +251,9 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Katana", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/KATANA.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Minigun", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/DEFAULT.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_Shop
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Shop_Hand.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Badge", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/POLICE_BADGE_%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Static", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/STATIC_%d.png", TEXTUREID::TEX_NORMAL, 2)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand_Base", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/ShopHand_Base.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand_Start", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/ShopHand_Start_%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand_Load", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/ShopHand_Load_%d.png", TEXTUREID::TEX_NORMAL, 2)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Buzz", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/INT_%d.png", TEXTUREID::TEX_NORMAL, 5)), E_FAIL);
 	// UI_Phone
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIPhone_Base", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Phone/Phone_Base.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
