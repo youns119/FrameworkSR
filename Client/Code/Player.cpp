@@ -6,6 +6,7 @@
 #include "../Header/EffectPool.h"
 #include "../Header/EffectMuzzleFlash.h"
 #include "../Header/Monster.h"
+#include "../Header/Item.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CCharacter(_pGraphicDev)
@@ -13,6 +14,8 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pBody_TransformCom(nullptr)
 	, m_pCComponentCamera(nullptr)
 	, m_pLeft_TransformCom(nullptr)
+	, m_pLeg_TransformCom(nullptr)
+	, m_pPlayer_Buffer(nullptr)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
 	, bJumpCheck(false)
@@ -22,6 +25,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, flinear(0.f)
 	, fTilePos(0.f)
 	, fSpeed(0.f)
+	, m_fDashSpeed(0.f)
 	, m_Right_CurState(CHANGE)
 	, m_Right_PreState(RIGHT_STATE_END)
 	, m_Left_CurState(LEFT_IDLE)
@@ -42,6 +46,14 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
 	vDefaultSize[LEFT] = { 300.f,300.f,0.f };
 	vDefaultSize[LEG] = { 500.f,500.f,0.f };
+
+	for (_int i = 0; i < LEG_STATE::LEG_STATE_END; ++i)
+		m_pLeg_TextureCom[i] = nullptr;
+	for (_int i = 0; i < LEFT_STATE::LEFT_STATE_END; ++i)
+		m_pLeft_TextureCom[i] = nullptr;
+	for (_int i = 0; i < WEAPON_STATE::WEAPON_STATE_END; ++i)
+		for (_int j = 0; j < RIGHT_STATE::RIGHT_STATE_END; ++j)
+			m_pRight_TextureCom[i][j] = nullptr;
 }
 
 CPlayer::~CPlayer()
@@ -92,7 +104,7 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
 		{
 			Key_Input(_fTimeDelta);
-			Mouse_Move();
+			Mouse_Move(_fTimeDelta);
 		}
 
 		Animation_End_Check();
@@ -360,21 +372,25 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 
 	if (Engine::Key_Hold(DIK_W)) {
 		//Beomseung
-		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, fSpeed);
+		if (!bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, fSpeed);
 	}
 	if (Engine::Key_Hold(DIK_S)) {
 		//Beomseung   
-		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -fSpeed);
+		if (!bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -fSpeed);
 
 	}
 	if (Engine::Key_Hold(DIK_A)) {
 		//Beomseung    
-		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -fSpeed);
+		if (!bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -fSpeed);
 
 	}
 	if (Engine::Key_Hold(DIK_D)) {
 		//Beomseung    
-		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, fSpeed);
+		if (!bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, fSpeed);
 	}
 	if (Engine::Key_Press(DIK_SPACE)) {
 		bJumpCheck = true;
@@ -471,12 +487,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		flinear = 0.f;
 	}
 
-	if (Engine::Key_Hold(DIK_P)) {
-		//Beomseung   
-		bLegUse = true;
-		m_Leg_CurState = KICK;
-		m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
-	}
+	
 
 	if (Engine::Key_Hold(DIK_O)) {
 		//Beomseung   
@@ -533,29 +544,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
 	}
-	if (Engine::Key_Press(DIK_LSHIFT))
-	{
-		CComponent* pComponent(nullptr);
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Operate_Effect();
-		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
-		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, 0.f, 2.f);
-		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
-		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, 0.f, 2.f);
-		fSpeed += 100;
-
-	}
-	if (Engine::Key_Release(DIK_LSHIFT))
-	{
-		CComponent* pComponent(nullptr);
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Stop_Effect();
-		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
-		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
-		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
-		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -3.f, 2.f);
-		fSpeed -= 100;
-	}
+	
 	if (m_WeaponState == SNIPER) {
 		if (Engine::Key_Press(DIK_L))
 		{
@@ -574,7 +563,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	}
 }
 
-void CPlayer::Mouse_Move()
+void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 {
 	_long dwMouseMove(0);
 
@@ -659,19 +648,42 @@ void CPlayer::Mouse_Move()
 		}
 	}
 
-	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {
-		m_Left_CurState = DRINK;
-		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
-
-		// ±Ôºó
+	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
+	{
+		bLegUse = true;
+		m_Leg_CurState = LEG_IDLE;
+		m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
 		CComponent* pComponent(nullptr);
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
+		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
+		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, 0.f, 2.f);
+		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
+		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, 0.f, 2.f);
+		m_fDashSpeed = fSpeed * 1.5f;
 	}
+	if (Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_RB))
+	{
+		_vec3 vLook;
+		if (0.f < m_fDashSpeed)
+			m_fDashSpeed -= (_fTimeDelta * 10.f);
+		else
+			m_fDashSpeed = 0.f;
 
-	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB)) {
-		m_Left_CurState = DRINK;
-		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, m_fDashSpeed);
+	}
+	if (Engine::Mouse_Release(MOUSEKEYSTATE::DIM_RB))
+	{
+		CComponent* pComponent(nullptr);
+		bLegUse = false;
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Stop_Effect();
+		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
+		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
+		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
+		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -3.f, 2.f);
+
 	}
 
 }
@@ -791,7 +803,7 @@ void CPlayer::Animation_End_Check()
 		}
 		else {
 			m_Leg_CurState = LEG_IDLE;
-			bLegUse = false;
+			//bLegUse = false;
 		}
 	}
 
@@ -1012,8 +1024,43 @@ void CPlayer::OnCollision(CCollider& _pOther)
 
 void CPlayer::OnCollisionEnter(CCollider& _pOther)
 {
-	CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
-	static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+	CMonster* pMonster = static_cast<CMonster*>(_pOther.GetOwner());
+	if (nullptr != pMonster) //is it Monster == _pOther
+	{
+		if (bLegUse)
+		{
+			m_Leg_CurState = KICK;
+			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+		}
+		else
+		{
+			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+			static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		}
+		return;
+	}
+
+	CBullet* pBullet = static_cast<CBullet*>(_pOther.GetOwner()); //is it Monster_Bullet == _pOther
+
+	if (nullptr != pBullet)
+	{
+		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		return;
+	}
+
+	CItem* pItem = static_cast<CItem*>(_pOther.GetOwner()); //here you should check fcking Item
+	if (nullptr != pItem)
+		return;
+	else
+	{
+		if (bLegUse)
+		{
+			m_Leg_CurState = KICK;
+			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+		}
+	}
+	
 }
 
 void CPlayer::OnCollisionExit(CCollider& _pOther)

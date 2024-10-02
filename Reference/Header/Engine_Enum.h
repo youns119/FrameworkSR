@@ -54,6 +54,7 @@ namespace Engine
 		DAMAGED_HEADSHOT,
 		DAMAGED_BULLSHOT,
 		DAMAGED_BODYSHOT,
+		DAMAGED_PUSHSHOT,
 		DAMAGED_KATANA,
 		DAMAGED_END,
 	};
@@ -62,6 +63,7 @@ namespace Engine
 	{
 		ITEM_KNIFE,
 		ITEM_AXE,
+		ITEM_DRINK,
 		ITEM_END,
 	};
 }

@@ -215,6 +215,12 @@
     <Filter Include="04.UI\01.Combo\01.ComboRight">
       <UniqueIdentifier>{7470e5dd-6212-4f22-80dd-849d40170dc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\12.DrinkMachine">
+      <UniqueIdentifier>{b6f8a541-b2da-4673-b89c-001544007921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\10.Item\02.Drink">
+      <UniqueIdentifier>{64b93924-c549-4840-ad3b-080fcc6dd4a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -436,6 +442,12 @@
     <ClInclude Include="..\Header\UIFreeCam.h">
       <Filter>04.UI\05.FreeCam</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Drink.h">
+      <Filter>03.GameObject\10.Item\02.Drink</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DrinkMachine.h">
+      <Filter>03.GameObject\12.DrinkMachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -638,6 +650,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIFreeCam.cpp">
       <Filter>04.UI\05.FreeCam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Drink.cpp">
+      <Filter>03.GameObject\10.Item\02.Drink</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DrinkMachine.cpp">
+      <Filter>03.GameObject\12.DrinkMachine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@
 #include "Shield.h"
 #include "Knife.h"
 #include "Axe.h"
+#include "DrinkMachine.h"
 
 #include "Terrain.h"
 #include "SkyBox.h"

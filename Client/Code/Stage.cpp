@@ -392,6 +392,14 @@ HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
 
+	pGameObject = CDrink::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Drink", pGameObject), E_FAIL);
+
+	pGameObject = CDrinkMachine::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DrinkMachine", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;

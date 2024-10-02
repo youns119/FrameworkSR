@@ -85,7 +85,7 @@ public:
 private:
 	HRESULT	Add_Component();
 	void Key_Input(const _float& _fTimeDelta);
-	void Mouse_Move();
+	void Mouse_Move(const _float& _fTimeDelta);
 	void Mouse_Fix();
 	void Jump(const _float& _fTimeDelta);
 	void Picking_Terrain();
@@ -129,6 +129,7 @@ private:
 	_float fJumpPower;
 	_float fTilePos;
 	_float fSpeed;
+	_float m_fDashSpeed;
 	_float flinear;
 	_vec3 vDefaultPos[FINISH];
 	_vec3 vDefaultSize[FINISH];
