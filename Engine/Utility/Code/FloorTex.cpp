@@ -100,4 +100,5 @@ CComponent* CFloorTex::Clone()
 
 void CFloorTex::Free()
 {
+	CVIBuffer::Free();
 }

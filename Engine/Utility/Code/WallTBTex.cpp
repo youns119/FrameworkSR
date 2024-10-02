@@ -95,4 +95,5 @@ CComponent* CWallTBTex::Clone()
 
 void CWallTBTex::Free()
 {
+	CVIBuffer::Free();
 }

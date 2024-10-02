@@ -99,4 +99,5 @@ CComponent* CWallTex::Clone()
 
 void CWallTex::Free()
 {
+	CVIBuffer::Free();
 }
