@@ -20,7 +20,7 @@ class CPlayer
 {
 private:
 	enum RIGHT_STATE {
-		FINISHKILL,
+		EXECUTION,
 		IDLE,
 		SHOOT,
 		RELOAD,
@@ -33,6 +33,7 @@ private:
 	enum LEFT_STATE {
 		LEFT_IDLE,
 		DRINK,
+		LEFT_EXECUTION,
 		MINIGUN_BODY_IDLE,
 		MINIGUN_BODY_CHANGE,
 		LEFT_STATE_END
@@ -71,6 +72,7 @@ private:
 public:
 	WEAPON_STATE Get_WeaponState() { return m_WeaponState; }
 	_bool Get_HasItem() { return m_bIsHasItem; }
+	_bool Get_Drinking() { return m_bIsDrinking; }
 	void Rooting_Item(Engine::ITEM_TYPE _eItemType) { m_eItemType = _eItemType; m_bIsHasItem = true; } //Jonghan Change
 
 public:
@@ -92,6 +94,7 @@ private:
 	void SetAnimation();
 	void Animation_End_Check();
 	void Animation_Pos();
+	void Rotate_Arms(const _bool& _bIsRecover);
 	void Collide_Wall(CCollider& _pOther);
 public:
 	void OnCollision(CCollider& _pOther);
@@ -122,17 +125,19 @@ private:
 	//Collider
 	Engine::CCollider* m_pColliderCom;
 private:
-	_bool bJumpCheck;
-	_bool bLegUse;
-	_bool bLeftHandUse;
+	_bool m_bJumpCheck;
+	_bool m_bLegUse;
+	_bool m_bLeftHandUse;
 	_bool m_bIsHasItem;
-	_float fJumpPower;
-	_float fTilePos;
-	_float fSpeed;
+	_bool m_bIsDrinking;
+	_bool m_bIsRotation;
+	_float m_fJumpPower;
+	_float m_fTilePos;
+	_float m_fSpeed;
 	_float m_fDashSpeed;
-	_float flinear;
-	_vec3 vDefaultPos[FINISH];
-	_vec3 vDefaultSize[FINISH];
+	_float m_flinear;
+	_vec3 m_vDefaultPos[FINISH];
+	_vec3 m_vDefaultSize[FINISH];
 
 	RIGHT_STATE m_Right_CurState;
 	RIGHT_STATE m_Right_PreState;

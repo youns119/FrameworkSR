@@ -32,7 +32,8 @@ public:
 	virtual void Damaged(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
 	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f) PURE;
 	//넉백시킬 크기 세팅해주는 함수
-	virtual void AddForce(_float pPower, _vec3 vLook);
+	virtual void AddForce(const _float& _fPower, _vec3 _vLook, const _float& _fDamage);
+	virtual _bool Get_Execution(_vec3 _vLook, const _bool& _bIsDo)PURE;
 protected:
 	virtual HRESULT	Add_Component()PURE;
 	virtual void State_Check()PURE; //Jonghan Change
@@ -59,7 +60,7 @@ protected:
 	Engine::CTransform* m_pTransformCom;
 
 	_float m_fHP;
-
+	_bool m_bIsExecution;
 	//넉백 크기
 	_vec3 vKnockBackForce;
 	//Jonghan Change End

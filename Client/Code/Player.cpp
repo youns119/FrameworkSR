@@ -6,7 +6,7 @@
 #include "../Header/EffectPool.h"
 #include "../Header/EffectMuzzleFlash.h"
 #include "../Header/Monster.h"
-#include "../Header/Item.h"
+#include "../Header/DrinkMachine.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CCharacter(_pGraphicDev)
@@ -18,13 +18,16 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pPlayer_Buffer(nullptr)
 	, m_pCalculatorCom(nullptr)
 	, m_pColliderCom(nullptr)
-	, bJumpCheck(false)
-	, bLeftHandUse(true)
-	, bLegUse(false)
-	, fJumpPower(0.f)
-	, flinear(0.f)
-	, fTilePos(0.f)
-	, fSpeed(0.f)
+	, m_bJumpCheck(false)
+	, m_bLeftHandUse(true)
+	, m_bLegUse(false)
+	, m_bIsHasItem(false)
+	, m_bIsDrinking(false)
+	, m_bIsRotation(false)
+	, m_fJumpPower(0.f)
+	, m_flinear(0.f)
+	, m_fTilePos(0.f)
+	, m_fSpeed(0.f)
 	, m_fDashSpeed(0.f)
 	, m_Right_CurState(CHANGE)
 	, m_Right_PreState(RIGHT_STATE_END)
@@ -33,7 +36,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_Leg_CurState(LEG_IDLE)
 	, m_Leg_PreState(LEG_STATE_END)
 	, m_WeaponState(PISTOL)
-	, m_bIsHasItem(false)
 	, m_eItemType(Engine::ITEM_TYPE::ITEM_END)
 	//Beomseung
 {
@@ -41,11 +43,11 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	ZeroMemory(&m_fFrameEnd, sizeof(m_fFrameEnd));
 	ZeroMemory(&m_fFrameSpeed, sizeof(m_fFrameSpeed));
 	ZeroMemory(&m_pAnimator, sizeof(m_pAnimator));
-	vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
-	vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -3.f,2.f };
-	vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
-	vDefaultSize[LEFT] = { 300.f,300.f,0.f };
-	vDefaultSize[LEG] = { 500.f,500.f,0.f };
+	m_vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
+	m_vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -3.f,2.f };
+	m_vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
+	m_vDefaultSize[LEFT] = { 300.f,300.f,0.f };
+	m_vDefaultSize[LEG] = { 500.f,500.f,0.f };
 
 	for (_int i = 0; i < LEG_STATE::LEG_STATE_END; ++i)
 		m_pLeg_TextureCom[i] = nullptr;
@@ -87,7 +89,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 
-	fSpeed = 10.f;
+	m_fSpeed = 10.f;
 
 	// 규빈 : 알파소팅을 위한 설정, 
 	m_fViewZ = 10.f;
@@ -145,13 +147,13 @@ void CPlayer::Render_GameObject()
 	m_pAnimator[RIGHT]->Render_Animator();
 	m_pPlayer_Buffer->Render_Buffer();
 
-	if (bLeftHandUse) {
+	if (m_bLeftHandUse) {
 		mat = *m_pLeft_TransformCom->Get_WorldMatrix();
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &mat);
 		m_pAnimator[LEFT]->Render_Animator();
 		m_pPlayer_Buffer->Render_Buffer();
 	}
-	if (bLegUse) {
+	if (m_bLegUse) {
 		_matrix mat = *m_pLeg_TransformCom->Get_WorldMatrix();
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &mat);
 		m_pAnimator[LEG]->Render_Animator();
@@ -191,6 +193,10 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pRight_TextureCom[PISTOL][CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_Change")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Pistol_Change", pComponent });
+
+	pComponent = m_pRight_TextureCom[PISTOL][EXECUTION] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Right_KnifeExecution")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Right_KnifeExecution", pComponent });
 
 	//Rifle
 	pComponent = m_pRight_TextureCom[RIFLE][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Rifle_IDLE")));
@@ -280,6 +286,10 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pLeft_TextureCom[DRINK] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftDrink")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_LeftDrink", pComponent });
+
+	pComponent = m_pLeft_TextureCom[LEFT_EXECUTION] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftExecution")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_LeftExecution", pComponent });
 
 	pComponent = m_pLeft_TextureCom[MINIGUN_BODY_IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_Body_IDLE")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -371,34 +381,34 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 
 	if (Engine::Key_Hold(DIK_W)) {
 		//Beomseung
-		if (!bLegUse)
-			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, fSpeed);
+		if (!m_bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, m_fSpeed);
 	}
 	if (Engine::Key_Hold(DIK_S)) {
 		//Beomseung   
-		if (!bLegUse)
-			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -fSpeed);
+		if (!m_bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, -m_fSpeed);
 
 	}
 	if (Engine::Key_Hold(DIK_A)) {
 		//Beomseung    
-		if (!bLegUse)
-			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -fSpeed);
+		if (!m_bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -m_fSpeed);
 
 	}
 	if (Engine::Key_Hold(DIK_D)) {
 		//Beomseung    
-		if (!bLegUse)
-			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, fSpeed);
+		if (!m_bLegUse)
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, m_fSpeed);
 	}
 	if (Engine::Key_Press(DIK_SPACE)) {
-		bJumpCheck = true;
-		fJumpPower = 20.0f;
+		m_bJumpCheck = true;
+		m_fJumpPower = 20.0f;
 	}
 
 	if (Engine::Key_Hold(DIK_J)) {
-		bLeftHandUse = false;
-		m_Right_CurState = FINISHKILL;
+		m_bLeftHandUse = false;
+		m_Right_CurState = EXECUTION;
 		m_pAnimator[RIGHT]->PlayAnimation(L"FinishKill", false);
 
 	}
@@ -412,7 +422,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		case RIFLE:
 			m_Right_CurState = RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Reload", false);
-			bLeftHandUse = false;
+			m_bLeftHandUse = false;
 			break;
 		case SHOTGUN:
 			m_Right_CurState = RELOAD;
@@ -421,7 +431,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		case SNIPER:
 			m_Right_CurState = RELOAD;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Reload", false);
-			bLeftHandUse = false;
+			m_bLeftHandUse = false;
 			break;
 		default:
 			break;
@@ -429,53 +439,53 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	}
 
 	if (Engine::Key_Hold(DIK_1)) {
-		bLeftHandUse = true;
-		bLegUse = false;
+		m_bLeftHandUse = true;
+		m_bLegUse = false;
 		m_WeaponState = PISTOL;
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
-		flinear = 0.f;
+		m_flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_2)) {
 		m_WeaponState = RIFLE;
-		bLegUse = false;
+		m_bLegUse = false;
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Change", false);
-		bLeftHandUse = false;
-		flinear = 0.f;
+		m_bLeftHandUse = false;
+		m_flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_3)) {
-		bLeftHandUse = false;
-		bLegUse = false;
+		m_bLeftHandUse = false;
+		m_bLegUse = false;
 		m_WeaponState = SHOTGUN;
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Change", false);
-		flinear = 0.f;
+		m_flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_4)) {
-		bLeftHandUse = true;
-		bLegUse = false;
+		m_bLeftHandUse = true;
+		m_bLegUse = false;
 		m_WeaponState = SNIPER;
 		m_Right_CurState = IDLE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
-		flinear = 0.f;
+		m_flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_5)) {
-		bLeftHandUse = false;
-		bLegUse = false;
+		m_bLeftHandUse = false;
+		m_bLegUse = false;
 		m_WeaponState = KATANA;
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Change", false);
-		flinear = 0.f;
+		m_flinear = 0.f;
 	}
 
 	if (Engine::Key_Hold(DIK_6)) {
-		bLegUse = true;
-		bLeftHandUse = true;
+		m_bLegUse = true;
+		m_bLeftHandUse = true;
 		m_WeaponState = MINIGUN;
 		m_Right_CurState = IDLE;
 		m_Left_CurState = MINIGUN_BODY_CHANGE;
@@ -483,14 +493,14 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", true);
 		m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Change", false);
 		m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Change", false);
-		flinear = 0.f;
+		m_flinear = 0.f;
 	}
 
 	
 
 	if (Engine::Key_Hold(DIK_O)) {
 		//Beomseung   
-		bLegUse = true;
+		m_bLegUse = true;
 		m_Leg_CurState = SLIDING;
 		m_pAnimator[LEG]->PlayAnimation(L"Leg_Sliding", false);
 	}
@@ -560,14 +570,14 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		{
 			m_Right_CurState = ZOOMIN;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomIn", false);
-			bLeftHandUse = false;
+			m_bLeftHandUse = false;
 		}
 		if (Engine::Key_Release(DIK_L))
 		{
 			if (m_Right_CurState == ZOOMING || m_Right_CurState == ZOOMIN) {
 				m_Right_CurState = ZOOMOUT;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomOut", false);
-				bLeftHandUse = false;
+				m_bLeftHandUse = false;
 			}
 		}
 	}
@@ -660,17 +670,16 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
 	{
-		bLegUse = true;
+		m_bLegUse = true;
 		m_Leg_CurState = LEG_IDLE;
 		m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
 		CComponent* pComponent(nullptr);
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
-		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
+		Rotate_Arms(false);
 		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, 0.f, 2.f);
-		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
 		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, 0.f, 2.f);
-		m_fDashSpeed = fSpeed * 1.5f;
+		m_fDashSpeed = m_fSpeed * 1.5f;
 	}
 	if (Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_RB))
 	{
@@ -686,14 +695,12 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 	if (Engine::Mouse_Release(MOUSEKEYSTATE::DIM_RB))
 	{
 		CComponent* pComponent(nullptr);
-		bLegUse = false;
+		m_bLegUse = false;
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Stop_Effect();
-		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
+		Rotate_Arms(true);
 		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
-		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
 		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -3.f, 2.f);
-
 	}
 
 }
@@ -709,22 +716,22 @@ void CPlayer::Mouse_Fix()
 
 void CPlayer::Jump(const _float& _fTimeDelta)
 {
-	if (bJumpCheck)
+	if (m_bJumpCheck)
 	{
-		fJumpPower -= 1.f;
+		m_fJumpPower -= 1.f;
 		_vec3 vPos;
 		_vec3 vUp = { 0.f, 1.f, 0.f };
 
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-		if (vPos.y + _fTimeDelta * fJumpPower <= vPos.y - fTilePos + 1.f)
+		if (vPos.y + _fTimeDelta * m_fJumpPower <= vPos.y - m_fTilePos + 1.f)
 		{
-			bJumpCheck = false;
-			fJumpPower = 0;
-			m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y - fTilePos + 1.f, vPos.z);
+			m_bJumpCheck = false;
+			m_fJumpPower = 0;
+			m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y - m_fTilePos + 1.f, vPos.z);
 		}
 		else
-			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, fJumpPower);
+			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, m_fJumpPower);
 	}
 }
 
@@ -733,16 +740,18 @@ void CPlayer::Picking_Terrain()
 	_vec3 vPos;
 	m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-	fTilePos = Engine::FloorRayCast(vPos);
+	m_fTilePos = Engine::FloorRayCast(vPos);
 
-	if (!bJumpCheck && fTilePos > 0.f)
-		m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y - fTilePos + 1.f, vPos.z);
+	if (!m_bJumpCheck && m_fTilePos > 0.f)
+		m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y - m_fTilePos + 1.f, vPos.z);
 }
 
 void CPlayer::SetAnimation()
 {
-	//Beomseung
 	//Right
+	//Jonghan
+	m_pAnimator[RIGHT]->CreateAnimation(L"Execution_Knife", m_pRight_TextureCom[PISTOL][EXECUTION], 2.f);
+	//Beomseung
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Idle", m_pRight_TextureCom[PISTOL][IDLE], 8.f);
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Shoot", m_pRight_TextureCom[PISTOL][SHOOT], 13.f);
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Reload", m_pRight_TextureCom[PISTOL][RELOAD], 13.f);
@@ -780,6 +789,7 @@ void CPlayer::SetAnimation()
 	//Left
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Idle", m_pLeft_TextureCom[LEFT_IDLE], 8.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Drink", m_pLeft_TextureCom[DRINK], 8.f);
+	m_pAnimator[LEFT]->CreateAnimation(L"Left_Execution", m_pLeft_TextureCom[LEFT_EXECUTION], 2.f);
 
 	//Leg
 	m_pAnimator[LEG]->CreateAnimation(L"Leg_Idle", m_pLeg_TextureCom[LEG_IDLE], 8.f);
@@ -788,14 +798,14 @@ void CPlayer::SetAnimation()
 
 	m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
 	m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
-	m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+	m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 
 	m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
-	m_pLeft_TransformCom->Set_Scale(vDefaultSize[LEFT]);
-	m_pLeft_TransformCom->Set_Pos(vDefaultPos[LEFT]);
+	m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
+	m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
 
 	m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
-	m_pLeg_TransformCom->Set_Scale(vDefaultSize[LEG]);
+	m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG]);
 	m_pLeg_TransformCom->Set_Pos(0, WINCY / -3.f, 2.f);
 }
 
@@ -808,9 +818,14 @@ void CPlayer::Animation_End_Check()
 			m_Leg_CurState = MINIGUN_PANEL_IDLE;
 			m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Idle", false);
 		}
+		else if (m_Leg_CurState == KICK)
+		{
+			m_Leg_CurState = LEG_IDLE;
+			m_bLegUse = false;
+		}
 		else {
 			m_Leg_CurState = LEG_IDLE;
-			//bLegUse = false;
+			//m_bLegUse = false;
 		}
 	}
 
@@ -848,8 +863,8 @@ void CPlayer::Animation_End_Check()
 			m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", true);
 			break;
 		}
-		bLeftHandUse = true;
-		flinear = 0;
+		m_bLeftHandUse = true;
+		m_flinear = 0;
 	}
 	if (m_pAnimator[LEFT]->GetCurrAnim()->GetFinish())
 	{
@@ -857,9 +872,19 @@ void CPlayer::Animation_End_Check()
 			m_Left_CurState = MINIGUN_BODY_IDLE;
 			m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Idle", false);
 		}
+		else if (m_Left_CurState == LEFT_EXECUTION)
+		{
+			m_bLegUse = true;
+			m_Leg_CurState = KICK;
+			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+			m_Left_CurState = LEFT_IDLE;
+			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
+			m_bIsDrinking = false;
+		}
 		else {
 			m_Left_CurState = LEFT_IDLE;
 			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
+			m_bIsDrinking = false;
 		}
 	}
 }
@@ -879,7 +904,7 @@ void CPlayer::Animation_Pos()
 		break;
 	case MINIGUN_PANEL_CHANGE:
 	case MINIGUN_PANEL_IDLE:
-		m_pLeg_TransformCom->Set_Scale(vDefaultSize[LEG] * 1.2f);
+		m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG] * 1.2f);
 		break;
 	default:
 		m_pLeg_TransformCom->Set_Pos(0, WINCY / -3.f, 2.f);
@@ -888,21 +913,40 @@ void CPlayer::Animation_Pos()
 	switch (m_WeaponState)
 	{
 	case PISTOL:
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-		m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+		switch (m_Right_CurState)
+		{
+		case EXECUTION:
+			vStart = { 3000.f, 0.f, 1.f };
+			vEnd = { 270.f, -125.f, 1.f };
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			m_pRight_TransformCom->Set_Pos(vPos);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.7f);
+			break;
+
+		default:
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
+			break;
+		}
 		break;
 	case RIFLE:
 		switch (m_Right_CurState)
 		{
 		case IDLE:
 		case SHOOT:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] / 2.f);
-			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] / 2.f);
+			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 			break;
 		case RELOAD:
 		case CHANGE:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
 			m_pRight_TransformCom->Set_Pos(0.f, -WINCY / 3.f, 2.f);
+			break;
+		case EXECUTION:
+			vStart = { 3000.f, 0.f, 1.f };
+			vEnd = { 270.f, -125.f, 1.f };
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			m_pRight_TransformCom->Set_Pos(vPos);
 			break;
 		}
 		break;
@@ -912,11 +956,11 @@ void CPlayer::Animation_Pos()
 		case IDLE:
 		case SHOOT:
 		case RELOAD:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 			break;
 		case CHANGE:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.2f);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.2f);
 			if (m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() >= 10)
 			{
 				_vec3 vRight;
@@ -926,6 +970,12 @@ void CPlayer::Animation_Pos()
 			else {
 				m_pRight_TransformCom->Set_Pos(0.f, WINCY / -4.f, 2.f);
 			}
+		case EXECUTION:
+			vStart = { 1000.f, 0.f, 1.f };
+			vEnd = { 400.f, 0.f, 1.f };
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			m_pRight_TransformCom->Set_Pos(vPos);
+			break;
 		}
 		break;
 	case SNIPER:
@@ -934,21 +984,21 @@ void CPlayer::Animation_Pos()
 		case IDLE:
 		case SHOOT:
 		case ZOOMOUT:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 			m_pCComponentCamera->SetFov(D3DXToRadian(60.f));
 			break;
 		case RELOAD:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
 			m_pRight_TransformCom->Set_Pos(0.f, WINCY / -3.f, 2.f);
 			break;
 		case ZOOMIN:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT]);
-			m_pRight_TransformCom->Set_Pos(vDefaultPos[RIGHT]);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
+			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 			break;
 		case ZOOMING:
-			bLeftHandUse = false;
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 2);
+			m_bLeftHandUse = false;
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 2);
 			m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
 			m_pCComponentCamera->SetFov(D3DXToRadian(10.f));
 			break;
@@ -958,50 +1008,82 @@ void CPlayer::Animation_Pos()
 		switch (m_Right_CurState)
 		{
 		case IDLE:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.1f);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.1f);
 			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -4.f, 2.f);
 			break;
 		case SHOOT:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.4f);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.4f);
 			m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
 			break;
 		case CHANGE:
-			m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 1.5f);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.5f);
 			m_pRight_TransformCom->Set_Pos(0.f, WINCY / -3.f, 2.f);
+			break;
+		case EXECUTION:
+			vStart = { 1000.f, 0.f, 1.f };
+			vEnd = { 400.f, 0.f, 1.f };
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			m_pRight_TransformCom->Set_Pos(vPos);
 			break;
 		}
 		break;
 	case MINIGUN:
-		if (flinear >= 1.f) {
-			flinear = 1.f;
+		if (m_flinear >= 1.f) {
+			m_flinear = 1.f;
 		}
-		flinear += 0.1f;
+		m_flinear += 0.1f;
 		vPos;
 		vStart = { 0.f, WINCY / -4.f , 2.f };
 		vEnd = { 0.f,-100.f,2.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd, flinear);
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
 		m_pRight_TransformCom->Set_Pos(vPos);
-		m_pRight_TransformCom->Set_Scale(vDefaultSize[RIGHT] * 0.5f);
+		m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.5f);
 		break;
 	}
 	switch (m_Left_CurState)
 	{
 	case LEFT_IDLE:
 	case DRINK:
-		m_pLeft_TransformCom->Set_Scale(vDefaultSize[LEFT]);
-		m_pLeft_TransformCom->Set_Pos(vDefaultPos[LEFT]);
+		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
+		m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
 		break;
 	case MINIGUN_BODY_IDLE:
 	case MINIGUN_BODY_CHANGE:
-		if (flinear >= 1.f) {
-			flinear = 1.f;
+		if (m_flinear >= 1.f) {
+			m_flinear = 1.f;
 		}
 		vStart = { 0.f, WINCY / -4.f , 2.f };
 		vEnd = { 0.f,-150.f,2.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd, flinear);
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
 		m_pLeft_TransformCom->Set_Pos(vPos);
-		m_pLeft_TransformCom->Set_Scale(vDefaultSize[LEFT] * 0.5f);
+		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT] * 0.5f);
 		break;
+	case LEFT_EXECUTION:
+		if (m_flinear >= 1.f) {
+			m_flinear = 1.f;
+		}
+		m_flinear += 0.025f;
+		vStart = { -1500.f, -150.f, 1.f };
+		vEnd = { 700.f, -450.f, 1.f };
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+		m_pLeft_TransformCom->Set_Pos(vPos);
+		break;
+	}
+}
+
+void CPlayer::Rotate_Arms(const _bool& _bIsRecover)
+{
+	if (_bIsRecover && m_bIsRotation) //원상복구
+	{
+		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
+		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
+		m_bIsRotation = false;
+	}
+	else if (!_bIsRecover && !m_bIsRotation) //돌릴때(1. 대쉬할 때, )
+	{
+		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
+		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
+		m_bIsRotation = true;
 	}
 }
 
@@ -1016,7 +1098,7 @@ void CPlayer::OnCollision(CCollider& _pOther)
 		if (pMonster == nullptr) {
 			return;
 		}
-		pMonster->AddForce(30.f, vLook);
+		pMonster->AddForce(30.f, vLook, 5.f);
 	}
 	if (m_WeaponState == KATANA && m_Right_CurState == SHOOT && m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() <= 1.f)
 	{
@@ -1032,13 +1114,36 @@ void CPlayer::OnCollision(CCollider& _pOther)
 
 void CPlayer::OnCollisionEnter(CCollider& _pOther)
 {
-	CMonster* pMonster = static_cast<CMonster*>(_pOther.GetOwner());
+	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther.GetOwner());
 	if (nullptr != pMonster) //is it Monster == _pOther
 	{
-		if (bLegUse)
+		if (m_bLegUse)
 		{
-			m_Leg_CurState = KICK;
-			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+			if (m_bIsHasItem)
+			{
+				_vec3 vLook;
+				m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+				if (pMonster->Get_Execution(vLook, true)) //Hunmanoid
+				{
+					Rotate_Arms(true);
+					m_bLegUse = false;
+					m_Left_CurState = LEFT_EXECUTION;
+					m_pAnimator[LEFT]->PlayAnimation(L"Left_Execution", false);
+					m_Right_CurState = EXECUTION;
+					m_pAnimator[RIGHT]->PlayAnimation(L"Execution_Knife", false);
+					m_fDashSpeed = 0.f;
+				}
+				else //Drone
+				{
+					m_Leg_CurState = KICK;
+					m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+				}
+			}
+			else
+			{
+				m_Leg_CurState = KICK;
+				m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+			}
 		}
 		else
 		{
@@ -1048,7 +1153,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		return;
 	}
 
-	CBullet* pBullet = static_cast<CBullet*>(_pOther.GetOwner()); //is it Monster_Bullet == _pOther
+	CBullet* pBullet = dynamic_cast<CBullet*>(_pOther.GetOwner()); //is it Monster_Bullet == _pOther
 
 	if (nullptr != pBullet)
 	{
@@ -1057,12 +1162,26 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		return;
 	}
 
-	CItem* pItem = static_cast<CItem*>(_pOther.GetOwner()); //here you should check fcking Item
-	if (nullptr != pItem)
-		return;
-	else
+	if (nullptr != dynamic_cast<CDrink*>(_pOther.GetOwner()) && !m_bIsDrinking) //처형과 음료수 구분하기
 	{
-		if (bLegUse)
+		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+		m_bIsDrinking = true;
+		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
+
+		return;
+	}
+	else if (nullptr != dynamic_cast<CItem*>(_pOther.GetOwner()))
+	{
+		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		//this code will change to Setting UI
+		return;
+	}
+	else if(nullptr != dynamic_cast<CDrinkMachine*>(_pOther.GetOwner()))
+	{
+		if (m_bLegUse)
 		{
 			m_Leg_CurState = KICK;
 			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);

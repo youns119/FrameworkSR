@@ -213,13 +213,13 @@ HRESULT CStage::Ready_Layer_Monster(const _tchar* _pLayerTag)
 
 	//Jonghan Change Start
 
-	pGameObject = CWhiteSuit::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
-
-	//pGameObject = CShotGun::Create(m_pGraphicDev);
+	//pGameObject = CWhiteSuit::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
+
+	pGameObject = CShotGun::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
 	//Engine::CGameObject* pShield = nullptr;
 	//pShield = CShield::Create(m_pGraphicDev);

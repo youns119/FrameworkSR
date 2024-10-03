@@ -15,6 +15,7 @@ public:
 
 public:
     virtual HRESULT	Ready_GameObject();
+    virtual _bool Get_Execution(_vec3 _vLook, const _bool& _bIsDo);
 
 private:
     virtual HRESULT	Add_Component();
@@ -22,7 +23,6 @@ private:
     virtual void Attack(const _float& _fTimeDelta);
     void Set_Shield(CGameObject* _pShield) { m_pShield = _pShield; }
     virtual void Set_Animation();
-    
 
 public:
     virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
@@ -32,6 +32,7 @@ private:
 
     CGameObject* m_pShield;
     _bool m_bIsShield;
+    _vec3 m_vPlayerLook;
 
 private:
     virtual void Free();
