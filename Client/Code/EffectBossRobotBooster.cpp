@@ -30,13 +30,13 @@ HRESULT CEffectBossRobotBooster::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_pTransformCom->Set_Pos(3.f, 2.f, 3.f);
-    m_pTransformCom->Set_Scale(3.f, 1.f, 1.f);
+    m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
+    m_pTransformCom->Set_Scale(0.6f, 0.3f, 1.f);
     m_pTransformCom->Rotation(ROTATION::ROT_Z, D3DX_PI * 0.5f);
 
     m_pEffectCom->Set_LifeTime(0.3f);
     m_pEffectCom->Set_Repeatable(TRUE);
-    //m_pEffectCom->Set_Billboard(TRUE);
+    m_pEffectCom->Set_Billboard(TRUE);
 
     m_iTotalFrame[FLARE] = 7;
     m_iTotalFrame[TANK] = 8;
@@ -48,11 +48,44 @@ _int CEffectBossRobotBooster::Update_GameObject(const _float& _fTimeDelta)
 {
     Engine::Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
-    CComponent* pComponenet = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform");
-    _vec3 vPos, vLook;
-    static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_POS, &vPos);
-    static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_LOOK, &vLook);
-    m_pTransformCom->Set_Pos(vPos + vLook * 5.f);
+
+    m_pTransformCom->Rotation(ROTATION::ROT_Z, D3DX_PI * 0.5f);
+
+    _vec3 vPos;
+    CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Monster", L"Boss_Robot", L"Com_Transform");
+    CTransform* pTargetTransformCom = static_cast<CTransform*>(pComponent);
+    _vec3 vTargetPos, vTargetRight, vTargetLook;
+    pTargetTransformCom->Get_Info(INFO::INFO_POS, &vTargetPos);
+
+    _vec3 vPlayerPos, vUp{ 0.f, 1.f, 0.f };
+    pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform");
+    CTransform* pPlayerTransform = static_cast<CTransform*>(pComponent);
+    pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+    vTargetLook = vPlayerPos - vTargetPos;
+    vTargetLook.y = 0;
+    D3DXVec3Normalize(&vTargetLook, &vTargetLook);
+    D3DXVec3Cross(&vTargetRight, &vUp, &vTargetLook);
+    D3DXVec3Normalize(&vTargetRight, &vTargetRight);
+
+    _vec3 vOffset = { 0.4f, -0.9f, -0.4f };
+    _float fAngle = 12.285; // ㅋㅋ 모름 성공임 ! 라디안 값임 
+
+    CGameObject* pGameObject = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Transform")->GetOwner();
+    if (pGameObject != this)
+    {
+        vOffset.x *= -1.f;
+        fAngle *= -1.f;
+    }
+    vPos = vTargetPos;
+    // x
+    vPos += vTargetRight * vOffset.x;
+    // y
+    vPos.y += vOffset.y;
+    // z
+    vPos += vTargetLook * vOffset.z;
+
+    m_pTransformCom->Set_Pos(vPos);
+    m_pTransformCom->Set_Angle(0.f, 0.f, D3DX_PI * 0.5f + fAngle);
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
@@ -62,6 +95,12 @@ void CEffectBossRobotBooster::LateUpdate_GameObject()
     _float fPersentage = m_pEffectCom->Get_ElapsedPersentage();
     m_iCurFrame[FLARE] = m_iTotalFrame[FLARE] * fPersentage;
     m_iCurFrame[TANK] = m_iTotalFrame[TANK] * fPersentage;
+
+    _vec3 vPos;
+    m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+    Compute_ViewZ(&vPos);
+    // 로봇 발보다 무족건 뒤에서 출력되어야 함
+    m_fViewZ += 1.5f;
 
     Engine::CGameObject::LateUpdate_GameObject();
 

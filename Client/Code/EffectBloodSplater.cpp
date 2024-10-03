@@ -17,6 +17,7 @@ HRESULT CEffectBloodSplater::Ready_GameObject()
 
     m_pTransformCom->Set_Pos(0.f, 1.f, 3.f);
     m_pEffectCom->Set_LifeTime(0.5f);
+    m_pEffectCom->Set_Billboard(TRUE);
     m_iTotalFrame = 8;
 
     return S_OK;
@@ -88,6 +89,7 @@ HRESULT CEffectBloodSplater::Add_Component()
 
     pComponent = m_pEffectCom = static_cast<Engine::CEffect*>(Engine::Clone_Proto(L"Proto_Effect"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
+    pComponent->SetOwner(*this);
     m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Effect", pComponent });
 
     return S_OK;
