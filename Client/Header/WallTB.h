@@ -5,6 +5,7 @@ BEGIN(Engine)
 class CWallTBTex;
 class CTransform;
 class CTexture;
+class CCollider;
 
 END
 class CWallTB : public CGameObject
@@ -38,6 +39,7 @@ private:
 	Engine::CWallTBTex* m_pBufferCom;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
+	Engine::CCollider* m_pColliderCom;
 	_vec3 m_vecPos;
 };
 

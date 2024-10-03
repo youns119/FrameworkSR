@@ -182,15 +182,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CTerrain::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
-
-	//pGameObject = CPlayer::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
-	//m_pPlayer = static_cast<CPlayer*>(pGameObject);
-
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
@@ -415,6 +406,8 @@ void CStage::Set_Collision()
 	Engine::CheckGroup(L"Layer_Player", L"Layer_GameLogic");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Monster");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
+
+	Engine::CheckGroup(L"Layer_Player", L"Layer_Wall");
 }
 
 CLayer* CStage::Find_Layer(const _tchar* _pLayerTag)
@@ -443,6 +436,9 @@ void CStage::MapLoad(CLayer* _pLayer)
 		MessageBox(g_hWnd, L"Load File", _T("Fail"), MB_OK);
 		return;
 	}
+
+	Engine::CLayer* pLayerFloor = CLayer::Create();
+	Engine::CLayer* pLayerWall = CLayer::Create();
 
 	DWORD	dwByte(0);
 	DWORD dwStringSize(0);
@@ -475,7 +471,7 @@ void CStage::MapLoad(CLayer* _pLayer)
 
 			pGameObject = CFloor::Create_InfoTest(m_pGraphicDev, pPos, pRot, L"Proto_FirstFloor");
 			NULL_CHECK_RETURN(pGameObject, );
-			_pLayer->Add_GameObject(L"Floor", pGameObject);
+			pLayerFloor->Add_GameObject(L"Floor", pGameObject);
 		}
 		if (wcscmp(pTemp, L"Wall") == 0)
 		{
@@ -483,7 +479,7 @@ void CStage::MapLoad(CLayer* _pLayer)
 
 			pGameObject = CWall::Create_Pos(m_pGraphicDev, pPos);
 			NULL_CHECK_RETURN(pGameObject, );
-			_pLayer->Add_GameObject(L"Wall", pGameObject);
+			pLayerWall->Add_GameObject(L"Wall", pGameObject);
 		}
 		if (wcscmp(pTemp, L"WallTB") == 0)
 		{
@@ -491,7 +487,7 @@ void CStage::MapLoad(CLayer* _pLayer)
 
 			pGameObject = CWallTB::Create_Pos(m_pGraphicDev, pPos);
 			NULL_CHECK_RETURN(pGameObject, );
-			_pLayer->Add_GameObject(L"WallTB", pGameObject);
+			pLayerWall->Add_GameObject(L"WallTB", pGameObject);
 		}
 
 		delete[] pTemp;
@@ -500,6 +496,8 @@ void CStage::MapLoad(CLayer* _pLayer)
 
 	CloseHandle(hFile);
 
+	m_mapLayer.insert({ L"Layer_Floor", pLayerFloor });
+	m_mapLayer.insert({ L"Layer_Wall", pLayerWall });
 
 	MessageBox(g_hWnd, L"Load 완료", _T("성공"), MB_OK);
 }

@@ -50,8 +50,10 @@ void CCollisionManager::CollisionGroupUpdate(const _tchar* _pLeft, const _tchar*
 				iterLeft->second == iterRight->second)
 				continue;
 
-			CCollider* pLeftCol = dynamic_cast<CCollider*>(iterLeft->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
-			CCollider* pRightCol = dynamic_cast<CCollider*>(iterRight->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
+			CCollider* pLeftCol = static_cast<CCollider*>(iterLeft->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
+			CCollider* pRightCol = static_cast<CCollider*>(iterRight->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
+
+			_bool bIsCollide = false;
 
 			if (!pLeftCol->GetActive() || !pRightCol->GetActive())
 				continue;
@@ -68,7 +70,12 @@ void CCollisionManager::CollisionGroupUpdate(const _tchar* _pLeft, const _tchar*
 				iter = m_mapColInfo.find(ID.ullID);
 			}
 
-			if (isCollision(pLeftCol, pRightCol))
+			if (lstrcmp(_pLeft, L"Layer_Wall") == 0 || lstrcmp(_pRight, L"Layer_Wall") == 0)
+				bIsCollide = isAABB(pLeftCol, pRightCol);
+			else
+				bIsCollide = isCollision(pLeftCol, pRightCol);
+
+			if (bIsCollide)
 			{
 				if (iter->second)
 				{
@@ -106,6 +113,16 @@ bool CCollisionManager::isCollision(CCollider* _pLCol, CCollider* _pRCol)
 	_float fRadius = _pLCol->GetRadius() + _pRCol->GetRadius();
 
 	return fRadius >= fDiagonal;
+}
+
+_bool CCollisionManager::isAABB(CCollider* _pLCol, CCollider* _pRCol)
+{
+	CCollider::AABB* pLAABB = _pLCol->GetAABB();
+	CCollider::AABB* pRAABB = _pRCol->GetAABB();
+
+	return ((pLAABB->vMin.x < pRAABB->vMax.x && pLAABB->vMax.x > pRAABB->vMin.x) &&
+		(pLAABB->vMin.y < pRAABB->vMax.y && pLAABB->vMax.y > pRAABB->vMin.y) &&
+		(pLAABB->vMin.z < pRAABB->vMax.z && pLAABB->vMax.z > pRAABB->vMin.z));
 }
 
 void CCollisionManager::Add_Collider(CCollider* _pCollider)
@@ -264,6 +281,46 @@ _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 		}
 	}
 	return false;
+}
+
+_float CCollisionManager::FloorRayCast(_vec3 vRayStart)
+{
+	auto mapFloor = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_Floor");
+
+	for (auto Object : *mapFloor)
+	{
+		CGameObject* pGameObject = Object.second;
+		CComponent* pComponent = pGameObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer");
+		CFloorTex* pFloorTex = static_cast<CFloorTex*>(pComponent);
+
+		pComponent = pGameObject->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform");
+		CTransform* pFloorTransform = static_cast<CTransform*>(pComponent);
+		const _matrix* pFloorWorld = pFloorTransform->Get_WorldMatrix();
+
+		_vec3 vVertex0 = *pFloorTex->Get_VertexPos(0);
+		_vec3 vVertex1 = *pFloorTex->Get_VertexPos(1);
+		_vec3 vVertex2 = *pFloorTex->Get_VertexPos(2);
+		_vec3 vVertex3 = *pFloorTex->Get_VertexPos(3);
+
+		D3DXVec3TransformCoord(&vVertex0, &vVertex0, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex1, &vVertex1, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex2, &vVertex2, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex3, &vVertex3, pFloorWorld);
+
+		float fU, fV, fDist1(0.f), fDist2(0.f);
+		_vec3 vRayDir = { 0.f, -1.f, 0.f };
+		_bool bIntersected1 = D3DXIntersectTri(&vVertex0, &vVertex1, &vVertex2, &vRayStart, &vRayDir, &fU, &fV, &fDist1);
+		_bool bIntersected2 = D3DXIntersectTri(&vVertex0, &vVertex2, &vVertex3, &vRayStart, &vRayDir, &fU, &fV, &fDist2);
+
+		if (bIntersected1)
+			return fDist1;
+		else if (bIntersected2)
+			return fDist2;
+		else
+			continue;
+	}
+
+	return 0.f;
 }
 
 void CCollisionManager::Free()

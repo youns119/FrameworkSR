@@ -92,7 +92,7 @@ private:
 	void SetAnimation();
 	void Animation_End_Check();
 	void Animation_Pos();
-	_vec3 Picking_OnTerrain();
+	void Collide_Wall(CCollider& _pOther);
 public:
 	void OnCollision(CCollider& _pOther);
 	void OnCollisionEnter(CCollider& _pOther);

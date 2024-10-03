@@ -86,11 +86,6 @@ void CBoss_Humanoid::LateUpdate_GameObject()
 	_vec3 vPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-	//CTerrainTex* pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(COMPONENTID::ID_STATIC, L"Layer_GameLogic", L"Terrain", L"Com_Buffer"));
-	//NULL_CHECK(pTerrainBufferCom);
-	//
-	//_float fY = m_pCalculatorCom->Compute_HeightOnTerrain(&vPos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ); //this is Instance code to check Monster can ride the tile
-
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 
 	CGameObject::Compute_ViewZ(&vPos);

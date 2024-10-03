@@ -9,6 +9,13 @@ class CTransform;
 class ENGINE_DLL CCollider
 	: public CComponent
 {
+public:
+	struct AABB
+	{
+		_vec3 vMin;
+		_vec3 vMax;
+	};
+
 private:
 	explicit CCollider();
 	explicit CCollider(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -22,9 +29,11 @@ public:
 	_uint GetID() { return m_iID; }
 	_bool GetActive() { return m_bActive; }
 	_bool GetShow() { return m_bShow; }
+	AABB* GetAABB() { return &m_tAABB; }
 
 	void SetTransform(CTransform* _pTransform) { m_pTransform = _pTransform; }
 	void SetOffsetPos(const _vec3& _vPos) { m_vOffsetPos = _vPos; }
+	void SetLookDir(const _vec3& _vDir) { m_vLookDir = _vDir; }
 	void SetRadius(const _float& _fRadius) { m_fRadius = _fRadius; }
 	void SetActive(_bool _bActive) { m_bActive = _bActive; }
 	void SetShow(_bool _bShow) { m_bShow = _bShow; }
@@ -53,6 +62,7 @@ private:
 
 	_vec3 m_vOffsetPos;
 	_vec3 m_vFinalPos;
+	_vec3 m_vLookDir;
 
 	bool m_bActive;
 	bool m_bShow;
@@ -64,6 +74,8 @@ private:
 	static _uint g_iNextID;
 
 	LPD3DXMESH m_pSphere;
+
+	AABB m_tAABB;
 };
 
 END

@@ -45,6 +45,11 @@ HRESULT CComponentCamera::Ready_ComponentCamera()
 
 _int CComponentCamera::Update_Component(const _float& _fTimeDelta)
 {
+	return 0;
+}
+
+void CComponentCamera::LateUpdate_Component()
+{
 	auto target_transform = dynamic_cast<CTransform*>(m_pOwner->Get_Component(Engine::COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform"));
 
 	D3DXMatrixInverse(&m_matView, 0, target_transform->Get_WorldMatrix());
@@ -52,12 +57,6 @@ _int CComponentCamera::Update_Component(const _float& _fTimeDelta)
 
 	D3DXMatrixPerspectiveFovLH(&m_matProj, m_fFov, m_fAspect, m_fNear, m_fFar);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);
-
-	return 0;
-}
-
-void CComponentCamera::LateUpdate_Component()
-{
 }
 
 CComponentCamera* CComponentCamera::Create(LPDIRECT3DDEVICE9 _pGraphicDev)

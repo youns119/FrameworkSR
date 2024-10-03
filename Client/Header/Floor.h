@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CFloorTex;
 class CTransform;
 class CTexture;
+class CCollider;
 
 END
 class CFloor : public CGameObject
@@ -46,6 +47,7 @@ private:
 	Engine::CFloorTex* m_pBufferCom;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
+	Engine::CCollider* m_pColliderCom;
 
 	const _tchar* m_pName;
 	_vec3 m_vecPos;

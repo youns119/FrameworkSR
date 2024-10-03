@@ -7,6 +7,7 @@ CCollider::CCollider()
 	: m_pTransform(nullptr)
 	, m_vOffsetPos(0.f, 0.f, 0.f)
 	, m_vFinalPos(0.f, 0.f, 0.f)
+	, m_vLookDir(0.f, 0.f, 0.f)
 	, m_bActive(false)
 	, m_bShow(false)
 	, m_fRadius(0.f)
@@ -21,6 +22,7 @@ CCollider::CCollider(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pTransform(nullptr)
 	, m_vOffsetPos(0.f, 0.f, 0.f)
 	, m_vFinalPos(0.f, 0.f, 0.f)
+	, m_vLookDir(0.f, 0.f, 0.f)
 	, m_bActive(false)
 	, m_bShow(false)
 	, m_fRadius(0.f)
@@ -35,6 +37,7 @@ CCollider::CCollider(const CCollider& _rhs)
 	, m_pTransform(_rhs.m_pTransform)
 	, m_vOffsetPos(_rhs.m_vOffsetPos)
 	, m_vFinalPos(_rhs.m_vFinalPos)
+	, m_vLookDir(_rhs.m_vLookDir)
 	, m_bActive(_rhs.m_bActive)
 	, m_bShow(_rhs.m_bShow)
 	, m_fRadius(_rhs.m_fRadius)
@@ -68,13 +71,26 @@ HRESULT CCollider::Ready_Collider()
 
 void CCollider::LateUpdate_Component()
 {
-	if (!m_bActive)
-		return;
+	//if (!m_bActive)
+	//	return;
 
 	_vec3 vObjectPos;
 	m_pTransform->Get_Info(INFO::INFO_POS, &vObjectPos);
 
 	m_vFinalPos = vObjectPos + m_vOffsetPos;
+
+	m_tAABB.vMin =
+	{
+		m_vFinalPos.x - m_fRadius * 1.1f + m_vLookDir.x,
+		m_vFinalPos.y - m_fRadius * 1.1f + m_vLookDir.y,
+		m_vFinalPos.z - m_fRadius * 1.1f + m_vLookDir.z
+	};
+	m_tAABB.vMax =
+	{
+		m_vFinalPos.x + m_fRadius * 1.1f - m_vLookDir.x,
+		m_vFinalPos.y + m_fRadius * 1.1f - m_vLookDir.y,
+		m_vFinalPos.z + m_fRadius * 1.1f - m_vLookDir.z
+	};
 }
 
 void CCollider::Render_Collider()
@@ -96,6 +112,7 @@ void CCollider::Render_Collider()
 		D3DXMatrixIdentity(&matWorld);
 		D3DXMatrixTranslation(&matWorld, m_vFinalPos.x, m_vFinalPos.y, m_vFinalPos.z);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		D3DXCreateSphere(m_pGraphicDev, m_fRadius, 20, 20, &m_pSphere, NULL);
 

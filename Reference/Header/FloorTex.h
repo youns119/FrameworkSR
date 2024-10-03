@@ -12,7 +12,7 @@ private:
 	virtual ~CFloorTex();
 
 public:
-	const _vec3* Get_VtxPos() const { return m_pPos; }
+	_vec3* Get_VertexPos(_int iIndex) { return &m_vPos[iIndex]; }
 
 public:
 	static CFloorTex* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -28,7 +28,7 @@ private:
 	virtual void Free();
 
 private:
-	_vec3* m_pPos;
+	_vec3 m_vPos[4];
 };
 
 END

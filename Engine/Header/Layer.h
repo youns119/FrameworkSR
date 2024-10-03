@@ -15,6 +15,7 @@ private:
 public:
 	multimap<const _tchar*, CGameObject*>* Get_LayerObjects() { return &m_mapObject; }
 	CGameObject* Get_GameObject(const _tchar* _pObjTag);
+	CGameObject* Get_GameObject(CGameObject* _pGameObject);
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pObjTag, const _tchar* _pComponentTag);
 
 public:

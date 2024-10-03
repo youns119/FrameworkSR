@@ -7,6 +7,7 @@ CFloor::CFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pBufferCom(nullptr)
     , m_pTransformCom(nullptr)
     , m_pTextureCom(nullptr)
+    , m_pColliderCom(nullptr)
 {
     m_pName = L"Proto_FirstFloor";
 }
@@ -91,12 +92,26 @@ HRESULT CFloor::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+    _vec3 vLook, vRight;
+    m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+    m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
+
+    _vec3 vOffset = { vLook.x + vRight.x, vLook.y + vRight.y, vLook.z + vRight.z };
+
+    m_pColliderCom->SetTransform(m_pTransformCom);
+    m_pColliderCom->SetRadius(1.f);
+    m_pColliderCom->SetOffsetPos(vOffset);
+    //m_pColliderCom->SetShow(true);
+    m_pColliderCom->SetActive(true);
+
     return S_OK;
 }
 
 _int CFloor::Update_GameObject(const _float& _fTimeDelta)
 {
     Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
+
+    Engine::Add_Collider(m_pColliderCom);
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
@@ -137,6 +152,11 @@ HRESULT CFloor::Add_Component()
     pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+    pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_ColliderCom", pComponent });
+    pComponent->SetOwner(*this);
 
     return S_OK;
 }

@@ -36,6 +36,7 @@ public:
 private:
 	void CollisionGroupUpdate(const _tchar* _pLeft, const _tchar* _pRight);
 	_bool isCollision(CCollider* _pLCol, CCollider* _pRCol);
+	_bool isAABB(CCollider* _pLCol, CCollider* _pRCol);
 
 public:
 	void Toggle_Collider() { m_bRender = !m_bRender; }
@@ -47,6 +48,8 @@ public:
 public:
 	vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
 	_bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
+	_float FloorRayCast(_vec3 vRayStart);
+
 public:
 	virtual void Free();
 

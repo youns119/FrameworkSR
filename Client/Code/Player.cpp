@@ -80,8 +80,7 @@ HRESULT CPlayer::Ready_GameObject()
 
 	SetAnimation();
 
-	//m_pRight_TransformCom->Set_Pos(2.f, 1.f, 2.f);
-	//m_pLeft_TransformCom->Set_Pos(-2.f, 1.f, 2.f);
+	m_pBody_TransformCom->Set_Pos(6.f, 1.f, 3.f);
 
 	m_pColliderCom->SetTransform(m_pBody_TransformCom);
 	m_pColliderCom->SetRadius(1.f);
@@ -97,10 +96,10 @@ HRESULT CPlayer::Ready_GameObject()
 
 _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
+	Picking_Terrain();
+
 	if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
 	{
-		Picking_Terrain();
-
 		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
 		{
 			Key_Input(_fTimeDelta);
@@ -710,21 +709,22 @@ void CPlayer::Mouse_Fix()
 
 void CPlayer::Jump(const _float& _fTimeDelta)
 {
-	if (bJumpCheck) {
+	if (bJumpCheck)
+	{
 		fJumpPower -= 1.f;
-		_vec3 vUp;
 		_vec3 vPos;
-		m_pBody_TransformCom->Get_Info(INFO::INFO_UP, &vUp);
+		_vec3 vUp = { 0.f, 1.f, 0.f };
+
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		if (vPos.y - 1.f + _fTimeDelta * fJumpPower <= fTilePos) {
+
+		if (vPos.y + _fTimeDelta * fJumpPower <= vPos.y - fTilePos + 1.f)
+		{
 			bJumpCheck = false;
 			fJumpPower = 0;
-			vPos.y = fTilePos;
-			m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y + 1.f, vPos.z);
+			m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y - fTilePos + 1.f, vPos.z);
 		}
 		else
 			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), _fTimeDelta, fJumpPower);
-
 	}
 }
 
@@ -732,15 +732,11 @@ void CPlayer::Picking_Terrain()
 {
 	_vec3 vPos;
 	m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
-	//Beomseung
-	CTerrainTex* pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(COMPONENTID::ID_STATIC, L"Layer_GameLogic", L"Terrain", L"Com_Buffer"));
-	NULL_CHECK(pTerrainBufferCom);
 
-	fTilePos = m_pCalculatorCom->Compute_HeightOnTerrain(&vPos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
+	fTilePos = Engine::FloorRayCast(vPos);
 
-	if (!bJumpCheck) {
-		m_pBody_TransformCom->Set_Pos(vPos.x, fTilePos + 1.f, vPos.z);
-	}
+	if (!bJumpCheck && fTilePos > 0.f)
+		m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y - fTilePos + 1.f, vPos.z);
 }
 
 void CPlayer::SetAnimation()
@@ -1031,6 +1027,7 @@ void CPlayer::OnCollision(CCollider& _pOther)
 
 	}
 
+	Collide_Wall(_pOther);
 }
 
 void CPlayer::OnCollisionEnter(CCollider& _pOther)
@@ -1072,6 +1069,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		}
 	}
 	
+	Collide_Wall(_pOther);
 }
 
 void CPlayer::OnCollisionExit(CCollider& _pOther)
@@ -1079,15 +1077,47 @@ void CPlayer::OnCollisionExit(CCollider& _pOther)
 
 }
 
-_vec3 CPlayer::Picking_OnTerrain()
+void CPlayer::Collide_Wall(CCollider& _pOther)
 {
-	CTerrainTex* pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(COMPONENTID::ID_STATIC, L"Layer_GameLogic", L"Terrain", L"Com_Buffer"));
-	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
+	// 벽 충돌 밀어내기
+	CGameObject* pGameObject = _pOther.GetOwner();
 
-	CTransform* pTerrainTransCom = dynamic_cast<CTransform*>(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Terrain", L"Com_Transform"));
-	NULL_CHECK_RETURN(pTerrainTransCom, _vec3());
+	if (Engine::Get_CurrScene()->Get_Layer(pGameObject) == L"Layer_Wall")
+	{
+		CCollider::AABB* vBoxThis = m_pColliderCom->GetAABB();
+		CCollider::AABB* vBoxOther = _pOther.GetAABB();
 
-	return m_pCalculatorCom->Picking_OnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransCom);
+		_vec3 vCenterThis = (vBoxThis->vMin + vBoxThis->vMax) / 2.f;
+		_vec3 vCenterOther = (vBoxOther->vMin + vBoxOther->vMax) / 2.f;
+
+		_vec3 vOverlap = vCenterThis - vCenterOther;
+		_float fOverlapX = (vBoxThis->vMax.x - vBoxThis->vMin.x) / 2.0f + (vBoxOther->vMax.x - vBoxOther->vMin.x) / 2.0f - fabs(vOverlap.x);
+		_float fOverlapZ = (vBoxThis->vMax.z - vBoxThis->vMin.z) / 2.0f + (vBoxOther->vMax.z - vBoxOther->vMin.z) / 2.0f - fabs(vOverlap.z);
+
+		if (!(fOverlapX < 0 || fOverlapZ < 0))
+		{
+			_vec3 vPos;
+			m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+			if (fOverlapX < fOverlapZ)
+			{
+				if (vOverlap.x > 0)
+					m_pBody_TransformCom->Set_Pos(vPos.x + fOverlapX, vPos.y, vPos.z);
+				else
+					m_pBody_TransformCom->Set_Pos(vPos.x - fOverlapX, vPos.y, vPos.z);
+			}
+			else
+			{
+				if (vOverlap.z > 0)
+					m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y, vPos.z + fOverlapZ);
+				else
+					m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y, vPos.z - fOverlapZ);
+			}
+
+			m_pBody_TransformCom->Update_Component(0.f);
+			m_pColliderCom->LateUpdate_Component();
+		}
+	}
 }
 
 void CPlayer::Free()

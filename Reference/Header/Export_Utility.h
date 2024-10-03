@@ -91,6 +91,10 @@ inline void Add_Collider(CCollider* _pCollider);
 inline void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight);
 inline void Clear_Collider();
 inline void Reset();
+//Beomseung
+inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
+inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
+inline _float FloorRayCast(_vec3 vRayStart);
 
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet);
@@ -99,11 +103,6 @@ inline _int Update_Bullet(const _float& _fTimeDelta);
 inline void LateUpdate_Bullet();
 
 inline void	Release_Utility();
-
-//Beomseung
-inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
-inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
-
 
 #include "Export_Utility.inl"
 

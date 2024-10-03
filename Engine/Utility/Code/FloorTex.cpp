@@ -1,20 +1,23 @@
 #include "FloorTex.h"
 
 CFloorTex::CFloorTex()
-	: m_pPos(nullptr)
 {
+	for (int i = 0; i < 4; i++)
+		m_vPos[i] = { 0.f, 0.f, 0.f };
 }
 
 CFloorTex::CFloorTex(LPDIRECT3DDEVICE9 _pGraphicDev)
 	:CVIBuffer(_pGraphicDev)
-	, m_pPos(nullptr)
 {
+	for (int i = 0; i < 4; i++)
+		m_vPos[i] = { 0.f, 0.f, 0.f };
 }
 
 CFloorTex::CFloorTex(const CFloorTex& _rhs)
 	:CVIBuffer(_rhs)
-	, m_pPos(_rhs.m_pPos)
 {
+	for (int i = 0; i < 4; i++)
+		m_vPos[i] = { _rhs.m_vPos[i].x, _rhs.m_vPos[i].y, _rhs.m_vPos[i].z };
 }
 
 CFloorTex::~CFloorTex()
@@ -54,19 +57,17 @@ HRESULT CFloorTex::Ready_Buffer()
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 
-
-	pVertex[0].vPosition = { 0.f, 0.f, 2.f };
+	m_vPos[0] = pVertex[0].vPosition = { 0.f, 0.f, 2.f };
 	pVertex[0].vTexUV = { 0.f, 0.f };
 
-	pVertex[1].vPosition = { 2.f, 0.f, 2.f };
+	m_vPos[1] = pVertex[1].vPosition = { 2.f, 0.f, 2.f };
 	pVertex[1].vTexUV = { 1.f, 0.f };
 
-	pVertex[2].vPosition = { 2.f, 0.f, 0.f };
+	m_vPos[2] = pVertex[2].vPosition = { 2.f, 0.f, 0.f };
 	pVertex[2].vTexUV = { 1.f, 1.f };
 
-	pVertex[3].vPosition = { 0.f, 0.f, 0.f };
+	m_vPos[3] = pVertex[3].vPosition = { 0.f, 0.f, 0.f };
 	pVertex[3].vTexUV = { 0.f, 1.f };
-
 
 	m_pVB->Unlock();
 

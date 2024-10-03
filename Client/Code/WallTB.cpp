@@ -7,6 +7,7 @@ CWallTB::CWallTB(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_pTextureCom(nullptr)
+	, m_pColliderCom(nullptr)
 {
 }
 
@@ -64,12 +65,29 @@ CWallTB* CWallTB::Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec
 HRESULT CWallTB::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	_vec3 vUp, vLook, vRight;
+	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
+	m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+	m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
+
+	_vec3 vOffset = { vUp.x + vRight.x, vUp.y + vRight.y, vUp.z + vRight.z };
+
+	m_pColliderCom->SetTransform(m_pTransformCom);
+	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetOffsetPos(vOffset);
+	m_pColliderCom->SetLookDir(vLook);
+	//m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetActive(true);
+
 	return S_OK;
 }
 
 _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 {
 	Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
+
+	Engine::Add_Collider(m_pColliderCom);
 
 	return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
@@ -107,6 +125,11 @@ HRESULT CWallTB::Add_Component()
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+	pComponent->SetOwner(*this);
 
 	return S_OK;
 }

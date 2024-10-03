@@ -163,6 +163,21 @@ inline void Reset()
 	CCollisionManager::GetInstance()->Reset();
 }
 
+//Beomseung
+inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir)
+{
+	return CCollisionManager::GetInstance()->RayCast(vRayStart, vRayDir);
+}
+inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir)
+{
+	return CCollisionManager::GetInstance()->RayCast2(vRayStart, vRayDir);
+}
+
+inline _float FloorRayCast(_vec3 vRayStart)
+{
+	return CCollisionManager::GetInstance()->FloorRayCast(vRayStart);
+}
+
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet)
 {
@@ -183,17 +198,6 @@ inline void LateUpdate_Bullet()
 {
 	CBulletManager::GetInstance()->LateUpdate_Bullet();
 }
-
-//Beomseung
-inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir)
-{
-	return CCollisionManager::GetInstance()->RayCast(vRayStart, vRayDir);
-}
-inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir)
-{
-	return CCollisionManager::GetInstance()->RayCast2(vRayStart, vRayDir);
-}
-
 
 void Release_Utility()
 {

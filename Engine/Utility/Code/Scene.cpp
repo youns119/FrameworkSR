@@ -12,6 +12,18 @@ CScene::~CScene()
 {
 }
 
+const _tchar* CScene::Get_Layer(CGameObject* _pGameObject)
+{
+	for (auto iter = m_mapLayer.begin(); iter != m_mapLayer.end(); ++iter)
+	{
+		if (iter->second->Get_GameObject(_pGameObject))
+			return iter->first;
+		else continue;
+	}
+
+	return nullptr;
+}
+
 multimap<const _tchar*, CGameObject*>* CScene::Get_LayerObjects(const _tchar* _pLayerTag)
 {
 	auto iter = find_if(m_mapLayer.begin(), m_mapLayer.end(), CTag_Finder(_pLayerTag));
