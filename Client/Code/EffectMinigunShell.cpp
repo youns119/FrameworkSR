@@ -39,11 +39,6 @@ _int CEffectMinigunShell::Update_GameObject(const _float& _fTimeDelta)
 {
     Engine::Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
 
-    ImGui::Begin("hello world");
-
-
-    ImGui::End();
-
     _vec3 vPosition;
     for (_uint i = 0; i < OBJ_END; ++i)
     {
