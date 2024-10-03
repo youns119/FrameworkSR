@@ -365,6 +365,16 @@ HRESULT CStage::Ready_Layer_Monster(const _tchar* _pLayerTag)
 		FAILED_CHECK_RETURN(Engine::Add_Bullet(pAmmo), E_FAIL);
 		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bullet", pAmmo), E_FAIL);
 	}
+
+	for (_int i = 0; i < 100; ++i)
+	{
+		Engine::CBullet* pMissile = nullptr;
+		pMissile = CMissile::Create(m_pGraphicDev);
+
+		NULL_CHECK_RETURN(pMissile, E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_Missile(pMissile), E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Missile", pMissile), E_FAIL);
+	}
 	//Jonghan Change End
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });

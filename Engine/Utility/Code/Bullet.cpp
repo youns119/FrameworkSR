@@ -46,6 +46,10 @@ void CBullet::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPo
 	
 }
 
+void CBullet::Fire_Missile(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vEndPos, const _float& _fAttackDamage, const _vec3& vCurvePos)
+{
+}
+
 void CBullet::Free()
 {
 	CGameObject::Free();

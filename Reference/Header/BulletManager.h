@@ -9,14 +9,15 @@ class ENGINE_DLL CBulletManager
 {
 	DECLARE_SINGLETON(CBulletManager)
 public:
-	enum BULLETTYPE {BULLET_PISTOL, BULLET_SHOTGUN, BULLET_LASER, BULLET_END};
+	enum BULLETTYPE {BULLET_PISTOL, BULLET_SHOTGUN, BULLET_LASER,BULLET_MISSILE ,BULLET_END};
 private:
 	explicit CBulletManager();
 	virtual ~CBulletManager();
 
 public:
 	HRESULT Add_Bullet(CBullet* _pBullet);
-	virtual HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType);
+	HRESULT Add_Missile(CBullet* _pMissile);
+	virtual HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos);
 
 public:
 	_int Update_Bullet(const _float& _fTimeDelta);
@@ -27,6 +28,7 @@ public:
 
 private:
 	vector<CBullet*> m_vecBullet;
+	vector<CBullet*> m_vecMissile;
 };
 
 END

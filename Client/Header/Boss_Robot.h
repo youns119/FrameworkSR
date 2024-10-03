@@ -51,6 +51,10 @@ private:
 	_float m_fBoss_HP;
 	_float m_fShield_HP;
 
+	_float m_fDelayTime;
+	_float m_fAttackTime;
+	_float fLinear;
+	_float m_fAngle;
 private:
 	virtual void Free();
 };

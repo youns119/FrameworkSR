@@ -22,7 +22,15 @@ HRESULT CBulletManager::Add_Bullet(CBullet* _pBullet)
 	return S_OK;
 }
 
-HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType)
+HRESULT CBulletManager::Add_Missile(CBullet* _pMissile)
+{
+	NULL_CHECK_RETURN(_pMissile, E_FAIL);
+
+	m_vecMissile.push_back(_pMissile);
+
+	return S_OK;
+}
+HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos)
 {
 	_int iTemp(0);
 	_int iSour(0);
@@ -69,13 +77,25 @@ HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3&
 		break;
 	case Engine::CBulletManager::BULLET_LASER:
 		break;
-	}
+	case Engine::CBulletManager::BULLET_MISSILE:
+		for (auto& iter : m_vecMissile)
+		{
+			if (!(iter->Get_IsRender()))
+			{
+				iter->Fire_Missile(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, vCurvePos);
+				return S_OK;
+				break;
+			}
+		}
+    }
 	return E_FAIL;
 }
 
 _int CBulletManager::Update_Bullet(const _float& _fTimeDelta)
 {
 	for (auto& iter : m_vecBullet)
+		iter->Update_GameObject(_fTimeDelta);
+	for (auto& iter : m_vecMissile)
 		iter->Update_GameObject(_fTimeDelta);
 	return 0;
 }
@@ -84,6 +104,8 @@ void CBulletManager::LateUpdate_Bullet()
 {
 	for (auto& iter : m_vecBullet)
 		iter->LateUpdate_GameObject();
+	for (auto& iter : m_vecMissile)
+		iter->LateUpdate_GameObject();
 }
 
 
@@ -91,4 +113,5 @@ void CBulletManager::Free()
 {
 	//for_each(m_vecBullet.begin(), m_vecBullet.end(), CDeleteObj());
 	m_vecBullet.clear();
+	m_vecMissile.clear();
 }

@@ -98,7 +98,8 @@ inline _float FloorRayCast(_vec3 vRayStart);
 
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet);
-inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType);
+inline HRESULT Add_Missile(CBullet* _pMissile);
+inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos = { 0.f,0.f,0.f });
 inline _int Update_Bullet(const _float& _fTimeDelta);
 inline void LateUpdate_Bullet();
 
