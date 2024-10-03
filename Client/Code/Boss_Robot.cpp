@@ -10,6 +10,9 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_eCurHealthState(CBoss_Robot::BOSSHEALTH_NORMAL)
 	, m_fBoss_HP(100.f)
 	, m_fShield_HP(0.f)
+	, m_fDelayTime(4.8f)
+	, m_fAttackTime(5.0f)
+	, m_fAngle(180.f)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -301,7 +304,34 @@ void CBoss_Robot::State_Check()//This Function Calling in Monster.cpp -> LateUpd
 
 void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Monster.cpp -> Update
 {
-	//This function should Add Code about Attack (cf) : This function is PURE, You should Adding 
+	if (m_fAngle <= 0.f)
+	{
+		m_fAngle = 180.f;
+	}
+	_vec3 vPos, vPlayerPos, vCurve;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+	m_fAttackTime += _fTimeDelta;
+	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
+		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+
+	//Look 벡터기준 회전
+	_vec3 vLook, vRight;
+	_matrix mRotation, mWorld;
+	m_pTransformCom->Get_WorldMatrix(&mWorld);
+	memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
+	memcpy(&vLook, &mWorld.m[2][0], sizeof(_vec3));
+	D3DXVec3Normalize(&vRight, &vRight);
+	vRight *= 30.f;
+	D3DXMatrixRotationAxis(&mRotation, &vLook, D3DXToRadian(m_fAngle));
+	D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
+	if (m_fAttackTime > m_fDelayTime)
+	{
+		Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_MISSILE, vCurve + vPos);
+		m_fAttackTime = 4.5f;
+		m_fAngle -= 15.f;
+	}
 }
 
 void CBoss_Robot::Set_Animation()

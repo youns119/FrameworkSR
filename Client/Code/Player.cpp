@@ -490,10 +490,10 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_bLegUse = true;
 		m_bLeftHandUse = true;
 		m_WeaponState = MINIGUN;
-		m_Right_CurState = IDLE;
+		m_Right_CurState = CHANGE;
 		m_Left_CurState = MINIGUN_BODY_CHANGE;
 		m_Leg_CurState = MINIGUN_PANEL_CHANGE;
-		m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", true);
+		m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", false);
 		m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Change", false);
 		m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Change", false);
 		m_flinear = 0.f;
@@ -916,8 +916,19 @@ void CPlayer::Animation_Pos()
 		}
 		break;
 	case MINIGUN_PANEL_CHANGE:
+		m_flinear += 0.1f;
+		if (m_flinear >= 1.f) {
+			m_flinear = 1.f;
+		}
+		m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG] * 1.2f);
+		vStart = { 0.f, -WINCY + 100.f , 2.f };
+		vEnd = { 0.f,-300.f,2.f };
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+		m_pLeg_TransformCom->Set_Pos(vPos);
+		break;
 	case MINIGUN_PANEL_IDLE:
 		m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG] * 1.2f);
+		m_pLeg_TransformCom->Set_Pos(0.f, -400.f, 2.f);
 		break;
 	default:
 		m_pLeg_TransformCom->Set_Pos(0, WINCY / -3.f, 2.f);
@@ -1055,17 +1066,22 @@ void CPlayer::Animation_Pos()
 		}
 		break;
 	case MINIGUN:
-		if (m_flinear >= 1.f) {
-			m_flinear = 1.f;
+		switch (m_Right_CurState) {
+		case CHANGE:
+			if (m_flinear >= 1.f) {
+				m_flinear = 1.f;
+			}
+			vStart = { 0.f, -WINCY + 100.f , 2.f };
+			vEnd = { 0.f,-150.f,2.f };
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			m_pRight_TransformCom->Set_Pos(vPos);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.5f);
+			break;
+		case IDLE:
+			m_pRight_TransformCom->Set_Pos(0.f, -150.f, 2.f);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.5f);
+			break;
 		}
-		m_flinear += 0.1f;
-		vPos;
-		vStart = { 0.f, WINCY / -4.f , 2.f };
-		vEnd = { 0.f,-100.f,2.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
-		m_pRight_TransformCom->Set_Pos(vPos);
-		m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.5f);
-		break;
 	}
 	switch (m_Left_CurState)
 	{
@@ -1075,12 +1091,15 @@ void CPlayer::Animation_Pos()
 		m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
 		break;
 	case MINIGUN_BODY_IDLE:
+		m_pLeft_TransformCom->Set_Pos(0.f, -250.f, 2.f);
+		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT] * 0.5f);
+		break;
 	case MINIGUN_BODY_CHANGE:
 		if (m_flinear >= 1.f) {
 			m_flinear = 1.f;
 		}
-		vStart = { 0.f, WINCY / -4.f , 2.f };
-		vEnd = { 0.f,-150.f,2.f };
+		vStart = { 0.f, -WINCY + 100.f , 2.f };
+		vEnd = { 0.f,-250.f,2.f };
 		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
 		m_pLeft_TransformCom->Set_Pos(vPos);
 		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT] * 0.5f);

@@ -146,6 +146,7 @@ _uint CLoading::Loading_Stage()
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneKatanaLeftTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Katana/Left/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	//Ammo (Monster Bullet)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AmmoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Missile", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/Missile/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
 	//Shield (Monster Shield)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShieldTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Shield/Shield_fall/%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
 	//Boss_Humanoid
@@ -162,8 +163,8 @@ _uint CLoading::Loading_Stage()
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossRobotHitTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Robot/Hit/Normal/%d.png", TEXTUREID::TEX_NORMAL, 14)), E_FAIL);
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossRobotDamagedHitTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Robot/Hit/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 12)), E_FAIL);
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossRobotShieldTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Robot/Shield/Normal/%d.png", TEXTUREID::TEX_NORMAL, 7)), E_FAIL);
-	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossRobotDamagedShieldTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Robot/Shield/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 7)), E_FAIL);
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossRobotTalkingTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Robot/Talking/%d.png", TEXTUREID::TEX_NORMAL, 18)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossRobotDamagedShieldTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Robot/Shield/Damaged/%d.png", TEXTUREID::TEX_NORMAL, 7)), E_FAIL);
 	//Drop_Item
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DropKnifeTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Item/Drop_Item/Knife.png", TEXTUREID::TEX_NORMAL, 1)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DropAxeTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Item/Drop_Item/Axe.png", TEXTUREID::TEX_NORMAL, 1)), E_FAIL);

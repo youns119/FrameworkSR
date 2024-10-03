@@ -227,6 +227,9 @@
     <Filter Include="03.GameObject\07.Tile\03.MonsterTile">
       <UniqueIdentifier>{7a18bf65-7138-4552-9130-6685a97cfdfb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\09.Ammo\Missile">
+      <UniqueIdentifier>{baa266b8-5bee-485f-96c6-e8232467ca4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -460,6 +463,9 @@
     <ClInclude Include="..\Header\MonsterTile.h">
       <Filter>03.GameObject\07.Tile\03.MonsterTile</Filter>
     </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>03.GameObject\09.Ammo\Missile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -674,6 +680,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\MonsterTile.cpp">
       <Filter>03.GameObject\07.Tile\03.MonsterTile</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>03.GameObject\09.Ammo\Missile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

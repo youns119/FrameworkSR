@@ -184,9 +184,14 @@ inline HRESULT Add_Bullet(CBullet* _pBullet)
 	return CBulletManager::GetInstance()->Add_Bullet(_pBullet);
 }
 
-inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType)
+inline HRESULT Add_Missile(CBullet* _pMissile)
 {
-	return CBulletManager::GetInstance()->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, _eBulletType);
+	return CBulletManager::GetInstance()->Add_Missile(_pMissile);
+}
+
+inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos)
+{
+	return CBulletManager::GetInstance()->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, _eBulletType, vCurvePos);
 }
 
 inline _int Update_Bullet(const _float& _fTimeDelta)
