@@ -8,6 +8,12 @@ CFlyingDrone::CFlyingDrone(LPDIRECT3DDEVICE9 _pGraphicDev) :
 {
 }
 
+CFlyingDrone::CFlyingDrone(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CDrone(_pGraphicDev)
+{
+	m_vStartPos = _vecPos;
+}
+
 CFlyingDrone::~CFlyingDrone()
 {
 }
@@ -15,6 +21,20 @@ CFlyingDrone::~CFlyingDrone()
 CFlyingDrone* CFlyingDrone::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CFlyingDrone* pMonster = new CFlyingDrone(_pGraphicDev);
+
+	if (FAILED(pMonster->Ready_GameObject()))
+	{
+		Safe_Release(pMonster);
+		MSG_BOX("FlyingDrone Create Failed");
+		return nullptr;
+	}
+
+	return pMonster;
+}
+
+CFlyingDrone* CFlyingDrone::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+	CFlyingDrone* pMonster = new CFlyingDrone(_pGraphicDev, _vecPos);
 
 	if (FAILED(pMonster->Ready_GameObject()))
 	{
@@ -150,11 +170,14 @@ void CFlyingDrone::Attack(const _float& _fTimeDelta)
 {
 	_vec3 vPos, vPlayerPos, vDir;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-	NULL_CHECK(pPlayerTransform, -1);
+	if (nullptr == m_pPlayerTransformCom)
+	{
+		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+		NULL_CHECK(m_pPlayerTransformCom, -1);
+	}
 
-	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 	vDir = vPlayerPos - vPos;
 

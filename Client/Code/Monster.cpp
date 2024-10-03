@@ -16,6 +16,8 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, vKnockBackForce({ 0.f,0.f,0.f })
 	, m_fHP(0.f)
 	, m_bIsExecution(false)
+	, m_vStartPos({ 0.f,0.f,0.f })
+	, m_pPlayerTransformCom(nullptr)
 {
 }
 

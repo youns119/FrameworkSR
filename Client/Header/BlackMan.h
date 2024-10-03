@@ -8,10 +8,12 @@ public:
     enum SHIELDSTATE { SHIELDSTATE_IDLE, SHIELDSTATE_ATTACK, SHIELDSTATE_ATTACK_DELAY, SHIELDSTATE_END };
 private:
     explicit CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev);
+    explicit CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
     virtual ~CBlackMan();
 
 public:
     static CBlackMan* Create(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pShield);
+    static CBlackMan* Create(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pShield, _vec3 _vecPos);
 
 public:
     virtual HRESULT	Ready_GameObject();
@@ -32,7 +34,6 @@ private:
 
     CGameObject* m_pShield;
     _bool m_bIsShield;
-    _vec3 m_vPlayerLook;
 
 private:
     virtual void Free();

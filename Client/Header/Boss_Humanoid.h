@@ -8,10 +8,12 @@ public:
 
 private:
     explicit CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev);
+	explicit CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
     virtual ~CBoss_Humanoid();
 
 public:
 	static CBoss_Humanoid* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CBoss_Humanoid* Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 
 public:
 	virtual HRESULT	Ready_GameObject();

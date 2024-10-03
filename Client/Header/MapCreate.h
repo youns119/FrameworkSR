@@ -35,6 +35,8 @@ private:
 	HRESULT Create_Layer_PickingWall(CLayer* _pLayer);
 	//벽 오브젝트 생성
 	HRESULT Create_Layer_PickingWallTB(CLayer* _pLayer);
+	//Monster 오브젝트 생성
+	HRESULT Create_Layer_PickingMonster(CLayer* _pLayer);
 
 	// 가이드 지형 버퍼 가져오기
 	_vec3 TilePiking_OnTerrain(int _iTile);
@@ -48,6 +50,8 @@ private:
 	//top,bottom
 	_vec3 WallCreate_OnTerrain2(HWND _hWnd, CGuideTex* _pGuideBufferCom);
 
+	// 가이드 지형의 버퍼와 마우스 좌표를 통해 [Monster] 타일 생성
+	_vec3 MonsterCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom);
 
 	// 바닥 버퍼와 마우스 좌표를 통해 삭제
 	HRESULT PickingTile_PosDelete(CLayer* _pLayer, const _tchar* _TileTag);
@@ -64,9 +68,11 @@ private:
 	void SetMenu();
 	void SetFloor();//imgui바닥 
 	void SetWall();//imgui벽
+	void SetMonster();//imgui몬스터
 
 	HRESULT Ready_Texture_FloorInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 바닥 세팅
 	HRESULT Ready_Texture_WallInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 벽 세팅
+	HRESULT Ready_Texture_MonsterInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 Monster 세팅
 
 
 
@@ -89,6 +95,6 @@ private:
 
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageFloor;
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageWall;
-
+	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageMonster;
 
 };

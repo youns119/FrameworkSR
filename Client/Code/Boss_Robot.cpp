@@ -15,6 +15,20 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 		m_pTextureCom[i] = nullptr;
 }
 
+CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CMonster(_pGraphicDev)
+	, m_eCurState(CBoss_Robot::BOSS_TALKING)
+	, m_ePreState(CBoss_Robot::BOSS_TALKING)
+	, m_eCurHealthState(CBoss_Robot::BOSSHEALTH_NORMAL)
+	, m_fBoss_HP(100.f)
+	, m_fShield_HP(0.f)
+{
+	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
+		m_pTextureCom[i] = nullptr;
+
+	m_vStartPos = _vecPos;
+}
+
 CBoss_Robot::~CBoss_Robot()
 {
 }
@@ -22,6 +36,20 @@ CBoss_Robot::~CBoss_Robot()
 CBoss_Robot* CBoss_Robot::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CBoss_Robot* pGameObject = new CBoss_Robot(_pGraphicDev);
+
+	if (FAILED(pGameObject->Ready_GameObject()))
+	{
+		Safe_Release(pGameObject);
+		MSG_BOX("Boss_Robot Create Failed");
+		return nullptr;
+	}
+
+	return pGameObject;
+}
+
+CBoss_Robot* CBoss_Robot::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+	CBoss_Robot* pGameObject = new CBoss_Robot(_pGraphicDev, _vecPos);
 
 	if (FAILED(pGameObject->Ready_GameObject()))
 	{

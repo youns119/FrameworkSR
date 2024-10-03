@@ -5,10 +5,17 @@
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CHumanoid(_pGraphicDev)
-	, m_vPlayerLook({ 0.f, 0.f, 0.f })
 {
 	m_fFireDelayTime = 4.f;
 	m_fAttackTimer = 4.5f;
+}
+
+CShotGun::CShotGun(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CHumanoid(_pGraphicDev)
+{
+	m_fFireDelayTime = 4.f;
+	m_fAttackTimer = 4.5f;
+	m_vStartPos = _vecPos;
 }
 
 CShotGun::~CShotGun()
@@ -18,6 +25,20 @@ CShotGun::~CShotGun()
 CShotGun* CShotGun::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CShotGun* pMonster = new CShotGun(_pGraphicDev);
+
+	if (FAILED(pMonster->Ready_GameObject()))
+	{
+		Safe_Release(pMonster);
+		MSG_BOX("ShotGun Create Failed");
+		return nullptr;
+	}
+
+	return pMonster;
+}
+
+CShotGun* CShotGun::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+	CShotGun* pMonster = new CShotGun(_pGraphicDev, _vecPos);
 
 	if (FAILED(pMonster->Ready_GameObject()))
 	{
@@ -234,11 +255,14 @@ void CShotGun::Attack(const _float& _fTimeDelta)
 	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
 	vPos.y += 0.2f;
 
-	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-	NULL_CHECK(pPlayerTransform, -1);
+	if (nullptr == m_pPlayerTransformCom)
+	{
+		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+		NULL_CHECK(m_pPlayerTransformCom, -1);
+	}
 
-	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 	vDir = vPlayerPos - vPos;
 	D3DXVec3Cross(&vRight, &vUp, &vDir);

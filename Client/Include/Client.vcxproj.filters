@@ -224,6 +224,9 @@
     <Filter Include="03.GameObject\06.Effect\09. EffectExecutionBlood">
       <UniqueIdentifier>{045043cd-d575-404b-a6d5-f1dcb2db4741}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\07.Tile\03.MonsterTile">
+      <UniqueIdentifier>{7a18bf65-7138-4552-9130-6685a97cfdfb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -454,6 +457,9 @@
     <ClInclude Include="..\Header\EffectExecutionBlood.h">
       <Filter>03.GameObject\06.Effect\09. EffectExecutionBlood</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MonsterTile.h">
+      <Filter>03.GameObject\07.Tile\03.MonsterTile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -665,6 +671,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectExecutionBlood.cpp">
       <Filter>03.GameObject\06.Effect\09. EffectExecutionBlood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterTile.cpp">
+      <Filter>03.GameObject\07.Tile\03.MonsterTile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

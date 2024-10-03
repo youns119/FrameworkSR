@@ -33,6 +33,8 @@ protected:
 	_float m_fFireDelayTime;
 	_float m_fAttackTimer;
 	_bool bColShow;
+	_vec3 m_vPlayerLook;
+
 protected:
 	virtual void Free();
 };

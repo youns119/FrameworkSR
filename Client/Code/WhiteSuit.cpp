@@ -5,10 +5,17 @@
 
 CWhiteSuit::CWhiteSuit(LPDIRECT3DDEVICE9 _pGraphicDev) :
     CHumanoid(_pGraphicDev)
-	, m_vPlayerLook({ 0.f, 0.f, 0.f })
 {
 	m_fFireDelayTime = 4.5f;
 	m_fAttackTimer = 5.f;
+}
+
+CWhiteSuit::CWhiteSuit(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CHumanoid(_pGraphicDev)
+{
+	m_fFireDelayTime = 4.5f;
+	m_fAttackTimer = 5.f;
+	m_vStartPos = _vecPos;
 }
 
 CWhiteSuit::~CWhiteSuit()
@@ -26,6 +33,19 @@ CWhiteSuit* CWhiteSuit::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 		return nullptr;
 	}
 
+	return pMonster;
+}
+
+CWhiteSuit* CWhiteSuit::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+	CWhiteSuit* pMonster = new CWhiteSuit(_pGraphicDev, _vecPos);
+
+	if (FAILED(pMonster->Ready_GameObject()))
+	{
+		Safe_Release(pMonster);
+		MSG_BOX("pWhiteSuit Create Failed");
+		return nullptr;
+	}
 	return pMonster;
 }
 

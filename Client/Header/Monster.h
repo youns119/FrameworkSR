@@ -65,10 +65,12 @@ protected:
 
 	Engine::CAnimator* m_pAnimatorCom;
 	Engine::CTransform* m_pTransformCom;
+	Engine::CTransform* m_pPlayerTransformCom;
 
 	_float m_fHP;
 	_bool m_bIsExecution;
 	//³Ë¹é Å©±â
 	_vec3 vKnockBackForce;
+	_vec3 m_vStartPos;
 	//Jonghan Change End
 };

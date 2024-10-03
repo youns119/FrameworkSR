@@ -6,10 +6,12 @@ class CSpiderDrone : public CDrone
 {
 private:
     explicit CSpiderDrone(LPDIRECT3DDEVICE9 _pGraphicDev);
+    explicit CSpiderDrone(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
     virtual ~CSpiderDrone();
 
 public:
     static CSpiderDrone* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+    static CSpiderDrone* Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 
 public:
     virtual HRESULT	Ready_GameObject();
