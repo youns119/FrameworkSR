@@ -795,7 +795,7 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 
 void CMapCreate::MapSave(CLayer* _pLayer)
 {
-	HANDLE		hFile = CreateFile(L"../Data/TutorialStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage2.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
