@@ -221,6 +221,9 @@
     <Filter Include="03.GameObject\07.Tile\02.WallTB">
       <UniqueIdentifier>{b1633efe-51c2-49aa-99c2-0ba7e400dee2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\09. EffectExecutionBlood">
+      <UniqueIdentifier>{045043cd-d575-404b-a6d5-f1dcb2db4741}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -448,6 +451,9 @@
     <ClInclude Include="..\Header\WallTB.h">
       <Filter>03.GameObject\07.Tile\02.WallTB</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectExecutionBlood.h">
+      <Filter>03.GameObject\06.Effect\09. EffectExecutionBlood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -656,6 +662,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\WallTB.cpp">
       <Filter>03.GameObject\07.Tile\02.WallTB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectExecutionBlood.cpp">
+      <Filter>03.GameObject\06.Effect\09. EffectExecutionBlood</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

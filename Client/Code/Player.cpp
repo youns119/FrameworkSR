@@ -522,6 +522,11 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Left", L"Com_Effect");
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
+		if (pComponent)
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
+
 	}
 	if (Engine::Key_Release(DIK_X))
 	{
@@ -534,6 +539,11 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Stop_Effect();
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
+		if (pComponent)
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
+
 	}
 	if (Engine::Key_Press(DIK_Z))
 	{
@@ -922,6 +932,20 @@ void CPlayer::Animation_Pos()
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
 			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+
+			// 규빈: 형님 이렇게 대충 한번 해봤는데요... 이거 맞을까요?
+			if (m_flinear > 0.1f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+			}
+			if (m_flinear > 0.7f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+			}
 			m_pRight_TransformCom->Set_Pos(vPos);
 			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.7f);
 			break;
