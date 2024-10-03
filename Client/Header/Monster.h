@@ -42,6 +42,13 @@ protected:
 private:
 	//넉백시키는 함수
 	virtual void KnockBack(const _float& _fTimeDelta);
+	void Picking_Terrain();
+	void Collide_Wall(CCollider& _pOther);
+
+public:
+	void OnCollision(CCollider& _pOther);
+	void OnCollisionEnter(CCollider& _pOther);
+	void OnCollisionExit(CCollider& _pOther);
 protected:
 	virtual void Free();
 

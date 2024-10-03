@@ -43,6 +43,10 @@ void CCollisionManager::CollisionGroupUpdate(const _tchar* _pLeft, const _tchar*
 			iterLeft->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider") == nullptr)
 			continue;
 
+		CCollider* pLeftCol = static_cast<CCollider*>(iterLeft->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
+
+		if (!pLeftCol->GetActive()) continue;
+
 		for (auto iterRight = mapRight->begin(); iterRight != mapRight->end(); iterRight++)
 		{
 			if (iterRight->second == nullptr ||
@@ -50,13 +54,11 @@ void CCollisionManager::CollisionGroupUpdate(const _tchar* _pLeft, const _tchar*
 				iterLeft->second == iterRight->second)
 				continue;
 
-			CCollider* pLeftCol = static_cast<CCollider*>(iterLeft->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
-			CCollider* pRightCol = static_cast<CCollider*>(iterRight->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
-
 			_bool bIsCollide = false;
 
-			if (!pLeftCol->GetActive() || !pRightCol->GetActive())
-				continue;
+			CCollider* pRightCol = static_cast<CCollider*>(iterRight->second->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Collider"));
+
+			if (!pRightCol->GetActive()) continue;
 
 			COLLIDER_ID ID;
 			ID.iLeft_id = pLeftCol->GetID();
@@ -117,12 +119,17 @@ bool CCollisionManager::isCollision(CCollider* _pLCol, CCollider* _pRCol)
 
 _bool CCollisionManager::isAABB(CCollider* _pLCol, CCollider* _pRCol)
 {
-	CCollider::AABB* pLAABB = _pLCol->GetAABB();
-	CCollider::AABB* pRAABB = _pRCol->GetAABB();
+	if (isCollision(_pLCol, _pRCol))
+	{
+		CCollider::AABB* pLAABB = _pLCol->GetAABB();
+		CCollider::AABB* pRAABB = _pRCol->GetAABB();
 
-	return ((pLAABB->vMin.x < pRAABB->vMax.x && pLAABB->vMax.x > pRAABB->vMin.x) &&
-		(pLAABB->vMin.y < pRAABB->vMax.y && pLAABB->vMax.y > pRAABB->vMin.y) &&
-		(pLAABB->vMin.z < pRAABB->vMax.z && pLAABB->vMax.z > pRAABB->vMin.z));
+		return ((pLAABB->vMin.x < pRAABB->vMax.x && pLAABB->vMax.x > pRAABB->vMin.x) &&
+			(pLAABB->vMin.y < pRAABB->vMax.y && pLAABB->vMax.y > pRAABB->vMin.y) &&
+			(pLAABB->vMin.z < pRAABB->vMax.z && pLAABB->vMax.z > pRAABB->vMin.z));
+	}
+	else
+		return false;
 }
 
 void CCollisionManager::Add_Collider(CCollider* _pCollider)

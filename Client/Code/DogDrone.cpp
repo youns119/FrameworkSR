@@ -33,10 +33,14 @@ HRESULT CDogDrone::Ready_GameObject()
 
 	m_pTransformCom->Set_Pos(20.f, 0.f, 20.f);
 
+	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
+
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
+
 	m_pHitBufferCom->SetvOffSet({ 0.f,0.f,0.f });
 	m_pHeadHit->SetvOffSet({ 0.5f,0.5f,0.f });
 	m_pCriticalHit->SetvOffSet({ -0.5f,0.5f,0.f });

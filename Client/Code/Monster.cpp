@@ -27,6 +27,8 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 {
 	//Jonghan Monster Change Start
 
+	Picking_Terrain();
+
 	if (!m_bIsDead)
 		Attack(_fTimeDelta);
 
@@ -74,9 +76,6 @@ void CMonster::LateUpdate_GameObject()
 	_vec3 vPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-	_float fY = 0.f;
-	m_pTransformCom->Set_Pos(vPos.x, fY + 1.f, vPos.z);
-
 	if (!m_bIsExecution)
 		CGameObject::Compute_ViewZ(&vPos);
 
@@ -92,7 +91,8 @@ void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAtta
 {
 	if (Engine::DAMAGED_STATE::DAMAGED_BODYSHOT == _eDamagedState || Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT == _eDamagedState)
 	{
-		Damaged_By_Player(_eDamagedState, _fAttackDamage);
+		//Damaged_By_Player(_eDamagedState, _fAttackDamage);
+		Damaged_By_Player(_eDamagedState, 0.f);
 	}
 	else
 	{
@@ -122,6 +122,74 @@ void CMonster::KnockBack(const _float& _fTimeDelta)
 	m_pTransformCom->Set_Pos(vPos);
 	D3DXVec3Normalize(&vKnockBackForce, &vKnockBackForce);
 	vKnockBackForce *= vLength;
+}
+
+void CMonster::Picking_Terrain()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+	_float fTilePos = Engine::FloorRayCast(vPos);
+
+	if (fTilePos > 0.f)
+		m_pTransformCom->Set_Pos(vPos.x, vPos.y - fTilePos + 1.f, vPos.z);
+}
+
+void CMonster::Collide_Wall(CCollider& _pOther)
+{
+	// 벽 충돌 밀어내기
+	CGameObject* pGameObject = _pOther.GetOwner();
+
+	if (Engine::Get_CurrScene()->Get_Layer(pGameObject) == L"Layer_Wall")
+	{
+		CCollider::AABB* vBoxThis = m_pColliderCom->GetAABB();
+		CCollider::AABB* vBoxOther = _pOther.GetAABB();
+
+		_vec3 vCenterThis = (vBoxThis->vMin + vBoxThis->vMax) / 2.f;
+		_vec3 vCenterOther = (vBoxOther->vMin + vBoxOther->vMax) / 2.f;
+
+		_vec3 vOverlap = vCenterThis - vCenterOther;
+		_float fOverlapX = (vBoxThis->vMax.x - vBoxThis->vMin.x) / 2.0f + (vBoxOther->vMax.x - vBoxOther->vMin.x) / 2.0f - fabs(vOverlap.x);
+		_float fOverlapZ = (vBoxThis->vMax.z - vBoxThis->vMin.z) / 2.0f + (vBoxOther->vMax.z - vBoxOther->vMin.z) / 2.0f - fabs(vOverlap.z);
+
+		if (!(fOverlapX < 0 || fOverlapZ < 0))
+		{
+			_vec3 vPos;
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+			if (fOverlapX < fOverlapZ)
+			{
+				if (vOverlap.x > 0)
+					m_pTransformCom->Set_Pos(vPos.x + fOverlapX, vPos.y, vPos.z);
+				else
+					m_pTransformCom->Set_Pos(vPos.x - fOverlapX, vPos.y, vPos.z);
+			}
+			else
+			{
+				if (vOverlap.z > 0)
+					m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z + fOverlapZ);
+				else
+					m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z - fOverlapZ);
+			}
+
+			m_pTransformCom->Update_Component(0.f);
+			m_pColliderCom->LateUpdate_Component();
+		}
+	}
+}
+
+void CMonster::OnCollision(CCollider& _pOther)
+{
+	Collide_Wall(_pOther);
+}
+
+void CMonster::OnCollisionEnter(CCollider& _pOther)
+{
+	Collide_Wall(_pOther);
+}
+
+void CMonster::OnCollisionExit(CCollider& _pOther)
+{
 }
 
 void CMonster::Free()

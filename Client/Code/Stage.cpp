@@ -409,6 +409,7 @@ void CStage::Set_Collision()
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
 
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Wall");
+	Engine::CheckGroup(L"Layer_Monster", L"Layer_Wall");
 }
 
 CLayer* CStage::Find_Layer(const _tchar* _pLayerTag)

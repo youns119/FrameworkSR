@@ -112,7 +112,7 @@ void CCollider::Render_Collider()
 		D3DXMatrixIdentity(&matWorld);
 		D3DXMatrixTranslation(&matWorld, m_vFinalPos.x, m_vFinalPos.y, m_vFinalPos.z);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		D3DXCreateSphere(m_pGraphicDev, m_fRadius, 20, 20, &m_pSphere, NULL);
 

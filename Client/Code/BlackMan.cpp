@@ -40,8 +40,11 @@ HRESULT CBlackMan::Ready_GameObject()
 
 	m_pTransformCom->Set_Pos(6.f, 1.f, 8.f);
 
+	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
+
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 

@@ -97,7 +97,7 @@ HRESULT CWall::Ready_GameObject()
     m_pColliderCom->SetRadius(1.f);
     m_pColliderCom->SetOffsetPos(vOffset);
     m_pColliderCom->SetLookDir(vRight);
-    //m_pColliderCom->SetShow(true);
+    m_pColliderCom->SetShow(true);
     m_pColliderCom->SetActive(true);
 
     return S_OK;

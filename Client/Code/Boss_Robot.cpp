@@ -39,6 +39,14 @@ HRESULT CBoss_Robot::Ready_GameObject()
 
 	m_pTransformCom->Set_Pos(10.f, 5.f, 25.f);
 
+	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
+
+	m_pColliderCom->SetTransform(m_pTransformCom);
+	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetLookDir(vDir);
+	m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetActive(true);
+
 	Set_Animation();
 
 	return S_OK;

@@ -82,10 +82,13 @@ HRESULT CPlayer::Ready_GameObject()
 
 	SetAnimation();
 
-	m_pBody_TransformCom->Set_Pos(6.f, 1.f, 3.f);
+	m_pBody_TransformCom->Set_Pos(8.f, 1.f, 3.f);
+
+	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
 	m_pColliderCom->SetTransform(m_pBody_TransformCom);
 	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 
