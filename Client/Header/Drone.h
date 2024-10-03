@@ -14,6 +14,7 @@ protected:
 public:
 	virtual HRESULT	Ready_GameObject()PURE;
 	virtual void Render_GameObject();
+	virtual _bool Get_Execution(_vec3 _vLook, const _bool& _bIsDo) { return false; }
 	
 protected:
 	virtual HRESULT Add_Component()PURE;

@@ -3,8 +3,9 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 
-CShotGun::CShotGun(LPDIRECT3DDEVICE9 _pGraphicDev) : 
-	CHumanoid(_pGraphicDev)
+CShotGun::CShotGun(LPDIRECT3DDEVICE9 _pGraphicDev)
+	: CHumanoid(_pGraphicDev)
+	, m_vPlayerLook({ 0.f, 0.f, 0.f })
 {
 	m_fFireDelayTime = 4.f;
 	m_fAttackTimer = 4.5f;
@@ -32,7 +33,7 @@ HRESULT CShotGun::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(20.f, 0.f, 10.f);
+	m_pTransformCom->Set_Pos(6.f, 1.f, 8.f);
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
@@ -44,6 +45,21 @@ HRESULT CShotGun::Ready_GameObject()
 	m_pHeadHit->SetvOffSet({ 0.5f,0.5f,0.f });
 	m_pCriticalHit->SetvOffSet({ -0.5f,0.5f,0.f });
 	return S_OK;
+}
+
+_bool CShotGun::Get_Execution(_vec3 _vLook, const _bool& _bIsDo)
+{
+	if (!m_bIsExecution && _bIsDo)
+	{
+		m_bIsExecution = !m_bIsExecution;
+		m_vPlayerLook = _vLook;
+		Changing_State(CHumanoid::HUMANOID_EXECUTION);
+		m_pAnimatorCom->PlayAnimation(L"Execution", false);
+		m_fViewZ = 11.f;
+		m_pTransformCom->Set_Scale({ 375.f, 375.f, 0.5f });
+	}
+
+	return true;
 }
 
 HRESULT CShotGun::Add_Component()
@@ -109,6 +125,10 @@ HRESULT CShotGun::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_KatanaTexture", pComponent });
 
+	pComponent = m_pTextureCom[HUMANOIDSTATE::HUMANOID_EXECUTION] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_ShotGunExecutionTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_ExecutionTexture", pComponent });
+
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Calculator", pComponent });
@@ -167,6 +187,9 @@ void CShotGun::State_Check()
 		case CHumanoid::HUMANOID_KATANA:
 			m_pAnimatorCom->PlayAnimation(L"Katana", false);
 			break;
+		case CHumanoid::HUMANOID_EXECUTION:
+			m_pAnimatorCom->PlayAnimation(L"Execution", false);
+			break;
 		}
 
 		m_ePreState = m_eCurState;
@@ -185,12 +208,24 @@ void CShotGun::Set_Animation()
 	m_pAnimatorCom->CreateAnimation(L"Shot_One", m_pTextureCom[HUMANOID_SHOT_ONE], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Shot_Two", m_pTextureCom[HUMANOID_SHOT_TWO], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Katana", m_pTextureCom[HUMANOID_KATANA], 13.f);
+	m_pAnimatorCom->CreateAnimation(L"Execution", m_pTextureCom[HUMANOID_EXECUTION], 15.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Idle", true);
 }
 
 void CShotGun::Attack(const _float& _fTimeDelta)
 {
+	if (m_bIsExecution && m_pAnimatorCom->GetCurrAnim()->GetFinish())
+	{
+		m_bIsExecution = false;
+		Changing_State(CHumanoid::HUMANOID_IDLE);
+		m_pTransformCom->Set_Scale({ 1.f, 1.f, 1.f });
+		AddForce(30.f, m_vPlayerLook, 15.f);
+		return;
+	}
+	else if (m_bIsExecution)
+		return;
+
 	_vec3 vPos, vPlayerPos, vDir, vUp, vRight;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
@@ -216,10 +251,13 @@ void CShotGun::Attack(const _float& _fTimeDelta)
 	{
 		if (m_fAttackTimer > m_fFireDelayTime || m_eCurState == CHumanoid::HUMANOID_IDLE)
 		{
-			Changing_State(CHumanoid::HUMANOID_ATTACK);
-			D3DXVec3Normalize(&vDir, &vDir);
-			Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5, CBulletManager::BULLET_SHOTGUN);
-			m_bIsFire = true;
+			if (!m_bIsExecution)
+			{
+				Changing_State(CHumanoid::HUMANOID_ATTACK);
+				D3DXVec3Normalize(&vDir, &vDir);
+				Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5, CBulletManager::BULLET_SHOTGUN);
+				m_bIsFire = true;
+			}
 		}
 		else if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
 		{

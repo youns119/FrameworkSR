@@ -15,6 +15,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pCriticalHit(nullptr)
 	, vKnockBackForce({ 0.f,0.f,0.f })
 	, m_fHP(0.f)
+	, m_bIsExecution(false)
 {
 }
 
@@ -30,27 +31,36 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 		Attack(_fTimeDelta);
 
 	KnockBack(_fTimeDelta);
-	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
-
 	_matrix		matWorld, matView, matBill, matResult;
-	m_pTransformCom->Get_WorldMatrix(&matWorld);
 
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
+	if (!m_bIsExecution)
+	{
+		m_pTransformCom->Get_WorldMatrix(&matWorld);
 
-	D3DXMatrixIdentity(&matBill);
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
-	matBill._11 = matView._11;
-	matBill._13 = matView._13;
-	matBill._31 = matView._31;
-	matBill._33 = matView._33;
+		D3DXMatrixIdentity(&matBill);
 
-	D3DXMatrixInverse(&matBill, 0, &matBill);
+		matBill._11 = matView._11;
+		matBill._13 = matView._13;
+		matBill._31 = matView._31;
+		matBill._33 = matView._33;
 
-	matResult = matBill * matWorld;
+		D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	m_pTransformCom->Set_WorldMatrix(&(matResult));
+		matResult = matBill * matWorld;
 
-	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+		m_pTransformCom->Set_WorldMatrix(&(matResult));
+	}
+
+
+
+	if (m_bIsExecution)
+		Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
+	else
+		Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+
 	Engine::Add_Collider(m_pColliderCom);
 
 	//Jonghan Monster Change End
@@ -67,7 +77,8 @@ void CMonster::LateUpdate_GameObject()
 	_float fY = 0.f;
 	m_pTransformCom->Set_Pos(vPos.x, fY + 1.f, vPos.z);
 
-	CGameObject::Compute_ViewZ(&vPos);
+	if (!m_bIsExecution)
+		CGameObject::Compute_ViewZ(&vPos);
 
 	//Change_State();
 
@@ -89,12 +100,12 @@ void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAtta
 	}
 }
 
-void CMonster::AddForce(_float pPower, _vec3 vLook)
+void CMonster::AddForce(const _float& _fPower, _vec3 _vLook, const _float& _fDamage)
 {
-	D3DXVec3Normalize(&vLook, &vLook);
-	vLook *= pPower;
-	vKnockBackForce = vLook;
-	Damaged(Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT, 5.f);
+	D3DXVec3Normalize(&_vLook, &_vLook);
+	_vLook *= _fPower;
+	vKnockBackForce = _vLook;
+	Damaged(Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT, _fDamage);
 }
 
 void CMonster::KnockBack(const _float& _fTimeDelta)

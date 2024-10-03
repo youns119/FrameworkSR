@@ -25,6 +25,7 @@ public:
 	//virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
+	virtual _bool Get_Execution(_vec3 _vLook, const _bool& _bIsDo) { return false; }
 
 public:
 	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
