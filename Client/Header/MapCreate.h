@@ -62,6 +62,14 @@ private:
 	//imgui 함수
 	void ShowGUI();
 	void SetMenu();
+	void SetFloor();//imgui바닥 
+	void SetWall();//imgui벽
+
+	HRESULT Ready_Texture_FloorInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 바닥 세팅
+	HRESULT Ready_Texture_WallInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 벽 세팅
+
+
+
 
 private:
 	virtual void Free();
@@ -74,6 +82,13 @@ private:
 	float m_fHeight;// 가이드 지형 높이
 	int m_iByte;
 
+	bool m_bGuiHovered;
+
+	const _tchar* m_ImageName;
+
+
+	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageFloor;
+	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageWall;
+
 
 };
-

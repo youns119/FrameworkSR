@@ -101,15 +101,6 @@
     <Filter Include="03.GameObject\09.Ammo">
       <UniqueIdentifier>{ab8946bb-e4ee-4c3c-9e5f-acc02aeb4b2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\07.TileControl">
-      <UniqueIdentifier>{350feec7-9d7c-467b-b9a6-9551835b8f9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.GameObject\07.TileControl\00.Floor">
-      <UniqueIdentifier>{ff523a50-b439-4c48-902e-34435429c232}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.GameObject\07.TileControl\01.Wall">
-      <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.GameObject\08.Shield">
       <UniqueIdentifier>{ede84e59-cfb6-4b4e-a22d-a52a0e825d92}</UniqueIdentifier>
     </Filter>
@@ -160,9 +151,6 @@
     </Filter>
     <Filter Include="03.GameObject\10.Item\01.Axe">
       <UniqueIdentifier>{623ccd0c-ae19-4e84-865e-cd4cf709fa6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.GameObject\07.TileControl\01.Wall\WallTB">
-      <UniqueIdentifier>{32bda2b5-0c84-45d8-8c76-114698face5a}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.GameObject\06.Effect\08. EffectMinigunShell">
       <UniqueIdentifier>{e141e39e-34a7-4195-8931-08128d0906ad}</UniqueIdentifier>
@@ -221,6 +209,18 @@
     <Filter Include="03.GameObject\10.Item\02.Drink">
       <UniqueIdentifier>{64b93924-c549-4840-ad3b-080fcc6dd4a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\07.Tile">
+      <UniqueIdentifier>{350feec7-9d7c-467b-b9a6-9551835b8f9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\07.Tile\00.Floor">
+      <UniqueIdentifier>{ff523a50-b439-4c48-902e-34435429c232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\07.Tile\01.Wall">
+      <UniqueIdentifier>{037991f9-a2a9-4722-a1da-5ba925e6c7ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\07.Tile\02.WallTB">
+      <UniqueIdentifier>{b1633efe-51c2-49aa-99c2-0ba7e400dee2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -272,10 +272,10 @@
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Floor.h">
-      <Filter>03.GameObject\07.TileControl\00.Floor</Filter>
+      <Filter>03.GameObject\07.Tile\00.Floor</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Wall.h">
-      <Filter>03.GameObject\07.TileControl\01.Wall</Filter>
+      <Filter>03.GameObject\07.Tile\01.Wall</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectMuzzleFlash.h">
       <Filter>03.GameObject\06.Effect\00. EffectMuzzleFlash</Filter>
@@ -323,7 +323,7 @@
       <Filter>03.GameObject\09.Ammo</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\TileContorl.h">
-      <Filter>03.GameObject\07.TileControl</Filter>
+      <Filter>03.GameObject\07.Tile</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIShop.h">
       <Filter>04.UI\04.Shop</Filter>
@@ -400,9 +400,6 @@
     <ClInclude Include="..\Header\Axe.h">
       <Filter>03.GameObject\10.Item\01.Axe</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\WallTB.h">
-      <Filter>03.GameObject\07.TileControl\01.Wall\WallTB</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\EffectMinigunShell.h">
       <Filter>03.GameObject\06.Effect\08. EffectMinigunShell</Filter>
     </ClInclude>
@@ -448,6 +445,9 @@
     <ClInclude Include="..\Header\DrinkMachine.h">
       <Filter>03.GameObject\12.DrinkMachine</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\WallTB.h">
+      <Filter>03.GameObject\07.Tile\02.WallTB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -484,10 +484,10 @@
       <Filter>03.GameObject\05.SkyBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Floor.cpp">
-      <Filter>03.GameObject\07.TileControl\00.Floor</Filter>
+      <Filter>03.GameObject\07.Tile\00.Floor</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Wall.cpp">
-      <Filter>03.GameObject\07.TileControl\01.Wall</Filter>
+      <Filter>03.GameObject\07.Tile\01.Wall</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp">
       <Filter>03.GameObject\06.Effect\00. EffectMuzzleFlash</Filter>
@@ -535,7 +535,7 @@
       <Filter>03.GameObject\09.Ammo</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TileContorl.cpp">
-      <Filter>03.GameObject\07.TileControl</Filter>
+      <Filter>03.GameObject\07.Tile</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIShop.cpp">
       <Filter>04.UI\04.Shop</Filter>
@@ -609,9 +609,6 @@
     <ClCompile Include="..\Code\Axe.cpp">
       <Filter>03.GameObject\10.Item\01.Axe</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\WallTB.cpp">
-      <Filter>03.GameObject\07.TileControl\01.Wall\WallTB</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\EffectMinigunShell.cpp">
       <Filter>03.GameObject\06.Effect\08. EffectMinigunShell</Filter>
     </ClCompile>
@@ -656,6 +653,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\DrinkMachine.cpp">
       <Filter>03.GameObject\12.DrinkMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WallTB.cpp">
+      <Filter>03.GameObject\07.Tile\02.WallTB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

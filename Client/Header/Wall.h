@@ -18,7 +18,9 @@ public:
 	static CWall* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 	static CWall* Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 	static CWall* Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot);
+	static CWall* Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName);
 
+	const _tchar* Get_FloorName() { return m_pName; }
 	_vec3 Get_VecPos() { return m_vecPos; }
 
 
@@ -33,6 +35,7 @@ private:
 	HRESULT Setup_Material();
 	void Setup_Position(_vec3 _vecPos);
 	void Setup_Angle(_vec3 _vecRot);
+	void Setup_ImageName(const _tchar* _pName);
 
 private:
 	virtual void Free();
@@ -43,5 +46,6 @@ private:
 	Engine::CTexture* m_pTextureCom;
 	Engine::CCollider* m_pColliderCom;
 	_vec3 m_vecPos;
+	const _tchar* m_pName;
 };
 

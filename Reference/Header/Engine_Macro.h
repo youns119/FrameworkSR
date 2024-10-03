@@ -11,7 +11,7 @@ namespace Engine
 #define VTXITV		1
 
 
-#define	VTXTILEX		15
+#define	VTXTILEX		20
 #define	VTXTILEZ		200
 
 
