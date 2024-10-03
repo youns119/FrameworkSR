@@ -8,12 +8,24 @@ CBlackMan::CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev) :
     CHumanoid(_pGraphicDev)
 	, m_pShield(nullptr)
 	, m_bIsShield(true)
-	, m_vPlayerLook({ 0.f, 0.f, 0.f })
 {
 	m_fFireDelayTime = 5.f;
 	m_fAttackTimer = 6.f;
 	for (_int i = 0; i < SHIELDSTATE::SHIELDSTATE_END; ++i)
 		m_pShieldTextureCom[i] = nullptr;
+}
+
+CBlackMan::CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CHumanoid(_pGraphicDev)
+	, m_pShield(nullptr)
+	, m_bIsShield(true)
+{
+	m_fFireDelayTime = 5.f;
+	m_fAttackTimer = 6.f;
+	for (_int i = 0; i < SHIELDSTATE::SHIELDSTATE_END; ++i)
+		m_pShieldTextureCom[i] = nullptr;
+
+	m_vStartPos = _vecPos;
 }
 
 CBlackMan::~CBlackMan()
@@ -23,6 +35,20 @@ CBlackMan::~CBlackMan()
 CBlackMan* CBlackMan::Create(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pShield)
 {
 	CBlackMan* pMonster = new CBlackMan(_pGraphicDev);
+
+	if (FAILED(pMonster->Ready_GameObject()))
+	{
+		Safe_Release(pMonster);
+		MSG_BOX("BlackMan Create Failed");
+		return nullptr;
+	}
+	pMonster->Set_Shield(_pShield);
+	return pMonster;
+}
+
+CBlackMan* CBlackMan::Create(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pShield, _vec3 _vecPos)
+{
+	CBlackMan* pMonster = new CBlackMan(_pGraphicDev, _vecPos);
 
 	if (FAILED(pMonster->Ready_GameObject()))
 	{
@@ -238,11 +264,14 @@ void CBlackMan::Attack(const _float& _fTimeDelta)
 
 	_vec3 vPos, vPlayerPos, vDir, vUp, vRight;
 
-	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-	NULL_CHECK(pPlayerTransform, -1);
+	if (nullptr == m_pPlayerTransformCom)
+	{
+		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+		NULL_CHECK(m_pPlayerTransformCom, -1);
+	}
 
-	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 	if (m_bIsShield)
 	{

@@ -6,10 +6,12 @@ class CDogDrone : public CDrone
 {
 private:
     explicit CDogDrone(LPDIRECT3DDEVICE9 _pGraphicDev);
+    explicit CDogDrone(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
     virtual ~CDogDrone();
 
 public:
     static CDogDrone* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+    static CDogDrone* Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 
 public:
     virtual HRESULT	Ready_GameObject();

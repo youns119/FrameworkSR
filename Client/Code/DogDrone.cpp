@@ -9,6 +9,13 @@ CDogDrone::CDogDrone(LPDIRECT3DDEVICE9 _pGraphicDev) :
 	m_fHP = 8.f;
 }
 
+CDogDrone::CDogDrone(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CDrone(_pGraphicDev)
+{
+	m_fHP = 8.f;
+	m_vStartPos = _vecPos;
+}
+
 CDogDrone::~CDogDrone()
 {
 }
@@ -16,6 +23,20 @@ CDogDrone::~CDogDrone()
 CDogDrone* CDogDrone::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CDogDrone* pMonster = new CDogDrone(_pGraphicDev);
+
+	if (FAILED(pMonster->Ready_GameObject()))
+	{
+		Safe_Release(pMonster);
+		MSG_BOX("DogDrone Create Failed");
+		return nullptr;
+	}
+
+	return pMonster;
+}
+
+CDogDrone* CDogDrone::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+	CDogDrone* pMonster = new CDogDrone(_pGraphicDev, _vecPos);
 
 	if (FAILED(pMonster->Ready_GameObject()))
 	{
@@ -152,11 +173,14 @@ void CDogDrone::Attack(const _float& _fTimeDelta)
 {
 	_vec3 vPos, vPlayerPos, vDir;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-	NULL_CHECK(pPlayerTransform, -1);
+	if (nullptr == m_pPlayerTransformCom)
+	{
+		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+		NULL_CHECK(m_pPlayerTransformCom, -1);
+	}
 
-	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 	vDir = vPlayerPos - vPos;
 

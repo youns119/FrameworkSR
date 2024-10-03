@@ -15,6 +15,20 @@ CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 		m_pTextureCom[i] = nullptr;
 }
 
+CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CMonster(_pGraphicDev)
+	, m_eCurState(CBoss_Humanoid::BOSS_SPAWN)
+	, m_ePreState(CBoss_Humanoid::BOSS_SPAWN)
+	, m_bIsDamaged(false)
+	, m_fSpawnTimer(2.5f)
+	, m_iBossKillCount(0)
+{
+	for (_int i = 0; i < CBoss_Humanoid::BOSS_END; ++i)
+		m_pTextureCom[i] = nullptr;
+
+	m_vStartPos = _vecPos;
+}
+
 CBoss_Humanoid::~CBoss_Humanoid()
 {
 }
@@ -22,6 +36,20 @@ CBoss_Humanoid::~CBoss_Humanoid()
 CBoss_Humanoid* CBoss_Humanoid::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CBoss_Humanoid* pGameObject = new CBoss_Humanoid(_pGraphicDev);
+
+	if (FAILED(pGameObject->Ready_GameObject()))
+	{
+		Safe_Release(pGameObject);
+		MSG_BOX("Boss_Humanoid Create Failed");
+		return nullptr;
+	}
+
+	return pGameObject;
+}
+
+CBoss_Humanoid* CBoss_Humanoid::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+	CBoss_Humanoid* pGameObject = new CBoss_Humanoid(_pGraphicDev, _vecPos);
 
 	if (FAILED(pGameObject->Ready_GameObject()))
 	{
@@ -266,11 +294,14 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 	{
 		_vec3 vPos, vPlayerPos, vDir;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-		NULL_CHECK(pPlayerTransform, -1);
+		if (nullptr == m_pPlayerTransformCom)
+		{
+			m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+				(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+			NULL_CHECK(m_pPlayerTransformCom, -1);
+		}
 
-		pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 		vDir = vPlayerPos - vPos;
 	}

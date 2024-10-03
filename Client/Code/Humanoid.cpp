@@ -11,6 +11,7 @@ CHumanoid::CHumanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fFireDelayTime(0.f)
 	, m_fAttackTimer(0.f)
 	, bColShow(false)
+	, m_vPlayerLook({0.f, 0.f, 0.f})
 {
 	for (_int i = 0; i < HUMANOIDSTATE::HUMANOID_END; ++i)
 		m_pTextureCom[i] = nullptr;

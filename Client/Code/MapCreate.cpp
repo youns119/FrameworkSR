@@ -5,6 +5,7 @@
 #include "..\Header\Floor.h"
 #include "..\Header\Wall.h"
 #include "..\Header\WallTB.h"
+#include "..\Header\MonsterTile.h"
 #include "..\Header\GuideTerrain.h"
 
 
@@ -138,7 +139,12 @@ HRESULT CMapCreate::Ready_Scene()
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_07.png", L"Proto_WALL_DECO_07", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_ELECTRIC.png", L"Proto_WALL_ELECTRIC", TEXTUREID::TEX_NORMAL, 1);
 
-
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Idle/0.png", L"Proto_Monster1", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Idle/0.png", L"Proto_Monster2", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Idle/0.png", L"Proto_Monster3", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Idle/0.png", L"Proto_Monster4", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Idle/0.png", L"Proto_Monster5", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Idle/0.png", L"Proto_Monster6", TEXTUREID::TEX_NORMAL, 1);
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
@@ -199,6 +205,16 @@ _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 			Create_Layer_PickingWallTB(Find_Layer(L"Layer_PickingTile"));
 		}
 	}
+	if (Engine::Key_Hold(DIK_V) && Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_LB))
+	{
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"MonsterTile");
+		// 바닥 타일 생성
+		if (m_bCreateCheck == true)
+		{
+			Create_Layer_PickingMonster(Find_Layer(L"Layer_PickingTile"));
+
+		}
+	}
 	if (Engine::Key_Hold(DIK_Z) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
 	{
 		//생성된 타일 삭제
@@ -213,6 +229,11 @@ _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 	{
 		//생성된 타일 삭제
 		PickingTile_PosDelete(Find_Layer(L"Layer_PickingTile"), L"WallTB");
+	}
+	if (Engine::Key_Hold(DIK_V) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
+	{
+		//생성된 타일 삭제
+		PickingTile_PosDelete(Find_Layer(L"Layer_PickingTile"), L"MonsterTile");
 	}
 	if (Engine::Key_Press(DIK_O))
 	{
@@ -386,6 +407,16 @@ HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer)
 	return S_OK;
 }
 
+HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
+{
+	Engine::CGameObject* pGameObject = nullptr;
+	pGameObject = CMonsterTile::Create_Info(m_pGraphicDev, TilePiking_OnTerrain(4), m_ImageName);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
+
+	return S_OK;
+}
+
 _vec3 CMapCreate::TilePiking_OnTerrain(int _iTile)
 {
 	CGuideTex* pGuideBufferCom = dynamic_cast<CGuideTex*>(Engine::Get_Component(Engine::COMPONENTID::ID_STATIC, L"Layer_GuideTerrain", L"GuideTerrain", L"Com_Buffer"));
@@ -401,6 +432,9 @@ _vec3 CMapCreate::TilePiking_OnTerrain(int _iTile)
 		break;
 	case 3:
 		return WallCreate_OnTerrain2(g_hWnd, pGuideBufferCom);
+		break;
+	case 4:
+		return MonsterCreate_OnTerrain(g_hWnd, pGuideBufferCom);
 		break;
 	}
 	
@@ -687,6 +721,100 @@ _vec3 CMapCreate::WallCreate_OnTerrain2(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 	return _vec3(0.f, 0.f, 0.f);
 }
 
+_vec3 CMapCreate::MonsterCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom)
+{
+	POINT	ptMouse{};
+	GetCursorPos(&ptMouse);
+	ScreenToClient(_hWnd, &ptMouse);
+
+	_vec3	vMousePos;
+
+	D3DVIEWPORT9		ViewPort;
+	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+	m_pGraphicDev->GetViewport(&ViewPort);
+
+	vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+	vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+	vMousePos.z = 0.f;
+
+	_matrix matProj;
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXMatrixInverse(&matProj, NULL, &matProj);
+	D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+	_vec3		vRayPos, vRayDir;
+
+	vRayPos = { 0.f, 0.f, 0.f };
+	vRayDir = vMousePos - vRayPos;
+
+	_matrix matView;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMatrixInverse(&matView, NULL, &matView);
+
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+	const _vec3* pGuideTexPos = _pGuideBufferCom->Get_VtxPos();
+
+
+	_ulong	dwVtxId[3]{};
+	_float	fU, fV, fDist;
+
+	for (_ulong i = 0; i < VTXTILEZ - 1; i++)
+	{
+		for (_ulong j = 0; j < VTXTILEX - 1; j++)
+		{
+			_ulong	dwIndex = i * VTXTILEX + j;
+
+			dwVtxId[0] = dwIndex + VTXTILEX;
+			dwVtxId[1] = dwIndex + VTXTILEX + 1;
+			dwVtxId[2] = dwIndex + 1;
+
+			if (D3DXIntersectTri
+			(
+				// 터레인 -> 버텍스 인덱스를 그리는 순서와 동일하게 적용 231
+				&pGuideTexPos[dwVtxId[1]],
+				&pGuideTexPos[dwVtxId[2]],
+				&pGuideTexPos[dwVtxId[0]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist
+			))
+			{
+				return _vec3
+				(
+					(pGuideTexPos[dwVtxId[1]].x + fU * (pGuideTexPos[dwVtxId[2]].x - pGuideTexPos[dwVtxId[1]].x)) - 1,
+					pGuideTexPos[dwVtxId[0]].y,
+					(pGuideTexPos[dwVtxId[1]].z + fV * (pGuideTexPos[dwVtxId[0]].z - pGuideTexPos[dwVtxId[1]].z) - 1)
+				);
+			}
+			// 터레인 -> 버텍스 인덱스를 그리는 순서와 동일하게 적용 210
+			dwVtxId[0] = dwIndex + VTXTILEX;
+			dwVtxId[1] = dwIndex + 1;
+			dwVtxId[2] = dwIndex;
+
+			if (D3DXIntersectTri
+			(
+				&pGuideTexPos[dwVtxId[2]],
+				&pGuideTexPos[dwVtxId[0]],
+				&pGuideTexPos[dwVtxId[1]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist
+			))
+			{
+				// V1 + U(V2 - V1) + V(V3 - V1)
+
+				return _vec3
+				(
+					pGuideTexPos[dwVtxId[2]].x + fU * (pGuideTexPos[dwVtxId[0]].x - pGuideTexPos[dwVtxId[2]].x),
+					pGuideTexPos[dwVtxId[0]].y,
+					pGuideTexPos[dwVtxId[2]].z + fV * (pGuideTexPos[dwVtxId[1]].z - pGuideTexPos[dwVtxId[2]].z)
+				);
+			}
+		}
+	}
+
+	return _vec3(0.f, 0.f, 0.f);
+}
+
 HRESULT CMapCreate::PickingTile_PosDelete(CLayer* _pLayer, const _tchar* _TileTag)
 {
 	//이거 for문 써도 되는거 맞는거 같은디 나중에 바꿔보자 => 코드 지저분해서 바꾸고 싶음...애초에 타일로 바꿀까...
@@ -718,6 +846,17 @@ HRESULT CMapCreate::PickingTile_PosDelete(CLayer* _pLayer, const _tchar* _TileTa
 		else if (_TileTag == L"WallTB" && _TileTag == (*it).first)
 		{
 			if (dynamic_cast<CWallTB*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(3))
+			{
+				_pLayer->Get_LayerObjects()->erase(it++);
+			}
+			else
+			{
+				++it;
+			}
+		}
+		else if (_TileTag == L"MonsterTile" && _TileTag == (*it).first)
+		{
+			if (dynamic_cast<CMonsterTile*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(4))
 			{
 				_pLayer->Get_LayerObjects()->erase(it++);
 			}
@@ -779,6 +918,19 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 				++it;
 			}
 		}
+		else if (_TileTag == L"MonsterTile" && _TileTag == (*it).first)
+		{
+			if (dynamic_cast<CMonsterTile*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(4))
+			{
+				m_bCreateCheck = false;
+				break;
+			}
+			else
+			{
+				m_bCreateCheck = true;
+				++it;
+			}
+		}
 		else
 		{
 			m_bCreateCheck = true;
@@ -809,6 +961,7 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 		return;
 	}
 
+	_int iNumber(0);
 	DWORD	dwByte(0);
 	DWORD dwStringSize(0);
 
@@ -818,6 +971,7 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 		dwStringSize = sizeof(wchar_t) * (wcslen((*it).first) + 1);
 		WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 		WriteFile(hFile, (*it).first, dwStringSize, &dwByte, nullptr);
+		iNumber = 0;
 
 		if ((*it).first == L"Floor")
 		{
@@ -825,6 +979,7 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 			dwStringSize = sizeof(wchar_t) * (wcslen((dynamic_cast<CFloor*>((*it).second)->Get_FloorName())) + 1);
 			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_FloorName(), dwStringSize, &dwByte, nullptr);
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
 
 			//WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr);//회전값 저장
 		}
@@ -834,7 +989,7 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 			dwStringSize = sizeof(wchar_t) * (wcslen((dynamic_cast<CWall*>((*it).second)->Get_FloorName())) + 1);
 			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_FloorName(), dwStringSize, &dwByte, nullptr);
-
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
 		}
 		if ((*it).first == L"WallTB")
 		{
@@ -842,6 +997,17 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 			dwStringSize = sizeof(wchar_t) * (wcslen((dynamic_cast<CWallTB*>((*it).second)->Get_FloorName())) + 1);
 			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_FloorName(), dwStringSize, &dwByte, nullptr);
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
+		}
+		if ((*it).first == L"MonsterTile")
+		{
+			iNumber = dynamic_cast<CMonsterTile*>((*it).second)->Get_Number();
+
+			WriteFile(hFile, dynamic_cast<CMonsterTile*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
+			dwStringSize = sizeof(wchar_t) * (wcslen((dynamic_cast<CMonsterTile*>((*it).second)->Get_MonsterName())) + 1);
+			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
+			WriteFile(hFile, dynamic_cast<CMonsterTile*>((*it).second)->Get_MonsterName(), dwStringSize, &dwByte, nullptr);
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);
 
 		}
 	}
@@ -866,7 +1032,7 @@ void CMapCreate::MapLoad(CLayer* _pLayer)
 
 
 
-	HANDLE		hFile = CreateFile(L"../Data/TutorialStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage2.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -892,8 +1058,8 @@ void CMapCreate::MapLoad(CLayer* _pLayer)
 	while (true)
 	{
 		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr); // first 사이즈
-		const _tchar* pTemp = NULL; // first 글자 받아올 변수
-		ReadFile(hFile, &pTemp, dwStringSize, &dwByte, nullptr); // 글자 저장
+		TCHAR* pTemp = new TCHAR[dwStringSize]; // first 글자 받아올 변수
+		ReadFile(hFile, pTemp, dwStringSize, &dwByte, nullptr); // 글자 저장
 		ReadFile(hFile, &pPos, sizeof(_vec3), &dwByte, nullptr); // 포지션 값 저장
 
 		ReadFile(hFile, &dwStringSize2, sizeof(DWORD), &dwByte, nullptr); // 이미지 이름 사이즈
@@ -1223,6 +1389,48 @@ void CMapCreate::SetWall()
 	}
 }
 
+void CMapCreate::SetMonster()
+{
+	bool ret = false;
+	if (!ImGui::CollapsingHeader("Monsters"))
+	{
+		return;
+	}
+
+	ImGui::Text(u8"Monster 선택");
+	int iCount(0);
+
+	map<const _tchar*, IDirect3DBaseTexture9*>::iterator it;
+	for (it = m_mapImageMonster.begin(); it != m_mapImageMonster.end(); ++it)
+	{
+		char* pStr;
+		int iStrSize = WideCharToMultiByte(CP_ACP, 0, (*it).first, -1, NULL, 0, NULL, NULL);
+		pStr = new char[iStrSize];
+		WideCharToMultiByte(CP_ACP, 0, (*it).first, -1, pStr, iStrSize, 0, 0);
+
+		ret = ImGui::ImageButton(pStr, (*it).second, ImVec2(50.f, 50.f));
+
+		iCount++;
+		if (iCount < 5)
+		{
+			ImGui::SameLine();
+		}
+		else
+		{
+			iCount = 0;
+		}
+		if (ret)
+		{
+			// 타일 이미지 변경
+			// floor를 선택 했는지 wall 선택했는지 변수나 이넘값을 최초 세팅해주면 마우스 픽킹만으로 생성하도록 => 키보드 제거하기
+			m_ImageName = (*it).first;
+		}
+
+		delete[] pStr;
+		pStr = nullptr;
+	}
+}
+
 HRESULT CMapCreate::Ready_Texture_FloorInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt)
 {
 
@@ -1271,6 +1479,34 @@ HRESULT CMapCreate::Ready_Texture_WallInsert(const _tchar* _pPath, const _tchar*
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
 			m_mapImageWall.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	return S_OK;
+}
+HRESULT CMapCreate::Ready_Texture_MonsterInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt)
+{
+	IDirect3DBaseTexture9* pTexture = NULL;
+
+	for (_int i = 0; i < _iCnt; i++)
+	{
+		TCHAR szFileName[128] = L"";
+
+		wsprintf(szFileName, _pPath, i);
+
+		switch (_eType)
+		{
+		case TEXTUREID::TEX_NORMAL:
+			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
+			m_mapImageMonster.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
+			break;
+		case TEXTUREID::TEX_CUBE:
+			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
+			m_mapImageMonster.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		default:
 			break;

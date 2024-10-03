@@ -213,6 +213,112 @@ HRESULT CStage::Ready_Layer_Monster(const _tchar* _pLayerTag)
 	Engine::CGameObject* pGameObject = nullptr;
 
 	//Jonghan Change Start
+	//HANDLE		hFile = CreateFile(L"../Data/TutorialStage2.txt",	// 파일 이름까지 포함된 경로
+	//	GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
+	//	NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
+	//	NULL,				// 보안 속성
+	//	OPEN_EXISTING,		// 생성 방식(CREATE_ALWAYS : 파일이 없다면 생성, 있으면 덮어쓰기, OPEN_EXISTING : 파일이 있는 경우에만 불러오기)
+	//	FILE_ATTRIBUTE_NORMAL, // 파일 속성(아무런 속성이 없는 파일로 생성)
+	//	NULL);				// 생성될 파일의 속성을 제공할 템플릿 파일
+	//
+	//
+	//if (INVALID_HANDLE_VALUE == hFile)
+	//{
+	//	MessageBox(g_hWnd, L"Load File", _T("Fail"), MB_OK);
+	//	return E_FAIL;
+	//}
+	//
+	//
+	//
+	//DWORD	dwByte(0);
+	//DWORD dwStringSize(0);
+	//
+	//_vec3 pPos{};
+	//_vec3 pRot{};
+	//
+	//while (true)
+	//{
+	//	ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr); // first 사이즈
+	//	TCHAR* pTemp = new TCHAR[dwStringSize]; // first 글자 받아올 변수
+	//	ReadFile(hFile, pTemp, dwStringSize, &dwByte, nullptr); // 글자 저장
+	//	ReadFile(hFile, &pPos, sizeof(_vec3), &dwByte, nullptr); // 포지션 값 저장
+	//
+	//	ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr); // 이미지 이름 사이즈
+	//	TCHAR* pSrc = new TCHAR[dwStringSize]; //  이미지 이름 글자 받아올 변수
+	//	ReadFile(hFile, pSrc, dwStringSize, &dwByte, nullptr); // 이미지 이름 저장
+	//	_int iNumber(0);
+	//	ReadFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이미지 이름 저장
+	//
+	//	if (0 == dwByte)
+	//	{
+	//		delete[] pTemp;
+	//		pTemp = nullptr;
+	//
+	//		delete[] pSrc;
+	//		pSrc = nullptr;
+	//		break;
+	//	}
+	//
+	//	if (wcscmp(pTemp, L"MonsterTile") == 0)
+	//	{
+	//		Engine::CGameObject* pGameObject = nullptr;
+	//		if (iNumber == 1)
+	//		{
+	//			pGameObject = CWhiteSuit::Create(m_pGraphicDev, pPos);
+	//			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
+	//		}
+	//		else if (iNumber == 2)
+	//		{
+	//			pGameObject = CShotGun::Create(m_pGraphicDev, pPos);
+	//			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+	//		}
+	//		else if (iNumber == 3)
+	//		{
+	//			Engine::CGameObject* pShield = nullptr;
+	//			pShield = CShield::Create(m_pGraphicDev);
+	//			NULL_CHECK_RETURN(pShield, E_FAIL);
+	//			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Shield", pShield), E_FAIL);
+	//			pGameObject = CBlackMan::Create(m_pGraphicDev, pShield);
+	//			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
+	//		}
+	//		else if (iNumber == 4)
+	//		{
+	//			pGameObject = CFlyingDrone::Create(m_pGraphicDev);
+	//			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FlyingDrone", pGameObject), E_FAIL);
+	//		}
+	//		else if (iNumber == 5)
+	//		{
+	//			pGameObject = CSpiderDrone::Create(m_pGraphicDev);
+	//			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SpiderDrone", pGameObject), E_FAIL);
+	//		}
+	//		else if (iNumber == 6)
+	//		{
+	//			pGameObject = CDogDrone::Create(m_pGraphicDev);
+	//			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//			FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DogDrone", pGameObject), E_FAIL);
+	//		}
+	//
+	//
+	//	}
+	//
+	//
+	//	delete[] pTemp;
+	//	pTemp = nullptr;
+	//
+	//	delete[] pSrc;
+	//	pSrc = nullptr;
+	//}
+	//
+	//CloseHandle(hFile);
+	//
+	//m_mapLayer.insert({ _pLayerTag, pLayer });
+	//
+	//MessageBox(g_hWnd, L"Monster Load 완료", _T("성공"), MB_OK);
 
 	//pGameObject = CWhiteSuit::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -546,6 +652,8 @@ void CStage::ChangeMapLoad()
 		ReadFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr); // 이미지 이름 사이즈
 		TCHAR* pSrc = new TCHAR[dwStringSize]; //  이미지 이름 글자 받아올 변수
 		ReadFile(hFile, pSrc, dwStringSize, &dwByte, nullptr); // 이미지 이름 저장
+		_int iNumber(0);
+		//ReadFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이미지 이름 저장
 
 		if (0 == dwByte)
 		{
