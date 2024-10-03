@@ -32,4 +32,6 @@ private:
 
 private:
 	Engine::CUIUnit* m_pUIShopBase;
+	Engine::CUIUnit* m_pUIShopBuzz;
+	Engine::CUIUnit* m_pUIShopCard[3];
 };

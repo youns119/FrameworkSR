@@ -208,6 +208,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIShop.h" />
     <ClInclude Include="..\Header\UIOverlay.h" />
     <ClInclude Include="..\Header\UIShopBase.h" />
+    <ClInclude Include="..\Header\UIShopBuzz.h" />
+    <ClInclude Include="..\Header\UIShopCard.h" />
     <ClInclude Include="..\Header\UIUpgradeCard.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\WallTB.h" />
@@ -286,6 +288,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIShop.cpp" />
     <ClCompile Include="..\Code\UIOverlay.cpp" />
     <ClCompile Include="..\Code\UIShopBase.cpp" />
+    <ClCompile Include="..\Code\UIShopBuzz.cpp" />
+    <ClCompile Include="..\Code\UIShopCard.cpp" />
     <ClCompile Include="..\Code\UIUpgradeCard.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\WallTB.cpp" />

@@ -11,28 +11,18 @@ class CAnimator;
 
 END
 
-class CUIShopBase
+class CUIShopBuzz
 	: public Engine::CUIUnit
 {
-public:
-	enum class UI_SHOPBASE
-	{
-		SHOPBASE_START,
-		SHOPBASE_LOAD,
-		SHOPBASE_BASE,
-		SHOPBASE_TEXT,
-		SHOPBASE_END,
-	};
-
 private:
-	explicit CUIShopBase(LPDIRECT3DDEVICE9 _pGraphicDev);
-	virtual ~CUIShopBase();
+	explicit CUIShopBuzz(LPDIRECT3DDEVICE9 _pGraphicDev);
+	virtual ~CUIShopBuzz();
 
 public:
-	_bool Get_Start() { return m_bStart; }
+	void Set_Start(_bool _bStart) { m_bStart = _bStart; }
 
 public:
-	static CUIShopBase* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CUIShopBuzz* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
 	HRESULT Ready_Unit();
@@ -54,11 +44,9 @@ private:
 
 private:
 	Engine::CRcTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_END];
-	Engine::CTransform* m_pTransformCom[2];
+	Engine::CTexture* m_pTextureCom;
+	Engine::CTransform* m_pTransformCom;
 	Engine::CAnimator* m_pAnimatorCom;
 
 	_bool m_bStart;
-	_float m_fScaleRatio;
-	_float m_fStartTime;
 };

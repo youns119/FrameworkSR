@@ -230,6 +230,12 @@
     <Filter Include="03.GameObject\09.Ammo\Missile">
       <UniqueIdentifier>{baa266b8-5bee-485f-96c6-e8232467ca4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\04.Shop\01.ShopCard">
+      <UniqueIdentifier>{f2feac69-71c1-49f2-b34c-934defdd7be2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\04.Shop\02.ShopBuzz">
+      <UniqueIdentifier>{14f2e932-4c99-4ce0-89f3-617dedbc173e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -466,6 +472,12 @@
     <ClInclude Include="Missile.h">
       <Filter>03.GameObject\09.Ammo\Missile</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIShopCard.h">
+      <Filter>04.UI\04.Shop\01.ShopCard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIShopBuzz.h">
+      <Filter>04.UI\04.Shop\02.ShopBuzz</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -683,6 +695,12 @@
     </ClCompile>
     <ClCompile Include="Missile.cpp">
       <Filter>03.GameObject\09.Ammo\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIShopCard.cpp">
+      <Filter>04.UI\04.Shop\01.ShopCard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIShopBuzz.cpp">
+      <Filter>04.UI\04.Shop\02.ShopBuzz</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

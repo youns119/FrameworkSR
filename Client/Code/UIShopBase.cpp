@@ -5,12 +5,16 @@
 CUIShopBase::CUIShopBase(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUIUnit(_pGraphicDev)
 	, m_pBufferCom(nullptr)
-	, m_pTransformCom(nullptr)
 	, m_pAnimatorCom(nullptr)
+	, m_bStart(false)
 	, m_fScaleRatio(0.f)
+	, m_fStartTime(0.f)
 {
 	for (_uint i = 0; i < (_uint)UI_SHOPBASE::SHOPBASE_END; ++i)
 		m_pTextureCom[i] = nullptr;
+
+	for (int i = 0; i < 2; i++)
+		m_pTransformCom[i] = nullptr;
 }
 
 CUIShopBase::~CUIShopBase()
@@ -35,9 +39,15 @@ HRESULT CUIShopBase::Ready_Unit()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(0.f, -(WINCY / 2.f + 850.f), 0.f);
+	m_bStart = false;
+	m_fScaleRatio = 1.f;
+	m_fStartTime = 0.f;
 
-	m_pTransformCom->Set_Scale(850.f, 850.f, 0.f);
+	m_pTransformCom[0]->Set_Pos(50.f, -WINCY / 1.5f, 0.f);
+	m_pTransformCom[1]->Set_Pos(90.f, 140.f, 0.f);
+
+	m_pTransformCom[0]->Set_Scale(850.f, 850.f, 0.f);
+	m_pTransformCom[1]->Set_Scale(310.f, 310.f, 0.f);
 
 	Set_Animation();
 
@@ -48,19 +58,33 @@ HRESULT CUIShopBase::Ready_Unit()
 
 _int CUIShopBase::Update_Unit(const _float& _fTimeDelta)
 {
+	if (m_fStartTime >= 1.f)
+	{
+		m_bStart = true;
+		return 0;
+	}
+
 	_vec3 vPos;
 	_vec3 vDir = { 0.f, 1.f, 0.f };
 
-	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	m_pTransformCom[0]->Get_Info(INFO::INFO_POS, &vPos);
 
-	if (vPos.y < 0.f)
+	if (vPos.y < -85.f)
+		m_pTransformCom[0]->Move_Pos(&vDir, _fTimeDelta, 1400.f);
+	else
 	{
+		m_pTransformCom[0]->Set_Scale(950.f * m_fScaleRatio, 950.f * m_fScaleRatio, 0.f);
 
+		m_fScaleRatio += _fTimeDelta * 1.2f;
+		if (m_fScaleRatio >= 1.45f) m_fScaleRatio = 1.45f;
 	}
-	m_pTransformCom->Move_Pos(&vDir, _fTimeDelta, 3.f);
 
+	m_pTransformCom[0]->Get_Info(INFO::INFO_POS, &vPos);
 
+	if (vPos.y > -85.f)
+		m_pTransformCom[0]->Set_Pos(50.f, -85.f, 0.f);
 
+	if (m_fStartTime < 2.f) m_fStartTime += _fTimeDelta;
 
 	if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
 		m_pAnimatorCom->PlayAnimation(L"Load", true);
@@ -75,12 +99,20 @@ void CUIShopBase::LateUpdate_Unit()
 
 void CUIShopBase::Render_Unit()
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[0]->Get_WorldMatrix());
 
-	m_pAnimatorCom->Render_Animator();
+	if (m_bStart)
+	{
+		m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_BASE]->Set_Texture();
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[1]->Get_WorldMatrix());
+		m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_TEXT]->Set_Texture();
+	}
+	else
+		m_pAnimatorCom->Render_Animator();
+
 	m_pBufferCom->Render_Buffer();
-
-	//m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_HAND]->Set_Texture();
 }
 
 HRESULT CUIShopBase::Add_Component()
@@ -103,9 +135,17 @@ HRESULT CUIShopBase::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Base", pComponent });
 
-	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_TEXT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIText_Upgrade"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Text_Upgrade", pComponent });
+
+	pComponent = m_pTransformCom[0] = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Shop", pComponent });
+
+	pComponent = m_pTransformCom[1] = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Text", pComponent });
 
 	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(L"Proto_Animator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -116,14 +156,24 @@ HRESULT CUIShopBase::Add_Component()
 
 void CUIShopBase::Set_Animation()
 {
-	m_pAnimatorCom->CreateAnimation(L"Start", m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_START], 7.f);
-	m_pAnimatorCom->CreateAnimation(L"Load", m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_LOAD], 7.f);
+	m_pAnimatorCom->CreateAnimation(L"Start", m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_START], 10.f);
+	m_pAnimatorCom->CreateAnimation(L"Load", m_pTextureCom[(_uint)UI_SHOPBASE::SHOPBASE_LOAD], 15.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Start", false);
 }
 
 void CUIShopBase::Reset()
 {
+	m_bStart = false;
+	m_fScaleRatio = 1.f;
+	m_fStartTime = 0.f;
+
+	m_pTransformCom[0]->Set_Pos(50.f, -WINCY / 1.5f, 0.f);
+	m_pTransformCom[1]->Set_Pos(90.f, 140.f, 0.f);
+
+	m_pTransformCom[0]->Set_Scale(850.f, 850.f, 0.f);
+	m_pTransformCom[1]->Set_Scale(310.f, 310.f, 0.f);
+
 	m_pAnimatorCom->GetCurrAnim()->ResetAnimFrame(0.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Start", false);
