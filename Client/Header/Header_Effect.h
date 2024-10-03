@@ -8,5 +8,6 @@
 #include "../Header/Spark.h"
 #include "../Header/EffectBossRobotBooster.h"
 #include "../Header/EffectMinigunShell.h"
+#include "../Header/EffectExecutionBlood.h"
 
 #include "../Header/EffectPool.h"
