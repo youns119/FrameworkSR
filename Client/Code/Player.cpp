@@ -140,6 +140,9 @@ void CPlayer::LateUpdate_GameObject()
 
 void CPlayer::Render_GameObject()
 {
+	if (!Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
+		return;
+
 	//Beomseung Fix
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);

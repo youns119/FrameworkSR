@@ -7,11 +7,10 @@ CUICrossHair::CUICrossHair(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUIUnit(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
+	, m_pTextureCom(nullptr)
 	, m_eCurrCrossHair(UI_CROSSHAIR::CROSSHAIR_END)
 	, m_bFree(false)
 {
-	for (_uint i = 0; i < (_uint)UI_CROSSHAIR::CROSSHAIR_END; ++i)
-		m_pTextureCom[i] = nullptr;
 }
 
 CUICrossHair::~CUICrossHair()
@@ -70,7 +69,7 @@ void CUICrossHair::Render_Unit()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
-	m_pTextureCom[(_uint)m_eCurrCrossHair]->Set_Texture();
+	m_pTextureCom->Set_Texture((_uint)m_eCurrCrossHair);
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -82,29 +81,9 @@ HRESULT CUICrossHair::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_PISTOL] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Pistol"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_Pistol", pComponent });
-
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_RIFLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Rifle"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_Rifle", pComponent });
-
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_SNIPER] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Sniper"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_Sniper", pComponent });
-
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_SHOTGUN] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_ShotGun"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_ShotGun", pComponent });
-
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_KATANA] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Katana"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_Katana", pComponent });
-
-	pComponent = m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_MINIGUN] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UICrossHair_Minigun"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair_Minigun", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UICrossHair", pComponent });
 
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

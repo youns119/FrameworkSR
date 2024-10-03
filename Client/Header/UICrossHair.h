@@ -51,7 +51,7 @@ private:
 private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTransform* m_pTransformCom;
-	Engine::CTexture* m_pTextureCom[(_uint)UI_CROSSHAIR::CROSSHAIR_END];
+	Engine::CTexture* m_pTextureCom;
 
 	UI_CROSSHAIR m_eCurrCrossHair;
 	_bool m_bFree;

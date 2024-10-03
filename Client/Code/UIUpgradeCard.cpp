@@ -34,7 +34,7 @@ HRESULT CUIUpgradeCard::Ready_Unit(_vec3 _vPos)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(80.f, 120.f, 0.f);
+	m_pTransformCom->Set_Scale(120.f, 120.f, 0.f);
 	m_pTransformCom->Set_Pos(_vPos);
 
 	m_bRender = true;
@@ -71,11 +71,11 @@ HRESULT CUIUpgradeCard::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CARD::CARD_BLANK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIUpgradeSlot"));
+	pComponent = m_pTextureCom[(_uint)UI_CARD::CARD_BLANK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIUpgrade_Slot"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UIUpgradeSlot", pComponent });
 
-	pComponent = m_pTextureCom[(_uint)UI_CARD::CARD_WEAPON] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIUpgradeWeapon"));
+	pComponent = m_pTextureCom[(_uint)UI_CARD::CARD_WEAPON] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIUpgrade_Weapon"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_UIUpgradeWeapon", pComponent });
 

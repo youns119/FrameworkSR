@@ -46,7 +46,11 @@ void CUIManager::LateUpdate_UI()
 				m_queueUI[(_uint)(*pUI)->Get_UIType()].push(*pUI);
 				pUI = m_listUI[i].erase(pUI);
 			}
-			else pUI++;
+			else
+			{
+				(*pUI)->LateUpdate_UI();
+				pUI++;
+			}
 		}
 	}
 

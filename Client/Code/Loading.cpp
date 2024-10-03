@@ -342,23 +342,23 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIPlus_White", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/White/White_PlusSec_%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIText_Execution", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/Text/Text_Execute_%d.png", TEXTUREID::TEX_NORMAL, 13)), E_FAIL);
 	// UI_Inventory
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBack", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/BASE.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIOverlay", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/SCREEN_OVERLAY.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgradeSlot", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/UPGRADE_SLOT.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgradeWeapon", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/UPGRADE_WEAPON.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UILiveIcon", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/LIVE_ICON.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBack", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Screen/BASE.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIOverlay", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Screen/SCREEN_OVERLAY.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UILiveIcon", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Icon/LIVE_ICON.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_Normal
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Pistol", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/PISTOL.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Rifle", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/PLASMAGUN.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Sniper", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/SNIPER.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_ShotGun", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/SHOTGUN.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Katana", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/KATANA.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair_Minigun", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/DEFAULT.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICrossHair", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/CrossHair/CROSSHAIR_%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	// UI_Shop
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand_Base", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/ShopHand_Base.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIText_Upgrade", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/Text/Text_Upgrade.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand_Start", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/ShopHand_Start_%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Hand_Load", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/ShopHand_Load_%d.png", TEXTUREID::TEX_NORMAL, 2)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIShop_Buzz", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Shop/Screen/INT_%d.png", TEXTUREID::TEX_NORMAL, 5)), E_FAIL);
+	// UI_Card
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgrade_Slot", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Card/UPGRADE_SLOT.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgrade_Weapon", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Card/UPGRADE_WEAPON.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgrade_Boarder", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Card/UPGRADE_BORDER_A.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgrade_Card", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Card/UpgradeCard_%d.png", TEXTUREID::TEX_NORMAL, 3)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIText_Purchase", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/Text/Text_Purchase.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_Phone
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIPhone_Base", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Phone/Phone_Base.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_FreeCam
