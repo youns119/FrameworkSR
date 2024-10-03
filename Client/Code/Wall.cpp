@@ -9,6 +9,7 @@ CWall::CWall(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pTextureCom(nullptr)
     , m_pColliderCom(nullptr)
 {
+    m_pName = L"Proto_WALLCORNER01";
 }
 
 CWall::~CWall()
@@ -59,6 +60,25 @@ CWall* CWall::Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _v
 
     pWall->Setup_Position(_vecPos);
     pWall->Setup_Angle(_vecRot);
+    return pWall;
+}
+
+CWall* CWall::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+    pWall->Setup_ImageName(_pName);
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+    pWall->m_vecPos = _vecPos;
+
     return pWall;
 }
 
@@ -119,7 +139,7 @@ HRESULT CWall::Add_Component()
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Wall1"));
+    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(m_pName));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -162,6 +182,10 @@ void CWall::Setup_Angle(_vec3 _vecRot)
     m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
 
+void CWall::Setup_ImageName(const _tchar* _pName)
+{
+    m_pName = _pName;
+}
 void CWall::Free()
 {
     Engine::CGameObject::Free();

@@ -57,6 +57,7 @@ private:
 	CLayer* Find_Layer(const _tchar* _pLayerTag);
 	// ¸Ê ºÒ·¯¿À±â - À¯ºó
 	void MapLoad(CLayer* _pLayer);
+	void ChangeMapLoad();
 
 private:
 	virtual void Free();

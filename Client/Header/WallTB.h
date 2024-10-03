@@ -18,19 +18,23 @@ public:
 	static CWallTB* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 	static CWallTB* Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 	static CWallTB* Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot);
+	static CWallTB* Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName);
 
+	const _tchar* Get_FloorName() { return m_pName; }
 	_vec3 Get_VecPos() { return m_vecPos; }
 public:
 	virtual HRESULT	Ready_GameObject();
 	virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
+	void Setup_ImageName(const _tchar* _pName);
 
 private:
 	HRESULT Add_Component();
 	HRESULT Setup_Material();
 	void Setup_Position(_vec3 _vecPos);
 	void Setup_Angle(_vec3 _vecRot);
+	const _tchar* m_pName;
 
 private:
 	virtual void Free();

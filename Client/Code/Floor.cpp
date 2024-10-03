@@ -9,7 +9,7 @@ CFloor::CFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pTextureCom(nullptr)
     , m_pColliderCom(nullptr)
 {
-    m_pName = L"Proto_FirstFloor";
+    m_pName = L"Proto_Floor0";
 }
 
 CFloor::~CFloor()
@@ -57,7 +57,6 @@ CFloor* CFloor::Create_InfoTest(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _
 {
     CFloor* pFloor = new CFloor(_pGraphicDev);
 
-    pFloor->Setup_ImageName(_pName);
 
     if (FAILED(pFloor->Ready_GameObject()))
     {
