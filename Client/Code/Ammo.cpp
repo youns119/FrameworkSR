@@ -24,7 +24,7 @@ HRESULT CAmmo::Ready_GameObject()
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(0.05f);
-	m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetShow(false);
 	m_pColliderCom->SetActive(false);
 	_matrix matWorld;
 	m_pTransformCom->Set_Scale(0.05f, 0.05f, 0.05f);
@@ -58,6 +58,7 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 		if (4.f < m_fTimer)
 		{
 			m_bisRender = false;
+			m_pColliderCom->SetShow(false);
 			m_pColliderCom->SetActive(false);
 			m_fTimer = 0.f;
 		}
@@ -133,6 +134,7 @@ void CAmmo::Render_GameObject()
 void CAmmo::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage)
 {
 	m_bisRender = true;
+	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 	m_pTransformCom->Set_Pos(_vStartPos.x, _vStartPos.y, _vStartPos.z);
 	m_vDir = _vDir;

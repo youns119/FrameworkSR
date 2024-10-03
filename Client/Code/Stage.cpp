@@ -250,7 +250,7 @@ HRESULT CStage::Ready_Layer_Monster(const _tchar* _pLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);
 
-	for (_int i = 0; i < 100; ++i)
+	for (_int i = 0; i < 1000; ++i)
 	{
 		Engine::CBullet* pAmmo = nullptr;
 		pAmmo = CAmmo::Create(m_pGraphicDev);
