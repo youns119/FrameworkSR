@@ -50,7 +50,8 @@ HRESULT CStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL);
 
-	MapLoad(Find_Layer(L"Layer_GameLogic"));
+	//MapLoad(Find_Layer(L"Layer_GameLogic"));
+	ChangeMapLoad();
 	Set_Collision();
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -504,7 +505,7 @@ void CStage::MapLoad(CLayer* _pLayer)
 
 void CStage::ChangeMapLoad()
 {
-	HANDLE		hFile = CreateFile(L"../Data/Stage3.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -548,11 +549,11 @@ void CStage::ChangeMapLoad()
 			pSrc = nullptr;
 			break;
 		}
-		if (wcscmp(pTemp, L"Wall") == 0)
+		if (wcscmp(pTemp, L"Floor") == 0)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CWall::Create_Info(m_pGraphicDev, pPos, pSrc);
+			pGameObject = CFloor::Create_Info(m_pGraphicDev, pPos, pSrc);
 			NULL_CHECK_RETURN(pGameObject, );
 			pLayerFloor->Add_GameObject(L"Floor", pGameObject);
 		}
@@ -560,7 +561,7 @@ void CStage::ChangeMapLoad()
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CWall::Create_Pos(m_pGraphicDev, pPos);
+			pGameObject = CWall::Create_Info(m_pGraphicDev, pPos, pSrc);
 			NULL_CHECK_RETURN(pGameObject, );
 			pLayerWall->Add_GameObject(L"Wall", pGameObject);
 		}
