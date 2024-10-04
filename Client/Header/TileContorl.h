@@ -3,37 +3,40 @@
 
 BEGIN(Engine)
 
-class CWallTex;
 class CTransform;
 class CTexture;
 
 END
 class CTileContorl : public CGameObject
 {
-
-private:
+protected:
 	explicit CTileContorl(LPDIRECT3DDEVICE9 _pGraphicDev);
 	virtual ~CTileContorl();
 
-public:
-	static CTileContorl* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
-	virtual HRESULT	Ready_GameObject();
-	virtual _int Update_GameObject(const _float& _fTimeDelta);
-	virtual void LateUpdate_GameObject();
-	virtual void Render_GameObject();
+	virtual HRESULT	Ready_GameObject() PURE;
+	virtual _int Update_GameObject(const _float& _fTimeDelta)PURE;
+	virtual void LateUpdate_GameObject()PURE;
+	virtual void Render_GameObject()PURE;
 
-private:
-	HRESULT Add_Component();
-	HRESULT Setup_Material();
+	virtual _vec3 Get_VecPos() { return m_vecPos; }
+	virtual _int Get_Number() { return m_iNumber; }
+	virtual _int Get_Number_Type() { return m_iNumber_Type; }
 
-private:
+protected:
+	virtual HRESULT Add_Component()PURE;
+	virtual HRESULT Setup_Material()PURE;
+
+protected:
 	virtual void Free();
 
-private:
-	Engine::CWallTex* m_pBufferCom;
+protected:
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
+
+	_vec3 m_vecPos;
+	_int m_iNumber; //이게 몇번째 WallTB이냐는 정보
+	_int m_iNumber_Type; //이게 WallTB이라는 정보
 };
 

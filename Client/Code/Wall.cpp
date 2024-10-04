@@ -3,13 +3,14 @@
 #include "Export_Utility.h"
 
 CWall::CWall(LPDIRECT3DDEVICE9 _pGraphicDev)
-    : Engine::CGameObject(_pGraphicDev)
+    : CTileContorl(_pGraphicDev)
     , m_pBufferCom(nullptr)
-    , m_pTransformCom(nullptr)
-    , m_pTextureCom(nullptr)
     , m_pColliderCom(nullptr)
+    , m_vecWallDirection({0.f, 0.f, 0.f})
 {
     m_pName = L"Proto_WALLCORNER01";
+    m_iNumber = 0;
+    m_iNumber_Type = 1;
 }
 
 CWall::~CWall()
@@ -82,6 +83,85 @@ CWall* CWall::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _
     return pWall;
 }
 
+CWall* CWall::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+    pWall->m_vecPos = _vecPos;
+    pWall->m_iNumber = _iNumber;
+    pWall->Set_Number(_iNumber);
+
+    return pWall;
+}
+
+CWall* CWall::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+    pWall->m_vecPos = _vecPos;
+    pWall->Set_Number(_iNumber - 1);
+    pWall->Set_TileDirection(_eTileDirection);
+    
+    return pWall;
+}
+
+CWall* CWall::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+    pWall->m_vecPos = _vecPos;
+    pWall->Set_Number(_iNumber);
+    pWall->Set_TileDirection(_vecRot);
+
+    return pWall;
+}
+
+void CWall::Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection)
+{
+    switch (_eTileDirection)
+    {
+    case Engine::TILE_DIRECTION::TILE_FORWARD:
+        m_vecWallDirection = { 0.f, 0.f, 1.f };
+        break;
+    case Engine::TILE_DIRECTION::TILE_RIGHT:
+        m_vecWallDirection = { 1.f, 0.f, 0.f };
+        break;
+    case Engine::TILE_DIRECTION::TILE_LEFT:
+        m_vecWallDirection = { -1.f, 0.f, 0.f };
+        break;
+    case Engine::TILE_DIRECTION::TILE_BACK:
+        m_vecWallDirection = { 0.f, 0.f, -1.f };
+        break;
+    }
+}
+
 HRESULT CWall::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -124,7 +204,7 @@ void CWall::Render_GameObject()
 
     FAILED_CHECK_RETURN(Setup_Material(), );
 
-    m_pTextureCom->Set_Texture(0);
+    m_pTextureCom->Set_Texture(m_iNumber);
 
     m_pBufferCom->Render_Buffer();
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -139,7 +219,7 @@ HRESULT CWall::Add_Component()
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(m_pName));
+    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Wall"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -188,5 +268,5 @@ void CWall::Setup_ImageName(const _tchar* _pName)
 }
 void CWall::Free()
 {
-    Engine::CGameObject::Free();
+    CTileContorl::Free();
 }

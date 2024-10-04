@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
+#include "Engine_Enum.h"
 
 class CMapCreate : public CScene
 {
@@ -32,9 +33,9 @@ private:
 	//바닥 오브젝트 생성
 	HRESULT Create_Layer_PickingFloor(CLayer* _pLayer);
 	//벽 오브젝트 생성
-	HRESULT Create_Layer_PickingWall(CLayer* _pLayer);
+	HRESULT Create_Layer_PickingWall(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection);
 	//벽 오브젝트 생성
-	HRESULT Create_Layer_PickingWallTB(CLayer* _pLayer);
+	HRESULT Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection);
 	//Monster 오브젝트 생성
 	HRESULT Create_Layer_PickingMonster(CLayer* _pLayer);
 
@@ -60,7 +61,9 @@ private:
 
 
 	void MapSave(CLayer* _pLayer);
+	void MapSave2(CLayer* _pLayer);
 	void MapLoad(CLayer* _pLayer);
+	void MapLoad2(CLayer* _pLayer);
 
 
 	//imgui 함수
@@ -91,6 +94,11 @@ private:
 	bool m_bGuiHovered;
 
 	const _tchar* m_ImageName;
+	_int m_iNumber;
+
+	vector<const _tchar*> m_vecImageFloor;
+	vector<const _tchar*> m_vecImageWall;
+	vector<const _tchar*> m_vecImageMonster;
 
 
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageFloor;

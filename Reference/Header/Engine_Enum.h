@@ -66,6 +66,13 @@ namespace Engine
 		ITEM_DRINK,
 		ITEM_END,
 	};
+	enum class TILE_DIRECTION
+	{
+		TILE_FORWARD,
+		TILE_RIGHT,
+		TILE_LEFT,
+		TILE_BACK,
+	};
 }
 
 #endif // Engine_Enum_h__

@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "TileContorl.h"
 
 BEGIN(Engine)
 
@@ -9,7 +9,7 @@ class CTexture;
 class CCollider;
 
 END
-class CFloor : public CGameObject
+class CFloor : public CTileContorl
 {
 private:
 	explicit CFloor(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -19,12 +19,16 @@ public:
 	static CFloor* Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 	static CFloor* Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName);
 	static CFloor* Create_InfoTest(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _tchar* _pName);
+	static CFloor* Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber);
+	static CFloor* Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber);
 	static CFloor* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
 	const _tchar* Get_FloorName() { return m_pName; }
 	_vec3 Get_VecPos() { return m_vecPos; }
 	_vec3 Get_VecRot() { return m_vecRot; }
+	_int Get_Number() { return m_iNumber; }
+	void Set_Number(const _int& _iNumber) { m_iNumber = _iNumber; }
 
 public:
 	virtual HRESULT	Ready_GameObject();
@@ -33,9 +37,8 @@ public:
 	virtual void Render_GameObject();
 
 private:
-private:
-	HRESULT Add_Component();
-	HRESULT Setup_Material();
+	virtual HRESULT Add_Component();
+	virtual HRESULT Setup_Material();
 	void Setup_Position(_vec3 _vecPos);
 	void Setup_Rotation(_vec3 _vecRot);
 	void Setup_ImageName(const _tchar* _pName);
@@ -45,13 +48,9 @@ private:
 
 private:
 	Engine::CFloorTex* m_pBufferCom;
-	Engine::CTransform* m_pTransformCom;
-	Engine::CTexture* m_pTextureCom;
 	Engine::CCollider* m_pColliderCom;
 
 	const _tchar* m_pName;
-	_vec3 m_vecPos;
 	_vec3 m_vecRot;
-
-
+	_float m_fDamage;
 };

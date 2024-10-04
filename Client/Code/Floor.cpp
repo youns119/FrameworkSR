@@ -3,13 +3,14 @@
 #include "Export_Utility.h"
 
 CFloor::CFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
-    : Engine::CGameObject(_pGraphicDev)
+    : CTileContorl(_pGraphicDev)
     , m_pBufferCom(nullptr)
-    , m_pTransformCom(nullptr)
-    , m_pTextureCom(nullptr)
     , m_pColliderCom(nullptr)
+    , m_fDamage(0.f)
 {
     m_pName = L"Proto_Floor0";
+    m_iNumber = 0;
+    m_iNumber_Type = 0;
 }
 
 CFloor::~CFloor()
@@ -73,6 +74,48 @@ CFloor* CFloor::Create_InfoTest(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _
     return pFloor;
 }
 
+CFloor* CFloor::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber)
+{
+    CFloor* pFloor = new CFloor(_pGraphicDev);
+
+
+    if (FAILED(pFloor->Ready_GameObject()))
+    {
+        Safe_Release(pFloor);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pFloor->Setup_Position(_vecPos);
+    pFloor->m_vecPos = _vecPos;
+    pFloor->m_iNumber = _iNumber;
+    pFloor->Set_Number(_iNumber);
+
+    return pFloor;
+}
+
+CFloor* CFloor::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
+{
+    CFloor* pFloor = new CFloor(_pGraphicDev);
+
+
+    if (FAILED(pFloor->Ready_GameObject()))
+    {
+        Safe_Release(pFloor);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pFloor->Setup_Position(_vecPos);
+    pFloor->Setup_Rotation(_vecRot);
+    pFloor->m_vecPos = _vecPos;
+    pFloor->m_vecRot = _vecRot;
+    pFloor->m_iNumber = _iNumber;
+    pFloor->Set_Number(_iNumber);
+
+    return pFloor;
+}
+
 CFloor* CFloor::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
     CFloor* pFloor = new CFloor(_pGraphicDev);
@@ -128,7 +171,7 @@ void CFloor::Render_GameObject()
 
    FAILED_CHECK_RETURN(Setup_Material(), );
 
-    m_pTextureCom->Set_Texture(0);
+    m_pTextureCom->Set_Texture(m_iNumber - 1);
 
     m_pBufferCom->Render_Buffer();
 
@@ -144,7 +187,7 @@ HRESULT CFloor::Add_Component()
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(m_pName));
+    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Floor"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -195,5 +238,5 @@ void CFloor::Setup_ImageName(const _tchar* _pName)
 
 void CFloor::Free()
 {
-    Engine::CGameObject::Free();
+    CTileContorl::Free();
 }

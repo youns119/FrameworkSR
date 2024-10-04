@@ -7,6 +7,7 @@
 #include "..\Header\WallTB.h"
 #include "..\Header\MonsterTile.h"
 #include "..\Header\GuideTerrain.h"
+#include "../Header/TileContorl.h"
 
 
 CMapCreate::CMapCreate(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -17,6 +18,7 @@ CMapCreate::CMapCreate(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_iRidian(0)
 	, m_bGuiHovered(false)
 	, m_ImageName(nullptr)
+	, m_iNumber(0)
 {
 }
 
@@ -46,98 +48,98 @@ HRESULT CMapCreate::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_PickingTile(L"Layer_PickingTile"), E_FAIL);
 
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor0.png",L"Proto_Floor0", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor1.png",L"Proto_Floor1", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor2.png",L"Proto_Floor2", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor3.png",L"Proto_Floor3", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor4.png",L"Proto_Floor4", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor5.png",L"Proto_Floor5", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor6.png",L"Proto_Floor6", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor7.png",L"Proto_Floor7", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor8.png",L"Proto_Floor8", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/Floor9.png",L"Proto_Floor9", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/0.png",L"Proto_Floor0", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/1.png",L"Proto_Floor1", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/2.png",L"Proto_Floor2", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/3.png",L"Proto_Floor3", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/4.png",L"Proto_Floor4", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/5.png",L"Proto_Floor5", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/6.png",L"Proto_Floor6", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/7.png",L"Proto_Floor7", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/8.png",L"Proto_Floor8", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_FloorInsert(L"../Bin/Resource/Texture/MMJ_Floor/9.png",L"Proto_Floor9", TEXTUREID::TEX_NORMAL, 1);
 
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_GLASS01.png", L"Proto_WALL_GLASS01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_GLASS.png", L"Proto_WALL_GLASS", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_HOLE_01.png", L"Proto_WALL_HOLE_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_HOLE_02.png", L"Proto_WALL_HOLE_02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_HOLE_03.png", L"Proto_WALL_HOLE_03", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_HOLE_04.png", L"Proto_WALL_HOLE_04", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_KATANAS.png", L"Proto_WALL_KATANAS", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_MOLTEN.png", L"Proto_WALL_MOLTEN", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_SEA_01.png", L"Proto_WALL_SEA_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_SEA_02.png", L"Proto_WALL_SEA_02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_SIDE_DASH_01.png", L"Proto_WALL_SIDE_DASH_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_TRANSPARENT_01.png", L"Proto_WALL_TRANSPARENT_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_TRANSPARENT_02.png", L"Proto_WALL_TRANSPARENT_02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_TRANSPARENT_03.png", L"Proto_WALL_TRANSPARENT_03", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_TRANSPARENT_04.png", L"Proto_WALL_TRANSPARENT_04", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA_EXTERIOR.png", L"Proto_WALLA_EXTERIOR", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA01.png", L"Proto_WALLA01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA02.png", L"Proto_WALLA02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA2_0.png", L"Proto_WALLA2_0", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA03_0.png", L"Proto_WALLA03_0", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA03_1.png", L"Proto_WALLA03_1", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA04.png", L"Proto_WALLA04", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA5.png", L"Proto_WALLA5", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA06.png", L"Proto_WALLA06", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA07.png", L"Proto_WALLA07", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA08.png", L"Proto_WALLA08", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA09.png", L"Proto_WALLA09", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLA10.png", L"Proto_WALLA10", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB_EXTERIOR.png", L"Proto_WALLB_EXTERIOR", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB01.png", L"Proto_WALLB01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB02.png", L"Proto_WALLB02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB03.png", L"Proto_WALLB03", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB03_0.png", L"Proto_WALLB03_0", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB04.png", L"Proto_WALLB04", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB5.png", L"Proto_WALLB5", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB06.png", L"Proto_WALLB06", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB07.png", L"Proto_WALLB07", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB08.png", L"Proto_WALLB08", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB09.png", L"Proto_WALLB09", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLB10.png", L"Proto_WALLB10", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLBORDER01.png", L"Proto_WALLBORDER01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC01.png", L"Proto_WALLC01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC02.png", L"Proto_WALLC02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC03.png", L"Proto_WALLC03", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC03_0.png", L"Proto_WALLC03_0", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC04.png", L"Proto_WALLC04", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC04_0.png", L"Proto_WALLC04_0", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC5.png", L"Proto_WALLC5", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC6.png", L"Proto_WALLC6", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC07.png", L"Proto_WALLC07", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC08.png", L"Proto_WALLC08", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC09.png", L"Proto_WALLC09", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLC10.png", L"Proto_WALLC10", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER_BOSS3_01.png", L"Proto_WALLCORNER_BOSS3_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER_BOSS7_01.png", L"Proto_WALLCORNER_BOSS7_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER01.png", L"Proto_WALLCORNER01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER02.png", L"Proto_WALLCORNER02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER03.png", L"Proto_WALLCORNER03", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER04 .png", L"Proto_WALLCORNER04 ", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER05.png", L"Proto_WALLCORNER05", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER05_0.png", L"Proto_WALLCORNER05_0", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER6.png", L"Proto_WALLCORNER6", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER07.png", L"Proto_WALLCORNER07", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER08.png", L"Proto_WALLCORNER08", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER09.png", L"Proto_WALLCORNER09", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALLCORNER10.png", L"Proto_WALLCORNER10", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_ACID.png", L"Proto_WALL_ACID", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_BIO_01.png", L"Proto_WALL_BIO_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_BIO_02.png.png", L"Proto_WALL_BIO_02.png", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_Boss3_01.png", L"Proto_WALL_Boss3_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_Boss3_02.png", L"Proto_WALL_Boss3_02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_Boss3_03.png", L"Proto_WALL_Boss3_03", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_CONCRETE.png", L"Proto_WALL_CONCRETE", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_01.png", L"Proto_WALL_DECO_01", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_02.png", L"Proto_WALL_DECO_02", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_03.png", L"Proto_WALL_DECO_03", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_04.png", L"Proto_WALL_DECO_04", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_05.png", L"Proto_WALL_DECO_05", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_06.png", L"Proto_WALL_DECO_06", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_DECO_07.png", L"Proto_WALL_DECO_07", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/WALL_ELECTRIC.png", L"Proto_WALL_ELECTRIC", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/0.png", L"Proto_WALL_GLASS01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/1.png", L"Proto_WALL_GLASS", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/2.png", L"Proto_WALL_HOLE_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/3.png", L"Proto_WALL_HOLE_02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/4.png", L"Proto_WALL_HOLE_03", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/5.png", L"Proto_WALL_HOLE_04", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/6.png", L"Proto_WALL_KATANAS", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/7.png", L"Proto_WALL_MOLTEN", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/8.png", L"Proto_WALL_SEA_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/9.png", L"Proto_WALL_SEA_02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/10.png", L"Proto_WALL_SIDE_DASH_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/11.png", L"Proto_WALL_TRANSPARENT_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/12.png", L"Proto_WALL_TRANSPARENT_02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/13.png", L"Proto_WALL_TRANSPARENT_03", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/14.png", L"Proto_WALL_TRANSPARENT_04", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/15.png", L"Proto_WALLA_EXTERIOR", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/16.png", L"Proto_WALLA01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/17.png", L"Proto_WALLA02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/18.png", L"Proto_WALLA2_0", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/19.png", L"Proto_WALLA03_0", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/20.png", L"Proto_WALLA03_1", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/21.png", L"Proto_WALLA04", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/22.png", L"Proto_WALLA5", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/23.png", L"Proto_WALLA06", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/24.png", L"Proto_WALLA07", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/25.png", L"Proto_WALLA08", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/26.png", L"Proto_WALLA09", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/27.png", L"Proto_WALLA10", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/28.png", L"Proto_WALLB_EXTERIOR", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/29.png", L"Proto_WALLB01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/30.png", L"Proto_WALLB02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/31.png", L"Proto_WALLB03", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/32.png", L"Proto_WALLB03_0", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/33.png", L"Proto_WALLB04", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/34.png", L"Proto_WALLB5", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/35.png", L"Proto_WALLB06", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/36.png", L"Proto_WALLB07", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/37.png", L"Proto_WALLB08", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/38.png", L"Proto_WALLB09", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/39.png", L"Proto_WALLB10", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/40.png", L"Proto_WALLBORDER01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/41.png", L"Proto_WALLC01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/42.png", L"Proto_WALLC02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/43.png", L"Proto_WALLC03", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/44.png", L"Proto_WALLC03_0", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/45.png", L"Proto_WALLC04", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/46.png", L"Proto_WALLC04_0", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/47.png", L"Proto_WALLC5", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/48.png", L"Proto_WALLC6", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/49.png", L"Proto_WALLC07", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/50.png", L"Proto_WALLC08", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/51.png", L"Proto_WALLC09", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/52.png", L"Proto_WALLC10", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/53.png", L"Proto_WALLCORNER_BOSS3_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/54.png", L"Proto_WALLCORNER_BOSS7_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/55.png", L"Proto_WALLCORNER01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/56.png", L"Proto_WALLCORNER02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/57.png", L"Proto_WALLCORNER03", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/58.png", L"Proto_WALLCORNER04 ", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/59.png", L"Proto_WALLCORNER05", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/60.png", L"Proto_WALLCORNER05_0", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/61.png", L"Proto_WALLCORNER6", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/62.png", L"Proto_WALLCORNER07", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/63.png", L"Proto_WALLCORNER08", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/64.png", L"Proto_WALLCORNER09", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/65.png", L"Proto_WALLCORNER10", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/66.png", L"Proto_WALL_ACID", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/67.png", L"Proto_WALL_BIO_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/68.png", L"Proto_WALL_BIO_02.png", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/69.png", L"Proto_WALL_Boss3_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/70.png", L"Proto_WALL_Boss3_02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/71.png", L"Proto_WALL_Boss3_03", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/72.png", L"Proto_WALL_CONCRETE", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/73.png", L"Proto_WALL_DECO_01", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/74.png", L"Proto_WALL_DECO_02", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/75.png", L"Proto_WALL_DECO_03", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/76.png", L"Proto_WALL_DECO_04", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/77.png", L"Proto_WALL_DECO_05", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/78.png", L"Proto_WALL_DECO_06", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/79.png", L"Proto_WALL_DECO_07", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/80.png", L"Proto_WALL_ELECTRIC", TEXTUREID::TEX_NORMAL, 1);
 
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Idle/0.png", L"Proto_Monster1", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Idle/0.png", L"Proto_Monster2", TEXTUREID::TEX_NORMAL, 1);
@@ -188,23 +190,49 @@ _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 
 		}
 	}
-	if (Engine::Key_Hold(DIK_X) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
-	{
-		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"Wall");
-		if (m_bCreateCheck == true)
-		{
-			Create_Layer_PickingWall(Find_Layer(L"Layer_PickingTile"));
-		}
-	}
-	if (Engine::Key_Hold(DIK_C) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+	
+	
+	if (Engine::Key_Hold(DIK_T) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
 
 	{
 		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"WallTB");
 		if (m_bCreateCheck == true)
 		{
-			Create_Layer_PickingWallTB(Find_Layer(L"Layer_PickingTile"));
+			Create_Layer_PickingWallTB(Find_Layer(L"Layer_PickingTile"), Engine::TILE_DIRECTION::TILE_FORWARD);
 		}
 	}
+	//======================Start
+	if (Engine::Key_Hold(DIK_H) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+
+	{
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"Wall");
+		if (m_bCreateCheck == true)
+		{
+			Create_Layer_PickingWall(Find_Layer(L"Layer_PickingTile"), Engine::TILE_DIRECTION::TILE_RIGHT);
+		}
+	}
+	if (Engine::Key_Hold(DIK_F) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+
+	{
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"Wall");
+		if (m_bCreateCheck == true)
+		{
+			Create_Layer_PickingWall(Find_Layer(L"Layer_PickingTile"), Engine::TILE_DIRECTION::TILE_LEFT);
+		}
+	}
+	if (Engine::Key_Hold(DIK_G) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+
+	{
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"WallTB");
+		if (m_bCreateCheck == true)
+		{
+			Create_Layer_PickingWallTB(Find_Layer(L"Layer_PickingTile"), Engine::TILE_DIRECTION::TILE_BACK);
+		}
+	}
+	
+	//=========================End
+
+
 	if (Engine::Key_Hold(DIK_V) && Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_LB))
 	{
 		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"MonsterTile");
@@ -237,11 +265,11 @@ _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 	}
 	if (Engine::Key_Press(DIK_O))
 	{
-		MapSave(Find_Layer(L"Layer_PickingTile"));
+		MapSave2(Find_Layer(L"Layer_PickingTile"));
 	}
 	if (Engine::Key_Press(DIK_P))
 	{
-		MapLoad(Find_Layer(L"Layer_PickingTile"));
+		MapLoad2(Find_Layer(L"Layer_PickingTile"));
 	}
 	if (Engine::Key_Press(DIK_K))
 	{
@@ -376,31 +404,33 @@ CLayer* CMapCreate::Find_Layer(const _tchar* _pLayerTag)
 	return pLayer;
 }
 
-HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer)
+HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer) //No Rotation
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CFloor::Create_Info(m_pGraphicDev, TilePiking_OnTerrain(1), m_ImageName);
+	pGameObject = CFloor::Create_InfoNumber(m_pGraphicDev, TilePiking_OnTerrain(1), m_iNumber);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Floor", pGameObject);
 
 	return S_OK;
 }
 	
-HRESULT CMapCreate::Create_Layer_PickingWall(CLayer* _pLayer)
+
+HRESULT CMapCreate::Create_Layer_PickingWall(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CWall::Create_Info(m_pGraphicDev, TilePiking_OnTerrain(2), m_ImageName);
+	pGameObject = CWall::Create_InfoNumberDirection(m_pGraphicDev, TilePiking_OnTerrain(2), m_iNumber, _eTileDirection);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Wall", pGameObject);
 
 	return S_OK;
 }
 
-HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer)
+
+HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CWallTB::Create_Info(m_pGraphicDev, TilePiking_OnTerrain(3), m_ImageName);
+	pGameObject = CWallTB::Create_InfoNumberDirection(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"WallTB", pGameObject);
 
@@ -410,7 +440,7 @@ HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer)
 HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CMonsterTile::Create_Info(m_pGraphicDev, TilePiking_OnTerrain(4), m_ImageName);
+	pGameObject = CMonsterTile::Create_InfoNumber(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber - 1);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
 
@@ -907,6 +937,10 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 		}
 		else if (_TileTag == L"WallTB" && _TileTag == (*it).first)
 		{
+			if (dynamic_cast<CWallTB*>((*it).second) == nullptr)
+			{
+				break;
+			}
 			if (dynamic_cast<CWallTB*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(3))
 			{
 				m_bCreateCheck = false;
@@ -972,9 +1006,10 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 		WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 		WriteFile(hFile, (*it).first, dwStringSize, &dwByte, nullptr);
 		iNumber = 0;
-
-		if ((*it).first == L"Floor")
+		
+		if (nullptr != dynamic_cast<CFloor*>((*it).second))
 		{
+			iNumber = dynamic_cast<CFloor*>((*it).second)->Get_Number();
 			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
 			dwStringSize = sizeof(wchar_t) * (wcslen((dynamic_cast<CFloor*>((*it).second)->Get_FloorName())) + 1);
 			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
@@ -983,23 +1018,25 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 
 			//WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr);//회전값 저장
 		}
-		if ((*it).first == L"Wall")
+		if (nullptr != dynamic_cast<CWall*>((*it).second))
 		{
+			iNumber = dynamic_cast<CWall*>((*it).second)->Get_Number();
 			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
 			dwStringSize = sizeof(wchar_t) * (wcslen((dynamic_cast<CWall*>((*it).second)->Get_FloorName())) + 1);
 			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_FloorName(), dwStringSize, &dwByte, nullptr);
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
 		}
-		if ((*it).first == L"WallTB")
+		if (nullptr != dynamic_cast<CWallTB*>((*it).second))
 		{
+			iNumber = dynamic_cast<CWallTB*>((*it).second)->Get_Number();
 			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
 			dwStringSize = sizeof(wchar_t) * (wcslen((dynamic_cast<CWallTB*>((*it).second)->Get_FloorName())) + 1);
 			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_FloorName(), dwStringSize, &dwByte, nullptr);
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
 		}
-		if ((*it).first == L"MonsterTile")
+		if (nullptr != dynamic_cast<CMonsterTile*>((*it).second))
 		{
 			iNumber = dynamic_cast<CMonsterTile*>((*it).second)->Get_Number();
 
@@ -1008,7 +1045,10 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 			WriteFile(hFile, &dwStringSize, sizeof(DWORD), &dwByte, nullptr);
 			WriteFile(hFile, dynamic_cast<CMonsterTile*>((*it).second)->Get_MonsterName(), dwStringSize, &dwByte, nullptr);
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);
-
+			//필요한 정보는 단순히 이거 바닥이냐, 이거 몇번째 바닥이냐, 이거 벡터어디냐 
+			//필요한 정보는 단순히 이거 벽이냐, 이거 몇번째 벽이냐, 이거 벡터어디냐 
+			//필요한 정보는 단순히 이거 벽TB이냐, 이거 몇번째 벽TB이냐, 이거 벡터어디냐 
+			//필요한 정보는 단순히 이거 몬스터냐, 이거 몇번째 몬스터냐, 이거 벡터어디냐 
 		}
 	}
 
@@ -1018,21 +1058,97 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 
 }
 
+void CMapCreate::MapSave2(CLayer* _pLayer)
+{
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage3.txt",	// 파일 이름까지 포함된 경로
+		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
+		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
+		NULL,				// 보안 속성
+		CREATE_ALWAYS,		// 생성 방식(CREATE_ALWAYS : 파일이 없다면 생성, 있으면 덮어쓰기, OPEN_EXISTING : 파일이 있는 경우에만 불러오기)
+		FILE_ATTRIBUTE_NORMAL, // 파일 속성(아무런 속성이 없는 파일로 생성)
+		NULL);				// 생성될 파일의 속성을 제공할 템플릿 파일
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Save File", _T("Fail"), MB_OK);
+		return;
+	}
+
+	_int iNumber(0);
+	DWORD	dwByte(0);
+
+	multimap<const _tchar*, CGameObject*>::iterator it;
+	for (it = _pLayer->Get_LayerObjects()->begin(); it != _pLayer->Get_LayerObjects()->end(); it++)
+	{
+		iNumber = 0; //초기화 및 바닥이다(기본값)
+
+		if (nullptr != dynamic_cast<CFloor*>((*it).second))
+		{
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 0번이다(바닥)
+
+			iNumber = dynamic_cast<CFloor*>((*it).second)->Get_Number();
+
+			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
+			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr); //꺾여있는 방향
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
+
+			//WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr);//회전값 저장
+		}
+		if (nullptr != dynamic_cast<CWall*>((*it).second))
+		{
+			iNumber = 1;
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 1번이다(벽)
+			iNumber = dynamic_cast<CWall*>((*it).second)->Get_Number();
+			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
+			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
+		}
+		if (nullptr != dynamic_cast<CWallTB*>((*it).second))
+		{
+			iNumber = 2;
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 2번이다(벽TB)
+			iNumber = dynamic_cast<CWallTB*>((*it).second)->Get_Number();
+			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
+			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
+		}
+		if (nullptr != dynamic_cast<CMonsterTile*>((*it).second))
+		{
+			iNumber = 3;
+			_vec3 vecTemp = { 0.f, 0.f, 0.f };
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 3번이다(몬스터)
+			iNumber = dynamic_cast<CMonsterTile*>((*it).second)->Get_Number();
+
+			WriteFile(hFile, dynamic_cast<CMonsterTile*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, vecTemp, sizeof(_vec3), &dwByte, nullptr); //깡통(필요없지만 저장양식을 위해)
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);
+			//필요한 정보는 단순히 이거 바닥이냐, 이거 몇번째 바닥이냐, 이거 벡터어디냐 
+			//필요한 정보는 단순히 이거 벽이냐, 이거 몇번째 벽이냐, 이거 벡터어디냐 
+			//필요한 정보는 단순히 이거 벽TB이냐, 이거 몇번째 벽TB이냐, 이거 벡터어디냐 
+			//필요한 정보는 단순히 이거 몬스터냐, 이거 몇번째 몬스터냐, 이거 벡터어디냐 
+		}
+	}
+
+	CloseHandle(hFile);
+
+	MessageBox(g_hWnd, L"Save 완료", _T("성공"), MB_OK);
+}
+
 void CMapCreate::MapLoad(CLayer* _pLayer)
 {
-	multimap<const _tchar*, CGameObject*>::iterator it;
-	it = _pLayer->Get_LayerObjects()->find(L"Floor");
-	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
+	//multimap<const _tchar*, CGameObject*>::iterator it;
+	//it = _pLayer->Get_LayerObjects()->find(L"Floor");
+	//_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
+	//
+	//it = _pLayer->Get_LayerObjects()->find(L"Wall");
+	//_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
+	//
+	//it = _pLayer->Get_LayerObjects()->find(L"WallTB");
+	//_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
-	it = _pLayer->Get_LayerObjects()->find(L"Wall");
-	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
-
-	it = _pLayer->Get_LayerObjects()->find(L"WallTB");
-	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
 
-
-	HANDLE		hFile = CreateFile(L"../Data/TutorialStage2.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1081,6 +1197,8 @@ void CMapCreate::MapLoad(CLayer* _pLayer)
 			Engine::CGameObject* pGameObject = nullptr;
 
 			pGameObject = CFloor::Create_Info(m_pGraphicDev, pPos, pSrc);
+			
+
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"Floor", pGameObject);
 		}
@@ -1114,6 +1232,98 @@ void CMapCreate::MapLoad(CLayer* _pLayer)
 	MessageBox(g_hWnd, L"Load 완료", _T("성공"), MB_OK);
 }
 
+void CMapCreate::MapLoad2(CLayer* _pLayer)
+{
+	multimap<const _tchar*, CGameObject*>::iterator it;
+	it = _pLayer->Get_LayerObjects()->find(L"Floor");
+	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
+	
+	it = _pLayer->Get_LayerObjects()->find(L"Wall");
+	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
+	
+	it = _pLayer->Get_LayerObjects()->find(L"WallTB");
+	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
+
+	it = _pLayer->Get_LayerObjects()->find(L"MonsterTile");
+	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
+
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage3.txt",	// 파일 이름까지 포함된 경로
+		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
+		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
+		NULL,				// 보안 속성
+		OPEN_EXISTING,		// 생성 방식(CREATE_ALWAYS : 파일이 없다면 생성, 있으면 덮어쓰기, OPEN_EXISTING : 파일이 있는 경우에만 불러오기)
+		FILE_ATTRIBUTE_NORMAL, // 파일 속성(아무런 속성이 없는 파일로 생성)
+		NULL);				// 생성될 파일의 속성을 제공할 템플릿 파일
+
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Load File", _T("Fail"), MB_OK);
+		return;
+	}
+
+	DWORD	dwByte(0);
+	_int iNumber_Type(0); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3) 
+	_int iNumber(0); //이게 그럼 몇번째 녀석인지
+	_vec3 pPos{};
+	_vec3 pRot{};
+
+
+	while (true)
+	{
+		ReadFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3) 
+		ReadFile(hFile, &pPos, sizeof(_vec3), &dwByte, nullptr); // 포지션 값 저장
+		ReadFile(hFile, &pRot, sizeof(_vec3), &dwByte, nullptr); // 회전 또는 바라보는 방향 값 저장
+		ReadFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이게 그럼 몇번째 녀석인지
+		if (0 == dwByte)
+		{
+			break;
+		}
+
+		if (iNumber_Type == 0)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
+			pRot = { 0.f, 0.f, 0.f };
+
+			pGameObject = CFloor::Create_InfoNumber(m_pGraphicDev, pPos, pRot, iNumber);
+			
+
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"Floor", pGameObject);
+		}
+		if (iNumber_Type == 1)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
+
+			pGameObject = CWall::Create_InfoNumberDirection(m_pGraphicDev, pPos, pRot, iNumber);
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"Wall", pGameObject);
+		}
+		if (iNumber_Type == 2)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
+
+			pGameObject = CWallTB::Create_InfoNumberDirection(m_pGraphicDev, pPos, pRot, iNumber);
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"WallTB", pGameObject);
+		}
+		if (iNumber_Type == 3)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
+
+			pGameObject = CMonsterTile::Create_InfoNumber(m_pGraphicDev, pPos, iNumber);
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"WallTB", pGameObject);
+		}
+
+	}
+
+	CloseHandle(hFile);
+
+
+	MessageBox(g_hWnd, L"Load 완료", _T("성공"), MB_OK);
+}
+
 void CMapCreate::ShowGUI()
 {
 	// 방향키가 영향을 주지 않게
@@ -1127,7 +1337,7 @@ void CMapCreate::ShowGUI()
 	SetMenu(); // 하나의 그룹이 되는 느낌?
 	SetFloor();
 	SetWall();
-
+	SetMonster();
 	//메뉴바
 	if (ImGui::BeginMenuBar())
 	{
@@ -1301,7 +1511,7 @@ void CMapCreate::SetFloor()
 	// 텍스쳐 선택
 	ImGui::Text(u8"바닥 선택");
 	int iCount(0);
-
+	_int iTemp(0);
 	map<const _tchar*, IDirect3DBaseTexture9*>::iterator it;
 	for (it = m_mapImageFloor.begin(); it != m_mapImageFloor.end(); ++it)
 	{
@@ -1311,7 +1521,7 @@ void CMapCreate::SetFloor()
 		WideCharToMultiByte(CP_ACP, 0, (*it).first, -1, pStr, iStrSize, 0, 0);
 
 		ret = ImGui::ImageButton(pStr, (*it).second, ImVec2(50.f, 50.f));
-
+		iTemp++;
 		iCount++;
 		if (iCount < 5)
 		{
@@ -1325,6 +1535,7 @@ void CMapCreate::SetFloor()
 		{
 			// 타일 이미지 변경
 			// floor를 선택 했는지 wall 선택했는지 변수나 이넘값을 최초 세팅해주면 마우스 픽킹만으로 생성하도록 => 키보드 제거하기
+			m_iNumber = iTemp;
 			m_ImageName = (*it).first;
 		}
 
@@ -1357,7 +1568,7 @@ void CMapCreate::SetWall()
 
 	ImGui::Text(u8"벽 선택");
 	int iCount(0);
-
+	_int iTemp(0);
 	map<const _tchar*, IDirect3DBaseTexture9*>::iterator it;
 	for (it = m_mapImageWall.begin(); it != m_mapImageWall.end(); ++it)
 	{
@@ -1367,7 +1578,7 @@ void CMapCreate::SetWall()
 		WideCharToMultiByte(CP_ACP, 0, (*it).first, -1, pStr, iStrSize, 0, 0);
 
 		ret = ImGui::ImageButton(pStr, (*it).second, ImVec2(50.f, 50.f));
-
+		iTemp++;
 		iCount++;
 		if (iCount < 5)
 		{
@@ -1381,6 +1592,7 @@ void CMapCreate::SetWall()
 		{
 			// 타일 이미지 변경
 			// floor를 선택 했는지 wall 선택했는지 변수나 이넘값을 최초 세팅해주면 마우스 픽킹만으로 생성하도록 => 키보드 제거하기
+			m_iNumber = iTemp;
 			m_ImageName = (*it).first;
 		}
 
@@ -1399,7 +1611,7 @@ void CMapCreate::SetMonster()
 
 	ImGui::Text(u8"Monster 선택");
 	int iCount(0);
-
+	_int iTemp(0);
 	map<const _tchar*, IDirect3DBaseTexture9*>::iterator it;
 	for (it = m_mapImageMonster.begin(); it != m_mapImageMonster.end(); ++it)
 	{
@@ -1409,7 +1621,7 @@ void CMapCreate::SetMonster()
 		WideCharToMultiByte(CP_ACP, 0, (*it).first, -1, pStr, iStrSize, 0, 0);
 
 		ret = ImGui::ImageButton(pStr, (*it).second, ImVec2(50.f, 50.f));
-
+		iTemp++;
 		iCount++;
 		if (iCount < 5)
 		{
@@ -1423,6 +1635,7 @@ void CMapCreate::SetMonster()
 		{
 			// 타일 이미지 변경
 			// floor를 선택 했는지 wall 선택했는지 변수나 이넘값을 최초 세팅해주면 마우스 픽킹만으로 생성하도록 => 키보드 제거하기
+			m_iNumber = iTemp;
 			m_ImageName = (*it).first;
 		}
 
@@ -1446,10 +1659,12 @@ HRESULT CMapCreate::Ready_Texture_FloorInsert(const _tchar* _pPath, const _tchar
 		{
 		case TEXTUREID::TEX_NORMAL:
 			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
+			m_vecImageFloor.push_back(_pComponentTag);
 			m_mapImageFloor.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
+			m_vecImageFloor.push_back(_pComponentTag);
 			m_mapImageFloor.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		default:
@@ -1474,10 +1689,12 @@ HRESULT CMapCreate::Ready_Texture_WallInsert(const _tchar* _pPath, const _tchar*
 		{
 		case TEXTUREID::TEX_NORMAL:
 			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
+			m_vecImageWall.push_back(_pComponentTag);
 			m_mapImageWall.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
+			m_vecImageWall.push_back(_pComponentTag);
 			m_mapImageWall.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		default:
@@ -1502,10 +1719,12 @@ HRESULT CMapCreate::Ready_Texture_MonsterInsert(const _tchar* _pPath, const _tch
 		{
 		case TEXTUREID::TEX_NORMAL:
 			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
+			m_vecImageMonster.push_back(_pComponentTag);
 			m_mapImageMonster.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
+			m_vecImageMonster.push_back(_pComponentTag);
 			m_mapImageMonster.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		default:
