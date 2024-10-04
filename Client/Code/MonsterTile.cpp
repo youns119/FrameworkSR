@@ -4,12 +4,12 @@
 #include "Export_Utility.h"
 
 CMonsterTile::CMonsterTile(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: Engine::CGameObject(_pGraphicDev)
+	: CTileContorl(_pGraphicDev)
 	, m_pBufferCom(nullptr)
-	, m_pTransformCom(nullptr)
-	, m_pTextureCom(nullptr)
 {
 	m_pName = L"Proto_Floor0";
+	m_iNumber = 0;
+	m_iNumber_Type = 3;
 }
 
 CMonsterTile::~CMonsterTile()
@@ -108,6 +108,21 @@ CMonsterTile* CMonsterTile::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _v
 	return pMonster;
 }
 
+CMonsterTile* CMonsterTile::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber)
+{
+	CMonsterTile* pMonster = new CMonsterTile(_pGraphicDev);
+
+	if (FAILED(pMonster->Ready_GameObject()))
+	{
+		Safe_Release(pMonster);
+		MSG_BOX("pTerrain Create Failed");
+		return nullptr;
+	}
+	pMonster->Setup_ImageNumber(_iNumber);
+	pMonster->Setup_Position(_vecPos);
+	pMonster->m_vecPos = _vecPos;
+}
+
 HRESULT CMonsterTile::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -144,7 +159,7 @@ void CMonsterTile::Render_GameObject()
 
 	FAILED_CHECK_RETURN(Setup_Material(), );
 
-	m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(m_iNumber);
 
 	m_pBufferCom->Render_Buffer();
 
@@ -166,7 +181,7 @@ HRESULT CMonsterTile::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(m_pName));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Monster_Map"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
@@ -206,5 +221,5 @@ void CMonsterTile::Setup_Angle(_vec3 _vecRot)
 
 void CMonsterTile::Free()
 {
-	Engine::CGameObject::Free();
+	CTileContorl::Free();
 }

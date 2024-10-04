@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "TileContorl.h"
 BEGIN(Engine)
 
 class CRcTex;
@@ -7,7 +7,7 @@ class CTransform;
 class CTexture;
 
 END
-class CMonsterTile : public CGameObject
+class CMonsterTile : public CTileContorl
 {
 private:
 	explicit CMonsterTile(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -18,6 +18,7 @@ public:
 	static CMonsterTile* Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 	static CMonsterTile* Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot);
 	static CMonsterTile* Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName);
+	static CMonsterTile* Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber);
 
 	const _tchar* Get_MonsterName() { return m_pName; }
 	_vec3 Get_VecPos() { return m_vecPos; }
@@ -31,19 +32,18 @@ public:
 	void Setup_ImageNumber(const _int& _iNumber) { m_iNumber = _iNumber; }
 
 private:
-	HRESULT Add_Component();
-	HRESULT Setup_Material();
+	virtual HRESULT Add_Component();
+	virtual HRESULT Setup_Material();
 	void Setup_Position(_vec3 _vecPos);
 	void Setup_Angle(_vec3 _vecRot);
 	const _tchar* m_pName;
 	_int m_iNumber;
+	_int m_iNumber_Type;
 
 private:
 	virtual void Free();
 
 private:
 	Engine::CRcTex* m_pBufferCom;
-	Engine::CTransform* m_pTransformCom;
-	Engine::CTexture* m_pTextureCom;
 	_vec3 m_vecPos;
 };
