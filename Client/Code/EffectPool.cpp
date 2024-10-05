@@ -25,13 +25,17 @@ void CEffectPool::Operate()
 			pTransform->Set_Pos(vPos);
 		}
 
+		pEffect->Set_CallerObject(m_pCallerObject);
 		pEffect->Operate_Effect();
 		break;
 	}
 }
+//이펙트가 미사일의 트랜스폼을 받아오는 방법 : 오브젝트 풀에서 호출할때 미사일의 주소나, 미사일 트랜스폼의 주소를 넘겨야한다.
+
 
 CEffectPool::CEffectPool(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CGameObject(_pGraphicDev)
+	, m_pCallerObject(nullptr)
 {
 }
 

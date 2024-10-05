@@ -32,6 +32,8 @@ public:
 
 	void Set_CreateFunction(CGameObject* (*_fnCreate)(LPDIRECT3DDEVICE9)) { m_fnCreate = _fnCreate; }
 
+public:
+	void Set_CallerObject(CGameObject* _pCaller) { m_pCallerObject = _pCaller; }
 
 private:
 	Engine::CTransform* m_pTransformCom;
@@ -39,5 +41,7 @@ private:
 	vector<CGameObject*> m_vecObject;
 
 	CGameObject* (*m_fnCreate)(LPDIRECT3DDEVICE9);
+
+	Engine::CGameObject* m_pCallerObject;
 };
 
