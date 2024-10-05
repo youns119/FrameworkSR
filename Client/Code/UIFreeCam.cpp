@@ -42,7 +42,7 @@ _int CUIFreeCam::Update_UI(const _float& _fTimeDelta)
 	CComponent* pComponent = static_cast<CPlayer*>(m_pGameObject)->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform");
 	static_cast<CTransform*>(pComponent)->Get_Info(INFO::INFO_POS, &vPos);
 
-	static_cast<CUIIndicator*>(m_pIndicator)->Set_Pos(vPos);
+	m_pIndicator->Set_Pos(vPos);
 
 	return Engine::CUI::Update_UI(_fTimeDelta);
 }
@@ -59,10 +59,9 @@ void CUIFreeCam::Render_UI()
 
 HRESULT CUIFreeCam::Add_Unit()
 {
-	CUIUnit* pUIUnit = nullptr;
-
-	pUIUnit = m_pIndicator = CUIIndicator::Create(m_pGraphicDev);
-	m_vecUIUnit.push_back(pUIUnit);
+	m_pIndicator = CUIIndicator::Create(m_pGraphicDev);
+	m_pIndicator->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pIndicator);
 
 	return S_OK;
 }

@@ -9,9 +9,11 @@ CUIShop::CUIShop(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
 	, m_pUIShopBase(nullptr)
 	, m_pUIShopBuzz(nullptr)
+	, m_bFinished(false)
+	, m_fFinishTime(0.f)
+	, m_fDownSpeed(0.f)
 {
-	for (int i = 0; i < 3; i++)
-		m_pUIShopCard[i] = nullptr;
+	m_vecUIShopCard.clear();
 
 	m_eUIType = UITYPE::UI_SHOP;
 }
@@ -38,22 +40,33 @@ HRESULT CUIShop::Ready_UI()
 {
 	FAILED_CHECK_RETURN(Add_Unit(), E_FAIL);
 
+	m_fDownSpeed = 1000.f;
+
 	return S_OK;
 }
 
 _int CUIShop::Update_UI(const _float& _fTimeDelta)
 {
+	if (m_fFinishTime >= 2.f)
+	{
+		m_bRender = false;
+		return 0;
+	}
+
+	if (m_bFinished)
+		m_fFinishTime += _fTimeDelta;
+
 	return Engine::CUI::Update_UI(_fTimeDelta);
 }
 
 void CUIShop::LateUpdate_UI()
 {
-	if (static_cast<CUIShopBase*>(m_pUIShopBase)->Get_Start())
+	if (m_pUIShopBase->Get_Start())
 	{
-		static_cast<CUIShopBuzz*>(m_pUIShopBuzz)->Set_Start(true);
+		for (int i = 0; i < m_vecUIShopCard.size(); i++)
+			m_vecUIShopCard[i]->Set_Start(true);
 
-		for (int i = 0; i < 3; i++)
-			static_cast<CUIShopCard*>(m_pUIShopCard[i])->Set_Start(true);
+		m_pUIShopBuzz->Set_Render(true);
 	}
 
 	Engine::CUI::LateUpdate_UI();
@@ -66,23 +79,32 @@ void CUIShop::Render_UI()
 
 HRESULT CUIShop::Add_Unit()
 {
-	CUIUnit* pUIUnit = nullptr;
-
-	pUIUnit = m_pUIShopBase = CUIShopBase::Create(m_pGraphicDev);
-	m_vecUIUnit.push_back(pUIUnit);
-
-	pUIUnit = m_pUIShopBuzz = CUIShopBuzz::Create(m_pGraphicDev);
-	m_vecUIUnit.push_back(pUIUnit);
+	m_pUIShopBase = CUIShopBase::Create(m_pGraphicDev);
+	m_pUIShopBase->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIShopBase);
 
 	for (int i = 0; i < 3; i++)
 	{
-		pUIUnit = m_pUIShopCard[i] = CUIShopCard::Create(m_pGraphicDev, i);
-		static_cast<CUIShopCard*>(m_pUIShopCard[i])->Set_Upgrade((CUIShopCard::UI_UPGRADE)i);
+		m_vecUIShopCard.push_back(CUIShopCard::Create(m_pGraphicDev, i));
+		m_vecUIShopCard[i]->Set_Upgrade((CUIShopCard::UI_UPGRADE)i);
+		m_vecUIShopCard[i]->Set_OwnerUI(this);
 
-		m_vecUIUnit.push_back(pUIUnit);
+		m_vecUIUnit.push_back(m_vecUIShopCard[i]);
 	}
 
+	m_pUIShopBuzz = CUIShopBuzz::Create(m_pGraphicDev);
+	m_pUIShopBuzz->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIShopBuzz);
+
 	return S_OK;
+}
+
+void CUIShop::Reset()
+{
+	m_bFinished = false;
+	m_fFinishTime = 0.f;
+
+	CUI::Reset();
 }
 
 void CUIShop::Free()

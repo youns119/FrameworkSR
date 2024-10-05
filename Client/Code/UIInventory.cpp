@@ -10,6 +10,9 @@ CUIInventory::CUIInventory(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	m_vecUpgradeCard.clear();
 
+	for (_uint i = 0; i < 10; i++)
+		m_vecInventory.push_back((_uint)CUIUpgradeCard::UI_CARD::CARD_BLANK);
+
 	m_eUIType = UITYPE::UI_INVENTORY;
 }
 
@@ -55,24 +58,33 @@ void CUIInventory::Render_UI()
 
 HRESULT CUIInventory::Add_Unit()
 {
-	CUIUnit* pUIUnit = nullptr;
-
-	pUIUnit = m_pOverlay = CUIOverlay::Create(m_pGraphicDev);
-	m_vecUIUnit.push_back(pUIUnit);
+	m_pOverlay = CUIOverlay::Create(m_pGraphicDev);
+	m_pOverlay->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pOverlay);
 
 	for (int i = 0; i < 10; i++)
 	{
 		_vec3 vPos;
 
-		if (i < 5) vPos = { -WINCX / 2.f + (WINCX / 6.f) * (i + 1), 100.f, 0.f };
+		if (i < 5) vPos = { -WINCX / 2.f + (WINCX / 6.f) * (i + 1), 70.f, 0.f };
 		else vPos = { -WINCX / 2.f + (WINCX / 6.f) * (i - 4), -200.f, 0.f };
 
-		pUIUnit = CUIUpgradeCard::Create(m_pGraphicDev, vPos);
-		m_vecUIUnit.push_back(pUIUnit);
-		m_vecUpgradeCard.push_back(pUIUnit);
+		m_vecUpgradeCard.push_back(CUIUpgradeCard::Create(m_pGraphicDev, vPos));
+		m_vecUpgradeCard[i]->Set_OwnerUI(this);
+		m_vecUIUnit.push_back(m_vecUpgradeCard[i]);
 	}
 
 	return S_OK;
+}
+
+void CUIInventory::Update_Inventory(_uint _iIndex)
+{
+	for (int i = 0; i < m_vecUpgradeCard.size(); i++)
+		if (m_vecUpgradeCard[i]->Get_CurrCard() == CUIUpgradeCard::UI_CARD::CARD_BLANK)
+		{
+			m_vecUpgradeCard[i]->Set_CurrCard((CUIUpgradeCard::UI_CARD)_iIndex);
+			break;
+		}
 }
 
 void CUIInventory::Free()

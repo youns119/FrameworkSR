@@ -71,6 +71,7 @@ private:
 
 public:
 	WEAPON_STATE Get_WeaponState() { return m_WeaponState; }
+	RIGHT_STATE Get_RightCurrState() { return m_Right_CurState; }
 	_bool Get_HasItem() { return m_bIsHasItem; }
 	_bool Get_Drinking() { return m_bIsDrinking; }
 	void Rooting_Item(Engine::ITEM_TYPE _eItemType) { m_eItemType = _eItemType; m_bIsHasItem = true; } //Jonghan Change

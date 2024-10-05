@@ -3,6 +3,7 @@
 CTimer::CTimer()
 	: m_fTimeDelta(0.f)
 	, m_fElapsedTime(0.f)
+	, m_fElapsedTime_Fixed(0.f)
 	, m_bStop(false)
 {
 	ZeroMemory(&m_tFrameTime, sizeof(LARGE_INTEGER));
@@ -52,6 +53,8 @@ void CTimer::Update_Timer()
 
 	m_fTimeDelta = (m_tFrameTime.QuadPart - m_tLastTime.QuadPart) / (_float)m_tCpuTick.QuadPart;
 	m_tLastTime = m_tFrameTime;
+
+	m_fElapsedTime_Fixed += m_fTimeDelta;
 
 	if (m_bStop)
 		m_fTimeDelta = 0.f;

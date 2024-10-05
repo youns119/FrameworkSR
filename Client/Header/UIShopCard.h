@@ -18,8 +18,9 @@ public:
 	enum class UI_SHOPCARD
 	{
 		SHOPCARD_BASE,
-		SHOPCARD_BOARDER,
+		SHOPCARD_BOARDER_A,
 		SHOPCARD_PURCHASE,
+		SHOPCARD_BOARDER,
 		SHOPCARD_END,
 	};
 
@@ -28,6 +29,10 @@ public:
 		UPGRADE_MASCULINITY,
 		UPGRADE_SLOWTIME,
 		UPGRADE_SLOWBULLET,
+		UPGRADE_TEMP1,
+		UPGRADE_TEMP2,
+		UPGRADE_TEMP3,
+		UPGRADE_BLANK,
 		UPGRADE_END,
 	};
 
@@ -36,6 +41,8 @@ private:
 	virtual ~CUIShopCard();
 
 public:
+	_bool Get_Selected() { return m_bSelected; }
+
 	void Set_Upgrade(UI_UPGRADE _eUIUpgrade) { m_eUIUpgrade = _eUIUpgrade; }
 	void Set_Start(_bool _bStart) { m_bStart = _bStart; }
 	void Set_Index(_int _iIndex) { m_iIndex = _iIndex; }
@@ -52,6 +59,10 @@ public:
 private:
 	HRESULT Add_Component();
 
+private:
+	void Set_Animation();
+	void Update_Color();
+
 public:
 	virtual void On_Click();
 	virtual void On_Hover();
@@ -65,9 +76,15 @@ private:
 private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom[(_uint)UI_SHOPCARD::SHOPCARD_END];
-	Engine::CTransform* m_pTransformCom[(_uint)UI_SHOPCARD::SHOPCARD_END];
+	Engine::CTransform* m_pTransformCom[(_uint)UI_SHOPCARD::SHOPCARD_END - 1];
+	Engine::CAnimator* m_pAnimatorCom;
 
 	UI_UPGRADE m_eUIUpgrade;
 	_bool m_bStart;
+	_bool m_bHover;
+	_bool m_bClick;
+	_bool m_bSelected;
 	_int m_iIndex;
+
+	RECT m_tRect;
 };

@@ -8,6 +8,8 @@ class CUIUnit;
 
 END
 
+class CUICrossHair;
+
 class CUINormal
 	: public Engine::CUI
 {
@@ -31,5 +33,5 @@ private:
 	virtual void Free();
 
 private:
-	Engine::CUIUnit* m_pCrossHair;
+	CUICrossHair* m_pCrossHair;
 };

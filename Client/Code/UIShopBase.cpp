@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "..\Header\UIShopBase.h"
+#include "..\Header\UIShop.h"
 #include "Export_Utility.h"
 
 CUIShopBase::CUIShopBase(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -58,7 +59,17 @@ HRESULT CUIShopBase::Ready_Unit()
 
 _int CUIShopBase::Update_Unit(const _float& _fTimeDelta)
 {
-	if (m_fStartTime >= 1.f)
+	if (static_cast<CUIShop*>(m_pOwnerUI)->Get_FinishTime() >= 1.f)
+	{
+		_vec3 vDir = { 0.f, -1.f, 0.f };
+
+		for (int i = 0; i < 2; i++)
+			m_pTransformCom[i]->Move_Pos(&vDir, _fTimeDelta, static_cast<CUIShop*>(m_pOwnerUI)->Get_DownSpeed());
+
+		return Engine::CUIUnit::Update_Unit(_fTimeDelta);
+	}
+
+	if (m_fStartTime >= 1.f && m_bStart == false)
 	{
 		m_bStart = true;
 		return 0;

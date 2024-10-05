@@ -4,6 +4,7 @@ CUIUnit::CUIUnit(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
 	, m_bRender(false)
 	, m_fViewZ(0.f)
+	, m_pOwnerUI(nullptr)
 {
 	for (_uint i = 0; i < (_uint)COMPONENTID::ID_END; i++)
 		m_mapComponent[i].clear();
@@ -15,6 +16,7 @@ CUIUnit::CUIUnit(const CUIUnit& _rhs)
 	: m_pGraphicDev(_rhs.m_pGraphicDev)
 	, m_bRender(_rhs.m_bRender)
 	, m_fViewZ(_rhs.m_fViewZ)
+	, m_pOwnerUI(nullptr)
 {
 	for (_uint i = 0; i < (_uint)COMPONENTID::ID_END; i++)
 		m_mapComponent[i] = _rhs.m_mapComponent[i];

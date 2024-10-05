@@ -18,6 +18,10 @@ public:
 	{
 		OVERLAY_BACK,
 		OVERLAY_BASE,
+		OVERLAY_ICON,
+		OVERLAY_LIVESTREAM,
+		OVERLAY_MODERATOR,
+		OVERLAY_MODERATOR_A,
 		OVERLAY_END,
 	};
 
@@ -38,10 +42,13 @@ private:
 	HRESULT Add_Component();
 
 private:
+	void Update_Color(CTexture* _pTexture);
+
+private:
 	virtual void Free();
 
 private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_END];
-	Engine::CTransform* m_pTransformCom;
+	Engine::CTransform* m_pTransformCom[5];
 };

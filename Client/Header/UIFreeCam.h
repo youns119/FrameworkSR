@@ -8,6 +8,8 @@ class CUIUnit;
 
 END
 
+class CUIIndicator;
+
 class CUIFreeCam
 	: public Engine::CUI
 {
@@ -31,5 +33,5 @@ private:
 	virtual void Free();
 
 private:
-	Engine::CUIUnit* m_pIndicator;
+	CUIIndicator* m_pIndicator;
 };

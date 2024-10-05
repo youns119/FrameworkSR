@@ -78,24 +78,23 @@ HRESULT CUIPlus::Add_Unit()
 {
 	CUIUnit* pUIUnit = nullptr;
 
-	pUIUnit = m_pUIPlusCenter = CUIPlusCenter::Create(m_pGraphicDev);
-	m_vecUIUnit.push_back(pUIUnit);
+	m_pUIPlusCenter = CUIPlusCenter::Create(m_pGraphicDev);
+	m_pUIPlusCenter->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIPlusCenter);
 
-	pUIUnit = m_pUIPlusLeft = CUIPlusLeft::Create(m_pGraphicDev);
-	m_vecUIUnit.push_back(pUIUnit);
+	m_pUIPlusLeft = CUIPlusLeft::Create(m_pGraphicDev);
+	m_pUIPlusLeft->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIPlusLeft);
 
 	return S_OK;
 }
 
 void CUIPlus::Init(_vec3 _vPos, UI_PLUS _ePlusType)
 {
-	CUIPlusCenter* pUIPlusCenter = static_cast<CUIPlusCenter*>(m_pUIPlusCenter);
-	CUIPlusLeft* pUIPlusLeft = static_cast<CUIPlusLeft*>(m_pUIPlusLeft);
-
-	pUIPlusCenter->Set_Pos(_vPos);
-	pUIPlusCenter->Set_Sec((_int)_ePlusType);
-	pUIPlusLeft->Set_Index(Engine::Get_ListUI(UITYPE::UI_PLUS)->size());
-	pUIPlusLeft->Set_Text((_int)_ePlusType);
+	m_pUIPlusCenter->Set_Pos(_vPos);
+	m_pUIPlusCenter->Set_Sec((_int)_ePlusType);
+	m_pUIPlusLeft->Set_Index((int)Engine::Get_ListUI(UITYPE::UI_PLUS)->size());
+	m_pUIPlusLeft->Set_Text((_int)_ePlusType);
 }
 
 void CUIPlus::Free()

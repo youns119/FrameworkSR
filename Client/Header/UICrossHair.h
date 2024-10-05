@@ -30,6 +30,8 @@ private:
 	virtual ~CUICrossHair();
 
 public:
+	UI_CROSSHAIR Get_CrossHair() { return m_eCurrCrossHair; }
+
 	void Set_CrossHair(UI_CROSSHAIR _eCurrCrossHair) { m_eCurrCrossHair = _eCurrCrossHair; }
 	void Set_Free(_bool _bFree) { m_bFree = _bFree; }
 

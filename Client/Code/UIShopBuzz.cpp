@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "..\Header\UIShopBuzz.h"
+#include "..\Header\UIShop.h"
 #include "Export_Utility.h"
 
 CUIShopBuzz::CUIShopBuzz(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -8,7 +9,6 @@ CUIShopBuzz::CUIShopBuzz(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pTextureCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_pAnimatorCom(nullptr)
-	, m_bStart(false)
 {
 }
 
@@ -34,42 +34,39 @@ HRESULT CUIShopBuzz::Ready_Unit()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_bStart = false;
-
 	m_pTransformCom->Set_Pos(60.f, -87.f, 0.f);
 
 	m_pTransformCom->Set_Scale(532.f, 532.f, 0.f);
 
 	Set_Animation();
 
-	m_bRender = true;
+	m_bRender = false;
 
 	return S_OK;
 }
 
 _int CUIShopBuzz::Update_Unit(const _float& _fTimeDelta)
 {
-	if (!m_bStart) return 0;
+	if (static_cast<CUIShop*>(m_pOwnerUI)->Get_FinishTime() >= 1.f)
+	{
+		_vec3 vDir = { 0.f, -1.f, 0.f };
+
+		m_pTransformCom->Move_Pos(&vDir, _fTimeDelta, static_cast<CUIShop*>(m_pOwnerUI)->Get_DownSpeed());
+	}
 
 	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
 void CUIShopBuzz::LateUpdate_Unit()
 {
-	if (!m_bStart) return;
-
 	Engine::CUIUnit::LateUpdate_Unit();
 }
 
 void CUIShopBuzz::Render_Unit()
 {
-	if (!m_bStart) return;
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
-	if (m_bStart)
-		m_pAnimatorCom->Render_Animator();
-
+	m_pAnimatorCom->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -105,7 +102,7 @@ void CUIShopBuzz::Set_Animation()
 
 void CUIShopBuzz::Reset()
 {
-	m_bStart = false;
+	m_bRender = false;
 
 	m_pTransformCom->Set_Pos(60.f, -87.f, 0.f);
 

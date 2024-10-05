@@ -24,6 +24,11 @@ inline _float Get_Elapsed()
 	return CTimerManager::GetInstance()->Get_Elapsed();
 }
 
+inline _float Get_Elapsed_Fixed()
+{
+	return CTimerManager::GetInstance()->Get_Elapsed_Fixed();
+}
+
 _bool Get_Stop()
 {
 	return CTimerManager::GetInstance()->Get_Stop();

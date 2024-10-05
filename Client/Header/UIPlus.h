@@ -8,6 +8,9 @@ class CUIUnit;
 
 END
 
+class CUIPlusCenter;
+class CUIPlusLeft;
+
 class CUIPlus
 	: public Engine::CUI
 {
@@ -53,8 +56,8 @@ private:
 	virtual void Free();
 
 private:
-	Engine::CUIUnit* m_pUIPlusCenter;
-	Engine::CUIUnit* m_pUIPlusLeft;
+	CUIPlusCenter* m_pUIPlusCenter;
+	CUIPlusLeft* m_pUIPlusLeft;
 
 	UI_PLUS m_ePlusType;
 	_float m_fLifeTime;

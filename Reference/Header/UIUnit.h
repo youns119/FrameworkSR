@@ -5,6 +5,8 @@
 
 BEGIN(Engine)
 
+class CUI;
+
 class ENGINE_DLL CUIUnit
 	: public CBase
 {
@@ -19,6 +21,7 @@ public:
 	_float Get_ViewZ() const { return m_fViewZ; }
 
 	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
+	void Set_OwnerUI(CUI* _pUI) { m_pOwnerUI = _pUI; }
 
 public:
 	virtual _int Update_Unit(const _float& _fTimeDelta);
@@ -43,6 +46,8 @@ protected:
 
 	_bool m_bRender;
 	_float m_fViewZ;
+
+	CUI* m_pOwnerUI;
 };
 
 END

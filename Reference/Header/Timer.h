@@ -15,6 +15,7 @@ private:
 public:
 	_float Get_TimeDelta() const { return m_fTimeDelta; }
 	_float Get_Elapsed() const { return m_fElapsedTime; }
+	_float Get_Elapsed_Fixed() const { return m_fElapsedTime_Fixed; }
 	_bool Get_Stop() const { return m_bStop; }
 
 public:
@@ -38,6 +39,7 @@ private:
 
 	_float m_fTimeDelta;
 	_float m_fElapsedTime;
+	_float m_fElapsedTime_Fixed;
 
 	_bool m_bStop;
 };

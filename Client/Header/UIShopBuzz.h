@@ -19,9 +19,6 @@ private:
 	virtual ~CUIShopBuzz();
 
 public:
-	void Set_Start(_bool _bStart) { m_bStart = _bStart; }
-
-public:
 	static CUIShopBuzz* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
@@ -47,6 +44,4 @@ private:
 	Engine::CTexture* m_pTextureCom;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CAnimator* m_pAnimatorCom;
-
-	_bool m_bStart;
 };

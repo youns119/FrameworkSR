@@ -38,20 +38,31 @@ HRESULT CUINormal::Ready_UI()
 
 _int CUINormal::Update_UI(const _float& _fTimeDelta)
 {
-	CUICrossHair* pCrossHair = static_cast<CUICrossHair*>(m_pCrossHair);
+	m_pCrossHair->Set_Render(true);
 
 	if (!Engine::Get_ListUI(UITYPE::UI_INVENTORY)->empty() ||
 		!Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
 	{
-		pCrossHair->Set_Free(true);
-		pCrossHair->Set_CrossHair(CUICrossHair::UI_CROSSHAIR::CROSSHAIR_PISTOL);
+		m_pCrossHair->Set_Free(true);
+		m_pCrossHair->Set_CrossHair(CUICrossHair::UI_CROSSHAIR::CROSSHAIR_PISTOL);
 	}
 	else
 	{
-		pCrossHair->Set_Free(false);
+		CPlayer* pPlayer = static_cast<CPlayer*>(m_pGameObject);
 
-		int iHairNum = static_cast<CPlayer*>(m_pGameObject)->Get_WeaponState();
-		pCrossHair->Set_CrossHair((CUICrossHair::UI_CROSSHAIR)iHairNum);
+		m_pCrossHair->Set_Free(false);
+
+		int iHairNum = pPlayer->Get_WeaponState();
+		m_pCrossHair->Set_CrossHair((CUICrossHair::UI_CROSSHAIR)iHairNum);
+
+		if (m_pCrossHair->Get_CrossHair() == CUICrossHair::UI_CROSSHAIR::CROSSHAIR_SNIPER)
+		{
+			int iCurrState = pPlayer->Get_RightCurrState();
+
+			if (iCurrState == 5 || iCurrState == 6)
+				m_pCrossHair->Set_Render(false);
+			else m_pCrossHair->Set_Render(true);
+		}
 	}
 
 	return Engine::CUI::Update_UI(_fTimeDelta);
@@ -69,10 +80,9 @@ void CUINormal::Render_UI()
 
 HRESULT CUINormal::Add_Unit()
 {
-	CUIUnit* pUIUnit = nullptr;
-
-	pUIUnit = m_pCrossHair = CUICrossHair::Create(m_pGraphicDev);
-	m_vecUIUnit.push_back(pUIUnit);
+	m_pCrossHair = CUICrossHair::Create(m_pGraphicDev);
+	m_pCrossHair->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pCrossHair);
 
 	return S_OK;
 }

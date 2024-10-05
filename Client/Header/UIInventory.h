@@ -8,6 +8,9 @@ class CUIUnit;
 
 END
 
+class CUIOverlay;
+class CUIUpgradeCard;
+
 class CUIInventory
 	: public Engine::CUI
 {
@@ -27,10 +30,15 @@ public:
 private:
 	HRESULT Add_Unit();
 
+public:
+	void Update_Inventory(_uint _iIndex);
+
 private:
 	virtual void Free();
 
 private:
-	Engine::CUIUnit* m_pOverlay;
-	vector<Engine::CUIUnit*> m_vecUpgradeCard;
+	CUIOverlay* m_pOverlay;
+	vector<CUIUpgradeCard*> m_vecUpgradeCard;
+
+	vector<_int> m_vecInventory;
 };
