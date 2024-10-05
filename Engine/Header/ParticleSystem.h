@@ -139,6 +139,8 @@ public:
 	void Set_Parameter(const PARAM& _tParam) { m_tParam = _tParam; }
 	void Set_Option(OPTION _eOption, _bool _value) { m_dwOptions = m_dwOptions | (_value ? 1 : 0) << (_ulong)_eOption; }
 
+	const PARAM& Get_Parameter() { return m_tParam; }
+
 private:
 	_bool Check_Option(OPTION _eOption) const { return m_dwOptions & 1 << (_uint)_eOption; }
 

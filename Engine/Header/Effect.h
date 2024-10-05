@@ -36,10 +36,13 @@ public:
 	void Set_Visibility(_bool _bIsVisible) { m_bIsVisible = _bIsVisible; }
 	void Set_Billboard(_bool _bBillboard) { m_bBillboard = _bBillboard; }
 	void Set_LifeTime(_float _fLifeTime) { m_fLifeTime = _fLifeTime; }
+	void Set_CallerObject(CGameObject* _pCallerObject) { m_pCallerObject = _pCallerObject; }
 
 	_bool Get_Visibility() { return m_bIsVisible; }
 	_float Get_ElapsedPersentage() { return m_fElapsed / m_fLifeTime; }
 	_float Get_LifeTime() const { return m_fLifeTime; }
+	CGameObject* Get_CallerObject() { return m_pCallerObject; }
+
 
 public:
 	void Reset();
@@ -58,6 +61,10 @@ public:
 private:
 	void (*m_pCallBack)(void*);
 	void* m_pParam;
+
+
+private:
+	Engine::CGameObject* m_pCallerObject;
 };
 
 END

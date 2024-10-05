@@ -125,6 +125,7 @@ _int CParticleSystem::Update_Component(const _float& _fTimeDelta)
 
 				PARTICLEINFO tParticle = m_ReadyParticleList.front();
 				m_ReadyParticleList.pop_front();
+				Reset_Particle(&tParticle); // smoke effect의 즉각적인 파티클 위치 변경을 위해서 일단 넣어봄 나중에 문제가 발생한다면 의심해 볼 위치
 				m_ParticleList.push_back(tParticle);
 			}
 		}

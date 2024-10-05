@@ -236,6 +236,12 @@
     <Filter Include="04.UI\04.Shop\02.ShopBuzz">
       <UniqueIdentifier>{14f2e932-4c99-4ce0-89f3-617dedbc173e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\10. EffectFlash">
+      <UniqueIdentifier>{4e16967a-8dee-431b-ace0-c550e37ff315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\11. EffectSmokeTrail">
+      <UniqueIdentifier>{92fff949-2ec0-417e-804c-8c1807405347}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -478,6 +484,12 @@
     <ClInclude Include="..\Header\UIShopBuzz.h">
       <Filter>04.UI\04.Shop\02.ShopBuzz</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectSmokeTrail.h">
+      <Filter>03.GameObject\06.Effect\11. EffectSmokeTrail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectFlash.h">
+      <Filter>03.GameObject\06.Effect\10. EffectFlash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -701,6 +713,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIShopBuzz.cpp">
       <Filter>04.UI\04.Shop\02.ShopBuzz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectSmokeTrail.cpp">
+      <Filter>03.GameObject\06.Effect\11. EffectSmokeTrail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectFlash.cpp">
+      <Filter>03.GameObject\06.Effect\10. EffectFlash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

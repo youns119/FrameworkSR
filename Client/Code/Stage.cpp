@@ -490,8 +490,21 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	pGameObject = CEffectExecutionBlood::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectExecutionBlood", pGameObject), E_FAIL);
-	m_mapLayer.insert({ _pLayerTag , pLayer });
 
+	pGameObject = CEffectFlash::Create(m_pGraphicDev, _vec4(0.f, 1.f, 0.f, 0.5f));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectGreenFlash", pGameObject), E_FAIL);
+
+	pGameObject = CEffectFlash::Create(m_pGraphicDev, _vec4(1.f, 0.f, 0.f, 0.5f));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectRedFlash", pGameObject), E_FAIL);
+
+	pGameObject = CEffectPool::Create(m_pGraphicDev, (CGameObject * (*)(LPDIRECT3DDEVICE9))CEffectSmokeTrail::Create);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_SmokeTrail", pGameObject), E_FAIL);
+
+
+	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
 }
