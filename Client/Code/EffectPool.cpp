@@ -23,6 +23,8 @@ void CEffectPool::Operate()
 			_vec3 vPos;
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			pTransform->Set_Pos(vPos);
+			pTransform->Set_Angle(*(m_pTransformCom->Get_Angle()));
+			pTransform->Set_Scale(*(m_pTransformCom->Get_Scale()));
 		}
 
 		pEffect->Set_CallerObject(m_pCallerObject);

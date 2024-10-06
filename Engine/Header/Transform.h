@@ -39,6 +39,7 @@ public :
 	{
 		m_vScale = { _fX, _fY, _fZ };
 	}
+	void Set_Angle(const _vec3& _vAngle) { m_vAngle = _vAngle; }
 	void Set_Angle(_float _fX, _float _fY, _float _fZ)
 	{
 		m_vAngle = { _fX, _fY, _fZ };

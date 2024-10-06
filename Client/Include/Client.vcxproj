@@ -193,7 +193,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
-    <ClInclude Include="..\Header\Spark.h" />
+    <ClInclude Include="..\Header\EffectSpark.h" />
     <ClInclude Include="..\Header\SpiderDrone.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Terrain.h" />
@@ -277,7 +277,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
-    <ClCompile Include="..\Code\Spark.cpp" />
+    <ClCompile Include="..\Code\EffectSpark.cpp" />
     <ClCompile Include="..\Code\SpiderDrone.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />

@@ -5,16 +5,16 @@ BEGIN(Engine)
 
 class CTransform;
 class CTexture;
-class CParticleSpark;
+class CParticleSystem;
 class CEffect;
 
 END
 
-class CSpark : public CGameObject
+class CEffectSpark : public CGameObject
 {
 private:
-	explicit CSpark(LPDIRECT3DDEVICE9 _pGraphicDev);
-	virtual ~CSpark();
+	explicit CEffectSpark(LPDIRECT3DDEVICE9 _pGraphicDev);
+	virtual ~CEffectSpark();
 
 public:
 	virtual HRESULT	Ready_GameObject();
@@ -23,7 +23,7 @@ public:
 	virtual	void	Render_GameObject();
 
 public:
-	static CSpark* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CEffectSpark* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 private:
 	virtual void Free();
@@ -31,6 +31,7 @@ private:
 private:
 	HRESULT		Add_Component();
 	void Set_ParticleParam();
+	void Set_ParticleBloomParam();
 
 public:
 	static void OnOperate(void* _pParam);
@@ -38,7 +39,8 @@ public:
 private:
 	Engine::CTransform* m_pTransformCom;
 	Engine::CTexture* m_pTextureCom;
-	Engine::CParticleSpark* m_pParticleSystem;
+	Engine::CParticleSystem* m_pParticleSystemCom;
+	Engine::CParticleSystem* m_pParticleSystemBloomCom;
 	Engine::CEffect* m_pEffectCom;
 
 };
