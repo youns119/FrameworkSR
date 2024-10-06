@@ -54,15 +54,15 @@ void CEffectSmokeTrail::LateUpdate_GameObject()
     else
     {
         // 미사일 트랜스폼 받아야 하는데 우선 확인을 위해 플레이어 틀ㄴ스폼 받아올겟음
-		//CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
-		CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform"));
+        //CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
+        CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform"));
 
-		_vec3 vTargetPos;
-		pTargetTransform->Get_Info(INFO::INFO_POS, &vTargetPos);
+        _vec3 vTargetPos;
+        pTargetTransform->Get_Info(INFO::INFO_POS, &vTargetPos);
 
-		Engine::CParticleSystem::PARAM tParticleParam = m_pParticleSystemCom->Get_Parameter();
-		tParticleParam.tStartBoundary.vMin = vTargetPos;
-		tParticleParam.tStartBoundary.vMax = vTargetPos;
+        Engine::CParticleSystem::PARAM tParticleParam = m_pParticleSystemCom->Get_Parameter();
+        tParticleParam.tInit.tHexahedron.tStartBoundary.vMin = vTargetPos;
+        tParticleParam.tInit.tHexahedron.tStartBoundary.vMax = vTargetPos;
         m_pParticleSystemCom->Set_Parameter(tParticleParam);
     }
 
@@ -88,7 +88,7 @@ CEffectSmokeTrail* CEffectSmokeTrail::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
     CEffectSmokeTrail* pEffect = new CEffectSmokeTrail(_pGraphicDev);
 
-   
+
 
     if (FAILED(pEffect->Ready_GameObject()))
     {
@@ -143,7 +143,7 @@ void CEffectSmokeTrail::Set_ParticleParameter()
     CParticleSystem::PARAM tParticleParam;
     ZeroMemory(&tParticleParam, sizeof(CParticleSystem::PARAM));
 
-    tParticleParam.vInitVelocity = { 0.f, 0.f, 0.f };
+    tParticleParam.tInit.tHexahedron.vInitVelocity = { 0.f, 0.f, 0.f };
     tParticleParam.vVelocityNoise = { 0.1f, 0.1f, 0.1f };
     tParticleParam.vColor = _vec4(0.6f, .6f, .6f, 1.5f);
     tParticleParam.vColorFade = _vec4(0.2f, 0.2f, 0.2f, 0.0f); // 255 대신 500 넣어서 투명해지기 전에 더 빨리 초록색이 되도록

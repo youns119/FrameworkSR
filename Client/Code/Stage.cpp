@@ -369,6 +369,10 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_SmokeTrail", pGameObject), E_FAIL);
 
+	pGameObject = CEffectPool::Create(m_pGraphicDev, (CGameObject * (*)(LPDIRECT3DDEVICE9))CEffectExplosion::Create);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_Explosion", pGameObject), E_FAIL);
+
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

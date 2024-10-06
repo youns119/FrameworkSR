@@ -54,10 +54,10 @@ CParticleSystem::CParticleSystem()
 
 CParticleSystem::CParticleSystem(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CComponent(_pGraphicDev)
-	, m_dwOptions(0)
 	, m_fEmitTime(0.f)
 {
 	ZeroMemory(&m_tParam, sizeof(CParticleSystem::PARAM));
+	m_bOptionArray.fill(FALSE);
 }
 
 CParticleSystem::CParticleSystem(const CParticleSystem& _rhs)
@@ -67,10 +67,10 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _rhs)
 	, m_dwBufferSize(_rhs.m_dwBufferSize)
 	, m_pVB(_rhs.m_pVB)
 	, m_tParam(_rhs.m_tParam)
-	, m_dwOptions(_rhs.m_dwOptions)
 	, m_fEmitTime(0.f)
 {
 	//m_ParticleList.assign(_rhs.m_ParticleList.begin(), _rhs.m_ParticleList.end());
+	m_bOptionArray = _rhs.m_bOptionArray;
 }
 
 CParticleSystem::~CParticleSystem()
@@ -125,7 +125,7 @@ _int CParticleSystem::Update_Component(const _float& _fTimeDelta)
 
 				PARTICLEINFO tParticle = m_ReadyParticleList.front();
 				m_ReadyParticleList.pop_front();
-				Reset_Particle(&tParticle); // smoke effect의 즉각적인 파티클 위치 변경을 위해서 일단 넣어봄 나중에 문제가 발생한다면 의심해 볼 위치
+				Reset_Particle(&tParticle);
 				m_ParticleList.push_back(tParticle);
 			}
 		}
@@ -153,21 +153,42 @@ _int CParticleSystem::Update_Component(const _float& _fTimeDelta)
 				iter->bIsAlive = FALSE;
 		}
 
-		if (m_dwOptions & 1 << (_ulong)OPTION::DEATH_OVER_TIME)
+		if (m_bOptionArray[(_ulong)OPTION::DEATH_OVER_TIME])
 		{
 			if (iter->fAge > iter->fLifeTime)
 				iter->bIsAlive = FALSE;
 		}
-		if (m_dwOptions & 1 << (_ulong)OPTION::GRAVITY)
+		if (m_bOptionArray[(_ulong)OPTION::GRAVITY])
 		{
-			iter->vVelocity.y += -m_tParam.fGravity * _fTimeDelta;
+			_vec3 vDownDir = { 0.f, -1.f, 0.f };
+			_matrix const* matWorld;
+			_matrix matWorldInverse;
+			CTransform* m_OwnerTransformCom = static_cast<CTransform*>(m_pOwner->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
+			matWorld = m_OwnerTransformCom->Get_WorldMatrix();
+			//D3DXMatrixInverse(&matWorldInverse, 0, matWorld);
+			D3DXMatrixTranspose(&matWorldInverse, matWorld); // transpose == inverse
+
+			D3DXVec3TransformNormal(&vDownDir, &vDownDir, &matWorldInverse);
+
+			iter->vVelocity += vDownDir * m_tParam.fGravity * _fTimeDelta;
 		}
 
 		iter->vVelocity += iter->vAcceleration * _fTimeDelta;
 		iter->vPosition += iter->vVelocity * _fTimeDelta;
 	}
 
-	if (m_dwOptions & 1 << (_ulong)OPTION::REPEAT)
+	if (Check_Option(OPTION::SIZE_OVER_TIME))
+	{
+		auto iter = m_ParticleList.begin();
+		if (iter != m_ParticleList.end())
+		{
+			m_fParticleSize = (m_tParam.fSizeFade - m_tParam.fSize) * (iter->fAge / m_tParam.fLifeTime) + m_tParam.fSize;
+		}
+	}
+	else
+		m_fParticleSize = m_tParam.fSize;
+
+	if (m_bOptionArray[(_ulong)OPTION::REPEAT])
 	{
 		for (iter = m_ParticleList.begin(); iter != m_ParticleList.end(); )
 		{
@@ -332,12 +353,18 @@ void CParticleSystem::Set_PreRenderState()
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, m_tParam.dwAlphaRef); // if alpha == 0 ? dicard :  
 	}
 
+	if (Check_Option(OPTION::ALPHAOP_ADD))
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	}
 
 	m_pGraphicDev->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
 	if (!Check_Option(OPTION::POINT_SCALE_DISABLE))
 		m_pGraphicDev->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);	// 카메라 위치에 따라서 작게 그리고도록
 
-	m_pGraphicDev->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_tParam.fSize));
+	m_pGraphicDev->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_fParticleSize));
 	m_pGraphicDev->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.0f));
 	//m_pGraphicDev->SetRenderState(D3DRS_POINTSIZE_MAX, FtoDW(20.0f));
 
@@ -357,8 +384,6 @@ void CParticleSystem::Set_PreRenderState()
 	//m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	//m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
-
 }
 
 void CParticleSystem::Set_PostRenderState()
@@ -373,6 +398,14 @@ void CParticleSystem::Set_PostRenderState()
 
 	if (Check_Option(OPTION::ZWRITE_DISABLE))
 		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	if (Check_Option(OPTION::ALPHAOP_ADD))
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	}
 
 }
 
@@ -390,11 +423,36 @@ void CParticleSystem::Reset()
 
 void CParticleSystem::Reset_Particle(PARTICLEINFO* _pInfo)
 {
+	switch (m_tParam.eShape)
+	{
+	case SHAPE::HEXAHEDRON:
+		_pInfo->vPosition = Get_RandomVec3(m_tParam.tInit.tHexahedron.tStartBoundary);
+		_pInfo->vVelocity = m_tParam.tInit.tHexahedron.vInitVelocity + Get_RandomVec3(-m_tParam.vVelocityNoise, m_tParam.vVelocityNoise);
+		break;
+
+	case SHAPE::SPHERE:
+	{
+		// 구면 좌표계 활용해야함
+		_vec3 vLook = { 0.f, 0.f, 1.f };
+
+		break;
+	}
+	case SHAPE::CIRCLE:
+		_pInfo->vPosition = { 0.f, 0.f, 0.f };
+		_float fTheta = rand() % 1000 * 0.001 * D3DX_PI * 2;
+		_float fRadius = Get_RandomFloat(0.1f, m_tParam.tInit.tCircle.fRadius);
+
+		_pInfo->vVelocity.x = fRadius * cos(fTheta);
+		_pInfo->vVelocity.z = fRadius * sin(fTheta);
+		_pInfo->vVelocity.y = m_tParam.tInit.tCircle.fHeight;
+
+		_pInfo->vVelocity += Get_RandomVec3(-m_tParam.vVelocityNoise, m_tParam.vVelocityNoise);
+		break;
+
+	}
 	_pInfo->bIsAlive = TRUE;
 
-	_pInfo->vPosition = Get_RandomVec3(m_tParam.tStartBoundary);
 
-	_pInfo->vVelocity = m_tParam.vInitVelocity + Get_RandomVec3(-m_tParam.vVelocityNoise, m_tParam.vVelocityNoise);
 	_pInfo->vAcceleration = m_tParam.vAcceleration;
 
 	_pInfo->vColor = m_tParam.vColor;
@@ -429,6 +487,9 @@ _bool CParticleSystem::Is_Dead()
 
 void CParticleSystem::SetUp_Particle()
 {
+	m_ReadyParticleList.clear();
+	m_ParticleList.clear();
+
 	if (Check_Option(OPTION::EMISSION_CONTROL))
 	{
 		if (m_tParam.fEmitRate <= 0 || m_tParam.iEmitCnt == 0)

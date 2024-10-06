@@ -105,11 +105,11 @@ void CEffectHeal::Set_ParticleParam()
 {
 	CParticleSystem::PARAM tParticleParam;
 	ZeroMemory(&tParticleParam, sizeof(CParticleSystem::PARAM));
-	tParticleParam.tStartBoundary.vMin = { -WINCX * 0.5f, -WINCY * 0.45f, 0.f };
-	tParticleParam.tStartBoundary.vMax = { WINCX * 0.5f, -WINCY * 0.1f, 0.f };
+	tParticleParam.tInit.tHexahedron.tStartBoundary.vMin = { -WINCX * 0.5f, -WINCY * 0.45f, 0.f };
+	tParticleParam.tInit.tHexahedron.tStartBoundary.vMax = { WINCX * 0.5f, -WINCY * 0.1f, 0.f };
 	//tParticleParam.tBoundary.vMin = { -WINCX * 0.5f, -20.f, 0.f };
 	//tParticleParam.tBoundary.vMax = { WINCX * 0.5f, -10.f, 0.f };
-	tParticleParam.vInitVelocity = { 0.f, 150.f, 0.f };
+	tParticleParam.tInit.tHexahedron.vInitVelocity = { 0.f, 150.f, 0.f };
 	tParticleParam.vVelocityNoise = { 0.f, 0.f, 0.f };
 	tParticleParam.vColor = _vec4(1.0f, 1.f, 1.f, 1.f);
 	tParticleParam.vColorFade = _vec4(-0.5f, 1.f, -0.5f, 0.0f); // 255 대신 500 넣어서 투명해지기 전에 더 빨리 초록색이 되도록

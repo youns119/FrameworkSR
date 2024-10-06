@@ -58,6 +58,8 @@ public:
 	static void OnOperateSecond(void* _pParam);
 
 private:
+	Engine::CTransform* m_pTransformCom;
+
 	Engine::CEffect* m_pEffectComFirst;
 	Engine::CTransform* m_pTransformComFirst;
 	Engine::CTexture* m_pTextureComFirst;
