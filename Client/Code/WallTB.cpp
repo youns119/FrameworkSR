@@ -107,7 +107,49 @@ CWallTB* CWallTB::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _ve
 	return pWallTB;
 }
 
-CWallTB* CWallTB::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
+CWallTB* CWallTB::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger)
+{
+	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
+
+
+	if (FAILED(pWallTB->Ready_GameObject()))
+	{
+		Safe_Release(pWallTB);
+		MSG_BOX("pTerrain Create Failed");
+		return nullptr;
+	}
+
+	pWallTB->Setup_Position(_vecPos);
+	pWallTB->m_vecPos = _vecPos;
+	pWallTB->Set_Number(_iNumber - 1);
+	pWallTB->Set_TileDirection(_eTileDirection);
+	pWallTB->Set_Trigger(_iTrigger);
+
+	return pWallTB;
+}
+
+CWallTB* CWallTB::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber, const _int& _iTrigger)
+{
+	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
+
+
+	if (FAILED(pWallTB->Ready_GameObject()))
+	{
+		Safe_Release(pWallTB);
+		MSG_BOX("pTerrain Create Failed");
+		return nullptr;
+	}
+
+	pWallTB->Setup_Position(_vecPos);
+	pWallTB->m_vecPos = _vecPos;
+	pWallTB->Set_Number(_iNumber);
+	pWallTB->Set_TileDirection(_vecRot);
+	pWallTB->Set_Trigger(_iTrigger);
+
+	return pWallTB;
+}
+
+CWallTB* CWallTB::Create_InfoNumberDirection2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
 {
 	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
 
@@ -166,6 +208,7 @@ HRESULT CWallTB::Ready_GameObject()
 
 _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 {
+	
 	Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
 	Engine::Add_Collider(m_pColliderCom);

@@ -123,7 +123,49 @@ CWall* CWall::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _
     return pWall;
 }
 
-CWall* CWall::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
+CWall* CWall::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+    pWall->m_vecPos = _vecPos;
+    pWall->Set_Number(_iNumber - 1);
+    pWall->Set_TileDirection(_eTileDirection);
+    pWall->Set_Trigger(_iTrigger);
+
+    return pWall;
+}
+
+CWall* CWall::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber, const _int& _iTrigger)
+{
+    CWall* pWall = new CWall(_pGraphicDev);
+
+
+    if (FAILED(pWall->Ready_GameObject()))
+    {
+        Safe_Release(pWall);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pWall->Setup_Position(_vecPos);
+    pWall->m_vecPos = _vecPos;
+    pWall->Set_Number(_iNumber);
+    pWall->Set_TileDirection(_vecRot);
+    pWall->Set_Trigger(_iTrigger);
+
+    return pWall;
+}
+
+CWall* CWall::Create_InfoNumberDirection2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
 {
     CWall* pWall = new CWall(_pGraphicDev);
 

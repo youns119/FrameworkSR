@@ -10,6 +10,8 @@ namespace Engine
 #define VTXCNTZ		129
 #define VTXITV		1
 
+#define TRIGGERCOUNT	32 //Trigger
+
 
 #define	VTXTILEX		20
 #define	VTXTILEZ		200

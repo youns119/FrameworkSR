@@ -3,6 +3,7 @@
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: m_pGraphicDev(_pGraphicDev)
 	, m_fViewZ(0.f)
+	, m_bIsRender(true)
 {
 	m_mapComponent->clear();
 
@@ -12,6 +13,7 @@ CGameObject::CGameObject(LPDIRECT3DDEVICE9 _pGraphicDev)
 CGameObject::CGameObject(const CGameObject& _rhs)
 	: m_pGraphicDev(_rhs.m_pGraphicDev)
 	, m_fViewZ(_rhs.m_fViewZ)
+	, m_bIsRender(_rhs.m_bIsRender)
 {
 	m_pGraphicDev->AddRef();
 }

@@ -91,6 +91,7 @@ private:
 	float m_fHeight;// 가이드 지형 높이
 	int m_iByte;
 
+	_int m_iTriggerNumber; // 이거 지금 몇번째 트리거에서 발동시킬것이냐 에 관한 int 값//10.06
 	bool m_bGuiHovered;
 
 	const _tchar* m_ImageName;

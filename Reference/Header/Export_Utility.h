@@ -41,6 +41,7 @@
 //Jonghan Change
 #include "BulletManager.h"
 #include "Character.h"
+#include "Trigger.h"
 
 BEGIN(Engine)
 
@@ -102,6 +103,10 @@ inline HRESULT Add_Missile(CBullet* _pMissile);
 inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos = { 0.f,0.f,0.f });
 inline _int Update_Bullet(const _float& _fTimeDelta);
 inline void LateUpdate_Bullet();
+
+inline void Set_Trigger(_int _iTrigger, CGameObject* _pGameObject);
+inline void Calculate_Trigger();
+inline void Collision_With_Trigger(const _int& _iTriggerNumber);
 
 inline void	Release_Utility();
 

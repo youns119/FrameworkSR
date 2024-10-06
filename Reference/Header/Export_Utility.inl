@@ -204,6 +204,21 @@ inline void LateUpdate_Bullet()
 	CBulletManager::GetInstance()->LateUpdate_Bullet();
 }
 
+inline void Set_Trigger(_int _iTrigger, CGameObject* _pGameObject)
+{
+	CTrigger::GetInstance()->Set_Trigger(_iTrigger, _pGameObject);
+}
+
+inline void Calculate_Trigger()
+{
+	CTrigger::GetInstance()->Calculate_Trigger();
+}
+
+inline void Collision_With_Trigger(const _int& _iTriggerNumber)
+{
+	CTrigger::GetInstance()->Collision_With_Trigger(_iTriggerNumber);
+}
+
 void Release_Utility()
 {
 	CLightManager::DestroyInstance();
@@ -213,4 +228,5 @@ void Release_Utility()
 	CUIManager::DestroyInstance();
 	CCollisionManager::DestroyInstance();
 	CBulletManager::DestroyInstance();
+	CTrigger::DestroyInstance();
 }

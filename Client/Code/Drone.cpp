@@ -20,6 +20,9 @@ CDrone::~CDrone()
 
 void CDrone::Render_GameObject()
 {
+	if (!m_bIsRender) //Trigger
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	//Jonghan Monster Change Start
 

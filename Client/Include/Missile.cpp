@@ -57,11 +57,11 @@ _int CMissile::Update_GameObject(const _float& _fTimeDelta)
 	m_pTransformCom->Set_WorldMatrix(&(matResult));
 
 
-	if (m_bisRender) {
+	if (m_bIsRender) {
 		m_fLinear += 0.005f;
 		if (m_fLinear >= 1.f) {
 			m_fLinear = 0.f;
-			m_bisRender = false;
+			m_bIsRender = false;
 		}
 		m_pTransformCom->Set_Pos(Bezier(m_vStart, m_vCurve, m_vEnd, m_fLinear));
 	}
@@ -71,7 +71,7 @@ _int CMissile::Update_GameObject(const _float& _fTimeDelta)
 
 void CMissile::LateUpdate_GameObject()
 {
-	if (m_bisRender)
+	if (m_bIsRender)
 		m_pColliderCom->SetActive(true);
 	else
 		m_pColliderCom->SetActive(false);
@@ -80,7 +80,7 @@ void CMissile::LateUpdate_GameObject()
 
 void CMissile::Render_GameObject()
 {
-	if (m_bisRender)
+	if (m_bIsRender)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 
@@ -97,7 +97,7 @@ void CMissile::Render_GameObject()
 
 void CMissile::Fire_Missile(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vEndPos, const _float& _fAttackDamage, const _vec3& vCurvePos)
 {
-	m_bisRender = true;
+	m_bIsRender = true;
 	m_pColliderCom->SetActive(true);
 	m_vStart = _vStartPos;
 	m_vEnd = _vEndPos;
