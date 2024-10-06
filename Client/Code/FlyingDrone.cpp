@@ -50,8 +50,8 @@ HRESULT CFlyingDrone::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(10.f, 0.f, 25.f);
-
+	//m_pTransformCom->Set_Pos(10.f, 0.f, 25.f);
+	m_pTransformCom->Set_Pos(m_vStartPos);
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
 	m_pColliderCom->SetTransform(m_pTransformCom);

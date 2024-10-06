@@ -7,7 +7,7 @@ CTrigger::CTrigger()
 	, m_iPreTriggerNumber(0)
 {
 	for (_int i = 0; i < TRIGGERCOUNT; ++i)
-		m_vecTrigger[i].reserve(128);
+		m_vecTrigger[i].reserve(256);
 }
 
 CTrigger::~CTrigger()
@@ -36,8 +36,8 @@ void CTrigger::Calculate_Trigger()
 
 void CTrigger::Collision_With_Trigger(const _int& _iTriggerNumber)
 {
-	m_iPreTriggerNumber = _iTriggerNumber - 1;
-	m_iCurTriggerNumber = _iTriggerNumber;
+	m_iPreTriggerNumber = _iTriggerNumber;
+	m_iCurTriggerNumber = _iTriggerNumber + 1;
 }
 
 void CTrigger::Free()

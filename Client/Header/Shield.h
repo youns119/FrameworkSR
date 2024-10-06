@@ -25,7 +25,7 @@ public:
     virtual void Render_GameObject();
 
 public:
-    _bool Get_IsRender() { return m_bisRender; }
+    _bool Get_IsRender() { return m_bIsRender; }
     void Spawn_Shield(const _vec3& _vStartPos);
 
 private:
@@ -40,7 +40,6 @@ private:
     _float m_fMaxFrame;
     _float m_fFrameSpeed;
 
-    _bool m_bisRender;
 
 private:
     virtual void Free();

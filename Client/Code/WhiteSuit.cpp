@@ -52,8 +52,9 @@ CWhiteSuit* CWhiteSuit::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 HRESULT CWhiteSuit::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	m_pTransformCom->Set_Pos(6.f, 1.f, 8.f);
+	m_vStartPos.y = 1.f;
+	//m_pTransformCom->Set_Pos(6.f, 1.f, 8.f);
+	m_pTransformCom->Set_Pos(m_vStartPos);
 
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
