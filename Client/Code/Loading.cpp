@@ -221,14 +221,14 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Leg_Idle", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Player/PlayerLeg/IDLE/%d.png", TEXTUREID::TEX_NORMAL, 1)), E_FAIL);
 
 	//YuBhin: Floor Texture
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Floor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Floor/%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Floor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Floor/%d.png", TEXTUREID::TEX_NORMAL, 28)), E_FAIL);
 
 	// wallTexture
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Wall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Wall/%d.png", TEXTUREID::TEX_NORMAL, 82)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Wall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Wall/%d.png", TEXTUREID::TEX_NORMAL, 84)), E_FAIL);
 
 	//Jonghan MonsterTile Texture
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Monster_Map", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/MapTool/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Door", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Door/%d.png", TEXTUREID::TEX_NORMAL, 2)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Door", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Door/%d.png", TEXTUREID::TEX_NORMAL, 9)), E_FAIL);
 
 	// Kyubin
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MuzzleFlashTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/Flare1_Edit.png", TEXTUREID::TEX_NORMAL)), E_FAIL);

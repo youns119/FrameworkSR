@@ -8,7 +8,6 @@ CFloor::CFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pColliderCom(nullptr)
     , m_fDamage(0.f)
 {
-    m_pName = L"Proto_Floor0";
     m_iNumber = 0;
     m_iNumber_Type = 0;
 }

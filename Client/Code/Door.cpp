@@ -10,7 +10,7 @@ CDoor::CDoor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pColliderCom(nullptr)
     , m_vecWallDirection({ 0.f, 0.f, 0.f })
 {
-    m_pName = L"Proto_WALLCORNER01"; //this will be change
+    //m_pName = L"Proto_WALLCORNER01"; //this will be change
     m_iNumber = 0;
     m_iNumber_Type = 4;
 }

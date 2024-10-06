@@ -63,9 +63,7 @@ private:
 	void PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag);
 
 
-	void MapSave(CLayer* _pLayer);
 	void MapSave2(CLayer* _pLayer);
-	void MapLoad(CLayer* _pLayer);
 	void MapLoad2(CLayer* _pLayer);
 
 
