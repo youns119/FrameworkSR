@@ -2,6 +2,8 @@
 #include "../Header/DogDrone.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
+#include "../Header/EffectPool.h"
+#include "../Header/EffectMuzzleFlash.h"
 
 CDogDrone::CDogDrone(LPDIRECT3DDEVICE9 _pGraphicDev) : 
 	CDrone(_pGraphicDev)
@@ -166,6 +168,25 @@ void CDogDrone::State_Check()
 		}
 
 		m_ePreState = m_eCurState;
+	}
+
+	if (CDrone::DRONE_DAMAGED == m_eCurState || CDrone::DRONE_KATANA == m_eCurState) //죽었을때(HeadShot 제외)
+	{
+		if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
+		{
+			CComponent* pComponent(nullptr);
+			CGameObject* pGameObject(nullptr);
+
+			_vec3 vPos, vLook;
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Explosion", L"Com_Transform");
+			static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
+			pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+			static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
+			static_cast<CEffectPool*>(pGameObject)->Operate();
+		}
 	}
 }
 

@@ -7,6 +7,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <array>
 #include <algorithm>
 #include <functional>
 #include <string>

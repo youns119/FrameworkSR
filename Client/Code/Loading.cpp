@@ -227,7 +227,7 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Wall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Wall/%d.png", TEXTUREID::TEX_NORMAL, 82)), E_FAIL);
 
 	//Jonghan MonsterTile Texture
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Monster_Map", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/MapTool/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Monster_Map", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/MapTool/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Door", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Door/%d.png", TEXTUREID::TEX_NORMAL, 2)), E_FAIL);
 
 	// Kyubin

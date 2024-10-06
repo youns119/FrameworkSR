@@ -143,12 +143,14 @@ HRESULT CMapCreate::Ready_Scene()
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/80.png", L"Proto_WALL_ELECTRIC", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/81.png", L"Proto_WALL_Wreck", TEXTUREID::TEX_NORMAL, 1);
 
-	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Idle/0.png", L"Proto_Monster1", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Idle/0.png", L"Proto_Monster2", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Idle/0.png", L"Proto_Monster3", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Idle/0.png", L"Proto_Monster4", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Idle/0.png", L"Proto_Monster5", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Idle/0.png", L"Proto_Monster6", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/0.png", L"Proto_Monster1", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/1.png", L"Proto_Monster2", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/2.png", L"Proto_Monster3", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/3.png", L"Proto_Monster4", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/4.png", L"Proto_Monster5", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/5.png", L"Proto_Monster6", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/6.png", L"Proto_Monster7", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/7.png", L"Proto_Monster8", TEXTUREID::TEX_NORMAL, 1);
 
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/0.png", L"Proto_DOOR", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/1.png", L"Proto_DOOR_0", TEXTUREID::TEX_NORMAL, 1);
@@ -1506,7 +1508,7 @@ void CMapCreate::SetMenu()
 
 	static int iTriggerOffset = 0;
 	ImGui::Text(u8"TriggerNumber°ª");
-	ImGui::SameLine(80.f, 0.0f);
+	ImGui::SameLine(110.f, 0.0f);
 	ImGui::InputInt("#3", &iTriggerOffset);
 	m_iTriggerNumber = iTriggerOffset;
 
