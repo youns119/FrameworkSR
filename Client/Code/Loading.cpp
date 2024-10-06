@@ -275,6 +275,19 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgrade_Boarder", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Card/UPGRADE_BORDER_%d.png", TEXTUREID::TEX_NORMAL, 2)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIUpgrade_Card", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Card/UpgradeCard_%d.png", TEXTUREID::TEX_NORMAL, 7)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIText_Purchase", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/Text/Text_Purchase.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	// UI_Boss - MisterBullet
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Count", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/MisterBullet/Boss_Kill_Count.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	// UI_Boss - Roboto
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_LifeBar", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BOSS_LIFEBAR.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_LifeBar_A", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BOSS_LIFEBAR_A.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Logo", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/LOGO.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Battery", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BATTERY_LIFE.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Bar", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/Bar.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIText_Roboto", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/Text_Roboto.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	// UI_Boss - SniperHP
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UISniperHP_Box", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/MisterBullet/SniperHP_Box.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UISniperHP_Bar", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/MisterBullet/SniperHP_Bar.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIText_DRed", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/DRed/DRed_%d.png", TEXTUREID::TEX_NORMAL, 11)), E_FAIL);
 	// UI_Phone
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIPhone_Base", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Phone/Phone_Base.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_FreeCam

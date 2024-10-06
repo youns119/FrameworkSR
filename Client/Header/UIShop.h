@@ -2,7 +2,6 @@
 
 #include "UI.h"
 
-
 BEGIN(Engine)
 
 class CUIUnit;

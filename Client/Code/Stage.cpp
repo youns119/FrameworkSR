@@ -12,6 +12,8 @@
 #include "../Header/UIPlus.h"
 #include "../Header/UIShop.h"
 #include "../Header/UIInventory.h"
+#include "../Header/UIMisterBullet.h"
+#include "../Header/UIRoboto.h"
 #include "../Header/UIFreeCam.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -64,9 +66,11 @@ HRESULT CStage::Ready_Scene()
 
 _int CStage::Update_Scene(const _float& _fTimeDelta)
 {
+	// 콜라이더 OnOff
 	if (Engine::Key_Press(DIK_F1))
 		Engine::Toggle_Collider();
 
+	// 자유ㅠ시점 OnOff
 	if (Engine::Key_Press(DIK_F2))
 	{
 		_uint iID = ((_uint)Engine::Get_ControllerID() + 1) % (_uint)CONTROLLERID::CONTROL_END;
@@ -79,10 +83,12 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 			Engine::Activate_UI(UITYPE::UI_FREECAM);
 	}
 
+	// 인벤토리 OnOff
 	if (Engine::Key_Press(DIK_F3))
 		if (Engine::Get_ListUI(UITYPE::UI_INVENTORY)->empty())
 			Engine::Stop_Timer(!Engine::Get_Stop());
 
+	// 킬로그 생성
 	if (Engine::Key_Press(DIK_F4))
 	{
 		_vec3 vPos = { (float)(rand() % 10), 1.f, (float)(rand() % 10) };
@@ -92,6 +98,7 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 		static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
 	}
 
+	// 상점 OnOff
 	if (Engine::Key_Press(DIK_F5))
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
@@ -100,6 +107,39 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 			Engine::Deactivate_UI(UITYPE::UI_SHOP);
 	}
 
+	// MisterBullet 보스 UI OnOff
+	if (Engine::Key_Press(DIK_F6))
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty())
+			Engine::Activate_UI(UITYPE::UI_MISTERBULLET);
+		else
+			Engine::Deactivate_UI(UITYPE::UI_MISTERBULLET);
+	}
+
+	// MisterBullet 보스 카운트 Up
+	if (!Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty() &&
+		Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+		static_cast<CUIMisterBullet*>(Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->front())->Add_Count();
+
+	// MisterBullet 스나이퍼 HP 조절
+	if (!Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty())
+	{
+		if (Engine::Key_Hold(DIK_LEFTARROW))
+			m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);
+		else if (Engine::Key_Hold(DIK_RIGHTARROW))
+			m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() + 1.f);
+	}
+
+	// Roboto 보스 체력 UI OnOff
+	if (Engine::Key_Press(DIK_F7))
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_ROBOTO)->empty())
+			Engine::Activate_UI(UITYPE::UI_ROBOTO);
+		else
+			Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
+	}
+
+	// 인벤토리 OnOff
 	if (Engine::Key_Press(DIK_TAB))
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_INVENTORY)->empty())
@@ -275,6 +315,15 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 	pUI->Set_GameObject(m_pPlayer);
+
+	pUI = CUIMisterBullet::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
+
+	pUI = CUIRoboto::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	pUI = CUIFreeCam::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);

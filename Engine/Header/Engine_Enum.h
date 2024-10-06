@@ -23,6 +23,9 @@ namespace Engine
 	{
 		UI_SHOP,
 		UI_PLUS,
+		UI_MISTERBULLET,
+		UI_ROBOTO,
+		UI_PLAYER,
 		UI_INVENTORY,
 		UI_NORMAL,
 		UI_FREECAM,

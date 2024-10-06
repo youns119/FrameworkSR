@@ -24,6 +24,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsHasItem(false)
 	, m_bIsDrinking(false)
 	, m_bIsRotation(false)
+	, m_fHP(0.f)
 	, m_fJumpPower(0.f)
 	, m_flinear(0.f)
 	, m_fTilePos(0.f)
@@ -92,6 +93,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 
+	m_fHP = 99.f;
 	m_fSpeed = 10.f;
 
 	// 규빈 : 알파소팅을 위한 설정, 

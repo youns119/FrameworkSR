@@ -19,6 +19,9 @@ private:
     virtual ~CBoss_Robot();
 
 public:
+	_float Get_BossHP() { return m_fBoss_HP; }
+
+public:
 	static CBoss_Robot* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 	static CBoss_Robot* Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 
