@@ -25,7 +25,7 @@
 #include "SkyBox.h"
 #include "Floor.h"
 #include "Wall.h"
-#include "WallTB.h"
+#include "Door.h"
 
 class CStage
 	: public Engine::CScene
@@ -48,7 +48,7 @@ private:
 	HRESULT Ready_Layer_Environment(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_GameLogic(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_Player(const _tchar* _pLayerTag);
-	HRESULT Ready_Layer_Monster(const _tchar* _pLayerTag);
+	HRESULT Ready_Layer_MonsterBullet(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_Effect(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_Item(const _tchar* _pLayerTag);
@@ -59,6 +59,7 @@ private:
 	CLayer* Find_Layer(const _tchar* _pLayerTag);
 	// ¸Ê ºÒ·¯¿À±â - À¯ºó
 	void MapLoad(CLayer* _pLayer);
+	void MapLoad2(CLayer* _pLayer, CLayer* _pLayer2);
 	void ChangeMapLoad();
 
 private:

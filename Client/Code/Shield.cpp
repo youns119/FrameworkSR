@@ -11,8 +11,8 @@ CShield::CShield(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fFrame(0.f)
 	, m_fMaxFrame(10.f)
 	, m_fFrameSpeed(13.f)
-	, m_bisRender(false)
 {
+	m_bIsRender = false;
 }
 
 CShield::~CShield()
@@ -47,7 +47,7 @@ _int CShield::Update_GameObject(const _float& _fTimeDelta)
 	if (m_fMaxFrame < m_fFrame) // Jonghan Change
 	{
 		m_fFrame = 0.f;
-		m_bisRender = false;
+		m_bIsRender = false;
 	}
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
@@ -87,7 +87,7 @@ void CShield::LateUpdate_GameObject()
 
 void CShield::Render_GameObject()
 {
-	if (m_bisRender)
+	if (m_bIsRender)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 		
@@ -107,7 +107,7 @@ void CShield::Spawn_Shield(const _vec3& _vStartPos)
 
 	m_pTransformCom->Set_Pos(_vStartPos.x, _vStartPos.y, _vStartPos.z);
 	m_fFrame = 0.f;
-	m_bisRender = true;
+	m_bIsRender = true;
 }
 
 HRESULT CShield::Add_Component()

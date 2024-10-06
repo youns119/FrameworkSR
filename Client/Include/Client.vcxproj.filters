@@ -242,6 +242,9 @@
     <Filter Include="03.GameObject\06.Effect\11. EffectSmokeTrail">
       <UniqueIdentifier>{92fff949-2ec0-417e-804c-8c1807405347}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\07.Tile\05.Door">
+      <UniqueIdentifier>{8de690d8-5444-4eb5-9bef-39df86d18240}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -490,6 +493,9 @@
     <ClInclude Include="..\Header\EffectFlash.h">
       <Filter>03.GameObject\06.Effect\10. EffectFlash</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Door.h">
+      <Filter>03.GameObject\07.Tile\05.Door</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -719,6 +725,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectFlash.cpp">
       <Filter>03.GameObject\06.Effect\10. EffectFlash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Door.cpp">
+      <Filter>03.GameObject\07.Tile\05.Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

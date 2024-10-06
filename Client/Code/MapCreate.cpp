@@ -4,7 +4,7 @@
 #include "..\Header\SkyBox.h"
 #include "..\Header\Floor.h"
 #include "..\Header\Wall.h"
-#include "..\Header\WallTB.h"
+#include "..\Header\Door.h"
 #include "..\Header\MonsterTile.h"
 #include "..\Header\GuideTerrain.h"
 #include "../Header/TileContorl.h"
@@ -19,6 +19,7 @@ CMapCreate::CMapCreate(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bGuiHovered(false)
 	, m_ImageName(nullptr)
 	, m_iNumber(0)
+	, m_iTriggerNumber(0)
 {
 }
 
@@ -140,6 +141,7 @@ HRESULT CMapCreate::Ready_Scene()
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/78.png", L"Proto_WALL_DECO_06", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/79.png", L"Proto_WALL_DECO_07", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/80.png", L"Proto_WALL_ELECTRIC", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/81.png", L"Proto_WALL_Wreck", TEXTUREID::TEX_NORMAL, 1);
 
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/WhiteMan/Idle/0.png", L"Proto_Monster1", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/ShotGun/Idle/0.png", L"Proto_Monster2", TEXTUREID::TEX_NORMAL, 1);
@@ -147,6 +149,9 @@ HRESULT CMapCreate::Ready_Scene()
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Flying/Idle/0.png", L"Proto_Monster4", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Spider/Idle/0.png", L"Proto_Monster5", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Idle/0.png", L"Proto_Monster6", TEXTUREID::TEX_NORMAL, 1);
+
+	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/0.png", L"Proto_DOOR", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/1.png", L"Proto_DOOR_0", TEXTUREID::TEX_NORMAL, 1);
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
@@ -191,7 +196,16 @@ _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 		}
 	}
 	
-	
+	if (Engine::Key_Hold(DIK_X) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+
+	{
+		PickingTile_PosCheck(Find_Layer(L"Layer_PickingTile"), L"Door");
+		if (m_bCreateCheck == true)
+		{
+			Create_Layer_PickingDoor(Find_Layer(L"Layer_PickingTile"), Engine::TILE_DIRECTION::TILE_FORWARD);
+		}
+	}
+
 	if (Engine::Key_Hold(DIK_T) && Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
 
 	{
@@ -443,6 +457,16 @@ HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber - 1, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
+
+	return S_OK;
+}
+
+HRESULT CMapCreate::Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
+{
+	Engine::CGameObject* pGameObject = nullptr;
+	pGameObject = CDoor::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	_pLayer->Add_GameObject(L"Door", pGameObject);
 
 	return S_OK;
 }
@@ -895,6 +919,17 @@ HRESULT CMapCreate::PickingTile_PosDelete(CLayer* _pLayer, const _tchar* _TileTa
 				++it;
 			}
 		}
+		else if (_TileTag == L"Door" && _TileTag == (*it).first)
+		{
+			if (dynamic_cast<CDoor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(3))
+			{
+				_pLayer->Get_LayerObjects()->erase(it++);
+			}
+			else
+			{
+				++it;
+			}
+		}
 		else
 		{
 			m_bCreateCheck = true;
@@ -955,6 +990,23 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 		else if (_TileTag == L"MonsterTile" && _TileTag == (*it).first)
 		{
 			if (dynamic_cast<CMonsterTile*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(4))
+			{
+				m_bCreateCheck = false;
+				break;
+			}
+			else
+			{
+				m_bCreateCheck = true;
+				++it;
+			}
+		}
+		else if (_TileTag == L"Door" && _TileTag == (*it).first)
+		{
+			if (dynamic_cast<CDoor*>((*it).second) == nullptr)
+			{
+				break;
+			}
+			if (dynamic_cast<CDoor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(3))
 			{
 				m_bCreateCheck = false;
 				break;
@@ -1060,7 +1112,7 @@ void CMapCreate::MapSave(CLayer* _pLayer)
 
 void CMapCreate::MapSave2(CLayer* _pLayer)
 {
-	HANDLE		hFile = CreateFile(L"../Data/TutorialStage3.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage4.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1136,6 +1188,17 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 			//필요한 정보는 단순히 이거 벽이냐, 이거 몇번째 벽이냐, 이거 벡터어디냐 
 			//필요한 정보는 단순히 이거 벽TB이냐, 이거 몇번째 벽TB이냐, 이거 벡터어디냐 
 			//필요한 정보는 단순히 이거 몬스터냐, 이거 몇번째 몬스터냐, 이거 벡터어디냐 
+		}
+		if (nullptr != dynamic_cast<CDoor*>((*it).second))
+		{
+			iNumber = 4;
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 4번이다(문)
+			iNumber = dynamic_cast<CDoor*>((*it).second)->Get_Number();
+			iTrigger = dynamic_cast<CDoor*>((*it).second)->Get_Trigger();//10.06
+			WriteFile(hFile, dynamic_cast<CDoor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
+			WriteFile(hFile, dynamic_cast<CDoor*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);//무슨 trigger냐 값//10.06
 		}
 	}
 
@@ -1257,7 +1320,7 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	it = _pLayer->Get_LayerObjects()->find(L"MonsterTile");
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
-	HANDLE		hFile = CreateFile(L"../Data/TutorialStage3.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/TutorialStage4.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1326,9 +1389,16 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 
 			pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, pPos, iNumber, iTrigger);//10.06
 			NULL_CHECK_RETURN(pGameObject, );
-			_pLayer->Add_GameObject(L"WallTB", pGameObject);
+			_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
 		}
+		if (iNumber_Type == 4)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
 
+			pGameObject = CDoor::Create_InfoNumberDirectionTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
+			NULL_CHECK_RETURN(pGameObject, );
+			_pLayer->Add_GameObject(L"Door", pGameObject);
+		}
 	}
 
 	CloseHandle(hFile);
@@ -1351,6 +1421,8 @@ void CMapCreate::ShowGUI()
 	SetFloor();
 	SetWall();
 	SetMonster();
+	SetDoor();
+
 	//메뉴바
 	if (ImGui::BeginMenuBar())
 	{
@@ -1661,6 +1733,49 @@ void CMapCreate::SetMonster()
 	}
 }
 
+void CMapCreate::SetDoor()
+{
+	bool ret = false;
+	if (!ImGui::CollapsingHeader("Doors"))
+	{
+		return;
+	}
+
+	ImGui::Text(u8"문 선택");
+	int iCount(0);
+	_int iTemp(0);
+	map<const _tchar*, IDirect3DBaseTexture9*>::iterator it;
+	for (it = m_mapImageDoor.begin(); it != m_mapImageDoor.end(); ++it)
+	{
+		char* pStr;
+		int iStrSize = WideCharToMultiByte(CP_ACP, 0, (*it).first, -1, NULL, 0, NULL, NULL);
+		pStr = new char[iStrSize];
+		WideCharToMultiByte(CP_ACP, 0, (*it).first, -1, pStr, iStrSize, 0, 0);
+
+		ret = ImGui::ImageButton(pStr, (*it).second, ImVec2(50.f, 50.f));
+		iTemp++;
+		iCount++;
+		if (iCount < 5)
+		{
+			ImGui::SameLine();
+		}
+		else
+		{
+			iCount = 0;
+		}
+		if (ret)
+		{
+			// 타일 이미지 변경
+			// floor를 선택 했는지 wall 선택했는지 변수나 이넘값을 최초 세팅해주면 마우스 픽킹만으로 생성하도록 => 키보드 제거하기
+			m_iNumber = iTemp;
+			m_ImageName = (*it).first;
+		}
+
+		delete[] pStr;
+		pStr = nullptr;
+	}
+}
+
 HRESULT CMapCreate::Ready_Texture_FloorInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt)
 {
 
@@ -1676,12 +1791,10 @@ HRESULT CMapCreate::Ready_Texture_FloorInsert(const _tchar* _pPath, const _tchar
 		{
 		case TEXTUREID::TEX_NORMAL:
 			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
-			m_vecImageFloor.push_back(_pComponentTag);
 			m_mapImageFloor.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
-			m_vecImageFloor.push_back(_pComponentTag);
 			m_mapImageFloor.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		default:
@@ -1706,12 +1819,10 @@ HRESULT CMapCreate::Ready_Texture_WallInsert(const _tchar* _pPath, const _tchar*
 		{
 		case TEXTUREID::TEX_NORMAL:
 			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
-			m_vecImageWall.push_back(_pComponentTag);
 			m_mapImageWall.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
-			m_vecImageWall.push_back(_pComponentTag);
 			m_mapImageWall.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		default:
@@ -1736,12 +1847,10 @@ HRESULT CMapCreate::Ready_Texture_MonsterInsert(const _tchar* _pPath, const _tch
 		{
 		case TEXTUREID::TEX_NORMAL:
 			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
-			m_vecImageMonster.push_back(_pComponentTag);
 			m_mapImageMonster.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		case TEXTUREID::TEX_CUBE:
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
-			m_vecImageMonster.push_back(_pComponentTag);
 			m_mapImageMonster.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
 			break;
 		default:
@@ -1752,6 +1861,38 @@ HRESULT CMapCreate::Ready_Texture_MonsterInsert(const _tchar* _pPath, const _tch
 
 	return S_OK;
 }
+
+HRESULT CMapCreate::Ready_Texture_DoorInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt)
+{
+	IDirect3DBaseTexture9* pTexture = NULL;
+
+	for (_int i = 0; i < _iCnt; i++)
+	{
+		TCHAR szFileName[128] = L"";
+
+		wsprintf(szFileName, _pPath, i);
+
+		switch (_eType)
+		{
+		case TEXTUREID::TEX_NORMAL:
+			FAILED_CHECK_RETURN(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture), E_FAIL);
+			//m_vecImageDoor.push_back(_pComponentTag);
+			m_mapImageDoor.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
+			break;
+		case TEXTUREID::TEX_CUBE:
+			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
+			//m_vecImageDoor.push_back(_pComponentTag);
+			m_mapImageDoor.insert(pair<const _tchar*, IDirect3DBaseTexture9*>(_pComponentTag, pTexture));
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	return S_OK;
+}
+
 void CMapCreate::Free()
 {
 	Engine::CScene::Free();

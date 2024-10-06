@@ -208,7 +208,9 @@ HRESULT CWallTB::Ready_GameObject()
 
 _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 {
-	
+	if (!m_bIsRender)
+		return 0;
+
 	Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
 	Engine::Add_Collider(m_pColliderCom);
@@ -218,11 +220,17 @@ _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 
 void CWallTB::LateUpdate_GameObject()
 {
+	if (!m_bIsRender)
+		return;
+
 	Engine::CGameObject::LateUpdate_GameObject();
 }
 
 void CWallTB::Render_GameObject()
 {
+	if (!m_bIsRender)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
