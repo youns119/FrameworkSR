@@ -112,6 +112,7 @@ void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAtta
 void CMonster::AddForce(const _float& _fPower, _vec3 _vLook, const _float& _fDamage)
 {
 	D3DXVec3Normalize(&_vLook, &_vLook);
+	_vLook.y = 0.f;
 	_vLook *= _fPower;
 	vKnockBackForce = _vLook;
 	Damaged(Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT, _fDamage);

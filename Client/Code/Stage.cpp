@@ -603,7 +603,7 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
 				pShield = CShield::Create(m_pGraphicDev);
 				NULL_CHECK_RETURN(pShield, );
 				_pLayer2->Add_GameObject(L"Shield", pShield);
-				pGameObject = CBlackMan::Create(m_pGraphicDev, pShield);
+				pGameObject = CBlackMan::Create(m_pGraphicDev, pShield, pPos);
 				NULL_CHECK_RETURN(pGameObject, );
 				_pLayer2->Add_GameObject(L"BlackMan", pGameObject);
 				Engine::Set_Trigger(iTrigger, pGameObject);//10.06
@@ -611,23 +611,37 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
 			}
 			else if (iNumber == 4)
 			{
-				pGameObject = CFlyingDrone::Create(m_pGraphicDev);
+				pGameObject = CFlyingDrone::Create(m_pGraphicDev, pPos);
 				NULL_CHECK_RETURN(pGameObject, );
 				_pLayer2->Add_GameObject(L"FlyingDrone", pGameObject);
 				Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 			}
 			else if (iNumber == 5)
 			{
-				pGameObject = CSpiderDrone::Create(m_pGraphicDev);
+				pGameObject = CSpiderDrone::Create(m_pGraphicDev, pPos);
 				NULL_CHECK_RETURN(pGameObject, );
 				_pLayer2->Add_GameObject(L"SpiderDrone", pGameObject);
 				Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 			}
 			else if (iNumber == 6)
 			{
-				pGameObject = CDogDrone::Create(m_pGraphicDev);
+				pGameObject = CDogDrone::Create(m_pGraphicDev, pPos);
 				NULL_CHECK_RETURN(pGameObject, );
 				_pLayer2->Add_GameObject(L"DogDrone", pGameObject);
+				Engine::Set_Trigger(iTrigger, pGameObject);//10.06
+			}
+			else if (iNumber == 7)
+			{
+				pGameObject = CBoss_Humanoid::Create(m_pGraphicDev, pPos);
+				NULL_CHECK_RETURN(pGameObject, );
+				_pLayer2->Add_GameObject(L"Boss_Humanoid", pGameObject);
+				Engine::Set_Trigger(iTrigger, pGameObject);//10.06
+			}
+			else if (iNumber == 8)
+			{
+				pGameObject = CBoss_Robot::Create(m_pGraphicDev, pPos);
+				NULL_CHECK_RETURN(pGameObject, );
+				_pLayer2->Add_GameObject(L"Boss_Robot", pGameObject);
 				Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 			}
 		}
