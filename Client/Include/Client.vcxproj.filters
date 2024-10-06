@@ -367,7 +367,7 @@
     <ClInclude Include="..\Header\MapCreate.h">
       <Filter>02.Scene\03.MapCreate</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Spark.h">
+    <ClInclude Include="..\Header\EffectSpark.h">
       <Filter>03.GameObject\06.Effect\05. EffectSpark</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectPool.h">
@@ -609,7 +609,7 @@
     <ClCompile Include="..\Code\MapCreate.cpp">
       <Filter>02.Scene\03.MapCreate</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Spark.cpp">
+    <ClCompile Include="..\Code\EffectSpark.cpp">
       <Filter>03.GameObject\06.Effect\05. EffectSpark</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectPool.cpp">

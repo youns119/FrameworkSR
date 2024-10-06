@@ -574,11 +574,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
-		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
-		//static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 2.f);
-		//pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-		//static_cast<CEffectPool*>(pGameObject)->Operate();
-
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_MinigunShell", L"Com_Transform");
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		static_cast<CEffectPool*>(pGameObject)->Operate();
@@ -598,10 +593,21 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Explosion", L"Com_Transform");
-		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
+		// 폭발
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Explosion", L"Com_Transform");
+		//static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
+		//pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+		//static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
+		//static_cast<CEffectPool*>(pGameObject)->Operate();
+
+		// 스파크
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
+		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 3.f + _vec3(0.0f, 1.f, 0.f));
+		// 회전값도 조절 할 수 있음 나중에 벽의 법선 벡터 방향으로 회전 시켜서 사용할 예정
+		//static_cast<CTransform*>(pComponent)->Rotation(ROTATION::ROT_Z, D3DX_PI * 0.5f);
+		static_cast<CTransform*>(pComponent)->Set_Angle(-D3DX_PI * 0.5f, 0.f, 0.f);
+		//static_cast<CTransform*>(pComponent)->Set_Angle(0.f, 0.f, D3DX_PI * 0.5f);
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-		static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
 	}

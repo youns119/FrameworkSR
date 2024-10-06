@@ -5,7 +5,7 @@
 #include "../Header/EffectHeal.h"
 #include "../Header/EffectMuzzleFlash.h"
 #include "../Header/EffectPlayerBlood.h"
-#include "../Header/Spark.h"
+#include "../Header/EffectSpark.h"
 #include "../Header/EffectBossRobotBooster.h"
 #include "../Header/EffectMinigunShell.h"
 #include "../Header/EffectExecutionBlood.h"
