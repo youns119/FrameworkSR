@@ -245,6 +245,9 @@
     <Filter Include="03.GameObject\07.Tile\05.Door">
       <UniqueIdentifier>{8de690d8-5444-4eb5-9bef-39df86d18240}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\12. EffectExplosion">
+      <UniqueIdentifier>{88b0b71c-1d9a-4993-81d9-bff92c801eb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -496,6 +499,9 @@
     <ClInclude Include="..\Header\Door.h">
       <Filter>03.GameObject\07.Tile\05.Door</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectExplosion.h">
+      <Filter>03.GameObject\06.Effect\12. EffectExplosion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -728,6 +734,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Door.cpp">
       <Filter>03.GameObject\07.Tile\05.Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectExplosion.cpp">
+      <Filter>03.GameObject\06.Effect\12. EffectExplosion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

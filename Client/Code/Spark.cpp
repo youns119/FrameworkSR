@@ -107,9 +107,9 @@ void CSpark::Set_ParticleParam()
 {
 	CParticleSystem::PARAM tParticleParam;
 	ZeroMemory(&tParticleParam, sizeof(CParticleSystem::PARAM));
-	tParticleParam.tStartBoundary.vMin = { 0.f, 0.f, 0.f };
-	tParticleParam.tStartBoundary.vMax = { 0.f, 0.f, 0.f };
-	tParticleParam.vInitVelocity = { 0.f, 2.f, 0.f };
+	tParticleParam.tInit.tHexahedron.tStartBoundary.vMin = { 0.f, 0.f, 0.f };
+	tParticleParam.tInit.tHexahedron.tStartBoundary.vMax = { 0.f, 0.f, 0.f };
+	tParticleParam.tInit.tHexahedron.vInitVelocity = { 0.f, 2.f, 0.f };
 	//tParticleParam.vVelocityNoise = { 2.f, 2.f, 2.f };
 	//tParticleParam.tColor = D3DCOLOR_ARGB(255, 255, 255, 230);
 	tParticleParam.vColor = _vec4(1.f, 1.f, 0.9f, 1.0f);

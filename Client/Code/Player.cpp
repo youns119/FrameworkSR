@@ -589,6 +589,24 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
 	}
+	if (Engine::Key_Press(DIK_M))
+	{
+		CComponent* pComponent(nullptr);
+		CGameObject* pGameObject(nullptr);
+
+		_vec3 vPos, vLook;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Explosion", L"Com_Transform");
+		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
+		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+		static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
+		static_cast<CEffectPool*>(pGameObject)->Operate();
+
+	}
+
+
 	
 	if (m_WeaponState == SNIPER) {
 		if (Engine::Key_Press(DIK_L))

@@ -11,5 +11,6 @@
 #include "../Header/EffectExecutionBlood.h"
 #include "../Header/EffectFlash.h"
 #include "../Header/EffectSmokeTrail.h"
+#include "../Header/EffectExplosion.h"
 
 #include "../Header/EffectPool.h"

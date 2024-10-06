@@ -95,7 +95,7 @@ void CEffectExecutionBlood::Render_GameObject()
 		m_pGraphicDev->SetTextureStageState(0, D3DTSS_CONSTANT, D3DCOLOR_ARGB(255, 255, 0, 0));
 		m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 		m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CONSTANT);
-		
+
 		if (true)
 		{
 
@@ -165,6 +165,11 @@ HRESULT CEffectExecutionBlood::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
+	pComponent = m_pTransformCom = static_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	pComponent->SetOwner(*this);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
 	// first
 	pComponent = m_pTextureComFirst = static_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BloodParticle"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -210,7 +215,7 @@ HRESULT CEffectExecutionBlood::Add_Component()
 		pComponent = m_pTransformComArray[i] = static_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		pComponent->SetOwner(*this);
-		m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ (_tchar*) & tempArray[i], pComponent});
+		m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ (_tchar*)&tempArray[i], pComponent });
 		m_pTransformComArray[i]->Set_Scale(200.f, 200.f, 1.f);
 		//m_pTransformComArray[i]->Set_Pos(100.f, 100.f, 1.f);
 
@@ -234,7 +239,7 @@ void CEffectExecutionBlood::Set_ParticleParam()
 	//tParticleParam.tStartBoundary.vMin = { -WINCX * 0.5f, -WINCY * 0.45f, 0.f };
 	//tParticleParam.tStartBoundary.vMax = { WINCX * 0.5f, -WINCY * 0.1f, 0.f };
 
-	tParticleParam.vInitVelocity = { 1500.f, 750.f, 0.f };
+	tParticleParam.tInit.tHexahedron.vInitVelocity = { 1500.f, 750.f, 0.f };
 	tParticleParam.vVelocityNoise = { 500.f, 400.f, 0.f };
 	tParticleParam.vColor = _vec4(1.0f, 0.f, 0.f, 1.f);
 	tParticleParam.vColorFade = _vec4(1.0f, 0.0f, 0.0f, 0.0f); // 255 대신 500 넣어서 투명해지기 전에 더 빨리 초록색이 되도록

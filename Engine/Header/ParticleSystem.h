@@ -51,30 +51,6 @@ D3DCOLOR Vector_to_Color(_vec4 _vColor);
 class ENGINE_DLL CParticleSystem : public CComponent
 {
 public:
-	typedef struct tagParam
-	{
-		tagParam() { ZeroMemory(this, sizeof(tagParam)); }
-
-		BOUNDINGBOX tStartBoundary;
-		_vec3 vInitVelocity;
-		_vec3 vAcceleration;
-		_float fLifeTime;
-		_vec4 vColor;
-		_vec4 vColorFade;
-
-		_float fEmitRate;
-		_uint iEmitCnt;
-		_float fSize;
-		_vec3 vVelocityNoise;
-		_uint iTotalCnt;
-		_float fGravity;
-		BOUNDINGBOX tBoundary;
-
-		_ulong dwAlphaRef;
-
-	} PARAM;
-
-public:
 	enum class OPTION : _ulong
 	{
 		REPEAT,
@@ -88,10 +64,77 @@ public:
 		POINT_SCALE_DISABLE,
 		EMISSION_CONTROL,
 		ALPHA_SORT,
+		ALPHAOP_ADD,
 
 		OPTION_END
 
 	};
+
+public:
+	enum class SHAPE
+	{
+		HEXAHEDRON,
+		SPHERE,
+		CIRCLE,
+
+		SHAPE_END
+	};
+
+public:
+	typedef struct tagParam
+	{
+		tagParam() { ZeroMemory(this, sizeof(tagParam)); }
+
+		SHAPE eShape;
+
+		union unionInit
+		{
+			unionInit() { tagHexahedron(); }
+			struct tagHexahedron
+			{
+				tagHexahedron() { ZeroMemory(this, sizeof(tagHexahedron)); }
+				BOUNDINGBOX tStartBoundary;
+				_vec3 vInitVelocity;
+
+			} tHexahedron;
+
+			struct tagSphere
+			{
+				tagSphere() { ZeroMemory(this, sizeof(tagSphere)); }
+				_vec3 vAxis;
+				_float fRadius;
+				_float fPhi;
+				_float fTheta;
+
+			} tSphere;
+
+			struct tagCircle
+			{
+				tagCircle() { ZeroMemory(this, sizeof(tagCircle)); }
+				_float fHeight;
+				_float fRadius;
+
+			} tCircle;
+
+		} tInit;
+
+		_vec3 vVelocityNoise;
+		_vec3 vAcceleration;
+		_float fLifeTime;
+		_vec4 vColor;
+		_vec4 vColorFade;
+
+		_float fEmitRate;
+		_uint iEmitCnt;
+		_float fSize;
+		_float fSizeFade;
+		_uint iTotalCnt;
+		_float fGravity;
+		BOUNDINGBOX tBoundary;
+
+		_ulong dwAlphaRef;
+
+	} PARAM;
 
 protected:
 	explicit CParticleSystem();
@@ -135,14 +178,14 @@ private:
 	_float Compute_ParticleViewZ(const PARTICLEINFO& _tParticle, const _vec3& _vCameraPos);
 
 public:
-	void Set_InitVelocity(const _vec3& _vVelocity) { m_tParam.vInitVelocity = _vVelocity; }
+	void Set_InitVelocity(const _vec3& _vVelocity) { m_tParam.tInit.tHexahedron.vInitVelocity = _vVelocity; }
 	void Set_Parameter(const PARAM& _tParam) { m_tParam = _tParam; }
-	void Set_Option(OPTION _eOption, _bool _value) { m_dwOptions = m_dwOptions | (_value ? 1 : 0) << (_ulong)_eOption; }
+	void Set_Option(OPTION _eOption, _bool _value) { m_bOptionArray[(_uint)_eOption] = _value; }
 
 	const PARAM& Get_Parameter() { return m_tParam; }
 
 private:
-	_bool Check_Option(OPTION _eOption) const { return m_dwOptions & 1 << (_uint)_eOption; }
+	_bool Check_Option(OPTION _eOption) const { return m_bOptionArray[(_uint)_eOption]; }
 
 protected:
 	std::list<PARTICLEINFO> m_ParticleList;
@@ -150,8 +193,9 @@ protected:
 	LPDIRECT3DVERTEXBUFFER9	m_pVB;
 
 	PARAM m_tParam;
-	_ulong m_dwOptions;
+	std::array<_bool, (_uint)OPTION::OPTION_END> m_bOptionArray;
 	_float m_fEmitTime;
+	_float m_fParticleSize;
 
 	DWORD m_dwBufferSize;
 	DWORD m_dwBufferOffset;

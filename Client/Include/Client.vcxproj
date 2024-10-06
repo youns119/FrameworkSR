@@ -164,6 +164,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\EffectBossRobotBooster.h" />
     <ClInclude Include="..\Header\EffectCircleLines.h" />
     <ClInclude Include="..\Header\EffectExecutionBlood.h" />
+    <ClInclude Include="..\Header\EffectExplosion.h" />
     <ClInclude Include="..\Header\EffectFanSpread.h" />
     <ClInclude Include="..\Header\EffectFlash.h" />
     <ClInclude Include="..\Header\EffectHeal.h" />
@@ -249,6 +250,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\EffectBossRobotBooster.cpp" />
     <ClCompile Include="..\Code\EffectCircleLines.cpp" />
     <ClCompile Include="..\Code\EffectExecutionBlood.cpp" />
+    <ClCompile Include="..\Code\EffectExplosion.cpp" />
     <ClCompile Include="..\Code\EffectFanSpread.cpp" />
     <ClCompile Include="..\Code\EffectFlash.cpp" />
     <ClCompile Include="..\Code\EffectHeal.cpp" />
