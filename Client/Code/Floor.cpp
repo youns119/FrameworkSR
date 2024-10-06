@@ -94,7 +94,28 @@ CFloor* CFloor::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos,
     return pFloor;
 }
 
-CFloor* CFloor::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
+CFloor* CFloor::Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, const _int& _iTrigger)
+{
+    CFloor* pFloor = new CFloor(_pGraphicDev);
+
+
+    if (FAILED(pFloor->Ready_GameObject()))
+    {
+        Safe_Release(pFloor);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pFloor->Setup_Position(_vecPos);
+    pFloor->m_vecPos = _vecPos;
+    pFloor->m_iNumber = _iNumber;
+    pFloor->Set_Number(_iNumber);
+    pFloor->Set_Trigger(_iTrigger);
+
+    return pFloor;
+}
+
+CFloor* CFloor::Create_InfoNumber2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
 {
     CFloor* pFloor = new CFloor(_pGraphicDev);
 
@@ -112,6 +133,29 @@ CFloor* CFloor::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos,
     pFloor->m_vecRot = _vecRot;
     pFloor->m_iNumber = _iNumber;
     pFloor->Set_Number(_iNumber);
+
+    return pFloor;
+}
+
+CFloor* CFloor::Create_InfoNumberTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber, const _int& _iTrigger)
+{
+    CFloor* pFloor = new CFloor(_pGraphicDev);
+
+
+    if (FAILED(pFloor->Ready_GameObject()))
+    {
+        Safe_Release(pFloor);
+        MSG_BOX("pTerrain Create Failed");
+        return nullptr;
+    }
+
+    pFloor->Setup_Position(_vecPos);
+    pFloor->Setup_Rotation(_vecRot);
+    pFloor->m_vecPos = _vecPos;
+    pFloor->m_vecRot = _vecRot;
+    pFloor->m_iNumber = _iNumber;
+    pFloor->Set_Number(_iNumber);
+    pFloor->Set_Trigger(_iTrigger);
 
     return pFloor;
 }

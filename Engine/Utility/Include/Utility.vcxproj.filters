@@ -118,6 +118,9 @@
     <Filter Include="07.UI\02.UIUnit">
       <UniqueIdentifier>{e95ca0de-f339-4a37-9f9f-e1dcd4842be9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="09.Trigger">
+      <UniqueIdentifier>{9ea06fa0-0b85-4a64-a821-8bb4e3715285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -234,6 +237,9 @@
     <ClInclude Include="..\..\Header\UIUnit.h">
       <Filter>07.UI\02.UIUnit</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Trigger.h">
+      <Filter>09.Trigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -346,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIUnit.cpp">
       <Filter>07.UI\02.UIUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Trigger.cpp">
+      <Filter>09.Trigger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

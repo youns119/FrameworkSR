@@ -408,7 +408,7 @@ HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer) //No Rotation
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CFloor::Create_InfoNumber(m_pGraphicDev, TilePiking_OnTerrain(1), m_iNumber);
+	pGameObject = CFloor::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(1), m_iNumber, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Floor", pGameObject);
 
@@ -419,7 +419,7 @@ HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer) //No Rotation
 HRESULT CMapCreate::Create_Layer_PickingWall(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CWall::Create_InfoNumberDirection(m_pGraphicDev, TilePiking_OnTerrain(2), m_iNumber, _eTileDirection);
+	pGameObject = CWall::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(2), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Wall", pGameObject);
 
@@ -430,7 +430,7 @@ HRESULT CMapCreate::Create_Layer_PickingWall(CLayer* _pLayer, Engine::TILE_DIREC
 HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CWallTB::Create_InfoNumberDirection(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection);
+	pGameObject = CWallTB::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"WallTB", pGameObject);
 
@@ -440,7 +440,7 @@ HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIR
 HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CMonsterTile::Create_InfoNumber(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber - 1);
+	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber - 1, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
 
@@ -1075,22 +1075,26 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 	}
 
 	_int iNumber(0);
+	_int iTrigger(0);//10.06
 	DWORD	dwByte(0);
 
 	multimap<const _tchar*, CGameObject*>::iterator it;
 	for (it = _pLayer->Get_LayerObjects()->begin(); it != _pLayer->Get_LayerObjects()->end(); it++)
 	{
 		iNumber = 0; //초기화 및 바닥이다(기본값)
+		iTrigger = 0;//10.06
 
 		if (nullptr != dynamic_cast<CFloor*>((*it).second))
 		{
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 0번이다(바닥)
 
 			iNumber = dynamic_cast<CFloor*>((*it).second)->Get_Number();
+			iTrigger = dynamic_cast<CFloor*>((*it).second)->Get_Trigger();//10.06
 
 			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
 			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr); //꺾여있는 방향
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); //Trigger값
 
 			//WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr);//회전값 저장
 		}
@@ -1099,18 +1103,22 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 			iNumber = 1;
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 1번이다(벽)
 			iNumber = dynamic_cast<CWall*>((*it).second)->Get_Number();
+			iTrigger = dynamic_cast<CWall*>((*it).second)->Get_Trigger();//10.06
 			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
 			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); //무슨 trigger냐 값//10.06
 		}
 		if (nullptr != dynamic_cast<CWallTB*>((*it).second))
 		{
 			iNumber = 2;
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 2번이다(벽TB)
 			iNumber = dynamic_cast<CWallTB*>((*it).second)->Get_Number();
+			iTrigger = dynamic_cast<CWallTB*>((*it).second)->Get_Trigger();//10.06
 			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
 			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);//무슨 trigger냐 값//10.06
 		}
 		if (nullptr != dynamic_cast<CMonsterTile*>((*it).second))
 		{
@@ -1118,10 +1126,12 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 			_vec3 vecTemp = { 0.f, 0.f, 0.f };
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 3번이다(몬스터)
 			iNumber = dynamic_cast<CMonsterTile*>((*it).second)->Get_Number();
+			iTrigger = dynamic_cast<CMonsterTile*>((*it).second)->Get_Trigger();//10.06
 
 			WriteFile(hFile, dynamic_cast<CMonsterTile*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, vecTemp, sizeof(_vec3), &dwByte, nullptr); //깡통(필요없지만 저장양식을 위해)
 			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);//10.06
 			//필요한 정보는 단순히 이거 바닥이냐, 이거 몇번째 바닥이냐, 이거 벡터어디냐 
 			//필요한 정보는 단순히 이거 벽이냐, 이거 몇번째 벽이냐, 이거 벡터어디냐 
 			//필요한 정보는 단순히 이거 벽TB이냐, 이거 몇번째 벽TB이냐, 이거 벡터어디냐 
@@ -1265,6 +1275,7 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	DWORD	dwByte(0);
 	_int iNumber_Type(0); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3) 
 	_int iNumber(0); //이게 그럼 몇번째 녀석인지
+	_int iTrigger(0); //이게 그럼 몇번째 trigger인지//10.06
 	_vec3 pPos{};
 	_vec3 pRot{};
 
@@ -1275,6 +1286,8 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 		ReadFile(hFile, &pPos, sizeof(_vec3), &dwByte, nullptr); // 포지션 값 저장
 		ReadFile(hFile, &pRot, sizeof(_vec3), &dwByte, nullptr); // 회전 또는 바라보는 방향 값 저장
 		ReadFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이게 그럼 몇번째 녀석인지
+		ReadFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); // 이게 그럼 몇번째 trigger인지//10.06
+
 		if (0 == dwByte)
 		{
 			break;
@@ -1285,8 +1298,8 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 			Engine::CGameObject* pGameObject = nullptr;
 			pRot = { 0.f, 0.f, 0.f };
 
-			pGameObject = CFloor::Create_InfoNumber(m_pGraphicDev, pPos, pRot, iNumber);
-			
+			pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
+
 
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"Floor", pGameObject);
@@ -1295,7 +1308,7 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CWall::Create_InfoNumberDirection(m_pGraphicDev, pPos, pRot, iNumber);
+			pGameObject = CWall::Create_InfoNumberDirectionTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"Wall", pGameObject);
 		}
@@ -1303,7 +1316,7 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CWallTB::Create_InfoNumberDirection(m_pGraphicDev, pPos, pRot, iNumber);
+			pGameObject = CWallTB::Create_InfoNumberDirectionTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"WallTB", pGameObject);
 		}
@@ -1311,7 +1324,7 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 
-			pGameObject = CMonsterTile::Create_InfoNumber(m_pGraphicDev, pPos, iNumber);
+			pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, pPos, iNumber, iTrigger);//10.06
 			NULL_CHECK_RETURN(pGameObject, );
 			_pLayer->Add_GameObject(L"WallTB", pGameObject);
 		}
@@ -1419,7 +1432,11 @@ void CMapCreate::SetMenu()
 	ImGui::SameLine(100.f, 0.0f);
 	ImGui::InputFloat2("##3", vOffset,"%.2f");
 
-
+	static int iTriggerOffset = 0;
+	ImGui::Text(u8"TriggerNumber값");
+	ImGui::SameLine(80.f, 0.0f);
+	ImGui::InputInt("#3", &iTriggerOffset);
+	m_iTriggerNumber = iTriggerOffset;
 
 
 

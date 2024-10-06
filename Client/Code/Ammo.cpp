@@ -52,12 +52,12 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 	if (m_fMaxFrame < m_fFrame) // Jonghan Change
 		m_fFrame = 0.f;
 
-	if (m_bisRender)
+	if (m_bIsRender)
 	{
 		m_fTimer += _fTimeDelta;
 		if (4.f < m_fTimer)
 		{
-			m_bisRender = false;
+			m_bIsRender = false;
 			m_pColliderCom->SetShow(false);
 			m_pColliderCom->SetActive(false);
 			m_fTimer = 0.f;
@@ -103,7 +103,7 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 void CAmmo::LateUpdate_GameObject()
 {
 
-	if (m_bisRender)
+	if (m_bIsRender)
 		m_pColliderCom->SetActive(true);
 	else
 		m_pColliderCom->SetActive(false);
@@ -113,7 +113,7 @@ void CAmmo::LateUpdate_GameObject()
 
 void CAmmo::Render_GameObject()
 {
-	if(m_bisRender)
+	if(m_bIsRender)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 		//Jonghan Monster Change Start
@@ -133,7 +133,7 @@ void CAmmo::Render_GameObject()
 
 void CAmmo::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage)
 {
-	m_bisRender = true;
+	m_bIsRender = true;
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 	m_pTransformCom->Set_Pos(_vStartPos.x, _vStartPos.y, _vStartPos.z);

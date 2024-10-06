@@ -18,6 +18,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsExecution(false)
 	, m_vStartPos({ 0.f,0.f,0.f })
 	, m_pPlayerTransformCom(nullptr)
+	, m_iTriggerCount(0)
 {
 }
 
@@ -28,6 +29,9 @@ CMonster::~CMonster()
 _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 {
 	//Jonghan Monster Change Start
+
+	if (!m_bIsRender) //Trigger
+		return 0;
 
 	Picking_Terrain();
 
@@ -75,6 +79,9 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 void CMonster::LateUpdate_GameObject()
 {
 	//Jonghan Monster Change Start
+	if (!m_bIsRender) //Trigger
+		return;
+
 	_vec3 vPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 

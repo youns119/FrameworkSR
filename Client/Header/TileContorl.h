@@ -23,6 +23,7 @@ public:
 	virtual _vec3 Get_VecPos() { return m_vecPos; }
 	virtual _int Get_Number() { return m_iNumber; }
 	virtual _int Get_Number_Type() { return m_iNumber_Type; }
+	virtual _int Get_Trigger() { return m_iTriggerNumber; }
 
 protected:
 	virtual HRESULT Add_Component()PURE;
@@ -38,5 +39,8 @@ protected:
 	_vec3 m_vecPos;
 	_int m_iNumber; //이게 몇번째 WallTB이냐는 정보
 	_int m_iNumber_Type; //이게 WallTB이라는 정보
+
+	_int m_iTriggerNumber; //몇번째 트리거에 넣을거냐 10.06
+
 };
 

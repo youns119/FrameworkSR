@@ -54,6 +54,9 @@ HRESULT CStage::Ready_Scene()
 	ChangeMapLoad();
 	Set_Collision();
 
+
+	Engine::Calculate_Trigger();//10.06
+
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
@@ -694,6 +697,7 @@ void CStage::ChangeMapLoad()
 			pGameObject = CFloor::Create_Info(m_pGraphicDev, pPos, pSrc);
 			NULL_CHECK_RETURN(pGameObject, );
 			pLayerFloor->Add_GameObject(L"Floor", pGameObject);
+			//Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 		}
 		if (wcscmp(pTemp, L"Wall") == 0)
 		{
@@ -702,6 +706,7 @@ void CStage::ChangeMapLoad()
 			pGameObject = CWall::Create_Info(m_pGraphicDev, pPos, pSrc);
 			NULL_CHECK_RETURN(pGameObject, );
 			pLayerWall->Add_GameObject(L"Wall", pGameObject);
+			//Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 		}
 		if (wcscmp(pTemp, L"WallTB") == 0)
 		{
@@ -710,6 +715,7 @@ void CStage::ChangeMapLoad()
 			pGameObject = CWallTB::Create_Info(m_pGraphicDev, pPos, pSrc);
 			NULL_CHECK_RETURN(pGameObject, );
 			pLayerWall->Add_GameObject(L"WallTB", pGameObject);
+			//Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 		}
 
 		delete[] pTemp;

@@ -18,6 +18,8 @@ protected :
 public :
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
 	_float Get_ViewZ() const { return m_fViewZ; }
+	void Set_IsRender(const _bool& _bool) { m_bIsRender = _bool; } //For Trigger(Tile, Monster)
+
 
 public :
 	virtual HRESULT	Ready_GameObject();
@@ -44,6 +46,7 @@ protected :
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 
 	_float m_fViewZ;
+	_bool m_bIsRender; //For Trigger
 };
 
 END

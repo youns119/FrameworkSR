@@ -19,6 +19,7 @@
 #include "Knife.h"
 #include "Axe.h"
 #include "DrinkMachine.h"
+#include "Trigger.h"//10.06
 
 #include "Terrain.h"
 #include "SkyBox.h"

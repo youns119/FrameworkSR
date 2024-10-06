@@ -20,7 +20,7 @@ public:
 public:
 	virtual void Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage);
 	virtual void Fire_Missile(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vEndPos, const _float& _fAttackDamage, const _vec3& vCurvePos);
-	_bool Get_IsRender() { return m_bisRender; }
+	_bool Get_IsRender() { return m_bIsRender; }
 
 protected:
 	virtual void Free();
@@ -28,7 +28,6 @@ protected:
 protected:
 	_vec3 m_vDir;
 	_float m_fAttackDamage;
-	_bool m_bisRender;
 };
 
 END
