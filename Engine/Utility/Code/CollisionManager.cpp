@@ -464,6 +464,88 @@ CGameObject* CCollisionManager::FloorRayCast2(_vec3 vRayStart)
 	}
 }
 
+CGameObject* CCollisionManager::RayCastWall(_vec3 vRayStart, _vec3 vRayDir, _vec3* _vPos)
+{
+	// wall 
+	CGameObject* pReturn(nullptr);
+	auto Objects = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_Wall");
+	vector<CGameObject*> pHitObject;
+	_float fMinDist(1001.f);
+
+	for (auto pair : *Objects)
+	{
+		CGameObject* pTargetObject = pair.second; // wall game object
+		if (!pTargetObject->Get_IsRender())
+			continue;
+
+		CWallTex* pWallbuffer(nullptr);
+		CWallTBTex* pWallTBBuffer(nullptr);
+		CTransform* pTargetTransform = static_cast<CTransform*>(pTargetObject->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
+		const _matrix* pTargetWolrd = pTargetTransform->Get_WorldMatrix();
+
+		_vec3 vVertexPos[4];
+		pWallbuffer = dynamic_cast<CWallTex*>(pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer"));
+		if (pWallbuffer)
+		{
+			//for (_uint i=0; i<4; ++i)
+			//	vVertexPos[i] = pWallbuffer->Get_VtxPos()[i];
+			vVertexPos[0] = { 0.f, 2.f, 0.f };
+			vVertexPos[1] = { 0.f, 2.f, 2.f };
+			vVertexPos[2] = { 0.f, 0.f, 2.f };
+			vVertexPos[3] = { 0.f, 0.f, 0.f };
+		}
+		else
+		{
+			pWallTBBuffer = static_cast<CWallTBTex*>(pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer"));
+			//for (_uint i=0; i<4; ++i)
+			//	vVertexPos[i] = pWallTBBuffer->Get_VtxPos()[i];
+
+			vVertexPos[0] = { 0.f, 2.f, 0.f };
+			vVertexPos[1] = { 2.f, 2.f, 0.f };
+			vVertexPos[2] = { 2.f, 0.f, 0.f };
+			vVertexPos[3] = { 0.f, 0.f, 0.f };
+		}
+
+		for (_uint i = 0; i < 4; ++i)
+			D3DXVec3TransformCoord(&vVertexPos[i], &vVertexPos[i], pTargetWolrd);
+
+		float fU, fV, fDist(0.f);
+		_bool bIntersected(FALSE);
+		if (D3DXIntersectTri(&vVertexPos[0], &vVertexPos[1], &vVertexPos[2], &vRayStart, &vRayDir, &fU, &fV, &fDist))
+		{
+			if (fDist < fMinDist)
+			{
+				fMinDist = fDist;
+				pReturn = pTargetObject;
+
+				*_vPos = vVertexPos[0] + (fU * (vVertexPos[1] - vVertexPos[0])) + (fV * (vVertexPos[2] - vVertexPos[0]));
+			}
+		}
+
+		else if (D3DXIntersectTri(&vVertexPos[0], &vVertexPos[2], &vVertexPos[3], &vRayStart, &vRayDir, &fU, &fV, &fDist))
+		{
+			if (fDist < fMinDist)
+			{
+				fMinDist = fDist;
+				pReturn = pTargetObject;
+
+				*_vPos = vVertexPos[0] + (fU * (vVertexPos[2] - vVertexPos[1])) + (fV * (vVertexPos[3] - vVertexPos[0]));
+			}
+
+		}
+		else
+			continue;
+
+	}
+
+	if (fMinDist > 1000.f)
+		return nullptr;
+
+
+	*_vPos = fMinDist * vRayDir + vRayStart;
+	return pReturn;
+}
+
 void CCollisionManager::Free()
 {
 	Reset();

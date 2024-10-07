@@ -121,16 +121,16 @@ void CEffectSpark::Set_ParticleParam()
 	tParam.eShape = CParticleSystem::SHAPE::CIRCLE;
 
 	tParam.tInit.tCircle.fHeight = 1.f;
-	tParam.tInit.tCircle.fRadius = 3.f;
+	tParam.tInit.tCircle.fRadius = 4.f;
 
 	tParam.vVelocityNoise = { 0.f, 0.5f, 0.f };
 	tParam.vColor = _vec4(1.0f, 0.884f, 0.525f, 1.f);
 	tParam.vColorFade = _vec4(0.917f, 0.35f, 0.f, 1.f);
-	tParam.iTotalCnt = 200;
+	tParam.iTotalCnt = 75;
 
 	tParam.fSize = 0.075f;
 	tParam.fSizeFade = 0.00f;
-	tParam.fLifeTime = 0.75f;
+	tParam.fLifeTime = 0.4f;
 
 	tParam.fEmitRate = 20.f;
 	tParam.iEmitCnt = 5;
@@ -158,16 +158,16 @@ void CEffectSpark::Set_ParticleBloomParam()
 	tParam.eShape = CParticleSystem::SHAPE::CIRCLE;
 
 	tParam.tInit.tCircle.fHeight = 1.f;
-	tParam.tInit.tCircle.fRadius = 3.f;
+	tParam.tInit.tCircle.fRadius = 4.f;
 
 	tParam.vVelocityNoise = { 0.f, 0.5f, 0.f };
 	tParam.vColor = _vec4(1.0f, 0.884f, 0.525f, 1.f);
 	tParam.vColorFade = _vec4(0.917f, 0.35f, 0.f, 1.f);
-	tParam.iTotalCnt = 50;
+	tParam.iTotalCnt = 25;
 
-	tParam.fSize = 0.2f;
+	tParam.fSize = 0.3f;
 	tParam.fSizeFade = 0.00f;
-	tParam.fLifeTime = 0.5f;
+	tParam.fLifeTime = 0.2f;
 
 	tParam.fEmitRate = 20.f;
 	tParam.iEmitCnt = 5;

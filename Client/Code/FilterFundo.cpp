@@ -30,9 +30,9 @@ HRESULT CFilterFundo::Ready_GameObject()
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
     m_pTransformCom->Set_Pos(3.f, 2.f, 3.f);
-    m_pTransformCom->Set_Scale(1.f, 1.f, 0.1f);
-    m_fViewZ = 1000.0;
- 
+    m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+    m_fViewZ = 1000.0f;
+
     return S_OK;
 }
 
@@ -45,33 +45,97 @@ _int CFilterFundo::Update_GameObject(const _float& _fTimeDelta)
     static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_POS, &vPos);
     static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_LOOK, &vLook);
     //vLook.y = 0.f;
-    m_pTransformCom->Set_Pos(vPos + vLook * 0.2f);
-
-    // ºôº¸µå
+    vLook = { vLook.x, 0.f, vLook.z };
+    m_pTransformCom->Set_Pos(vPos + vLook * 0.2f + _vec3(0.f, 0.5f, 0.f));
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
 
 void CFilterFundo::LateUpdate_GameObject()
 {
+
+    // ºôº¸µå
+    const _vec3* pScale, * pAngle;
+    _vec3 vPos;
+    pScale = m_pTransformCom->Get_Scale();
+    pAngle = m_pTransformCom->Get_Angle();
+    m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+    _matrix matScale, matRotationZ, matScaleInverse;
+    D3DXMatrixScaling(&matScale, pScale->x, pScale->y, pScale->z);
+    D3DXMatrixRotationZ(&matRotationZ, pAngle->z);
+    D3DXMatrixInverse(&matScaleInverse, 0, &matScale);
+
+
+    _vec3 vCamPos;
+    _matrix matBillboardY;
+    _matrix matView;
+    D3DXMatrixIdentity(&matBillboardY);
+
+    m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+
+    matBillboardY._11 = matView._11;
+    matBillboardY._13 = matView._13;
+    matBillboardY._31 = matView._31;
+    matBillboardY._33 = matView._33;
+
+    D3DXMatrixInverse(&matBillboardY, 0, &matBillboardY);
+
+    _matrix	matRot[(_uint)ROTATION::ROT_END];
+    for (int i = 0; i < 3; ++i)
+        D3DXMatrixIdentity(&matRot[i]);
+    //D3DXMatrixRotationX(&matRot[(_uint)ROTATION::ROT_X], pAngle->x);
+    //D3DXMatrixRotationY(&matRot[(_uint)ROTATION::ROT_Y], pAngle->y);
+    D3DXMatrixRotationZ(&matRot[(_uint)ROTATION::ROT_Z], pAngle->z);
+    _matrix matTotalRot, matTotalRotInverse;
+    D3DXMatrixIdentity(&matTotalRot);
+    matTotalRot = matRot[0] * matRot[1] * matRot[2];
+
+    D3DXMatrixInverse(&matTotalRotInverse, 0, &matTotalRot);
+
+
+    _matrix matWorld;
+    m_pTransformCom->Get_WorldMatrix(&matWorld);
+    //D3DXMatrixTranslation(&matWorld, vPos.x, vPos.y, vPos.z);
+
+    matWorld = matScale * matTotalRot * matBillboardY * matTotalRotInverse * matScaleInverse * matWorld;
+
+    m_pTransformCom->Set_WorldMatrix(&matWorld);
+
+
+
     Engine::CGameObject::LateUpdate_GameObject();
 }
 
 void CFilterFundo::Render_GameObject()
 {
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
-    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+    //m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
-    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(128, 255, 255, 255));
+    DWORD dwPreCOLOROP, dwPreCONSTANT, dwPreCOLOCARG1, dwPreCOLORARG2;
+    DWORD dwPreALPHAOP, dwPreALPHAARG1, dwPreALPHAARG2;
+    DWORD dwPreTextureFactor;
+
+    m_pGraphicDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwPreALPHAOP);
+    m_pGraphicDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwPreALPHAARG1);
+    m_pGraphicDev->GetTextureStageState(0, D3DTSS_ALPHAARG2, &dwPreALPHAARG2);
+
+    m_pGraphicDev->GetRenderState(D3DRS_TEXTUREFACTOR, &dwPreTextureFactor);
+
+
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(96, 255, 255, 255));
     m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
     m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 
-	m_pTextureCom->Set_Texture(2);
-	m_pBufferCom->Render_Buffer();
+    m_pTextureCom->Set_Texture(2);
+    m_pBufferCom->Render_Buffer();
 
 
-    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, 0xffffffff);
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, dwPreTextureFactor);
+    m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, dwPreALPHAOP);
+    m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwPreALPHAARG1);
+    m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, dwPreALPHAARG2);
 }
 
 HRESULT CFilterFundo::Add_Component()
