@@ -290,6 +290,101 @@ _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 	return false;
 }
 
+_bool CCollisionManager::FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut)
+{
+	auto Objects = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_Monster");
+	for (auto pair : *Objects) {
+
+		CGameObject* pTargetObject = pair.second;
+		CCharacter* pCharacter = dynamic_cast<CCharacter*>(pTargetObject);
+		if (nullptr != pCharacter && pCharacter->Get_IsDead())
+			continue;
+		CComponent* pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_HitBufferCom");
+		if (pTargetComponent == nullptr)
+			continue;
+		CRcCol* pTargetCol = dynamic_cast<CRcCol*>(pTargetComponent);
+		CTransform* TargetTransfrom = dynamic_cast<CTransform*>(pTargetComponent->GetOwner()->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
+		const _matrix* TargetWorld = TargetTransfrom->Get_WorldMatrix();
+
+		_vec3 v0 = *pTargetCol->VertexPos(0);
+		_vec3 v1 = *pTargetCol->VertexPos(1);
+		_vec3 v2 = *pTargetCol->VertexPos(2);
+		_vec3 v3 = *pTargetCol->VertexPos(3);
+
+		D3DXVec3TransformCoord(&v0, &v0, TargetWorld);
+		D3DXVec3TransformCoord(&v1, &v1, TargetWorld);
+		D3DXVec3TransformCoord(&v2, &v2, TargetWorld);
+		D3DXVec3TransformCoord(&v3, &v3, TargetWorld);
+
+		float u, v, dist;
+		_bool intersected = D3DXIntersectTri(&v0, &v1, &v2, &_vRayStart, &_vRayDir, &u, &v, &dist);
+		_bool intersected2 = D3DXIntersectTri(&v0, &v2, &v3, &_vRayStart, &_vRayDir, &u, &v, &dist);
+		if (intersected || intersected2) {
+			//헤드피격
+			pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_HeadHit");
+			pTargetCol = dynamic_cast<CRcCol*>(pTargetComponent);
+
+			v0 = *pTargetCol->VertexPos(0);
+			v1 = *pTargetCol->VertexPos(1);
+			v2 = *pTargetCol->VertexPos(2);
+			v3 = *pTargetCol->VertexPos(3);
+
+			D3DXVec3TransformCoord(&v0, &v0, TargetWorld);
+			D3DXVec3TransformCoord(&v1, &v1, TargetWorld);
+			D3DXVec3TransformCoord(&v2, &v2, TargetWorld);
+			D3DXVec3TransformCoord(&v3, &v3, TargetWorld);
+
+			intersected = D3DXIntersectTri(&v0, &v1, &v2, &_vRayStart, &_vRayDir, &u, &v, &dist);
+			intersected2 = D3DXIntersectTri(&v0, &v2, &v3, &_vRayStart, &_vRayDir, &u, &v, &dist);
+			if (intersected || intersected2) {
+				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_HEADSHOT);
+				// V1 + U(V2 - V1) + V(V3 - V1)
+				if (intersected)
+					_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+				else
+					_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+
+				return true;
+			}
+			//급소피격
+			pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_CriticalHit");
+			pTargetCol = dynamic_cast<CRcCol*>(pTargetComponent);
+
+			v0 = *pTargetCol->VertexPos(0);
+			v1 = *pTargetCol->VertexPos(1);
+			v2 = *pTargetCol->VertexPos(2);
+			v3 = *pTargetCol->VertexPos(3);
+
+			D3DXVec3TransformCoord(&v0, &v0, TargetWorld);
+			D3DXVec3TransformCoord(&v1, &v1, TargetWorld);
+			D3DXVec3TransformCoord(&v2, &v2, TargetWorld);
+			D3DXVec3TransformCoord(&v3, &v3, TargetWorld);
+
+			intersected = D3DXIntersectTri(&v0, &v1, &v2, &_vRayStart, &_vRayDir, &u, &v, &dist);
+			intersected2 = D3DXIntersectTri(&v0, &v2, &v3, &_vRayStart, &_vRayDir, &u, &v, &dist);
+			if (intersected || intersected2) {
+				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BULLSHOT);
+				// V1 + U(V2 - V1) + V(V3 - V1)
+				if (intersected)
+					_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+				else
+					_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+
+				return true;
+			}
+			//몸체피격
+			dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT);
+			// V1 + U(V2 - V1) + V(V3 - V1)
+			if (intersected)
+				_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+			else
+				_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+			return true;
+		}
+	}
+	return false;
+}
+
 _float CCollisionManager::FloorRayCast(_vec3 vRayStart)
 {
 	auto mapFloor = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_Floor");

@@ -53,11 +53,12 @@ HRESULT CFlyingDrone::Ready_GameObject()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	//m_pTransformCom->Set_Pos(10.f, 0.f, 25.f);
+	m_vStartPos.y += 1.f;
 	m_pTransformCom->Set_Pos(m_vStartPos);
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
-	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetRadius(0.75f);
 	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
@@ -151,7 +152,7 @@ void CFlyingDrone::State_Check()
 			m_pAnimatorCom->PlayAnimation(L"Idle", true);
 			break;
 		case CDrone::DRONE_WALK:
-			m_pAnimatorCom->PlayAnimation(L"Walk", false);
+			m_pAnimatorCom->PlayAnimation(L"Walk", true);
 			break;
 		case CDrone::DRONE_DAMAGED:
 			m_pAnimatorCom->PlayAnimation(L"Damaged", false);
@@ -183,13 +184,14 @@ void CFlyingDrone::State_Check()
 			pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 			static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
 			static_cast<CEffectPool*>(pGameObject)->Operate();
+			m_bIsRender = false;
 		}
 	}
 }
 
 void CFlyingDrone::Attack(const _float& _fTimeDelta)
 {
-	_vec3 vPos, vPlayerPos, vDir;
+	_vec3 vPos, vPlayerPos, vDir, vKnockBack;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 	if (nullptr == m_pPlayerTransformCom)
 	{
@@ -201,14 +203,22 @@ void CFlyingDrone::Attack(const _float& _fTimeDelta)
 	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 	vDir = vPlayerPos - vPos;
-
-	if (10.f < D3DXVec3Length(&vDir))
+	_float fDistance(0.f);
+	fDistance = D3DXVec3Length(&vDir);
+	if (10.f < fDistance)
 	{
 		Changing_State(CDrone::DRONE_IDLE);
 	}
 	else
 	{
-		Changing_State(CDrone::DRONE_ATTACK);
+		Changing_State(CDrone::DRONE_WALK);
+		if (1.5f > fDistance)
+		{
+			D3DXVec3Normalize(&vKnockBack, &vDir);
+			vKnockBackForce = (vKnockBack * -20.f);
+		}
+		else
+			AttackMoving(_fTimeDelta, vDir);
 	}
 }
 
@@ -217,7 +227,7 @@ void CFlyingDrone::AttackMoving(const _float& _fTimeDelta, const _vec3& _vDir)
 	_vec3 vMove, vPos, vFinal;
 	D3DXVec3Normalize(&vMove, &_vDir);
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-	vFinal = vPos + vMove;
+	vFinal = vPos + (vMove * _fTimeDelta * 1.5f);
 	m_pTransformCom->Set_Pos(vFinal);
 }
 

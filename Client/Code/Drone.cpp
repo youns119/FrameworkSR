@@ -38,6 +38,7 @@ void CDrone::Render_GameObject()
 
 void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
+	m_fHP -= _fAttackDamage;
 	if (0.f >= m_fHP)
 	{
 		switch (_eDamagedState)

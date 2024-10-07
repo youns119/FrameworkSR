@@ -532,9 +532,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
-		if (pComponent)
-			static_cast<CEffect*>(pComponent)->Operate_Effect();
+		
 
 	}
 	if (Engine::Key_Release(DIK_X))
@@ -570,11 +568,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectFanSpread", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Operate_Effect();
-
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
-		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
-		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-		static_cast<CEffectPool*>(pGameObject)->Operate();
 
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_MinigunShell", L"Com_Transform");
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
@@ -633,8 +626,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 	}
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB)) {
 
-		_vec3 RayStart;
-		_vec3 RayDir;
+		_vec3 RayStart, RayDir, vPos;
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
 		// 규빈
@@ -696,7 +688,18 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 
 		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
 		if (m_WeaponState != KATANA && m_WeaponState != MINIGUN) {
-			Engine::RayCast2(RayStart, RayDir);
+			//Engine::RayCast2(RayStart, RayDir);
+			if (Engine::FireRayCast(RayStart, RayDir, vPos))
+			{
+				CGameObject* pGameObject(nullptr);
+
+				vPos.y += 1.5f;
+
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
+				static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
+				pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+				static_cast<CEffectPool*>(pGameObject)->Operate();
+			}
 		}
 	}
 
@@ -995,6 +998,8 @@ void CPlayer::Animation_Pos()
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+				m_fHP = 99.f; //Full Hp Restore
 			}
 			m_pRight_TransformCom->Set_Pos(vPos);
 			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.7f);
@@ -1199,6 +1204,7 @@ void CPlayer::OnCollision(CCollider& _pOther)
 
 void CPlayer::OnCollisionEnter(CCollider& _pOther)
 {
+	CComponent* pComponent = nullptr;
 	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther.GetOwner());
 	if (nullptr != pMonster) //is it Monster == _pOther
 	{
@@ -1232,8 +1238,14 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		}
 		else
 		{
-			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 			static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+			m_fHP -= 1.f;
+
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
+			if (pComponent)
+				static_cast<CEffect*>(pComponent)->Operate_Effect();
 		}
 		return;
 	}
@@ -1242,15 +1254,29 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 
 	if (nullptr != pBullet)
 	{
-		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+		m_fHP -= 1.f;
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
+		if (pComponent)
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
 		return;
 	}
 
 	if (nullptr != dynamic_cast<CDrink*>(_pOther.GetOwner()) && !m_bIsDrinking) //처형과 음료수 구분하기
 	{
-		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+		m_fHP += 10.f;
+		if (99.f < m_fHP)
+			m_fHP = 99.f;
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectGreenFlash", L"Com_Effect");
+		if (pComponent)
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 		m_bIsDrinking = true;
 		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
@@ -1259,8 +1285,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 	}
 	else if (nullptr != dynamic_cast<CItem*>(_pOther.GetOwner()))
 	{
-		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		
 		//this code will change to Setting UI
 		return;
 	}

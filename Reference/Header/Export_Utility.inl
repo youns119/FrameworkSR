@@ -178,6 +178,11 @@ inline _float FloorRayCast(_vec3 vRayStart)
 	return CCollisionManager::GetInstance()->FloorRayCast(vRayStart);
 }
 
+inline _bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut)
+{
+	return CCollisionManager::GetInstance()->FireRayCast(_vRayStart, _vRayDir, _vOut);
+}
+
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet)
 {

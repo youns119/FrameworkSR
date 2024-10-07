@@ -92,11 +92,7 @@ HRESULT CWallTB::Ready_GameObject()
 _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 {
 	if (!m_bIsRender)
-	{
-		m_pColliderCom->SetActive(false);
-		m_pColliderCom->SetShow(false);
 		return 0;
-	}
 
 	Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
@@ -108,11 +104,7 @@ _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 void CWallTB::LateUpdate_GameObject()
 {
 	if (!m_bIsRender)
-	{
-		m_pColliderCom->SetActive(false);
-		m_pColliderCom->SetShow(false);
 		return;
-	}
 
 	Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -120,11 +112,7 @@ void CWallTB::LateUpdate_GameObject()
 void CWallTB::Render_GameObject()
 {
 	if (!m_bIsRender)
-	{
-		m_pColliderCom->SetActive(false);
-		m_pColliderCom->SetShow(false);
 		return;
-	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -205,6 +193,12 @@ void CWallTB::Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection)
 		m_vecWallDirection = { 0.f, 0.f, -1.f };
 		break;
 	}
+}
+void CWallTB::Set_IsRender(const _bool& _bool)
+{
+	m_bIsRender = _bool;
+	m_pColliderCom->SetActive(_bool);
+	m_pColliderCom->SetShow(_bool);
 }
 void CWallTB::Free()
 {

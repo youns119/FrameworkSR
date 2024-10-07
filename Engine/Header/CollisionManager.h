@@ -48,6 +48,7 @@ public:
 public:
 	vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
 	_bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
+	_bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut);
 	_float FloorRayCast(_vec3 vRayStart);
 
 public:

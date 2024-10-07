@@ -96,6 +96,7 @@ inline void Reset();
 inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
 inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
 inline _float FloorRayCast(_vec3 vRayStart);
+inline _bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut);
 
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet);

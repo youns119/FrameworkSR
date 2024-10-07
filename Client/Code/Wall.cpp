@@ -111,11 +111,7 @@ HRESULT CWall::Ready_GameObject()
 _int CWall::Update_GameObject(const _float& _fTimeDelta)
 {
     if (!m_bIsRender)
-    {
-        m_pColliderCom->SetActive(false);
-        m_pColliderCom->SetShow(false);
         return 0;
-    }
 
     Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
@@ -127,11 +123,7 @@ _int CWall::Update_GameObject(const _float& _fTimeDelta)
 void CWall::LateUpdate_GameObject()
 {
     if (!m_bIsRender)
-    {
-        m_pColliderCom->SetActive(false);
-        m_pColliderCom->SetShow(false);
         return;
-    }
 
     Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -139,11 +131,7 @@ void CWall::LateUpdate_GameObject()
 void CWall::Render_GameObject()
 {  
     if (!m_bIsRender)
-    {
-        m_pColliderCom->SetActive(false);
-        m_pColliderCom->SetShow(false);
         return;
-    }
 
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -155,6 +143,13 @@ void CWall::Render_GameObject()
     m_pBufferCom->Render_Buffer();
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
+}
+
+void CWall::Set_IsRender(const _bool& _bool)
+{
+    m_bIsRender = _bool;
+    m_pColliderCom->SetActive(_bool);
+    m_pColliderCom->SetShow(_bool);
 }
 
 HRESULT CWall::Add_Component()

@@ -33,7 +33,7 @@ public:
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
 	void Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection);
-
+	virtual void Set_IsRender(const _bool& _bool);
 private:
 	virtual HRESULT Add_Component();
 	virtual HRESULT Setup_Material();

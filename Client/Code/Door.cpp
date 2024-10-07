@@ -65,19 +65,6 @@ void CDoor::Set_TileDirection(const _vec3& _vecDir)
 {
     m_vecWallDirection = _vecDir;
 
-    _vec3 vUp, vLook, vRight;
-    m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
-    m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-    m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
-
-    _vec3 vOffset =
-    {
-        vUp.x + vRight.x,
-        vUp.y + vRight.y,
-        vUp.z + vRight.z
-    };
-
-    m_pColliderCom->SetOffsetPos(vOffset);
     m_pColliderCom->SetShow(true);
 }
 
@@ -149,6 +136,13 @@ void CDoor::Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection)
     }
 }
 
+void CDoor::Set_IsRender(const _bool& _bool)
+{
+    m_bIsRender = _bool;
+    m_pColliderCom->SetActive(_bool);
+    m_pColliderCom->SetShow(_bool);
+}
+
 HRESULT CDoor::Add_Component()
 {
     CComponent* pComponent = NULL;
@@ -207,13 +201,11 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
     {
         Engine::Collision_With_Trigger(m_iTriggerNumber);
         Engine::Calculate_Trigger();
-        m_pColliderCom->SetActive(false);
     }
 }
 
 void CDoor::OnCollisionExit(CCollider& _pOther)
 {
-    m_pColliderCom->SetActive(false);
 }
 
 void CDoor::Free()

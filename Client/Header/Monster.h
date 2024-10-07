@@ -27,7 +27,7 @@ public:
 	virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject()PURE;
-
+	virtual void Set_IsRender(const _bool& _bool);
 public:
 	virtual void Damaged(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
 	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f) PURE;
