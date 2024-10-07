@@ -207,7 +207,13 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
     {
         Engine::Collision_With_Trigger(m_iTriggerNumber);
         Engine::Calculate_Trigger();
+        m_pColliderCom->SetActive(false);
     }
+}
+
+void CDoor::OnCollisionExit(CCollider& _pOther)
+{
+    m_pColliderCom->SetActive(false);
 }
 
 void CDoor::Free()

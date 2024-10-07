@@ -49,6 +49,7 @@ private:
 
 public:
     void OnCollisionEnter(CCollider& _pOther);
+    void OnCollisionExit(CCollider& _pOther);
 
 private:
     virtual void Free();
