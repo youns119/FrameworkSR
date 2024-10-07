@@ -33,7 +33,7 @@ public:
 	virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
-
+	virtual void Set_IsRender(const _bool& _bool);
 private:
 	virtual HRESULT Add_Component();
 	virtual HRESULT Setup_Material();

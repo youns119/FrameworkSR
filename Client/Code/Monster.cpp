@@ -31,11 +31,7 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 	//Jonghan Monster Change Start
 
 	if (!m_bIsRender) //Trigger
-	{
-		m_pColliderCom->SetActive(false);
-		m_pColliderCom->SetShow(false);
 		return 0;
-	}
 
 	Picking_Terrain();
 
@@ -84,11 +80,7 @@ void CMonster::LateUpdate_GameObject()
 {
 	//Jonghan Monster Change Start
 	if (!m_bIsRender) //Trigger
-	{
-		m_pColliderCom->SetActive(false);
-		m_pColliderCom->SetShow(false);
 		return;
-	}
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
@@ -102,6 +94,13 @@ void CMonster::LateUpdate_GameObject()
 
 	//Jonghan Monster Change End
 	Engine::CGameObject::LateUpdate_GameObject();
+}
+
+void CMonster::Set_IsRender(const _bool& _bool)
+{
+	m_bIsRender = _bool;
+	m_pColliderCom->SetActive(_bool);
+	m_pColliderCom->SetShow(_bool);
 }
 
 void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)

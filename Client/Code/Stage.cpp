@@ -456,6 +456,7 @@ void CStage::Set_Collision()
 	Engine::CheckGroup(L"Layer_Player", L"Layer_MonsterBullet");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Monster");
+	Engine::CheckGroup(L"Layer_Player", L"Layer_Door");
 
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Wall");
 	Engine::CheckGroup(L"Layer_Monster", L"Layer_Wall");
@@ -490,6 +491,7 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
 	}
 
 	Engine::CLayer* pLayerFloor = CLayer::Create();
+	Engine::CLayer* pLayerDoor = CLayer::Create();
 
 	DWORD	dwByte(0);
 	_int iNumber_Type(0); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3) 
@@ -612,7 +614,7 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
 
 			pGameObject = CDoor::Create_InfoNumberDirectionTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
 			NULL_CHECK_RETURN(pGameObject, );
-			_pLayer->Add_GameObject(L"Door", pGameObject);
+			pLayerDoor->Add_GameObject(L"Door", pGameObject);
 			Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 		}
 
@@ -620,6 +622,7 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
 
 	CloseHandle(hFile);
 	m_mapLayer.insert({ L"Layer_Floor", pLayerFloor });
+	m_mapLayer.insert({ L"Layer_Door", pLayerDoor });
 
 	MessageBox(g_hWnd, L"LoadTest 완료", _T("성공"), MB_OK);
 }
@@ -635,11 +638,9 @@ void CStage::Free()
 //pGameObject = CWhiteSuit::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
-
 	//pGameObject = CShotGun::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
-
 	//Engine::CGameObject* pShield = nullptr;
 	//pShield = CShield::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pShield, E_FAIL);
@@ -647,23 +648,18 @@ void CStage::Free()
 	//pGameObject = CBlackMan::Create(m_pGraphicDev, pShield);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BlackMan", pGameObject), E_FAIL);
-
 	//pGameObject = CFlyingDrone::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FlyingDrone", pGameObject), E_FAIL);
-
 	//pGameObject = CSpiderDrone::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SpiderDrone", pGameObject), E_FAIL);
-
 	//pGameObject = CDogDrone::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DogDrone", pGameObject), E_FAIL);
-
 	//pGameObject = CBoss_Humanoid::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Humanoid", pGameObject), E_FAIL);
-
 	//pGameObject = CBoss_Robot::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);

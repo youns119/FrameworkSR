@@ -257,6 +257,15 @@ void CBlackMan::Attack(const _float& _fTimeDelta)
 		Changing_State(CHumanoid::HUMANOID_IDLE);
 		m_pTransformCom->Set_Scale({ 1.f, 1.f, 1.f });
 		AddForce(30.f, m_vPlayerLook, 15.f);
+		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectGreenFlash", L"Com_Effect");
+		if (pComponent)
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+		m_fAttackTimer = 0.f;
+
 		return;
 	}
 	else if (m_bIsExecution)
