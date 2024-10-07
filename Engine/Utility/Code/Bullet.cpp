@@ -50,6 +50,9 @@ void CBullet::Fire_Missile(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartP
 {
 }
 
+void CBullet::Fire_Laser(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vEndPos, const _float& _fAttackDamage)
+{
+}
 void CBullet::Free()
 {
 	CGameObject::Free();

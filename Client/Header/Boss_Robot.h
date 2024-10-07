@@ -12,7 +12,7 @@ public:
 							  , BOSS_END
 	}; //Talking == Spawning(or Cinematic) if you don't need it, Delete plz)
 	enum BOSS_ROBOTHEALTHSTATE { BOSSHEALTH_NORMAL, BOSSHEALTH_DAMAGED, BOSSHEALTH_MOREDAMAGED, BOSSHEALTH_SHIELD, BOSSHEALTH_END };
-
+	enum BOSS_PATTERN { BOSS_MISSILE_PATTERN, BOSS_RAZER_PATTERN, BOSS_SHOOT_PATTERN, BOSS_PATTERN_END };
 private:
     explicit CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev);
 	explicit CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
@@ -27,7 +27,7 @@ public:
 
 public:
 	virtual HRESULT	Ready_GameObject();
-	//virtual _int Update_GameObject(const _float& _fTimeDelta);
+	virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
 	virtual _bool Get_Execution(_vec3 _vLook, const _bool& _bIsDo) { return false; }
@@ -39,10 +39,11 @@ private:
 	virtual HRESULT	Add_Component();
 	virtual void State_Check(); //Jonghan Change
 	virtual void Attack(const _float& _fTimeDelta);
+	void Move();
 	virtual void Set_Animation();
 	void Changing_State(BOSS_ROBOTSTATE _eState) { m_eCurState = _eState; }
 	_bool Check_Phase();
-
+	void Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum);
 private:
 	Engine::CTexture* m_pTextureCom[CBoss_Robot::BOSS_END];
 
@@ -55,9 +56,15 @@ private:
 	_float m_fShield_HP;
 
 	_float m_fDelayTime;
+	_float m_PatternDelayTime;
 	_float m_fAttackTime;
 	_float fLinear;
 	_float m_fAngle;
+	_float m_fMissileAngle;
+	_bool m_bPatternEnd;
+	_int m_iRandom;
+	_int m_iCount;
+	_bool m_bMoveStop;
 private:
 	virtual void Free();
 };

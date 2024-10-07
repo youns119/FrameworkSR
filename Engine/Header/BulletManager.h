@@ -17,6 +17,7 @@ private:
 public:
 	HRESULT Add_Bullet(CBullet* _pBullet);
 	HRESULT Add_Missile(CBullet* _pMissile);
+	HRESULT Add_Laser(CBullet* _pLaser);
 	virtual HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos);
 
 public:
@@ -29,6 +30,7 @@ public:
 private:
 	vector<CBullet*> m_vecBullet;
 	vector<CBullet*> m_vecMissile;
+	vector<CBullet*> m_vecLaser;
 };
 
 END

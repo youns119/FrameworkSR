@@ -75,4 +75,7 @@ protected:
 	_vec3 m_vStartPos;
 	//Jonghan Change End
 	_int m_iTriggerCount;//10.06
+
+
+	_bool IsBoss;
 };

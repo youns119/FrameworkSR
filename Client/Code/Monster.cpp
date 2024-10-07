@@ -19,6 +19,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_vStartPos({ 0.f,0.f,0.f })
 	, m_pPlayerTransformCom(nullptr)
 	, m_iTriggerCount(0)
+	, IsBoss(false)
 {
 }
 
@@ -35,7 +36,7 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 
 	Picking_Terrain();
 
-	if (!m_bIsDead)
+	if (!m_bIsDead || !m_bIsDead)
 		Attack(_fTimeDelta);
 
 	KnockBack(_fTimeDelta);
@@ -143,54 +144,58 @@ void CMonster::KnockBack(const _float& _fTimeDelta)
 
 void CMonster::Picking_Terrain()
 {
-	_vec3 vPos;
-	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	if (!IsBoss) {
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-	_float fTilePos = Engine::FloorRayCast(vPos);
+		_float fTilePos = Engine::FloorRayCast(vPos);
 
-	if (fTilePos > 0.f)
-		m_pTransformCom->Set_Pos(vPos.x, vPos.y - fTilePos + 1.f, vPos.z);
+		if (fTilePos > 0.f)
+			m_pTransformCom->Set_Pos(vPos.x, vPos.y - fTilePos + 1.f, vPos.z);
+	}
 }
 
 void CMonster::Collide_Wall(CCollider& _pOther)
 {
-	// 벽 충돌 밀어내기
-	CGameObject* pGameObject = _pOther.GetOwner();
+	if (!IsBoss) {
+		// 벽 충돌 밀어내기
+		CGameObject* pGameObject = _pOther.GetOwner();
 
-	if (Engine::Get_CurrScene()->Get_Layer(pGameObject) == L"Layer_Wall")
-	{
-		CCollider::AABB* vBoxThis = m_pColliderCom->GetAABB();
-		CCollider::AABB* vBoxOther = _pOther.GetAABB();
-
-		_vec3 vCenterThis = (vBoxThis->vMin + vBoxThis->vMax) / 2.f;
-		_vec3 vCenterOther = (vBoxOther->vMin + vBoxOther->vMax) / 2.f;
-
-		_vec3 vOverlap = vCenterThis - vCenterOther;
-		_float fOverlapX = (vBoxThis->vMax.x - vBoxThis->vMin.x) / 2.0f + (vBoxOther->vMax.x - vBoxOther->vMin.x) / 2.0f - fabs(vOverlap.x);
-		_float fOverlapZ = (vBoxThis->vMax.z - vBoxThis->vMin.z) / 2.0f + (vBoxOther->vMax.z - vBoxOther->vMin.z) / 2.0f - fabs(vOverlap.z);
-
-		if (!(fOverlapX < 0 || fOverlapZ < 0))
+		if (Engine::Get_CurrScene()->Get_Layer(pGameObject) == L"Layer_Wall")
 		{
-			_vec3 vPos;
-			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			CCollider::AABB* vBoxThis = m_pColliderCom->GetAABB();
+			CCollider::AABB* vBoxOther = _pOther.GetAABB();
 
-			if (fOverlapX < fOverlapZ)
-			{
-				if (vOverlap.x > 0)
-					m_pTransformCom->Set_Pos(vPos.x + fOverlapX, vPos.y, vPos.z);
-				else
-					m_pTransformCom->Set_Pos(vPos.x - fOverlapX, vPos.y, vPos.z);
-			}
-			else
-			{
-				if (vOverlap.z > 0)
-					m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z + fOverlapZ);
-				else
-					m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z - fOverlapZ);
-			}
+			_vec3 vCenterThis = (vBoxThis->vMin + vBoxThis->vMax) / 2.f;
+			_vec3 vCenterOther = (vBoxOther->vMin + vBoxOther->vMax) / 2.f;
 
-			m_pTransformCom->Update_Component(0.f);
-			m_pColliderCom->LateUpdate_Component();
+			_vec3 vOverlap = vCenterThis - vCenterOther;
+			_float fOverlapX = (vBoxThis->vMax.x - vBoxThis->vMin.x) / 2.0f + (vBoxOther->vMax.x - vBoxOther->vMin.x) / 2.0f - fabs(vOverlap.x);
+			_float fOverlapZ = (vBoxThis->vMax.z - vBoxThis->vMin.z) / 2.0f + (vBoxOther->vMax.z - vBoxOther->vMin.z) / 2.0f - fabs(vOverlap.z);
+
+			if (!(fOverlapX < 0 || fOverlapZ < 0))
+			{
+				_vec3 vPos;
+				m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+				if (fOverlapX < fOverlapZ)
+				{
+					if (vOverlap.x > 0)
+						m_pTransformCom->Set_Pos(vPos.x + fOverlapX, vPos.y, vPos.z);
+					else
+						m_pTransformCom->Set_Pos(vPos.x - fOverlapX, vPos.y, vPos.z);
+				}
+				else
+				{
+					if (vOverlap.z > 0)
+						m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z + fOverlapZ);
+					else
+						m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z - fOverlapZ);
+				}
+
+				m_pTransformCom->Update_Component(0.f);
+				m_pColliderCom->LateUpdate_Component();
+			}
 		}
 	}
 }

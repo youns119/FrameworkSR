@@ -245,7 +245,11 @@ _bool CCollisionManager::RayCast2(_vec3 vRayStart, _vec3 vRayDir)
 			//헤드피격
 			pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_HeadHit");
 			pTargetCol = dynamic_cast<CRcCol*>(pTargetComponent);
-
+			if (pTargetComponent == nullptr) {
+				//몸체피격만있을때
+				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT);
+				return true;
+			}
 			v0 = *pTargetCol->VertexPos(0);
 			v1 = *pTargetCol->VertexPos(1);
 			v2 = *pTargetCol->VertexPos(2);
