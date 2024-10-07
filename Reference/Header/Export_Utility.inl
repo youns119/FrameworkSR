@@ -199,6 +199,11 @@ inline HRESULT Add_Missile(CBullet* _pMissile)
 	return CBulletManager::GetInstance()->Add_Missile(_pMissile);
 }
 
+inline HRESULT Add_Laser(CBullet* _pLaser)
+{
+	return CBulletManager::GetInstance()->Add_Laser(_pLaser);
+}
+
 inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos)
 {
 	return CBulletManager::GetInstance()->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, _eBulletType, vCurvePos);

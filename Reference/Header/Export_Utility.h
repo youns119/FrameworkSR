@@ -15,6 +15,8 @@
 #include "RcTex.h"
 #include "TerrainTex.h"
 #include "GuideTex.h"
+#include "LaserTex.h"
+#include "MissileTex.h"
 #include "CubeTex.h"
 #include "FloorTex.h"
 #include "WallTex.h"
@@ -104,6 +106,7 @@ inline CGameObject* FloorRayCast2(_vec3 vRayStart);//산성, 용암 바닥 타일 정보 �
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet);
 inline HRESULT Add_Missile(CBullet* _pMissile);
+inline HRESULT Add_Laser(CBullet* _pLaser);
 inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos = { 0.f,0.f,0.f });
 inline _int Update_Bullet(const _float& _fTimeDelta);
 inline void LateUpdate_Bullet();

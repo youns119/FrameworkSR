@@ -162,10 +162,12 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\FloorTex.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
     <ClInclude Include="..\..\Header\GuideTex.h" />
+    <ClInclude Include="..\..\Header\LaserTex.h" />
     <ClInclude Include="..\..\Header\Layer.h" />
     <ClInclude Include="..\..\Header\Light.h" />
     <ClInclude Include="..\..\Header\LightManager.h" />
     <ClInclude Include="..\..\Header\Management.h" />
+    <ClInclude Include="..\..\Header\MissileTex.h" />
     <ClInclude Include="..\..\Header\ParticleSpark.h" />
     <ClInclude Include="..\..\Header\ParticleSystem.h" />
     <ClInclude Include="..\..\Header\RcCol.h" />
@@ -204,10 +206,12 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\FloorTex.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\GuideTex.cpp" />
+    <ClCompile Include="..\Code\LaserTex.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Light.cpp" />
     <ClCompile Include="..\Code\LightManager.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
+    <ClCompile Include="..\Code\MissileTex.cpp" />
     <ClCompile Include="..\Code\ParticleSpark.cpp" />
     <ClCompile Include="..\Code\ParticleSystem.cpp" />
     <ClCompile Include="..\Code\RcCol.cpp" />

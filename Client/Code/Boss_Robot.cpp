@@ -10,9 +10,15 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_eCurHealthState(CBoss_Robot::BOSSHEALTH_NORMAL)
 	, m_fBoss_HP(100.f)
 	, m_fShield_HP(0.f)
+	, m_PatternDelayTime(0.f)
 	, m_fDelayTime(4.8f)
 	, m_fAttackTime(5.0f)
 	, m_fAngle(180.f)
+	, m_fMissileAngle(180.f)
+	, m_bPatternEnd(true)
+	, m_iRandom(0)
+	, m_iCount(0)
+	, m_bMoveStop(false)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -25,6 +31,15 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_eCurHealthState(CBoss_Robot::BOSSHEALTH_NORMAL)
 	, m_fBoss_HP(100.f)
 	, m_fShield_HP(0.f)
+	, m_PatternDelayTime(0.f)
+	, m_fDelayTime(4.8f)
+	, m_fAttackTime(5.0f)
+	, m_fAngle(180.f)
+	, m_fMissileAngle(180.f)
+	, m_bPatternEnd(true)
+	, m_iRandom(0)
+	, m_iCount(0)
+	, m_bMoveStop(false)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -77,10 +92,49 @@ HRESULT CBoss_Robot::Ready_GameObject()
 	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
-
+	IsBoss = true;
 	Set_Animation();
 
 	return S_OK;
+}
+
+_int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
+{
+	if (nullptr == m_pPlayerTransformCom)
+	{
+		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+	}
+
+	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+
+	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
+	_matrix		matWorld, matView, matBill, matResult;
+
+	m_pTransformCom->Get_WorldMatrix(&matWorld);
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMatrixIdentity(&matBill);
+
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
+
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	matResult = matBill * matWorld;
+	if (!m_bMoveStop) {
+		Move();
+	}
+	m_PatternDelayTime += _fTimeDelta;
+	if (m_PatternDelayTime >= m_fAttackTime) {
+		Attack(_fTimeDelta);
+	}
+
+	m_pTransformCom->Set_WorldMatrix(&(matResult));
+	return iExit;
 }
 
 void CBoss_Robot::LateUpdate_GameObject()
@@ -304,35 +358,29 @@ void CBoss_Robot::State_Check()//This Function Calling in Monster.cpp -> LateUpd
 
 void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Monster.cpp -> Update
 {
-	if (m_fAngle <= 0.f)
-	{
-		m_fAngle = 180.f;
+	if (m_bPatternEnd) {
+		m_iRandom = 1;//rand() % 3;
 	}
-	_vec3 vPos, vPlayerPos, vCurve;
-	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	Pattern_Manager(_fTimeDelta, m_iRandom);
+}
 
-	m_fAttackTime += _fTimeDelta;
-	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-		(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-	pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
-
-	//Look 벡터기준 회전
-	_vec3 vLook, vRight;
-	_matrix mRotation, mWorld;
+void CBoss_Robot::Move()
+{
+	m_fAngle -= 0.5f;
+	_vec3 BuildingPos = { 100.f,0.f,100.f };
+	_vec3 BuildingUp = { 0.f,1.f,0.f };
+	_vec3 vRight;
+	_matrix mRotate, mWorld;
+	_vec3 vResult;
 	m_pTransformCom->Get_WorldMatrix(&mWorld);
 	memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
-	memcpy(&vLook, &mWorld.m[2][0], sizeof(_vec3));
 	D3DXVec3Normalize(&vRight, &vRight);
 	vRight *= 30.f;
-	D3DXMatrixRotationAxis(&mRotation, &vLook, D3DXToRadian(m_fAngle));
-	D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
-	if (m_fAttackTime > m_fDelayTime)
-	{
-		Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_MISSILE, vCurve + vPos);
-		m_fAttackTime = 4.5f;
-		m_fAngle -= 15.f;
-	}
+	D3DXMatrixRotationAxis(&mRotate, &BuildingUp, D3DXToRadian(m_fAngle));
+	D3DXVec3TransformNormal(&vResult, &vRight, &mRotate);
+	m_pTransformCom->Set_Pos(vResult + BuildingPos);
 }
+
 
 void CBoss_Robot::Set_Animation()
 {
@@ -364,6 +412,93 @@ _bool CBoss_Robot::Check_Phase()// if return true, Deal Shield. if not Deal Boss
 
 	return false;
 }
+
+void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
+{
+	_vec3 vLook, vRight;
+	_vec3 vPos, vPlayerPos, vCurve;
+	_matrix mRotation, mWorld;
+	switch (_iPatternNum)
+	{
+	case BOSS_MISSILE_PATTERN:
+		m_bPatternEnd = false;
+		m_eCurState = BOSS_ATTACK_NORMAL_TWOHAND;
+		m_fAttackTime += _fTimeDelta;
+		if (m_fAttackTime > m_fDelayTime)
+		{
+			if (m_fMissileAngle <= 0.f)
+			{
+				m_fMissileAngle = 180.f;
+				m_bPatternEnd = true;
+				m_eCurState = BOSS_IDLE_NORMAL;
+				m_PatternDelayTime = 0.f;
+				break;
+			}
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+			m_pTransformCom->Get_WorldMatrix(&mWorld);
+			memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
+			memcpy(&vLook, &mWorld.m[2][0], sizeof(_vec3));
+			D3DXVec3Normalize(&vRight, &vRight);
+			vRight *= 30.f;
+			D3DXMatrixRotationAxis(&mRotation, &vLook, D3DXToRadian(m_fMissileAngle));
+			D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_MISSILE, vCurve + vPos);
+			m_fAttackTime = 4.5f;
+			m_fMissileAngle -= 15.f;
+		}
+		break;
+	case BOSS_RAZER_PATTERN:
+		m_bPatternEnd = false;
+		m_bMoveStop = true;
+		m_eCurState = BOSS_ATTACK_DAMAGED_TWOHAND;
+		m_fAttackTime += _fTimeDelta;
+		if (m_fAttackTime > m_fDelayTime)
+		{
+			if (m_iCount >= 1)
+			{
+				m_iCount = 0;
+				m_bPatternEnd = true;
+				m_eCurState = BOSS_IDLE_NORMAL;
+				m_PatternDelayTime = 0.f;
+				m_bMoveStop = false;
+				break;
+			}
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_LASER);
+			m_iCount += 1;
+			m_fAttackTime = 0.f;
+		}
+		break;
+	case BOSS_SHOOT_PATTERN:
+		m_bPatternEnd = false;
+		m_eCurState = BOSS_ATTACK_NORMAL_ONEHAND;
+		m_fAttackTime += _fTimeDelta;
+		if (m_fAttackTime > m_fDelayTime)
+		{
+			if (m_iCount >= 5) {
+				m_bPatternEnd = true;
+				m_iCount = 0;
+				m_eCurState = BOSS_IDLE_NORMAL;
+				m_PatternDelayTime = 0.f;
+				break;
+			}
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+			_vec3 vDir = vPlayerPos - vPos;
+			D3DXVec3Normalize(&vDir, &vDir);
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5.f, Engine::CBulletManager::BULLET_PISTOL);
+			m_fAttackTime = 4.5f;
+			m_iCount += 1;
+		}
+		break;
+	default:
+		break;
+	}
+
+}
+
 
 
 void CBoss_Robot::Free()

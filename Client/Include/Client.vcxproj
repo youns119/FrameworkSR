@@ -182,6 +182,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Item.h" />
     <ClInclude Include="..\Header\ItemTile.h" />
     <ClInclude Include="..\Header\Knife.h" />
+    <ClInclude Include="..\Header\Laser.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
@@ -275,6 +276,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\ItemTile.cpp" />
     <ClCompile Include="..\Code\Knife.cpp" />
+    <ClCompile Include="..\Code\Laser.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />

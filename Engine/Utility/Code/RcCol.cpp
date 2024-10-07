@@ -103,17 +103,17 @@ HRESULT CRcCol::OffSet_Buffer()
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 
-	pVertex[0].vPosition = vPos[0] + vOffSet;
-	pVertex[0].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+	pVertex[0].vPosition = vPos[0];
+	pVertex[0].dwColor = TestCol;
 
-	pVertex[1].vPosition = vPos[1] + vOffSet;
-	pVertex[1].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+	pVertex[1].vPosition = vPos[1];
+	pVertex[1].dwColor = TestCol;
 
-	pVertex[2].vPosition = vPos[2] + vOffSet;
-	pVertex[2].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+	pVertex[2].vPosition = vPos[2];
+	pVertex[2].dwColor = TestCol;
 
-	pVertex[3].vPosition = vPos[3] + vOffSet;
-	pVertex[3].dwColor = D3DXCOLOR(0.f, 1.f, 0.f, 1.f);
+	pVertex[3].vPosition = vPos[3];
+	pVertex[3].dwColor = TestCol;
 
 	m_pVB->Unlock();
 

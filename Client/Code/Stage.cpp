@@ -288,7 +288,7 @@ HRESULT CStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bullet", pAmmo), E_FAIL);
 	}
 
-	for (_int i = 0; i < 100; ++i)
+	for (_int i = 0; i < 30; ++i)
 	{
 		Engine::CBullet* pMissile = nullptr;
 		pMissile = CMissile::Create(m_pGraphicDev);
@@ -298,7 +298,15 @@ HRESULT CStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Missile", pMissile), E_FAIL);
 	}
 	//Jonghan Change End
+	for (_int i = 0; i < 10; ++i)
+	{
+		Engine::CBullet* pLaser = nullptr;
+		pLaser = CLaser::Create(m_pGraphicDev);
 
+		NULL_CHECK_RETURN(pLaser, E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_Laser(pLaser), E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Laser", pLaser), E_FAIL);
+	}
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
@@ -453,7 +461,9 @@ HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 	//pGameObject = CAxe::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
-
+	pGameObject = CBoss_Robot::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);
 	
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
