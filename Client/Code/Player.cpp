@@ -580,10 +580,10 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_SmokeTrail", L"Com_Transform");
-		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-		static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
-		static_cast<CEffectPool*>(pGameObject)->Operate();
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_SmokeTrail", L"Com_Transform");
+		//pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+		//static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
+		//static_cast<CEffectPool*>(pGameObject)->Operate();
 
 	}
 	if (Engine::Key_Press(DIK_M))

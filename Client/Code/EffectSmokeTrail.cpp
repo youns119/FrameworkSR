@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "../Header/EffectSmokeTrail.h"
 #include "Export_Utility.h"
+#include "Missile.h"
 
 CEffectSmokeTrail::CEffectSmokeTrail(LPDIRECT3DDEVICE9 _pGraphicDev)
     : CGameObject(_pGraphicDev)
@@ -29,6 +30,9 @@ _int CEffectSmokeTrail::Update_GameObject(const _float& _fTimeDelta)
     if (!m_pEffectCom->Get_Visibility())
         return 0;
 
+    if (m_bIsMissing)
+        m_fGraceTime += _fTimeDelta;
+
     Engine::Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
@@ -47,15 +51,20 @@ void CEffectSmokeTrail::LateUpdate_GameObject()
     //// 
     //이펙트가 미사일의 트랜스폼을 받아오는 방법 : 오브젝트 풀에서 호출할때 미사일의 주소나, 미사일 트랜스폼의 주소를 넘겨야한다. 
 
-    CGameObject* pTarget = m_pEffectCom->Get_CallerObject();
+    //CGameObject* pTarget = m_pEffectCom->Get_CallerObject();
+    CMissile* pTarget = static_cast<CMissile*>(m_pEffectCom->Get_CallerObject());
 
-    if (nullptr == pTarget)
+    //if (nullptr == pTarget)
+    if (!pTarget->Get_IsRender())
+        m_bIsMissing = TRUE;
+
+    if (m_fGraceTime >= 1.f)
         m_pEffectCom->Stop_Effect();
     else
     {
         // 미사일 트랜스폼 받아야 하는데 우선 확인을 위해 플레이어 틀ㄴ스폼 받아올겟음
-        //CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
-        CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform"));
+        CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
+        //CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform"));
 
         _vec3 vTargetPos;
         pTargetTransform->Get_Info(INFO::INFO_POS, &vTargetPos);
@@ -64,7 +73,12 @@ void CEffectSmokeTrail::LateUpdate_GameObject()
         tParticleParam.tInit.tHexahedron.tStartBoundary.vMin = vTargetPos;
         tParticleParam.tInit.tHexahedron.tStartBoundary.vMax = vTargetPos;
         m_pParticleSystemCom->Set_Parameter(tParticleParam);
+
+
+        Compute_ViewZ(&vTargetPos);
+        m_fViewZ += 10.f;
     }
+
 
     Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -144,16 +158,16 @@ void CEffectSmokeTrail::Set_ParticleParameter()
     ZeroMemory(&tParticleParam, sizeof(CParticleSystem::PARAM));
 
     tParticleParam.tInit.tHexahedron.vInitVelocity = { 0.f, 0.f, 0.f };
-    tParticleParam.vVelocityNoise = { 0.1f, 0.1f, 0.1f };
+    tParticleParam.vVelocityNoise = { 0.3f, 0.3f, 0.3f };
     tParticleParam.vColor = _vec4(0.6f, .6f, .6f, 1.5f);
     tParticleParam.vColorFade = _vec4(0.2f, 0.2f, 0.2f, 0.0f); // 255 대신 500 넣어서 투명해지기 전에 더 빨리 초록색이 되도록
     tParticleParam.iTotalCnt = 500;
 
     tParticleParam.fSize = 1.0f;
-    tParticleParam.fLifeTime = 5.f;
+    tParticleParam.fLifeTime = 1.f;
 
-    tParticleParam.fEmitRate = 50.f;
-    tParticleParam.iEmitCnt = 1;
+    tParticleParam.fEmitRate = 75.f;
+    tParticleParam.iEmitCnt = 3;
 
     m_pParticleSystemCom->Set_Parameter(tParticleParam);
     m_pParticleSystemCom->Set_Option(CParticleSystem::OPTION::REPEAT, TRUE);
@@ -174,4 +188,7 @@ void CEffectSmokeTrail::OnOperate(void* _pParam)
     CEffectSmokeTrail* pThis = (CEffectSmokeTrail*)_pParam;
 
     pThis->m_pParticleSystemCom->Reset();
+
+    pThis->m_bIsMissing = FALSE;
+    pThis->m_fGraceTime = 0.f;
 }
