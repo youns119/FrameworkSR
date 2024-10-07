@@ -15,17 +15,9 @@ private:
 	virtual ~CWallTB();
 
 public:
-	static CWallTB* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
-	static CWallTB* Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
-	static CWallTB* Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot);
-	static CWallTB* Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName);
-	static CWallTB* Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber);
-	static CWallTB* Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection);
 	static CWallTB* Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger);
-	static CWallTB* Create_InfoNumberDirection2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber);
 	static CWallTB* Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber, const _int& _iTrigger);
 
-	const _tchar* Get_FloorName() { return m_pName; }
 	virtual _vec3 Get_VecPos() { return m_vecPos; }
 	virtual _int Get_Number() { return m_iNumber; }
 	virtual _int Get_Number_Type() { return m_iNumber_Type; }
@@ -40,7 +32,6 @@ public:
 	virtual _int Update_GameObject(const _float& _fTimeDelta);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
-	void Setup_ImageName(const _tchar* _pName);
 	void Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection);
 
 private:
@@ -48,7 +39,6 @@ private:
 	virtual HRESULT Setup_Material();
 	void Setup_Position(_vec3 _vecPos);
 	void Setup_Angle(_vec3 _vecRot);
-	const _tchar* m_pName;
 
 private:
 	virtual void Free();

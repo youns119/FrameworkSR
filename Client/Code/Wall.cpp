@@ -16,112 +16,6 @@ CWall::~CWall()
 {
 }
 
-CWall* CWall::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
-{
-    CWall* pWall = new CWall(_pGraphicDev);
-
-    if (FAILED(pWall->Ready_GameObject()))
-    {
-        Safe_Release(pWall);
-        MSG_BOX("pWall Create Failed");
-        return nullptr;
-    }
-
-    return pWall;
-}
-
-CWall* CWall::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
-{
-    CWall* pWall = new CWall(_pGraphicDev);
-
-    if (FAILED(pWall->Ready_GameObject()))
-    {
-        Safe_Release(pWall);
-        MSG_BOX("pWall Create Failed");
-        return nullptr;
-    }
-
-    pWall->Setup_Position(_vecPos);
-    pWall->m_vecPos = _vecPos;
-
-    return pWall;
-}
-
-CWall* CWall::Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot)
-{
-    CWall* pWall = new CWall(_pGraphicDev);
-
-    if (FAILED(pWall->Ready_GameObject()))
-    {
-        Safe_Release(pWall);
-        MSG_BOX("pWall Create Failed");
-        return nullptr;
-    }
-
-    pWall->Setup_Position(_vecPos);
-    pWall->Setup_Angle(_vecRot);
-    return pWall;
-}
-
-CWall* CWall::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName)
-{
-    CWall* pWall = new CWall(_pGraphicDev);
-
-    pWall->Setup_ImageName(_pName);
-
-    if (FAILED(pWall->Ready_GameObject()))
-    {
-        Safe_Release(pWall);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pWall->Setup_Position(_vecPos);
-    pWall->m_vecPos = _vecPos;
-
-    return pWall;
-}
-
-CWall* CWall::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber)
-{
-    CWall* pWall = new CWall(_pGraphicDev);
-
-
-    if (FAILED(pWall->Ready_GameObject()))
-    {
-        Safe_Release(pWall);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pWall->Setup_Position(_vecPos);
-    pWall->m_vecPos = _vecPos;
-    pWall->m_iNumber = _iNumber;
-    pWall->Set_Number(_iNumber);
-
-    return pWall;
-}
-
-CWall* CWall::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection)
-{
-    CWall* pWall = new CWall(_pGraphicDev);
-
-
-    if (FAILED(pWall->Ready_GameObject()))
-    {
-        Safe_Release(pWall);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pWall->Setup_Position(_vecPos);
-    pWall->m_vecPos = _vecPos;
-    pWall->Set_Number(_iNumber - 1);
-    pWall->Set_TileDirection(_eTileDirection);
-    
-    return pWall;
-}
-
 CWall* CWall::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger)
 {
     CWall* pWall = new CWall(_pGraphicDev);
@@ -160,26 +54,6 @@ CWall* CWall::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
     pWall->Set_Number(_iNumber);
     pWall->Set_TileDirection(_vecRot);
     pWall->Set_Trigger(_iTrigger);
-
-    return pWall;
-}
-
-CWall* CWall::Create_InfoNumberDirection2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
-{
-    CWall* pWall = new CWall(_pGraphicDev);
-
-
-    if (FAILED(pWall->Ready_GameObject()))
-    {
-        Safe_Release(pWall);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pWall->Setup_Position(_vecPos);
-    pWall->m_vecPos = _vecPos;
-    pWall->Set_Number(_iNumber);
-    pWall->Set_TileDirection(_vecRot);
 
     return pWall;
 }
@@ -227,7 +101,11 @@ HRESULT CWall::Ready_GameObject()
 _int CWall::Update_GameObject(const _float& _fTimeDelta)
 {
     if (!m_bIsRender)
+    {
+        m_pColliderCom->SetActive(false);
+        m_pColliderCom->SetShow(false);
         return 0;
+    }
 
     Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
@@ -239,7 +117,11 @@ _int CWall::Update_GameObject(const _float& _fTimeDelta)
 void CWall::LateUpdate_GameObject()
 {
     if (!m_bIsRender)
+    {
+        m_pColliderCom->SetActive(false);
+        m_pColliderCom->SetShow(false);
         return;
+    }
 
     Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -247,7 +129,11 @@ void CWall::LateUpdate_GameObject()
 void CWall::Render_GameObject()
 {  
     if (!m_bIsRender)
+    {
+        m_pColliderCom->SetActive(false);
+        m_pColliderCom->SetShow(false);
         return;
+    }
 
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -312,10 +198,6 @@ void CWall::Setup_Angle(_vec3 _vecRot)
     m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
 
-void CWall::Setup_ImageName(const _tchar* _pName)
-{
-    m_pName = _pName;
-}
 void CWall::Free()
 {
     CTileContorl::Free();

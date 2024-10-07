@@ -212,6 +212,10 @@ void CSpiderDrone::Attack(const _float& _fTimeDelta)
 	}
 }
 
+void CSpiderDrone::AttackMoving(const _float& _fTimeDelta, const _vec3& _vDir)
+{
+}
+
 void CSpiderDrone::Set_Animation()
 {
 	m_pAnimatorCom->CreateAnimation(L"Idle", m_pTextureCom[DRONE_IDLE], 13.f);

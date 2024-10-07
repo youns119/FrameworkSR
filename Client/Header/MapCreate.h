@@ -100,10 +100,6 @@ private:
 	const _tchar* m_ImageName;
 	_int m_iNumber;
 
-	//vector<const _tchar*> m_vecImageFloor;
-	//vector<const _tchar*> m_vecImageWall;
-	//vector<const _tchar*> m_vecImageMonster;
-
 
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageFloor;
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageWall;

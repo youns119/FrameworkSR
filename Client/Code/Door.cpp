@@ -119,11 +119,6 @@ void CDoor::Render_GameObject()
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CDoor::Setup_ImageName(const _tchar* _pName)
-{
-    m_pName = _pName;
-}
-
 void CDoor::Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection)
 {
     switch (_eTileDirection)
@@ -201,7 +196,6 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
     {
         Engine::Collision_With_Trigger(m_iTriggerNumber);
         Engine::Calculate_Trigger();
-        m_pColliderCom->SetActive(false);
     }
 }
 

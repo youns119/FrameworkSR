@@ -20,6 +20,7 @@ private:
 	vector<CGameObject*> m_vecTrigger[TRIGGERCOUNT];
 	_int m_iCurTriggerNumber;
 	_int m_iPreTriggerNumber;
+	_int m_iPrePreTriggerNumber;
 private:
 	virtual void Free();
 };

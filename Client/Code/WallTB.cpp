@@ -16,96 +16,6 @@ CWallTB::~CWallTB()
 {
 }
 
-CWallTB* CWallTB::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
-{
-	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
-
-	if (FAILED(pWallTB->Ready_GameObject()))
-	{
-		Safe_Release(pWallTB);
-		MSG_BOX("pWall Create Failed");
-		return nullptr;
-	}
-
-	return pWallTB;
-}
-
-CWallTB* CWallTB::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
-{
-	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
-
-	if (FAILED(pWallTB->Ready_GameObject()))
-	{
-		Safe_Release(pWallTB);
-		MSG_BOX("pWall Create Failed");
-		return nullptr;
-	}
-
-	pWallTB->Setup_Position(_vecPos);
-	pWallTB->m_vecPos = _vecPos;
-
-	return pWallTB;
-}
-
-CWallTB* CWallTB::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName)
-{
-	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
-
-	pWallTB->Setup_ImageName(_pName);
-
-	if (FAILED(pWallTB->Ready_GameObject()))
-	{
-		Safe_Release(pWallTB);
-		MSG_BOX("pTerrain Create Failed");
-		return nullptr;
-	}
-
-	pWallTB->Setup_Position(_vecPos);
-	pWallTB->m_vecPos = _vecPos;
-
-	return pWallTB;
-}
-
-CWallTB* CWallTB::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber)
-{
-	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
-
-
-	if (FAILED(pWallTB->Ready_GameObject()))
-	{
-		Safe_Release(pWallTB);
-		MSG_BOX("pTerrain Create Failed");
-		return nullptr;
-	}
-
-	pWallTB->Setup_Position(_vecPos);
-	pWallTB->m_vecPos = _vecPos;
-	
-	pWallTB->Set_Number(_iNumber - 1);
-
-	return pWallTB;
-}
-
-CWallTB* CWallTB::Create_InfoNumberDirection(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection)
-{
-	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
-
-
-	if (FAILED(pWallTB->Ready_GameObject()))
-	{
-		Safe_Release(pWallTB);
-		MSG_BOX("pTerrain Create Failed");
-		return nullptr;
-	}
-
-	pWallTB->Setup_Position(_vecPos);
-	pWallTB->m_vecPos = _vecPos;
-	pWallTB->Set_Number(_iNumber - 1);
-	pWallTB->Set_TileDirection(_eTileDirection);
-
-	return pWallTB;
-}
-
 CWallTB* CWallTB::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger)
 {
 	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
@@ -148,42 +58,6 @@ CWallTB* CWallTB::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphic
 	return pWallTB;
 }
 
-CWallTB* CWallTB::Create_InfoNumberDirection2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
-{
-	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
-
-
-	if (FAILED(pWallTB->Ready_GameObject()))
-	{
-		Safe_Release(pWallTB);
-		MSG_BOX("pTerrain Create Failed");
-		return nullptr;
-	}
-
-	pWallTB->Setup_Position(_vecPos);
-	pWallTB->m_vecPos = _vecPos;
-	pWallTB->Set_Number(_iNumber);
-	pWallTB->Set_TileDirection(_vecRot);
-
-	return pWallTB;
-}
-
-CWallTB* CWallTB::Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot)
-{
-	CWallTB* pWallTB = new CWallTB(_pGraphicDev);
-
-	if (FAILED(pWallTB->Ready_GameObject()))
-	{
-		Safe_Release(pWallTB);
-		MSG_BOX("pWall Create Failed");
-		return nullptr;
-	}
-
-	pWallTB->Setup_Position(_vecPos);
-	pWallTB->Setup_Angle(_vecRot);
-	return pWallTB;
-}
-
 HRESULT CWallTB::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -208,7 +82,11 @@ HRESULT CWallTB::Ready_GameObject()
 _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 {
 	if (!m_bIsRender)
+	{
+		m_pColliderCom->SetActive(false);
+		m_pColliderCom->SetShow(false);
 		return 0;
+	}
 
 	Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
@@ -220,7 +98,11 @@ _int CWallTB::Update_GameObject(const _float& _fTimeDelta)
 void CWallTB::LateUpdate_GameObject()
 {
 	if (!m_bIsRender)
+	{
+		m_pColliderCom->SetActive(false);
+		m_pColliderCom->SetShow(false);
 		return;
+	}
 
 	Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -228,7 +110,11 @@ void CWallTB::LateUpdate_GameObject()
 void CWallTB::Render_GameObject()
 {
 	if (!m_bIsRender)
+	{
+		m_pColliderCom->SetActive(false);
+		m_pColliderCom->SetShow(false);
 		return;
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -292,10 +178,6 @@ void CWallTB::Setup_Angle(_vec3 _vecRot)
 	m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
 
-void CWallTB::Setup_ImageName(const _tchar* _pName)
-{
-	m_pName = _pName;
-}
 void CWallTB::Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection)
 {
 	switch (_eTileDirection)

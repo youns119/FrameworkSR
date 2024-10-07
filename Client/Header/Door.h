@@ -34,7 +34,6 @@ public:
     virtual _int Update_GameObject(const _float& _fTimeDelta);
     virtual void LateUpdate_GameObject();
     virtual void Render_GameObject();
-    void Setup_ImageName(const _tchar* _pName);
     void Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection);
 
 private:
@@ -42,7 +41,6 @@ private:
     virtual HRESULT Setup_Material();
     void Setup_Position(_vec3 _vecPos);
     void Setup_Angle(_vec3 _vecRot);
-    const _tchar* m_pName;
 
 private:
     Engine::CWallTBTex* m_pBufferCom;
