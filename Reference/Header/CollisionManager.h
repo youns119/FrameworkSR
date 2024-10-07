@@ -53,6 +53,8 @@ public:
 
 	CGameObject* FloorRayCast2(_vec3 vRayStart);//산성, 용암 바닥 타일 정보 가져오기 위해 만듬
 
+	CGameObject* RayCastWall(_vec3 vRayStart, _vec3 vRayDir, _vec3* _vPos); // 벽 스파크 튀기는거
+
 public:
 	virtual void Free();
 

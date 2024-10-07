@@ -340,9 +340,15 @@ _bool CCollisionManager::FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _v
 				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_HEADSHOT);
 				// V1 + U(V2 - V1) + V(V3 - V1)
 				if (intersected)
-					_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+				{
+					//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+					_vOut = _vRayStart + (dist * _vRayDir);
+				}
 				else
-					_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+				{
+					//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+					_vOut = _vRayStart + (dist * _vRayDir);
+				}
 
 				return true;
 			}
@@ -366,19 +372,30 @@ _bool CCollisionManager::FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _v
 				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BULLSHOT);
 				// V1 + U(V2 - V1) + V(V3 - V1)
 				if (intersected)
-					_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+				{
+					//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+					_vOut = _vRayStart + (dist * _vRayDir);
+				}
 				else
-					_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
-
+				{
+					//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+					_vOut = _vRayStart + (dist * _vRayDir);
+				}
 				return true;
 			}
 			//몸체피격
 			dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT);
 			// V1 + U(V2 - V1) + V(V3 - V1)
 			if (intersected)
-				_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+			{
+				//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+				_vOut = _vRayStart + (dist * _vRayDir);
+			}
 			else
-				_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+			{
+				//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+				_vOut = _vRayStart + (dist * _vRayDir);
+			}
 			return true;
 		}
 	}
