@@ -230,7 +230,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 
 	MapLoad2(pLayer, pLayer2);
 
-	m_mapLayer.insert({ _pLayerTag , pLayer });
+	m_mapLayer.insert({ L"Layer_Wall" , pLayer});
 	m_mapLayer.insert({ L"Layer_Monster" , pLayer2});
 
 	return S_OK;
@@ -453,13 +453,12 @@ HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 
 void CStage::Set_Collision()
 {
-	Engine::CheckGroup(L"Layer_Player", L"Layer_GameLogic");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_MonsterBullet");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Monster");
 
-	//Engine::CheckGroup(L"Layer_Player", L"Layer_Wall");
-	Engine::CheckGroup(L"Layer_Monster", L"Layer_GameLogic"); //Wall
+	Engine::CheckGroup(L"Layer_Player", L"Layer_Wall");
+	Engine::CheckGroup(L"Layer_Monster", L"Layer_Wall");
 }
 
 CLayer* CStage::Find_Layer(const _tchar* _pLayerTag)

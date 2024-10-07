@@ -58,21 +58,31 @@ CWallTB* CWallTB::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphic
 	return pWallTB;
 }
 
-HRESULT CWallTB::Ready_GameObject()
+void CWallTB::Set_TileDirection(const _vec3& _vecDir)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	m_vecWallDirection = _vecDir;
 
 	_vec3 vUp, vLook, vRight;
 	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
 	m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 	m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
 
-	_vec3 vOffset = { vUp.x + vRight.x, vUp.y + vRight.y, vUp.z + vRight.z };
+	_vec3 vOffset =
+	{
+		vUp.x + vRight.x + m_vecWallDirection.x,
+		vUp.y + vRight.y + m_vecWallDirection.y,
+		vUp.z + vRight.z + m_vecWallDirection.z
+	};
+
+	m_pColliderCom->SetOffsetPos(vOffset);
+}
+
+HRESULT CWallTB::Ready_GameObject()
+{
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
-	m_pColliderCom->SetOffsetPos(vOffset);
-	m_pColliderCom->SetLookDir(vLook);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 

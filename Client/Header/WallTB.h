@@ -23,7 +23,7 @@ public:
 	virtual _int Get_Number_Type() { return m_iNumber_Type; }
 	_int Get_Trigger() { return m_iTriggerNumber; }//10.06
 	_vec3 Get_TileDirection() {	return m_vecWallDirection;	}
-	void Set_TileDirection(const _vec3& _vecDir) { m_vecWallDirection = _vecDir; }
+	void Set_TileDirection(const _vec3& _vecDir);
 	void Set_Number(const _int& _iNumber) { m_iNumber = _iNumber; }
 	void Set_Trigger(const _int& _iTrigger) { m_iTriggerNumber = _iTrigger; }//10.06
 

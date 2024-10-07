@@ -25,7 +25,7 @@ public:
 	_vec3 Get_TileDirection() { return m_vecWallDirection; }
 	void Set_Number(const _int& _iNumber) { m_iNumber = _iNumber; }
 	void Set_Trigger(const _int& _iTrigger) { m_iTriggerNumber = _iTrigger; }//10.06
-	void Set_TileDirection(const _vec3& _vecDir) { m_vecWallDirection = _vecDir; }
+	void Set_TileDirection(const _vec3& _vecDir);
 	void Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection);
 
 public:

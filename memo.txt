@@ -9,10 +9,8 @@
 레이저 패턴, 총알발사(형님꺼 코드 훔치기)
 
 연욱
-상점 UI 완성 -> Trigger 닿을시
-보스 체력바 ->우선순위
+상점 UI 완성 -> 스테이지 클리어 시 UI
 UI연동 Player(ITEM, TAB), Monster(종한이함 ->ex Headshot)
-Sniper 줌 사용 시 CrossHair끄기
 --------------------------
 
 유빈

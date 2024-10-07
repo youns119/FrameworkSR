@@ -1320,6 +1320,7 @@ void CPlayer::Collide_Wall(CCollider& _pOther)
 
 			m_pBody_TransformCom->Update_Component(0.f);
 			m_pColliderCom->LateUpdate_Component();
+			m_pCComponentCamera->LateUpdate_Component();
 		}
 	}
 }

@@ -58,6 +58,25 @@ CWall* CWall::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
     return pWall;
 }
 
+void CWall::Set_TileDirection(const _vec3& _vecDir)
+{
+    m_vecWallDirection = _vecDir;
+
+    _vec3 vUp, vLook, vRight;
+    m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
+    m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+    m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
+
+    _vec3 vOffset =
+    {
+        vUp.x + vLook.x + m_vecWallDirection.x,
+        vUp.y + vLook.y + m_vecWallDirection.y,
+        vUp.z + vLook.z + m_vecWallDirection.z
+    };
+
+    m_pColliderCom->SetOffsetPos(vOffset);
+}
+
 void CWall::Set_TileDirection(Engine::TILE_DIRECTION _eTileDirection)
 {
     switch (_eTileDirection)
@@ -81,17 +100,8 @@ HRESULT CWall::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    _vec3 vUp, vLook, vRight;
-    m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
-    m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-    m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
-
-    _vec3 vOffset = { vUp.x + vLook.x, vUp.y + vLook.y, vUp.z + vLook.z };
-
     m_pColliderCom->SetTransform(m_pTransformCom);
     m_pColliderCom->SetRadius(1.f);
-    m_pColliderCom->SetOffsetPos(vOffset);
-    m_pColliderCom->SetLookDir(vRight);
     m_pColliderCom->SetShow(true);
     m_pColliderCom->SetActive(true);
 

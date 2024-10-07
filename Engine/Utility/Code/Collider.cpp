@@ -81,15 +81,15 @@ void CCollider::LateUpdate_Component()
 
 	m_tAABB.vMin =
 	{
-		m_vFinalPos.x - m_fRadius * 1.1f + m_vLookDir.x,
-		m_vFinalPos.y - m_fRadius * 1.1f + m_vLookDir.y,
-		m_vFinalPos.z - m_fRadius * 1.1f + m_vLookDir.z
+		m_vFinalPos.x - m_fRadius + m_vLookDir.x,
+		m_vFinalPos.y - m_fRadius + m_vLookDir.y,
+		m_vFinalPos.z - m_fRadius + m_vLookDir.z
 	};
 	m_tAABB.vMax =
 	{
-		m_vFinalPos.x + m_fRadius * 1.1f - m_vLookDir.x,
-		m_vFinalPos.y + m_fRadius * 1.1f - m_vLookDir.y,
-		m_vFinalPos.z + m_fRadius * 1.1f - m_vLookDir.z
+		m_vFinalPos.x + m_fRadius - m_vLookDir.x,
+		m_vFinalPos.y + m_fRadius - m_vLookDir.y,
+		m_vFinalPos.z + m_fRadius - m_vLookDir.z
 	};
 }
 
