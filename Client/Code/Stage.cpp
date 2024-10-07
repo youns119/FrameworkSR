@@ -50,7 +50,7 @@ HRESULT CStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_MonsterBullet(L"Layer_MonsterBullet"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
-	//FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL); 맵 로드 문제로 Ready_Layer_GameLogic함수에서 아이템 레이어 생성해주고 있습니다.
+	//FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL); //맵 로드 문제로 Ready_Layer_GameLogic함수에서 아이템 레이어 생성해주고 있습니다.
 
 	//MapLoad(Find_Layer(L"Layer_GameLogic"));
 	//ChangeMapLoad();
@@ -235,6 +235,15 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	pGameObject = CDrinkMachine::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DrinkMachine", pGameObject), E_FAIL);
+
+	for (_int i = 0; i < 32; i++)
+	{
+		Engine::CSoda* pSoda = nullptr;
+		pSoda = CDrink::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pSoda, E_FAIL);
+		FAILED_CHECK_RETURN(pLayer3->Add_GameObject(L"Drink", pSoda), E_FAIL);
+		Engine::Set_DrinkObject(pSoda);
+	}
 
 	m_mapLayer.insert({ L"Layer_Wall" , pLayer});
 	m_mapLayer.insert({ L"Layer_Monster" , pLayer2});
@@ -437,22 +446,15 @@ HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CKnife::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Knife", pGameObject), E_FAIL);
+	//pGameObject = CKnife::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Knife", pGameObject), E_FAIL);
+	//
+	//pGameObject = CAxe::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
 
-	pGameObject = CAxe::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
-
-	for (_int i = 0; i < 32; i++)
-	{
-		Engine::CSoda* pSoda = nullptr;
-		pSoda = CDrink::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pSoda, E_FAIL);
-		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Drink", pSoda), E_FAIL);
-		Engine::Set_DrinkObject(pSoda);
-	}
+	
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
