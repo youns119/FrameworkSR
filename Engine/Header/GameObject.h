@@ -19,6 +19,7 @@ public :
 	CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pComponentTag);
 	_float Get_ViewZ() const { return m_fViewZ; }
 	virtual void Set_IsRender(const _bool& _bool) { m_bIsRender = _bool; } //For Trigger(Tile, Monster)
+	_bool Get_IsRender() { return m_bIsRender; } //For Trigger(Tile, Monster)
 
 
 public :

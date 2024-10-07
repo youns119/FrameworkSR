@@ -229,6 +229,16 @@ inline void Collision_With_Trigger(const _int& _iTriggerNumber)
 	CTrigger::GetInstance()->Collision_With_Trigger(_iTriggerNumber);
 }
 
+inline void Set_DrinkObject(CSoda* _pGameObject)
+{
+	CDrinkSpawner::GetInstance()->Set_DrinkObject(_pGameObject);
+}
+
+inline void Spawn_DrinkObject(_vec3 _vStartPos)
+{
+	CDrinkSpawner::GetInstance()->Spawn_DrinkObject(_vStartPos);
+}
+
 void Release_Utility()
 {
 	CLightManager::DestroyInstance();
@@ -239,4 +249,5 @@ void Release_Utility()
 	CCollisionManager::DestroyInstance();
 	CBulletManager::DestroyInstance();
 	CTrigger::DestroyInstance();
+	CDrinkSpawner::DestroyInstance();
 }

@@ -101,6 +101,8 @@ private:
 	void Animation_Pos();
 	void Rotate_Arms(const _bool& _bIsRecover);
 	void Collide_Wall(CCollider& _pOther);
+
+	void Calculate_TimerHP(const _float& _fTimeDelta);
 public:
 	void OnCollision(CCollider& _pOther);
 	void OnCollisionEnter(CCollider& _pOther);
@@ -139,6 +141,7 @@ private:
 	_bool m_bIsTrapOn;
 	_float m_fTrapTime;
 	_float m_fHP;
+	_float m_fTimerHP;
 	_float m_fJumpPower;
 	_float m_fTilePos;
 	_float m_fSpeed;

@@ -2,6 +2,7 @@
 #include "../Header/Boss_Humanoid.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
+#include "../Header/UIMisterBullet.h"
 
 CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CMonster(_pGraphicDev)
@@ -148,6 +149,17 @@ void CBoss_Humanoid::Render_GameObject()
 void CBoss_Humanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	Changing_State(CBoss_Humanoid::BOSS_DAMAGED); // Need to Interaction with EffectManager(Body or Blodd Explosion)
+	CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
+	if (pComponent)
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+	static_cast<CUIMisterBullet*>(Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->front())->Add_Count();
+	++m_iBossKillCount;
+
+	if (4 < m_iBossKillCount)
+	{
+		// Need to Interaction with SceneChange to Go Boss_Robot
+	}
 }
 
 void CBoss_Humanoid::Change_State()

@@ -232,6 +232,10 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 
 	MapLoad2(pLayer, pLayer2, pLayer3);
 
+	pGameObject = CDrinkMachine::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DrinkMachine", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ L"Layer_Wall" , pLayer});
 	m_mapLayer.insert({ L"Layer_Monster" , pLayer2});
 	m_mapLayer.insert({ L"Layer_Item" , pLayer3 });
@@ -441,13 +445,14 @@ HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
 
-	pGameObject = CDrink::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Drink", pGameObject), E_FAIL);
-
-	pGameObject = CDrinkMachine::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DrinkMachine", pGameObject), E_FAIL);
+	for (_int i = 0; i < 32; i++)
+	{
+		Engine::CSoda* pSoda = nullptr;
+		pSoda = CDrink::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pSoda, E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Drink", pSoda), E_FAIL);
+		Engine::Set_DrinkObject(pSoda);
+	}
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
@@ -626,7 +631,7 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 			{
 				pGameObject = CDrinkMachine::Create(m_pGraphicDev, pPos);
 				NULL_CHECK_RETURN(pGameObject, );
-				_pLayer3->Add_GameObject(L"DrinkMachine", pGameObject);
+				_pLayer->Add_GameObject(L"DrinkMachine", pGameObject);
 				Engine::Set_Trigger(iTrigger, pGameObject);//10.07
 			}
 			else if (iNumber == 2)

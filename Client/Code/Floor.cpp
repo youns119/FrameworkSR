@@ -130,7 +130,7 @@ void CFloor::Set_IsRender(const _bool& _bool)
 {
     m_bIsRender = _bool;
     m_pColliderCom->SetActive(_bool);
-    m_pColliderCom->SetShow(_bool);
+    m_pColliderCom->SetShow(false);
 }
 
 HRESULT CFloor::Add_Component()

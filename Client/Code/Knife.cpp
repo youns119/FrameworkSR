@@ -71,7 +71,7 @@ void CKnife::OnCollisionEnter(CCollider& _pOther)
     {
         dynamic_cast<CPlayer*>(pGameObject)->Rooting_Item(m_eItemType);
         m_pColliderCom->SetActive(false);
-        m_bisRender = false;
+        m_bIsRender = false;
     }
 }
 

@@ -124,6 +124,12 @@
     <Filter Include="04.Component\00.VIBuffer\06.WallTex\Wall">
       <UniqueIdentifier>{14d09f04-9426-4f91-bfa5-2c35610e0bd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10.DrinkSpawn">
+      <UniqueIdentifier>{d90ca31d-5eb1-437e-9707-1893ad2264be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10.DrinkSpawn\00.Soda">
+      <UniqueIdentifier>{92386aa3-fe92-466d-af63-45a5af01c5a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -243,6 +249,12 @@
     <ClInclude Include="..\..\Header\WallTex.h">
       <Filter>04.Component\00.VIBuffer\06.WallTex\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\DrinkSpawner.h">
+      <Filter>10.DrinkSpawn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Soda.h">
+      <Filter>10.DrinkSpawn\00.Soda</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Management.cpp">
@@ -358,6 +370,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\WallTex.cpp">
       <Filter>04.Component\00.VIBuffer\06.WallTex\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DrinkSpawner.cpp">
+      <Filter>10.DrinkSpawn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Soda.cpp">
+      <Filter>10.DrinkSpawn\00.Soda</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

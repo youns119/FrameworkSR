@@ -41,16 +41,28 @@ void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float
 	m_fHP -= _fAttackDamage;
 	if (0.f >= m_fHP)
 	{
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		_int iIndex = rand() % 13;
+
+		CUI* pUI = Engine::Activate_UI(UITYPE::UI_PLUS);
+
 		switch (_eDamagedState)
 		{
 		case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
 			Changing_State(CDrone::DRONE_HEADSHOT);
+
+			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
 			Changing_State(CDrone::DRONE_KATANA);
+
+			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_SAYONARA);
 			break;
 		default:
 			Changing_State(CDrone::DRONE_DAMAGED);
+
+			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
 			break;
 		}
 		m_pColliderCom->SetActive(false);
