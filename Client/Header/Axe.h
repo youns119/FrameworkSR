@@ -5,10 +5,12 @@ class CAxe :
 {
 private:
     explicit CAxe(LPDIRECT3DDEVICE9 _pGraphiceDev);
+    explicit CAxe(LPDIRECT3DDEVICE9 _pGraphiceDev, _vec3 _vecPos);
     virtual ~CAxe();
 
 public:
     static CAxe* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+    static CAxe* Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 
 public:
     virtual HRESULT Ready_GameObject();

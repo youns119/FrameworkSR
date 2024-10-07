@@ -10,7 +10,6 @@ CDoor::CDoor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pColliderCom(nullptr)
     , m_vecWallDirection({ 0.f, 0.f, 0.f })
 {
-    //m_pName = L"Proto_WALLCORNER01"; //this will be change
     m_iNumber = 0;
     m_iNumber_Type = 4;
 }
@@ -31,9 +30,13 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, 
         return nullptr;
     }
 
+    if (_iNumber == 9)
+    {
+        pDoor->m_bLastDoor = true;
+    }
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
-    pDoor->Set_Number(_iNumber - 1);
+    pDoor->Set_Number(_iNumber);
     pDoor->Set_TileDirection(_eTileDirection);
     pDoor->Set_Trigger(_iTrigger);
 
@@ -52,6 +55,10 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
         return nullptr;
     }
 
+    if (_iNumber == 9)
+    {
+        pDoor->m_bLastDoor = true;
+    }
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
     pDoor->Set_Number(_iNumber);

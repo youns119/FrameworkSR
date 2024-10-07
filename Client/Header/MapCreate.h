@@ -38,9 +38,10 @@ private:
 	HRESULT Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection);
 	//Monster 오브젝트 생성
 	HRESULT Create_Layer_PickingMonster(CLayer* _pLayer);
-
 	//Door 오브젝트 생성
 	HRESULT Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection);
+	//item 오브젝트 생성
+	HRESULT Create_Layer_PickingItem(CLayer* _pLayer);
 
 	// 가이드 지형 버퍼 가져오기
 	_vec3 TilePiking_OnTerrain(int _iTile);
@@ -74,13 +75,13 @@ private:
 	void SetWall();//imgui벽
 	void SetMonster();//imgui몬스터
 	void SetDoor();//imgui Door
+	void SetItem();//imgui 아이템
 
 	HRESULT Ready_Texture_FloorInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 바닥 세팅
 	HRESULT Ready_Texture_WallInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 벽 세팅
 	HRESULT Ready_Texture_MonsterInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 Monster 세팅
 	HRESULT Ready_Texture_DoorInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 Door 세팅
-
-
+	HRESULT Ready_Texture_ItemInsert(const _tchar* _pPath, const _tchar* _pComponentTag, TEXTUREID _eType, const int& _iCnt); // imgui 출력할 Door 세팅
 
 
 private:
@@ -105,5 +106,6 @@ private:
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageWall;
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageMonster;
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageDoor;
+	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageItem;
 
 };

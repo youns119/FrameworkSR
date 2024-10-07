@@ -287,6 +287,9 @@
     <Filter Include="04.UI\05.Boss\02.SniperHP">
       <UniqueIdentifier>{187f472e-f973-40c3-a0dc-0b3e0e687365}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\07.Tile\06.ItemTile">
+      <UniqueIdentifier>{f09d2a7b-0521-4e66-80eb-e4d87ae8c101}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -562,6 +565,9 @@
     <ClInclude Include="..\Header\UISniperHP.h">
       <Filter>04.UI\05.Boss\02.SniperHP</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\ItemTile.h">
+      <Filter>03.GameObject\07.Tile\06.ItemTile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -818,6 +824,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UISniperHP.cpp">
       <Filter>04.UI\05.Boss\02.SniperHP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ItemTile.cpp">
+      <Filter>03.GameObject\07.Tile\06.ItemTile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -45,6 +45,8 @@ protected:
     _bool m_bisRender;
     Engine::ITEM_TYPE m_eItemType;
 
+    _vec3 m_vStartPos;//맵툴에서 가져올 아이템 포지션 값
+
 protected:
     virtual void Free();
 };

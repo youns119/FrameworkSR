@@ -23,6 +23,7 @@ public:
 	_vec3 Get_VecPos() { return m_vecPos; }
 	_vec3 Get_VecRot() { return m_vecRot; }
 	_int Get_Number() { return m_iNumber; }
+	_float Get_Damage() { return m_fDamage; }
 	_int Get_Trigger() { return m_iTriggerNumber; }//10.06
 	void Set_Number(const _int& _iNumber) { m_iNumber = _iNumber; }
 	void Set_Trigger(const _int& _iTrigger) { m_iTriggerNumber = _iTrigger; }//10.06

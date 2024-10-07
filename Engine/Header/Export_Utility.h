@@ -97,6 +97,8 @@ inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
 inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
 inline _float FloorRayCast(_vec3 vRayStart);
 inline _bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut);
+//유빈
+inline CGameObject* FloorRayCast2(_vec3 vRayStart);//산성, 용암 바닥 타일 정보 가져오기 위해 만듬
 
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet);

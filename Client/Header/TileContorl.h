@@ -41,6 +41,6 @@ protected:
 	_int m_iNumber_Type; //이게 WallTB이라는 정보
 
 	_int m_iTriggerNumber; //몇번째 트리거에 넣을거냐 10.06
-
+	_bool m_bLastDoor;//엘레베이터 문
 };
 

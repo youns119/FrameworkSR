@@ -50,7 +50,7 @@ HRESULT CStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_MonsterBullet(L"Layer_MonsterBullet"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL);
+	//FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL); 맵 로드 문제로 Ready_Layer_GameLogic함수에서 아이템 레이어 생성해주고 있습니다.
 
 	//MapLoad(Find_Layer(L"Layer_GameLogic"));
 	//ChangeMapLoad();
@@ -223,15 +223,18 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	Engine::CLayer* pLayer2 = CLayer::Create();
+	Engine::CLayer* pLayer3 = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	NULL_CHECK_RETURN(pLayer2, E_FAIL);
+	NULL_CHECK_RETURN(pLayer3, E_FAIL);
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	MapLoad2(pLayer, pLayer2);
+	MapLoad2(pLayer, pLayer2, pLayer3);
 
 	m_mapLayer.insert({ L"Layer_Wall" , pLayer});
 	m_mapLayer.insert({ L"Layer_Monster" , pLayer2});
+	m_mapLayer.insert({ L"Layer_Item" , pLayer3 });
 
 	return S_OK;
 }
@@ -473,9 +476,9 @@ CLayer* CStage::Find_Layer(const _tchar* _pLayerTag)
 }
 
 
-void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
+void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 {
-	HANDLE		hFile = CreateFile(L"../Data/GameStage0.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/BossStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -494,7 +497,7 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
 	Engine::CLayer* pLayerDoor = CLayer::Create();
 
 	DWORD	dwByte(0);
-	_int iNumber_Type(0); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3) 
+	_int iNumber_Type(0); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3) 문(4) 아이템(5)
 	_int iNumber(0); //이게 그럼 몇번째 녀석인지
 	_int iTrigger(0); //이게 그럼 몇번째 trigger인지//10.06
 	_vec3 pPos{};
@@ -616,6 +619,30 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2)
 			NULL_CHECK_RETURN(pGameObject, );
 			pLayerDoor->Add_GameObject(L"Door", pGameObject);
 			Engine::Set_Trigger(iTrigger, pGameObject);//10.06
+		}
+		if (iNumber_Type == 5)
+		{
+			if (iNumber == 1)
+			{
+				pGameObject = CDrinkMachine::Create(m_pGraphicDev, pPos);
+				NULL_CHECK_RETURN(pGameObject, );
+				_pLayer3->Add_GameObject(L"DrinkMachine", pGameObject);
+				Engine::Set_Trigger(iTrigger, pGameObject);//10.07
+			}
+			else if (iNumber == 2)
+			{
+				pGameObject = CAxe::Create(m_pGraphicDev, pPos);
+				NULL_CHECK_RETURN(pGameObject, );
+				_pLayer3->Add_GameObject(L"Axe", pGameObject);
+				Engine::Set_Trigger(iTrigger, pGameObject);//10.07
+			}
+			else if (iNumber == 3)
+			{
+				pGameObject = CKnife::Create(m_pGraphicDev, pPos);
+				NULL_CHECK_RETURN(pGameObject, );
+				_pLayer3->Add_GameObject(L"Knife", pGameObject);
+				Engine::Set_Trigger(iTrigger, pGameObject);//10.07
+			}
 		}
 
 	}
