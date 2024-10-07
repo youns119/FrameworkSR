@@ -10,6 +10,9 @@
 #include "../Header/DrinkMachine.h"
 #include "../Header/Item.h"
 
+#include"../Header/Wall.h"
+#include"../Header/WallTB.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CCharacter(_pGraphicDev)
 	, m_pRight_TransformCom(nullptr)
@@ -717,6 +720,35 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 				static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
 				pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 				static_cast<CEffectPool*>(pGameObject)->Operate();
+			}
+			else // 레이캐스팅 -> 몬스터가 검출되지 않은 경우에
+			{
+				// 규빈 - 벽 스파크
+				CGameObject* pGameObject(nullptr);
+				CComponent* pComponent(nullptr);
+				CWall* pWall(nullptr);
+				CWallTB* pWallTB(nullptr);
+
+				_float fDist = 0.f;
+				_vec3 vHitPosition;
+				D3DXVec3Normalize(&RayDir, &RayDir);
+				pGameObject = Engine::CCollisionManager::GetInstance()->RayCastWall(RayStart + _vec3(0.f, 0.5f, 0.f), RayDir, &vHitPosition);
+				//pGameObject->OnCollisionEnter(*m_pColliderCom);
+				pWall = dynamic_cast<CWall*>(pGameObject);
+				pWallTB = dynamic_cast<CWallTB*>(pGameObject);
+
+				_vec3 vNormal{ 0.f, 0.f, 0.f };
+				if (pWall)
+					vNormal = pWall->Get_TileDirection();
+				if (pWallTB)
+					vNormal = pWallTB->Get_TileDirection();
+
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
+				static_cast<CTransform*>(pComponent)->Set_Pos(vHitPosition);
+				static_cast<CTransform*>(pComponent)->Set_Angle(-D3DX_PI * 0.5f * vNormal.z, 0.f, D3DX_PI * 0.5f * vNormal.x);
+				pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+				static_cast<CEffectPool*>(pGameObject)->Operate();
+
 			}
 		}
 	}
