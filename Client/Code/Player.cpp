@@ -8,6 +8,7 @@
 #include "../Header/Floor.h"
 #include "../Header/Monster.h"
 #include "../Header/DrinkMachine.h"
+#include "../Header/Item.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CCharacter(_pGraphicDev)
@@ -28,6 +29,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsTrapOn(false)
 	, m_fTrapTime(0.f)
 	, m_fHP(0.f)
+	, m_fTimerHP(0.f)
 	, m_fJumpPower(0.f)
 	, m_flinear(0.f)
 	, m_fTilePos(0.f)
@@ -98,7 +100,7 @@ HRESULT CPlayer::Ready_GameObject()
 
 	m_fHP = 99.f;
 	m_fSpeed = 10.f;
-
+	m_fTimerHP = 20.f;
 	// 규빈 : 알파소팅을 위한 설정, 
 	m_fViewZ = 10.f;
 	return S_OK;
@@ -1332,6 +1334,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		{
 			m_Leg_CurState = KICK;
 			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+			dynamic_cast<CDrinkMachine*>(_pOther.GetOwner())->Break_Machine();
 		}
 	}
 	
@@ -1385,6 +1388,15 @@ void CPlayer::Collide_Wall(CCollider& _pOther)
 			m_pCComponentCamera->LateUpdate_Component();
 		}
 	}
+}
+
+void CPlayer::Calculate_TimerHP(const _float& _fTimeDelta)
+{
+	if (0.f < m_fTimerHP)
+		m_fTimerHP -= _fTimeDelta;
+	else
+		m_fTimerHP = 0.f;
+	//if u need, Use (_int)m_fTimerHP;
 }
 
 void CPlayer::Free()

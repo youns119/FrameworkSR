@@ -42,6 +42,7 @@
 #include "BulletManager.h"
 #include "Character.h"
 #include "Trigger.h"
+#include "DrinkSpawner.h"
 
 BEGIN(Engine)
 
@@ -110,6 +111,9 @@ inline void LateUpdate_Bullet();
 inline void Set_Trigger(_int _iTrigger, CGameObject* _pGameObject);
 inline void Calculate_Trigger();
 inline void Collision_With_Trigger(const _int& _iTriggerNumber);
+
+inline void Set_DrinkObject(CSoda* _pGameObject);
+inline void Spawn_DrinkObject(_vec3 _vStartPos);
 
 inline void	Release_Utility();
 

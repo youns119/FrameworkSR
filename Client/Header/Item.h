@@ -28,7 +28,7 @@ public:
     virtual void Render_GameObject();
 
 public:
-    _bool Get_IsRender() { return m_bisRender; }
+    _bool Get_IsRender() { return m_bIsRender; }
 
 public:
     void OnCollisionEnter(CCollider& _pOther) {}
@@ -42,7 +42,6 @@ protected:
     Engine::CTransform* m_pTransformCom;
     Engine::CCollider* m_pColliderCom;
 
-    _bool m_bisRender;
     Engine::ITEM_TYPE m_eItemType;
 
     _vec3 m_vStartPos;//맵툴에서 가져올 아이템 포지션 값

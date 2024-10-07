@@ -58,16 +58,26 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 	m_fHP -= _fAttackDamage;
 	if (0.f >= m_fHP)
 	{
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		_int iIndex = rand() % 13;
+
+		CUI* pUI = Engine::Activate_UI(UITYPE::UI_PLUS);
+
 		switch (_eDamagedState)
 		{
 		case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
 			Changing_State(CHumanoid::HUMANOID_HEADSHOT);
+			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
+			//static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
 			Changing_State(CHumanoid::HUMANOID_BULLSHOT);
+			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_NUTSHOT);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
 			Changing_State(CHumanoid::HUMANOID_KATANA);
+			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_SAYONARA);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
 
@@ -81,6 +91,8 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 				Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
 			else
 				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
+
+			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT:
 
@@ -90,6 +102,12 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 				Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
 			else
 				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
+
+			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
+
+			break;
+		case Engine::DAMAGED_STATE::DAMAGED_EXECUTION:
+			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_GOODBYE);
 			break;
 		}
 		m_pColliderCom->SetActive(false);

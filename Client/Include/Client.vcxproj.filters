@@ -508,9 +508,6 @@
     <ClInclude Include="..\Header\UIFreeCam.h">
       <Filter>04.UI\10.FreeCam</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Drink.h">
-      <Filter>03.GameObject\10.Item\02.Drink</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DrinkMachine.h">
       <Filter>03.GameObject\12.DrinkMachine</Filter>
     </ClInclude>
@@ -567,6 +564,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\ItemTile.h">
       <Filter>03.GameObject\07.Tile\06.ItemTile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Drink.h">
+      <Filter>03.GameObject\10.Item\02.Drink</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -768,9 +768,6 @@
     <ClCompile Include="..\Code\UIFreeCam.cpp">
       <Filter>04.UI\10.FreeCam</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Drink.cpp">
-      <Filter>03.GameObject\10.Item\02.Drink</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DrinkMachine.cpp">
       <Filter>03.GameObject\12.DrinkMachine</Filter>
     </ClCompile>
@@ -827,6 +824,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\ItemTile.cpp">
       <Filter>03.GameObject\07.Tile\06.ItemTile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Drink.cpp">
+      <Filter>03.GameObject\10.Item\02.Drink</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

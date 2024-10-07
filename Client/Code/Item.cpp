@@ -5,7 +5,6 @@
 
 CItem::CItem(LPDIRECT3DDEVICE9 _pGraphicDev)
     : CGameObject(_pGraphicDev)
-    , m_bisRender(true)
     , m_eItemType(Engine::ITEM_TYPE::ITEM_END)
     , m_pBufferCom(nullptr)
     , m_pTextureCom(nullptr)
@@ -82,7 +81,7 @@ void CItem::LateUpdate_GameObject()
 
 void CItem::Render_GameObject()
 {
-    if (m_bisRender)
+    if (m_bIsRender)
     {
         m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
         m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);

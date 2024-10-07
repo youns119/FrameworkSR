@@ -2,11 +2,18 @@
 #include "../Header/Drink.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
+#include "../Header/Player.h"
 
 CDrink::CDrink(LPDIRECT3DDEVICE9 _pGraphiceDev)
-	: CItem(_pGraphiceDev)
+	: CSoda(_pGraphiceDev)
+    , m_pColliderCom(nullptr)
+    , m_pTransformCom(nullptr)
+    , m_pTextureCom(nullptr)
+    , m_pBufferCom(nullptr)
+    , m_eItemType(ITEM_TYPE::ITEM_DRINK)
+    , m_fTimer(0.f)
 {
-	m_eItemType = Engine::ITEM_TYPE::ITEM_DRINK;
+    m_bIsRender = false;
 }
 
 CDrink::~CDrink()
@@ -43,12 +50,93 @@ HRESULT CDrink::Ready_GameObject()
     return S_OK;
 }
 
+_int CDrink::Update_GameObject(const _float& _fTimeDelta)
+{
+    if (!m_bIsRender)
+        return 0;
+
+    _int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
+
+    _matrix		matWorld, matView, matBill, matResult;
+    m_pTransformCom->Get_WorldMatrix(&matWorld);
+
+    m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+    if (m_bIsRender)
+    {
+        _vec3 vPos;
+        m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+        m_fTimer += _fTimeDelta;
+        if (0.15f < vPos.y)
+        {
+            vPos.y -= _fTimeDelta;
+        }
+        else
+        {
+            vPos.z -= _fTimeDelta;
+        }
+        m_pTransformCom->Set_Pos(vPos);
+        if (5.f < m_fTimer)
+        {
+            m_fTimer = 0.f;
+            Set_IsRender(false);
+        }
+    }
+    
+
+
+
+    Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+
+    return iExit;
+}
+
+void CDrink::LateUpdate_GameObject()
+{
+    if (!m_bIsRender)
+        return;
+
+    _vec3 vPos;
+    m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+    CGameObject::Compute_ViewZ(&vPos);
+
+    Engine::CGameObject::LateUpdate_GameObject();
+}
+
+void CDrink::Render_GameObject()
+{
+    if (!m_bIsRender)
+        return;
+
+    m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+    m_pTextureCom->Set_Texture(); //Jonghan Change
+
+    m_pBufferCom->Render_Buffer();
+
+    m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CDrink::Spawn_Soda(_vec3 _vStartPos)
+{
+    m_pTransformCom->Set_Pos(_vStartPos);
+}
+
+void CDrink::Set_IsRender(const _bool& _bool)
+{
+    m_bIsRender = _bool;
+    m_pColliderCom->SetActive(_bool);
+    m_pColliderCom->SetShow(_bool);
+}
+
 void CDrink::OnCollisionEnter(CCollider& _pOther)
 {
     CGameObject* pGameObject = Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player");
     dynamic_cast<CPlayer*>(pGameObject)->Rooting_Item(m_eItemType);
     m_pColliderCom->SetActive(false);
-    m_bisRender = false;
+    m_bIsRender = false;
 }
 
 HRESULT CDrink::Add_Component()
@@ -77,5 +165,5 @@ HRESULT CDrink::Add_Component()
 
 void CDrink::Free()
 {
-    CItem::Free();
+    CSoda::Free();
 }

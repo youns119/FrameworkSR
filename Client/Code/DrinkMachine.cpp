@@ -13,6 +13,8 @@ CDrinkMachine::CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsDead(false)
 	, m_eCurState(DRINKMACHINESTATE::MACHINE_IDLE)
 	, m_ePreState(DRINKMACHINESTATE::MACHINE_IDLE)
+	, m_fSpawnDrinkTimer(2.5f)
+	, m_iSpawnCount(5)
 {
 	for (_int i = 0; i < DRINKMACHINESTATE::MACHINE_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -29,6 +31,8 @@ CDrinkMachine::CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_vStartPos(_vecPos)
 	, m_eCurState(DRINKMACHINESTATE::MACHINE_IDLE)
 	, m_ePreState(DRINKMACHINESTATE::MACHINE_IDLE)
+	, m_fSpawnDrinkTimer(2.5f)
+	, m_iSpawnCount(5)
 {
 	for (_int i = 0; i < DRINKMACHINESTATE::MACHINE_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -79,6 +83,24 @@ HRESULT CDrinkMachine::Ready_GameObject()
 
 	Set_Animation();
 
+	_vec3 vUp, vLook, vRight, vPos;
+	m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
+	m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+	m_pTransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
+	vPos = { -0.5f, -0.5f, 0.5f };
+	_vec3 vOffset =
+	{
+		vUp.x + vRight.x + vPos.x,
+		vUp.y + vRight.y + vPos.y,
+		vUp.z + vRight.z + vPos.z
+	};
+
+	m_pColliderCom->SetOffsetPos(vOffset);
+	m_pColliderCom->SetTransform(m_pTransformCom);
+	m_pColliderCom->SetRadius(1.25f);
+	m_pColliderCom->SetShow(true);
+	m_pColliderCom->SetActive(true);
+
 	return S_OK;
 }
 
@@ -86,7 +108,11 @@ _int CDrinkMachine::Update_GameObject(const _float& _fTimeDelta)
 {
 	//if (!m_bIsDead)
 
+	Spawn_Drink();
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
+
+	if (DRINKMACHINESTATE::MACHINE_BROKEN == m_eCurState)
+		m_fSpawnDrinkTimer += _fTimeDelta;
 
 	_matrix		matWorld, matView, matBill, matResult;
 	m_pTransformCom->Get_WorldMatrix(&matWorld);
@@ -157,12 +183,17 @@ void CDrinkMachine::Render_GameObject()
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
+void CDrinkMachine::Break_Machine()
+{
+	m_eCurState = CDrinkMachine::MACHINE_BROKEN;
+}
+
 void CDrinkMachine::OnCollisionEnter(CCollider& _pOther)
 {
 	//CGameObject* pGameObject = Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player");
 	//dynamic_cast<CPlayer*>(pGameObject)->Get_HasItem();
-	m_pColliderCom->SetActive(false);
-	Spawn_Drink();
+	//m_pColliderCom->SetActive(false);
+	//Spawn_Drink();
 }
 
 HRESULT CDrinkMachine::Add_Component()
@@ -216,7 +247,17 @@ void CDrinkMachine::Set_Animation()
 
 void CDrinkMachine::Spawn_Drink()
 {
-	m_eCurState = CDrinkMachine::MACHINE_BROKEN;
+	if (1.5f < m_fSpawnDrinkTimer && 0 < m_iSpawnCount)
+	{
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		vPos.y += 0.7f;
+		vPos.z -= 1.f;
+		Engine::Spawn_DrinkObject(vPos);
+
+		m_fSpawnDrinkTimer = 0.f;
+		m_iSpawnCount--;
+	}
 }
 
 void CDrinkMachine::State_Check()

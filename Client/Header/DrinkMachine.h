@@ -34,6 +34,7 @@ public:
     virtual _int Update_GameObject(const _float& _fTimeDelta);
     virtual void LateUpdate_GameObject();
     virtual void Render_GameObject();
+    void Break_Machine();
 
 public:
     virtual void OnCollisionEnter(CCollider& _pOther);
@@ -61,7 +62,8 @@ private:
     DRINKMACHINESTATE m_ePreState;
 
     _vec3 m_vStartPos;
-
+    _float m_fSpawnDrinkTimer; //몇초마다 소환
+    _int m_iSpawnCount; //최대 몇개 소환
 
 private:
     virtual void Free();
