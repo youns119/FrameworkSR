@@ -109,9 +109,6 @@
     <Filter Include="03.GameObject\Character">
       <UniqueIdentifier>{5bfe2abe-52c7-4ba2-95df-2a70854ac302}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Component\00.VIBuffer\06.WallTex\WallTBTex">
-      <UniqueIdentifier>{73b38a8a-fa92-433e-810e-ce008bef7d29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="07.UI\01.UIBase">
       <UniqueIdentifier>{acd8f491-9bb6-4143-af2f-0b14b364c71e}</UniqueIdentifier>
     </Filter>
@@ -120,6 +117,12 @@
     </Filter>
     <Filter Include="09.Trigger">
       <UniqueIdentifier>{9ea06fa0-0b85-4a64-a821-8bb4e3715285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\06.WallTex\WallTB">
+      <UniqueIdentifier>{73b38a8a-fa92-433e-810e-ce008bef7d29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\06.WallTex\Wall">
+      <UniqueIdentifier>{14d09f04-9426-4f91-bfa5-2c35610e0bd0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +189,6 @@
     <ClInclude Include="..\..\Header\FloorTex.h">
       <Filter>04.Component\00.VIBuffer\05.FloorTex</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\WallTex.h">
-      <Filter>04.Component\00.VIBuffer\06.WallTex</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\Effect.h">
       <Filter>04.Component\04. Effect</Filter>
     </ClInclude>
@@ -229,7 +229,7 @@
       <Filter>03.GameObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\WallTBTex.h">
-      <Filter>04.Component\00.VIBuffer\06.WallTex\WallTBTex</Filter>
+      <Filter>04.Component\00.VIBuffer\06.WallTex\WallTB</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\UI.h">
       <Filter>07.UI\01.UIBase</Filter>
@@ -239,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Trigger.h">
       <Filter>09.Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\WallTex.h">
+      <Filter>04.Component\00.VIBuffer\06.WallTex\Wall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -302,9 +305,6 @@
     <ClCompile Include="..\Code\FloorTex.cpp">
       <Filter>04.Component\00.VIBuffer\05.FloorTex</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\WallTex.cpp">
-      <Filter>04.Component\00.VIBuffer\06.WallTex</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Effect.cpp">
       <Filter>04.Component\04. Effect</Filter>
     </ClCompile>
@@ -345,7 +345,7 @@
       <Filter>03.GameObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\WallTBTex.cpp">
-      <Filter>04.Component\00.VIBuffer\06.WallTex\WallTBTex</Filter>
+      <Filter>04.Component\00.VIBuffer\06.WallTex\WallTB</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UI.cpp">
       <Filter>07.UI\01.UIBase</Filter>
@@ -355,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Trigger.cpp">
       <Filter>09.Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WallTex.cpp">
+      <Filter>04.Component\00.VIBuffer\06.WallTex\Wall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

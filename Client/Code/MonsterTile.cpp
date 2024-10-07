@@ -7,7 +7,6 @@ CMonsterTile::CMonsterTile(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CTileContorl(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 {
-	m_pName = L"Proto_Floor0";
 	m_iNumber = 0;
 	m_iNumber_Type = 3;
 }
