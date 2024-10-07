@@ -411,7 +411,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	}
 	if (Engine::Key_Press(DIK_SPACE)) {
 		m_bJumpCheck = true;
-		m_fJumpPower = 20.0f;
+		m_fJumpPower = 10.0f;
 	}
 
 	if (Engine::Key_Hold(DIK_J)) {
@@ -613,25 +613,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
 	}
-
-
-	
-	if (m_WeaponState == SNIPER) {
-		if (Engine::Key_Press(DIK_L))
-		{
-			m_Right_CurState = ZOOMIN;
-			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomIn", false);
-			m_bLeftHandUse = false;
-		}
-		if (Engine::Key_Release(DIK_L))
-		{
-			if (m_Right_CurState == ZOOMING || m_Right_CurState == ZOOMIN) {
-				m_Right_CurState = ZOOMOUT;
-				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomOut", false);
-				m_bLeftHandUse = false;
-			}
-		}
-	}
 }
 
 void CPlayer::Mouse_Move(const _float& _fTimeDelta)
@@ -721,16 +702,25 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_RB))
 	{
-		m_bLegUse = true;
-		m_Leg_CurState = LEG_IDLE;
-		m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
-		CComponent* pComponent(nullptr);
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Operate_Effect();
-		Rotate_Arms(false);
-		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, 0.f, 2.f);
-		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, 0.f, 2.f);
-		m_fDashSpeed = m_fSpeed * 1.5f;
+		if (SNIPER == m_WeaponState)
+		{
+			m_Right_CurState = ZOOMIN;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomIn", false);
+			m_bLeftHandUse = false;
+		}
+		else
+		{
+			m_bLegUse = true;
+			m_Leg_CurState = LEG_IDLE;
+			m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
+			CComponent* pComponent(nullptr);
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
+			Rotate_Arms(false);
+			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, 0.f, 2.f);
+			m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, 0.f, 2.f);
+			m_fDashSpeed = m_fSpeed * 1.5f;
+		}
 	}
 	if (Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_RB))
 	{
@@ -745,13 +735,24 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 	}
 	if (Engine::Mouse_Release(MOUSEKEYSTATE::DIM_RB))
 	{
-		CComponent* pComponent(nullptr);
-		m_bLegUse = false;
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Stop_Effect();
-		Rotate_Arms(true);
-		m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
-		m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -3.f, 2.f);
+		if (SNIPER == m_WeaponState)
+		{
+			if (m_Right_CurState == ZOOMING || m_Right_CurState == ZOOMIN) {
+				m_Right_CurState = ZOOMOUT;
+				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_ZoomOut", false);
+				m_bLeftHandUse = false;
+			}
+		}
+		else
+		{
+			CComponent* pComponent(nullptr);
+			m_bLegUse = false;
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectCircleLines", L"Com_Effect");
+			static_cast<CEffect*>(pComponent)->Stop_Effect();
+			Rotate_Arms(true);
+			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
+			m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -3.f, 2.f);
+		}
 	}
 
 }
@@ -769,7 +770,7 @@ void CPlayer::Jump(const _float& _fTimeDelta)
 {
 	if (m_bJumpCheck)
 	{
-		m_fJumpPower -= 1.f;
+		m_fJumpPower -= 0.75f;
 		_vec3 vPos;
 		_vec3 vUp = { 0.f, 1.f, 0.f };
 

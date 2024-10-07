@@ -16,83 +16,6 @@ CFloor::~CFloor()
 {
 }
 
-CFloor* CFloor::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos )
-{
-    CFloor* pFloor = new CFloor(_pGraphicDev);
-
-    if (FAILED(pFloor->Ready_GameObject()))
-    {
-        Safe_Release(pFloor);
-        MSG_BOX("pTerrain Create Failed");
-
-        return nullptr;
-    }
-
-    pFloor->Setup_Position(_vecPos);
-    pFloor->m_vecPos = _vecPos;
-
-    return pFloor;
-}
-
-CFloor* CFloor::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName)
-{
-    CFloor* pFloor = new CFloor(_pGraphicDev);
-
-    pFloor->Setup_ImageName(_pName);
-
-    if (FAILED(pFloor->Ready_GameObject()))
-    {
-        Safe_Release(pFloor);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pFloor->Setup_Position(_vecPos);
-    pFloor->m_vecPos = _vecPos;
-
-    return pFloor;
-}
-
-CFloor* CFloor::Create_InfoTest(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _tchar* _pName)
-{
-    CFloor* pFloor = new CFloor(_pGraphicDev);
-
-
-    if (FAILED(pFloor->Ready_GameObject()))
-    {
-        Safe_Release(pFloor);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pFloor->Setup_Position(_vecPos);
-    pFloor->Setup_Rotation(_vecRot);
-    pFloor->m_vecPos = _vecPos;
-    pFloor->m_vecRot = _vecRot;
-
-    return pFloor;
-}
-
-CFloor* CFloor::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber)
-{
-    CFloor* pFloor = new CFloor(_pGraphicDev);
-
-
-    if (FAILED(pFloor->Ready_GameObject()))
-    {
-        Safe_Release(pFloor);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pFloor->Setup_Position(_vecPos);
-    pFloor->m_vecPos = _vecPos;
-    pFloor->m_iNumber = _iNumber;
-    pFloor->Set_Number(_iNumber);
-
-    return pFloor;
-}
-
 CFloor* CFloor::Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, const _int& _iTrigger)
 {
     CFloor* pFloor = new CFloor(_pGraphicDev);
@@ -110,28 +33,6 @@ CFloor* CFloor::Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _
     pFloor->m_iNumber = _iNumber;
     pFloor->Set_Number(_iNumber);
     pFloor->Set_Trigger(_iTrigger);
-
-    return pFloor;
-}
-
-CFloor* CFloor::Create_InfoNumber2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber)
-{
-    CFloor* pFloor = new CFloor(_pGraphicDev);
-
-
-    if (FAILED(pFloor->Ready_GameObject()))
-    {
-        Safe_Release(pFloor);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    pFloor->Setup_Position(_vecPos);
-    pFloor->Setup_Rotation(_vecRot);
-    pFloor->m_vecPos = _vecPos;
-    pFloor->m_vecRot = _vecRot;
-    pFloor->m_iNumber = _iNumber;
-    pFloor->Set_Number(_iNumber);
 
     return pFloor;
 }
@@ -159,20 +60,6 @@ CFloor* CFloor::Create_InfoNumberTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 
     return pFloor;
 }
 
-CFloor* CFloor::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
-{
-    CFloor* pFloor = new CFloor(_pGraphicDev);
-
-    if (FAILED(pFloor->Ready_GameObject()))
-    {
-        Safe_Release(pFloor);
-        MSG_BOX("pTerrain Create Failed");
-        return nullptr;
-    }
-
-    return pFloor;
-}
-
 HRESULT CFloor::Ready_GameObject()
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -195,7 +82,11 @@ HRESULT CFloor::Ready_GameObject()
 _int CFloor::Update_GameObject(const _float& _fTimeDelta)
 {
     if (!m_bIsRender)
+    {
+        m_pColliderCom->SetActive(false);
+        m_pColliderCom->SetShow(false);
         return 0;
+    }
 
     Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
@@ -207,7 +98,11 @@ _int CFloor::Update_GameObject(const _float& _fTimeDelta)
 void CFloor::LateUpdate_GameObject()
 {
     if (!m_bIsRender)
+    {
+        m_pColliderCom->SetActive(false);
+        m_pColliderCom->SetShow(false);
         return;
+    }
 
     Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -215,7 +110,11 @@ void CFloor::LateUpdate_GameObject()
 void CFloor::Render_GameObject()
 {
     if (!m_bIsRender)
+    {
+        m_pColliderCom->SetActive(false);
+        m_pColliderCom->SetShow(false);
         return;
+    }
 
     m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
@@ -281,12 +180,6 @@ void CFloor::Setup_Rotation(_vec3 _vecRot)
 {
     m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
-
-void CFloor::Setup_ImageName(const _tchar* _pName)
-{
-    m_pName = _pName;
-}
-
 
 void CFloor::Free()
 {

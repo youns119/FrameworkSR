@@ -58,9 +58,7 @@ private:
 	// 레이어 찾을려는 용도 - 유빈
 	CLayer* Find_Layer(const _tchar* _pLayerTag);
 	// 맵 불러오기 - 유빈
-	void MapLoad(CLayer* _pLayer);
 	void MapLoad2(CLayer* _pLayer, CLayer* _pLayer2);
-	void ChangeMapLoad();
 
 private:
 	virtual void Free();

@@ -20,6 +20,7 @@ private:
     virtual HRESULT	Add_Component();
     virtual void State_Check(); //Jonghan Change
     virtual void Attack(const _float& _fTimeDelta);
+    virtual void AttackMoving(const _float& _fTimeDelta, const _vec3& _vDir);
     virtual void Set_Animation();
 
 private:

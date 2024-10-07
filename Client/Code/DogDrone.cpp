@@ -215,6 +215,10 @@ void CDogDrone::Attack(const _float& _fTimeDelta)
 	}
 }
 
+void CDogDrone::AttackMoving(const _float& _fTimeDelta, const _vec3& _vDir)
+{
+}
+
 void CDogDrone::Set_Animation()
 {
 	m_pAnimatorCom->CreateAnimation(L"Idle", m_pTextureCom[DRONE_IDLE], 13.f);

@@ -15,98 +15,6 @@ CMonsterTile::~CMonsterTile()
 {
 }
 
-CMonsterTile* CMonsterTile::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
-{
-	CMonsterTile* pMonster = new CMonsterTile(_pGraphicDev);
-
-	if (FAILED(pMonster->Ready_GameObject()))
-	{
-		Safe_Release(pMonster);
-		MSG_BOX("pTerrain Create Failed");
-
-		return nullptr;
-	}
-
-	return pMonster;
-}
-
-CMonsterTile* CMonsterTile::Create_Pos(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
-{
-	CMonsterTile* pMonster = new CMonsterTile(_pGraphicDev);
-
-	if (FAILED(pMonster->Ready_GameObject()))
-	{
-		Safe_Release(pMonster);
-		MSG_BOX("pWall Create Failed");
-		return nullptr;
-	}
-
-	pMonster->Setup_Position(_vecPos);
-	pMonster->m_vecPos = _vecPos;
-
-	return pMonster;
-}
-
-CMonsterTile* CMonsterTile::Create_Rot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot)
-{
-	CMonsterTile* pMonster = new CMonsterTile(_pGraphicDev);
-
-	if (FAILED(pMonster->Ready_GameObject()))
-	{
-		Safe_Release(pMonster);
-		MSG_BOX("pWall Create Failed");
-		return nullptr;
-	}
-
-	pMonster->Setup_Position(_vecPos);
-	pMonster->Setup_Angle(_vecRot);
-	return pMonster;
-}
-
-CMonsterTile* CMonsterTile::Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _tchar* _pName)
-{
-	CMonsterTile* pMonster = new CMonsterTile(_pGraphicDev);
-
-	pMonster->Setup_ImageName(_pName);
-
-	if (FAILED(pMonster->Ready_GameObject()))
-	{
-		Safe_Release(pMonster);
-		MSG_BOX("pTerrain Create Failed");
-		return nullptr;
-	}
-
-	pMonster->Setup_Position(_vecPos);
-	pMonster->m_vecPos = _vecPos;
-
-	if (_pName == L"Proto_Monster1")
-	{
-		pMonster->Setup_ImageNumber(1);
-	}
-	else if (_pName == L"Proto_Monster2")
-	{
-		pMonster->Setup_ImageNumber(2);
-	}
-	else if (_pName == L"Proto_Monster3")
-	{
-		pMonster->Setup_ImageNumber(3);
-	}
-	else if (_pName == L"Proto_Monster4")
-	{
-		pMonster->Setup_ImageNumber(4);
-	}
-	else if (_pName == L"Proto_Monster5")
-	{
-		pMonster->Setup_ImageNumber(5);
-	}
-	else if (_pName == L"Proto_Monster6")
-	{
-		pMonster->Setup_ImageNumber(6);
-	}
-
-	return pMonster;
-}
-
 CMonsterTile* CMonsterTile::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber)
 {
 	CMonsterTile* pMonster = new CMonsterTile(_pGraphicDev);
@@ -186,11 +94,6 @@ void CMonsterTile::Render_GameObject()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CMonsterTile::Setup_ImageName(const _tchar* _pName)
-{
-	m_pName = _pName;
-	
-}
 
 HRESULT CMonsterTile::Add_Component()
 {

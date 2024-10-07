@@ -212,6 +212,15 @@ void CFlyingDrone::Attack(const _float& _fTimeDelta)
 	}
 }
 
+void CFlyingDrone::AttackMoving(const _float& _fTimeDelta, const _vec3& _vDir)
+{
+	_vec3 vMove, vPos, vFinal;
+	D3DXVec3Normalize(&vMove, &_vDir);
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	vFinal = vPos + vMove;
+	m_pTransformCom->Set_Pos(vFinal);
+}
+
 void CFlyingDrone::Set_Animation()
 {
 	m_pAnimatorCom->CreateAnimation(L"Idle", m_pTextureCom[DRONE_IDLE], 13.f);
