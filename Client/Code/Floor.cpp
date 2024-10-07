@@ -28,6 +28,11 @@ CFloor* CFloor::Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _
         return nullptr;
     }
 
+    if (_iNumber == 27 || _iNumber == 28)
+    {
+        pFloor->m_fDamage = 10.f;
+    }
+
     pFloor->Setup_Position(_vecPos);
     pFloor->m_vecPos = _vecPos;
     pFloor->m_iNumber = _iNumber;
@@ -48,7 +53,10 @@ CFloor* CFloor::Create_InfoNumberTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 
         MSG_BOX("pTerrain Create Failed");
         return nullptr;
     }
-
+    if (_iNumber == 27 || _iNumber == 28)
+    {
+        pFloor->m_fDamage = 10.f;
+    }
     pFloor->Setup_Position(_vecPos);
     pFloor->Setup_Rotation(_vecRot);
     pFloor->m_vecPos = _vecPos;

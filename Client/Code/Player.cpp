@@ -5,6 +5,7 @@
 // 규빈
 #include "../Header/EffectPool.h"
 #include "../Header/EffectMuzzleFlash.h"
+#include "../Header/Floor.h"
 #include "../Header/Monster.h"
 #include "../Header/DrinkMachine.h"
 
@@ -24,6 +25,8 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsHasItem(false)
 	, m_bIsDrinking(false)
 	, m_bIsRotation(false)
+	, m_bIsTrapOn(false)
+	, m_fTrapTime(0.f)
 	, m_fHP(0.f)
 	, m_fJumpPower(0.f)
 	, m_flinear(0.f)
@@ -104,7 +107,20 @@ HRESULT CPlayer::Ready_GameObject()
 _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
 	Picking_Terrain();
+	Damage_Terrain();//유빈 - 산성,용암지형에 플레이어가 대미지를 받음
+	if (m_bIsTrapOn)
+	{
+		if (m_fTrapTime > 2.5f)	// 5초 정도로 설정// 왜 2.5로 되는지..모르겠음
+		{
+			m_bIsTrapOn = false;
+			m_fTrapTime = 0;
+		}
+		else
+		{
+			m_fTrapTime += _fTimeDelta;
+		}
 
+	}
 	if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
@@ -799,6 +815,27 @@ void CPlayer::Picking_Terrain()
 
 	if (!m_bJumpCheck && m_fTilePos > 0.f)
 		m_pBody_TransformCom->Set_Pos(vPos.x, vPos.y - m_fTilePos + 1.f, vPos.z);
+}
+
+void CPlayer::Damage_Terrain()
+{
+	_vec3 vPos;
+	CGameObject* pGameObject;
+	m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+	pGameObject = Engine::FloorRayCast2(vPos); // 레이픽킹된 바닥 정보를 받아옴
+
+	if (pGameObject != nullptr && dynamic_cast<CFloor*>(pGameObject)->Get_Damage() > 0)// 바닥 정보가 있고 대미지가 있을 경우에만 동작
+	{
+		if (!m_bIsTrapOn)
+		{
+			m_fHP -= dynamic_cast<CFloor*>(pGameObject)->Get_Damage();
+			m_bIsTrapOn = true;
+			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
+			if (pComponent)
+				static_cast<CEffect*>(pComponent)->Operate_Effect();
+		}
+	}
 }
 
 void CPlayer::SetAnimation()

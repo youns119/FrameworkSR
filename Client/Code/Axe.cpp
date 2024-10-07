@@ -8,6 +8,13 @@ CAxe::CAxe(LPDIRECT3DDEVICE9 _pGraphiceDev)
 {
     m_eItemType = Engine::ITEM_TYPE::ITEM_AXE;
 }
+CAxe::CAxe(LPDIRECT3DDEVICE9 _pGraphiceDev, _vec3 _vecPos)
+	: CItem(_pGraphiceDev)
+{
+    m_eItemType = Engine::ITEM_TYPE::ITEM_AXE;
+    m_vStartPos = _vecPos;
+
+}
 
 CAxe::~CAxe()
 {
@@ -16,6 +23,20 @@ CAxe::~CAxe()
 CAxe* CAxe::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
     CAxe* pItem = new CAxe(_pGraphicDev);
+
+    if (FAILED(pItem->Ready_GameObject()))
+    {
+        Safe_Release(pItem);
+        MSG_BOX("Axe Create Failed");
+        return nullptr;
+    }
+
+    return pItem;
+}
+
+CAxe* CAxe::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+    CAxe* pItem = new CAxe(_pGraphicDev, _vecPos);
 
     if (FAILED(pItem->Ready_GameObject()))
     {
@@ -37,7 +58,7 @@ HRESULT CAxe::Ready_GameObject()
     m_pColliderCom->SetActive(true);
     _matrix matWorld;
     m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
-    m_pTransformCom->Set_Pos(7.5f, 0.1f, 5.f);
+	m_pTransformCom->Set_Pos(m_vStartPos.x, m_vStartPos.y + 0.1f, m_vStartPos.z);
     m_pTransformCom->Set_Angle(D3DXToRadian(90.f), 0.f, 0.f);
 
     return S_OK;

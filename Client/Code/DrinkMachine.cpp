@@ -18,6 +18,22 @@ CDrinkMachine::CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev)
 		m_pTextureCom[i] = nullptr;
 }
 
+CDrinkMachine::CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+	: CGameObject(_pGraphicDev)
+	, m_pAnimatorCom(nullptr)
+	, m_pBufferCom(nullptr)
+	, m_pColliderCom(nullptr)
+	, m_pTransformCom(nullptr)
+	, m_pCalculatorCom(nullptr)
+	, m_bIsDead(false)
+	, m_vStartPos(_vecPos)
+	, m_eCurState(DRINKMACHINESTATE::MACHINE_IDLE)
+	, m_ePreState(DRINKMACHINESTATE::MACHINE_IDLE)
+{
+	for (_int i = 0; i < DRINKMACHINESTATE::MACHINE_END; ++i)
+		m_pTextureCom[i] = nullptr;
+}
+
 CDrinkMachine::~CDrinkMachine()
 {
 }
@@ -36,11 +52,26 @@ CDrinkMachine* CDrinkMachine::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pGameObject;
 }
 
+CDrinkMachine* CDrinkMachine::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+{
+	CDrinkMachine* pGameObject = new CDrinkMachine(_pGraphicDev, _vecPos);
+
+	if (FAILED(pGameObject->Ready_GameObject()))
+	{
+		Safe_Release(pGameObject);
+		MSG_BOX("Boss_Robot Create Failed");
+		return nullptr;
+	}
+
+	return pGameObject;
+}
+
+
 HRESULT CDrinkMachine::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(10.f, 0.f, 25.f);
+	m_pTransformCom->Set_Pos(m_vStartPos.x, m_vStartPos.y, m_vStartPos.z);
 	m_pColliderCom->SetTransform(m_pTransformCom);
 	m_pColliderCom->SetRadius(1.f);
 	m_pColliderCom->SetShow(true);

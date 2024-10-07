@@ -22,10 +22,12 @@ public:
     enum DRINKMACHINESTATE {MACHINE_IDLE, MACHINE_ACTIVE, MACHINE_BROKEN, MACHINE_END};
 private:
     explicit CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev);
+    explicit CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
     virtual ~CDrinkMachine();
 
 public:
     static CDrinkMachine* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+    static CDrinkMachine* Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
 
 public:
     virtual HRESULT	Ready_GameObject();
@@ -57,6 +59,9 @@ private:
     _bool m_bIsDead;
     DRINKMACHINESTATE m_eCurState;
     DRINKMACHINESTATE m_ePreState;
+
+    _vec3 m_vStartPos;
+
 
 private:
     virtual void Free();

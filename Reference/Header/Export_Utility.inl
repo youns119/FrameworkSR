@@ -183,6 +183,11 @@ inline _bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut)
 	return CCollisionManager::GetInstance()->FireRayCast(_vRayStart, _vRayDir, _vOut);
 }
 
+inline CGameObject* FloorRayCast2(_vec3 vRayStart)
+{
+	return CCollisionManager::GetInstance()->FloorRayCast2(vRayStart);
+}
+
 //Jonghan Change
 inline HRESULT Add_Bullet(CBullet* _pBullet)
 {

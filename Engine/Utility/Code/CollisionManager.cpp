@@ -425,6 +425,45 @@ _float CCollisionManager::FloorRayCast(_vec3 vRayStart)
 	return 0.f;
 }
 
+CGameObject* CCollisionManager::FloorRayCast2(_vec3 vRayStart)
+{
+	auto mapFloor = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_Floor");
+	CGameObject* pGameObject;
+
+	for (auto Object : *mapFloor)
+	{
+		pGameObject = Object.second;
+		CComponent* pComponent = pGameObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer");
+		CFloorTex* pFloorTex = static_cast<CFloorTex*>(pComponent);
+
+		pComponent = pGameObject->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform");
+		CTransform* pFloorTransform = static_cast<CTransform*>(pComponent);
+		const _matrix* pFloorWorld = pFloorTransform->Get_WorldMatrix();
+
+		_vec3 vVertex0 = *pFloorTex->Get_VertexPos(0);
+		_vec3 vVertex1 = *pFloorTex->Get_VertexPos(1);
+		_vec3 vVertex2 = *pFloorTex->Get_VertexPos(2);
+		_vec3 vVertex3 = *pFloorTex->Get_VertexPos(3);
+
+		D3DXVec3TransformCoord(&vVertex0, &vVertex0, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex1, &vVertex1, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex2, &vVertex2, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex3, &vVertex3, pFloorWorld);
+
+		float fU, fV, fDist1(0.f), fDist2(0.f);
+		_vec3 vRayDir = { 0.f, -1.f, 0.f };
+		_bool bIntersected1 = D3DXIntersectTri(&vVertex0, &vVertex1, &vVertex2, &vRayStart, &vRayDir, &fU, &fV, &fDist1);
+		_bool bIntersected2 = D3DXIntersectTri(&vVertex0, &vVertex2, &vVertex3, &vRayStart, &vRayDir, &fU, &fV, &fDist2);
+
+		if (bIntersected1)
+			return pGameObject;
+		else if (bIntersected2)
+			return pGameObject;
+		else
+			continue;
+	}
+}
+
 void CCollisionManager::Free()
 {
 	Reset();

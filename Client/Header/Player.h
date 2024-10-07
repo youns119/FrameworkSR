@@ -95,6 +95,7 @@ private:
 	void Mouse_Fix();
 	void Jump(const _float& _fTimeDelta);
 	void Picking_Terrain();
+	void Damage_Terrain();//산성,용암 바닥 대미지
 	void SetAnimation();
 	void Animation_End_Check();
 	void Animation_Pos();
@@ -135,6 +136,8 @@ private:
 	_bool m_bIsHasItem;
 	_bool m_bIsDrinking;
 	_bool m_bIsRotation;
+	_bool m_bIsTrapOn;
+	_float m_fTrapTime;
 	_float m_fHP;
 	_float m_fJumpPower;
 	_float m_fTilePos;
