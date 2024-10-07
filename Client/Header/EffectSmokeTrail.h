@@ -44,5 +44,8 @@ private:
 	Engine::CParticleSystem* m_pParticleSystemCom;
 
 
+private:
+	_float m_fGraceTime;
+	_bool m_bIsMissing;
 };
 
