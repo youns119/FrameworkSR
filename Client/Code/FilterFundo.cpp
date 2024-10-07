@@ -31,7 +31,9 @@ HRESULT CFilterFundo::Ready_GameObject()
 
     m_pTransformCom->Set_Pos(3.f, 2.f, 3.f);
     m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
-    m_fViewZ = 1000.0f;
+    // 이 필터가 항상 무족권 알파 소팅되었을 때 첫번째이어야함
+    // 이유는 모름 무적권 alpha 렌더 그룹중엔 무적권 첫번째로 나와야 다른것들도 보임
+    m_fViewZ = 10000000000.0f;
 
     return S_OK;
 }

@@ -396,9 +396,9 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	//m_mapLayer.insert({ _pLayerTag , pLayer });
 
 
-	//pGameObject = CFilterFundo::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FilterFundo", pGameObject), E_FAIL);
+	pGameObject = CFilterFundo::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FilterFundo", pGameObject), E_FAIL);
 
 	pGameObject = CEffectPool::Create(m_pGraphicDev, (CGameObject * (*)(LPDIRECT3DDEVICE9))CEffectMinigunShell::Create);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
