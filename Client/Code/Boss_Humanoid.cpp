@@ -137,12 +137,12 @@ void CBoss_Humanoid::Render_GameObject()
 	//Jonghan Monster Change Start
 
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pAnimatorCom->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 

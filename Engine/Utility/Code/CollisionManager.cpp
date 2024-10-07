@@ -339,16 +339,21 @@ _bool CCollisionManager::FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _v
 			if (intersected || intersected2) {
 				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_HEADSHOT);
 				// V1 + U(V2 - V1) + V(V3 - V1)
-				if (intersected)
-				{
-					//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
-					_vOut = _vRayStart + (dist * _vRayDir);
-				}
-				else
-				{
-					//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
-					_vOut = _vRayStart + (dist * _vRayDir);
-				}
+				//if (intersected)
+				//{
+				//	//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+				//	_int iTemp = rand() % 100;
+				//	_vOut = _vRayStart + (dist * _vRayDir *(1 - (iTemp * 0.0001f)));
+				//}
+				//else
+				//{
+				//	//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+				//	_int iTemp = rand() % 100;
+				//	_vOut = _vRayStart + (dist * _vRayDir * (1 - (iTemp * 0.0001f)));
+				//}
+
+				_int iTemp = rand() % 100;
+				_vOut = _vRayStart + (dist * _vRayDir * (1 - (iTemp * 0.001f)));
 
 				return true;
 			}
@@ -371,31 +376,40 @@ _bool CCollisionManager::FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _v
 			if (intersected || intersected2) {
 				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BULLSHOT);
 				// V1 + U(V2 - V1) + V(V3 - V1)
-				if (intersected)
-				{
-					//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
-					_vOut = _vRayStart + (dist * _vRayDir);
-				}
-				else
-				{
-					//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
-					_vOut = _vRayStart + (dist * _vRayDir);
-				}
+				//if (intersected)
+				//{
+				//	//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+				//	_int iTemp = rand() % 100;
+				//	_vOut = _vRayStart + (dist * _vRayDir * (1 - (iTemp * 0.0001f)));
+				//}
+				//else
+				//{
+				//	//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+				//	_int iTemp = rand() % 100;
+				//	_vOut = _vRayStart + (dist * _vRayDir * (1 - (iTemp * 0.0001f)));
+				//}
+
+				_int iTemp = rand() % 100;
+				_vOut = _vRayStart + (dist * _vRayDir * (1 - (iTemp * 0.001f)));
 				return true;
 			}
 			//몸체피격
 			dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT);
 			// V1 + U(V2 - V1) + V(V3 - V1)
-			if (intersected)
-			{
-				//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
-				_vOut = _vRayStart + (dist * _vRayDir);
-			}
-			else
-			{
-				//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
-				_vOut = _vRayStart + (dist * _vRayDir);
-			}
+			//if (intersected)
+			//{
+			//	//_vOut = v0 + (u * (v1 - v0)) + (v * (v2 - v0));
+			//	_vOut = _vRayStart + (dist * _vRayDir);
+			//}
+			//else
+			//{
+			//	//_vOut = v0 + (u * (v2 - v1)) + (v * (v3 - v0));
+			//	_vOut = _vRayStart + (dist * _vRayDir);
+			//}
+
+			_int iTemp = rand() % 100;
+			_vOut = _vRayStart + (dist * _vRayDir * (1 - (iTemp * 0.001f)));
+
 			return true;
 		}
 	}
