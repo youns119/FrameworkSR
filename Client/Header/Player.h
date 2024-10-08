@@ -103,6 +103,7 @@ private:
 	void Collide_Wall(CCollider& _pOther);
 
 	void Calculate_TimerHP(const _float& _fTimeDelta);
+	void Skill_Timer();
 public:
 	void OnCollision(CCollider& _pOther);
 	void OnCollisionEnter(CCollider& _pOther);
@@ -148,6 +149,7 @@ private:
 	_float m_fDashSpeed;
 	_float m_fCurAttackDelay;
 	_float m_fMaxAttackDelay;
+	_float m_fTime_Skill;
 	_float m_flinear;
 	_int m_iMaxAmmo;
 	_int m_iCurAmmo;

@@ -48,6 +48,11 @@ inline void Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev)
 	CManagement::GetInstance()->Render_Scene(_pGraphicDev);
 }
 
+inline void Set_PlayerSkillTimer(const _float& _fTimer)
+{
+	CManagement::GetInstance()->Set_PlayerSkillTimer(_fTimer);
+}
+
 // ComponentManager
 inline HRESULT Ready_Proto(const _tchar* _pComponentTag, CComponent* _pComponent)
 {

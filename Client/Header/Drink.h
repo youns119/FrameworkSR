@@ -24,6 +24,7 @@ public:
 
 private:
     virtual HRESULT Add_Component();
+    void Falling_Action(const _float& _fTimeDelta);
 
 private:
     CTexture* m_pTextureCom;
@@ -33,6 +34,9 @@ private:
 
     ITEM_TYPE m_eItemType;
     _float m_fTimer;
+    _float m_fJumpPower;
+    _vec3 m_vJumpDirection;
+    _bool m_bIsJump;
 
 private:
     virtual void Free();

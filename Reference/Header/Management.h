@@ -26,6 +26,7 @@ public:
 	_int Update_Scene(const _float& _fTimeDelta);
 	void LateUpdate_Scene();
 	void Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev);
+	void Set_PlayerSkillTimer(const _float& _fTimer) { m_fPlayerSkillTimer = _fTimer; }
 
 public:
 	virtual void Free();
@@ -34,6 +35,7 @@ private:
 	CScene* m_pScene;
 
 	CONTROLLERID m_eController;
+	_float m_fPlayerSkillTimer;
 };
 
 END

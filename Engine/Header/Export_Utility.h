@@ -58,6 +58,7 @@ inline void Set_ControllerID(CONTROLLERID _eController);
 inline	_int Update_Scene(const _float& _fTimeDelta);
 inline	void LateUpdate_Scene();
 inline	void Render_Scene(LPDIRECT3DDEVICE9 _pGraphicDev);
+inline void Set_PlayerSkillTimer(const _float& _fTimer);
 
 // ComponentManager
 inline HRESULT Ready_Proto(const _tchar* _pComponentTag, CComponent* _pComponent);

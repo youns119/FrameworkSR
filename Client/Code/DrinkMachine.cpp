@@ -14,7 +14,7 @@ CDrinkMachine::CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_eCurState(DRINKMACHINESTATE::MACHINE_IDLE)
 	, m_ePreState(DRINKMACHINESTATE::MACHINE_IDLE)
 	, m_fSpawnDrinkTimer(0.5f)
-	, m_iSpawnCount(5)
+	, m_iSpawnCount(12)
 {
 	for (_int i = 0; i < DRINKMACHINESTATE::MACHINE_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -32,7 +32,7 @@ CDrinkMachine::CDrinkMachine(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_eCurState(DRINKMACHINESTATE::MACHINE_IDLE)
 	, m_ePreState(DRINKMACHINESTATE::MACHINE_IDLE)
 	, m_fSpawnDrinkTimer(0.5f)
-	, m_iSpawnCount(5)
+	, m_iSpawnCount(12)
 {
 	for (_int i = 0; i < DRINKMACHINESTATE::MACHINE_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -247,7 +247,7 @@ void CDrinkMachine::Set_Animation()
 
 void CDrinkMachine::Spawn_Drink()
 {
-	if (1.5f < m_fSpawnDrinkTimer && 0 < m_iSpawnCount)
+	if (0.45f < m_fSpawnDrinkTimer && 0 < m_iSpawnCount)
 	{
 		_vec3 vPos;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);

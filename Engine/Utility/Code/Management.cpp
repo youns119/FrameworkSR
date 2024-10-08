@@ -5,6 +5,7 @@ IMPLEMENT_SINGLETON(CManagement)
 CManagement::CManagement()
 	: m_pScene(nullptr)
 	, m_eController(CONTROLLERID::CONTROL_PLAYER)
+	, m_fPlayerSkillTimer(1.f)
 {
 }
 
@@ -36,9 +37,9 @@ _int CManagement::Update_Scene(const _float& _fTimeDelta)
 	NULL_CHECK_RETURN(m_pScene, -1);
 
 	// ¿¬¿í
-	m_pScene->Update_Scene(_fTimeDelta);
+	m_pScene->Update_Scene(_fTimeDelta * m_fPlayerSkillTimer);
 
-	return Engine::Update_UI(_fTimeDelta);
+	return Engine::Update_UI(_fTimeDelta * m_fPlayerSkillTimer);
 }
 
 void CManagement::LateUpdate_Scene()
