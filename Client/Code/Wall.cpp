@@ -30,7 +30,8 @@ CWall* CWall::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, 
 
     pWall->Setup_Position(_vecPos);
     pWall->m_vecPos = _vecPos;
-    pWall->Set_Number(_iNumber - 1);
+    pWall->Set_Number(_iNumber);
+    pWall->m_iNumber = _iNumber;
     pWall->Set_TileDirection(_eTileDirection);
     pWall->Set_Trigger(_iTrigger);
 
@@ -52,6 +53,7 @@ CWall* CWall::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
     pWall->Setup_Position(_vecPos);
     pWall->m_vecPos = _vecPos;
     pWall->Set_Number(_iNumber);
+    pWall->m_iNumber = _iNumber;
     pWall->Set_TileDirection(_vecRot);
     pWall->Set_Trigger(_iTrigger);
 
@@ -138,7 +140,7 @@ void CWall::Render_GameObject()
 
     FAILED_CHECK_RETURN(Setup_Material(), );
 
-    m_pTextureCom->Set_Texture(m_iNumber);
+    m_pTextureCom->Set_Texture(m_iNumber - 1);
 
     m_pBufferCom->Render_Buffer();
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
