@@ -517,7 +517,7 @@ HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIR
 HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber, m_iTriggerNumber);//10.06
+	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber-1, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
 
@@ -527,7 +527,7 @@ HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 HRESULT CMapCreate::Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CDoor::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
+	pGameObject = CDoor::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber-1, _eTileDirection, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Door", pGameObject);
 
@@ -537,7 +537,7 @@ HRESULT CMapCreate::Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIREC
 HRESULT CMapCreate::Create_Layer_PickingItem(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CItemTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber , m_iTriggerNumber);//10.06
+	pGameObject = CItemTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber-1 , m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"ItemTile", pGameObject);
 

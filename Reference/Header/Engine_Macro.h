@@ -13,7 +13,7 @@ namespace Engine
 #define TRIGGERCOUNT	64 //Trigger
 
 
-#define	VTXTILEX		20
+#define	VTXTILEX		50
 #define	VTXTILEZ		200
 
 
