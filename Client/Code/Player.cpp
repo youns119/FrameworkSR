@@ -76,6 +76,15 @@ CPlayer::~CPlayer()
 {
 }
 
+void CPlayer::Rooting_Item(Engine::ITEM_TYPE _eItemType)
+{
+	m_eItemType = _eItemType;
+	if (ITEM_TYPE::ITEM_DRINK != _eItemType)
+	{
+		m_bIsHasItem = true;
+	}
+}
+
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
 	CPlayer* pPlayer = new CPlayer(_pGraphicDev);
@@ -311,6 +320,10 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pRight_TextureCom[MINIGUN][SHOOT] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_GunPoint_Shoot")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_GunPoint_Shoot", pComponent });
+
+	pComponent = m_pRight_TextureCom[MINIGUN][CHANGE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_MiniGun_GunPoint_Change")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_GunPoint_Change", pComponent });
 
 	//Left
 	pComponent = m_pLeft_TextureCom[LEFT_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftArmTex"));
@@ -549,7 +562,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_flinear = 0.f;
 		m_iCurAmmo = 100;
 		m_iMaxAmmo = 100;
-		m_fMaxAttackDelay = 0.2f;
+		m_fMaxAttackDelay = 1.0f;
 	}
 	
 
@@ -642,12 +655,14 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(MOUSEMOVESTATE::DIMS_Y))
 	{
-		m_pBody_TransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(dwMouseMove / 20.f));
+		if (EXECUTION != m_Right_CurState)
+			m_pBody_TransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(dwMouseMove / 20.f));
 	}
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(MOUSEMOVESTATE::DIMS_X))
 	{
-		m_pBody_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(dwMouseMove / 20.f));
+		if (EXECUTION != m_Right_CurState)
+			m_pBody_TransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(dwMouseMove / 20.f));
 	}
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB)) {
 
@@ -710,8 +725,8 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			break;
 		case MINIGUN:
 			m_Right_CurState = SHOOT;
-			m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Shoot", false);
-			Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_PISTOL);
+			m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Shoot", true);
+			//Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_PISTOL);
 			break;
 		}
 		m_fCurAttackDelay = m_fMaxAttackDelay;
@@ -766,6 +781,53 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 				pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 				static_cast<CEffectPool*>(pGameObject)->Operate();
 
+			}
+		}
+	}
+
+	if (Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_LB))
+	{
+		if (MINIGUN == m_WeaponState)
+		{
+			if (1 > m_iCurAmmo)
+			{
+				m_Right_CurState = IDLE;
+				m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Change", false);
+			}
+			_vec3 RayStart, RayDir, vPos;
+			m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
+			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
+			// ±Ôºó
+			_vec3 vMuzzlePos{};
+			m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
+			if (0.f < m_fCurAttackDelay)
+				m_fCurAttackDelay -= _fTimeDelta;
+			if (0.5f > m_fCurAttackDelay)
+			{
+
+				Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_MINIGUN);
+				m_fCurAttackDelay = m_fMaxAttackDelay;
+				m_iCurAmmo--;
+
+				CComponent* pComponent(nullptr);
+				CEffectMuzzleFlash* pMuzzleFlash(nullptr);
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
+				pMuzzleFlash = static_cast<CEffectMuzzleFlash*>(static_cast<CTransform*>(pComponent)->GetOwner());
+				vMuzzlePos.y += 1.f;
+				pMuzzleFlash->Set_InitPos(vMuzzlePos);
+				static_cast<CEffect*>(pComponent)->Operate_Effect();
+			}
+
+		}
+	}
+	if (Engine::Mouse_Release(MOUSEKEYSTATE::DIM_LB))
+	{
+		if (MINIGUN == m_WeaponState)
+		{
+			if (1 < m_iCurAmmo)
+			{
+				m_Right_CurState = IDLE;
+				m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", false);
 			}
 		}
 	}
@@ -918,8 +980,9 @@ void CPlayer::SetAnimation()
 	m_pAnimator[RIGHT]->CreateAnimation(L"Sniper_ZoomOut", m_pRight_TextureCom[SNIPER][ZOOMOUT], 13.f);
 
 	//MiniGun
-	m_pAnimator[RIGHT]->CreateAnimation(L"MiniGun_GunPoint_Idle", m_pRight_TextureCom[MINIGUN][IDLE], 8.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"MiniGun_GunPoint_Shoot", m_pRight_TextureCom[MINIGUN][SHOOT], 13.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"MiniGun_GunPoint_Idle", m_pRight_TextureCom[MINIGUN][IDLE], 18.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"MiniGun_GunPoint_Shoot", m_pRight_TextureCom[MINIGUN][SHOOT], 24.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"MiniGun_GunPoint_Change", m_pRight_TextureCom[MINIGUN][CHANGE], 12.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"MiniGun_Body_Idle", m_pLeft_TextureCom[MINIGUN_BODY_IDLE], 13.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"MiniGun_Body_Change", m_pLeft_TextureCom[MINIGUN_BODY_CHANGE], 13.f);
 	m_pAnimator[LEG]->CreateAnimation(L"MiniGun_Panel_Change", m_pLeg_TextureCom[MINIGUN_PANEL_CHANGE], 13.f);

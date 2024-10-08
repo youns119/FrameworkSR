@@ -274,6 +274,9 @@ HRESULT CStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
+	Engine::CLayer* pLayer2 = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer2, E_FAIL);
+
 	Engine::CGameObject* pGameObject = nullptr;
 
 	//Jonghan Change Start
@@ -307,7 +310,17 @@ HRESULT CStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 		FAILED_CHECK_RETURN(Engine::Add_Laser(pLaser), E_FAIL);
 		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Laser", pLaser), E_FAIL);
 	}
+	for (_int i = 0; i < 128; ++i)
+	{
+		Engine::CBullet* pMiniGun = nullptr;
+		pMiniGun = CMiniGun::Create(m_pGraphicDev);
+
+		NULL_CHECK_RETURN(pMiniGun, E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_MiniGun(pMiniGun), E_FAIL);
+		FAILED_CHECK_RETURN(pLayer2->Add_GameObject(L"MiniGun", pMiniGun), E_FAIL);
+	}
 	m_mapLayer.insert({ _pLayerTag , pLayer });
+	m_mapLayer.insert({ L"Layer_PlayerBullet" , pLayer2 });
 
 	return S_OK;
 }
@@ -486,6 +499,9 @@ void CStage::Set_Collision()
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Monster");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Door");
 
+
+	Engine::CheckGroup(L"Layer_PlayerBullet", L"Layer_Monster");
+	//Engine::CheckGroup(L"Layer_PlayerBullet", L"Layer_Wall"); //For Particle when collide with Wall & MiniGunBullet
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Wall");
 	Engine::CheckGroup(L"Layer_Monster", L"Layer_Wall");
 }

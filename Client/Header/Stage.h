@@ -14,6 +14,7 @@
 #include "Ammo.h"
 #include "Missile.h"
 #include "Laser.h"
+#include "MiniGun.h"
 #include "Boss_Humanoid.h"
 #include "Boss_Robot.h"
 #include "Shield.h"

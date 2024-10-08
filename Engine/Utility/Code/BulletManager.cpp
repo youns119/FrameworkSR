@@ -5,6 +5,9 @@ IMPLEMENT_SINGLETON(CBulletManager)
 CBulletManager::CBulletManager()
 {
 	m_vecBullet.reserve(100);
+	m_vecMissile.reserve(100);
+	m_vecLaser.reserve(100);
+	m_vecMiniGun.reserve(256);
 }
 
 CBulletManager::~CBulletManager()
@@ -36,6 +39,15 @@ HRESULT CBulletManager::Add_Laser(CBullet* _pLaser)
 	NULL_CHECK_RETURN(_pLaser, E_FAIL);
 
 	m_vecLaser.push_back(_pLaser);
+
+	return S_OK;
+}
+
+HRESULT CBulletManager::Add_MiniGun(CBullet* _pMiniGun)
+{
+	NULL_CHECK_RETURN(_pMiniGun, E_FAIL);
+
+	m_vecMiniGun.push_back(_pMiniGun);
 
 	return S_OK;
 }
@@ -106,6 +118,16 @@ HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3&
 				break;
 			}
 		}
+	case Engine::CBulletManager::BULLET_MINIGUN:
+		for (auto& iter : m_vecMiniGun)
+		{
+			if (!(iter->Get_IsRender()))
+			{
+				iter->Fire_MiniGun(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage);
+				return S_OK;
+				break;
+			}
+		}
     }
 	return E_FAIL;
 }
@@ -118,6 +140,8 @@ _int CBulletManager::Update_Bullet(const _float& _fTimeDelta)
 		iter->Update_GameObject(_fTimeDelta);
 	for (auto& iter : m_vecLaser)
 		iter->Update_GameObject(_fTimeDelta);
+	for (auto& iter : m_vecMiniGun)
+		iter->Update_GameObject(_fTimeDelta);
 	return 0;
 }
 
@@ -129,6 +153,8 @@ void CBulletManager::LateUpdate_Bullet()
 		iter->LateUpdate_GameObject();
 	for (auto& iter : m_vecLaser)
 		iter->LateUpdate_GameObject();
+	for (auto& iter : m_vecMiniGun)
+		iter->LateUpdate_GameObject();
 }
 
 
@@ -138,4 +164,5 @@ void CBulletManager::Free()
 	m_vecBullet.clear();
 	m_vecMissile.clear();
 	m_vecLaser.clear();
+	m_vecMiniGun.clear();
 }
