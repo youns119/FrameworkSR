@@ -8,6 +8,7 @@ CBlackMan::CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev) :
     CHumanoid(_pGraphicDev)
 	, m_pShield(nullptr)
 	, m_bIsShield(true)
+	, m_bIsFormChange(false)
 {
 	m_fFireDelayTime = 5.f;
 	m_fAttackTimer = 6.f;
@@ -19,6 +20,7 @@ CBlackMan::CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	: CHumanoid(_pGraphicDev)
 	, m_pShield(nullptr)
 	, m_bIsShield(true)
+	, m_bIsFormChange(false)
 {
 	m_fFireDelayTime = 5.f;
 	m_fAttackTimer = 6.f;
@@ -195,7 +197,7 @@ HRESULT CBlackMan::Add_Component()
 
 void CBlackMan::State_Check()
 {
-	if (m_eCurState != m_ePreState)
+	if (m_eCurState != m_ePreState || m_bIsFormChange)
 	{
 		switch (m_eCurState)
 		{
@@ -244,7 +246,7 @@ void CBlackMan::State_Check()
 			m_pAnimatorCom->PlayAnimation(L"Execution", false);
 			break;
 		}
-
+		m_bIsFormChange = false;
 		m_ePreState = m_eCurState;
 	}
 }
@@ -353,9 +355,17 @@ void CBlackMan::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 	if (m_bIsShield)
 	{
 		m_bIsShield = false;
-		_vec3 vPos;
+		_vec3 vPos, vPlayerPos, vDir;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+		vDir = vPlayerPos - vPos;
+		D3DXVec3Normalize(&vDir, &vDir);
+		vDir.y = 0.f;
+		vPos += vDir;
 		dynamic_cast<CShield*>(m_pShield)->Spawn_Shield(vPos);
+
+		m_bIsFormChange = true;
+
 		if (m_eCurState == CHumanoid::HUMANOID_IDLE)
 			m_pAnimatorCom->PlayAnimation(L"Idle", true);
 	}
