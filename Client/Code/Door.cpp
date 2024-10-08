@@ -37,6 +37,7 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, 
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
     pDoor->Set_Number(_iNumber);
+    pDoor->m_iNumber = _iNumber;
     pDoor->Set_TileDirection(_eTileDirection);
     pDoor->Set_Trigger(_iTrigger);
 
@@ -62,6 +63,7 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
     pDoor->Set_Number(_iNumber);
+    pDoor->m_iNumber = _iNumber;
     pDoor->Set_TileDirection(_vecRot);
     pDoor->Set_Trigger(_iTrigger);
 
@@ -118,7 +120,7 @@ void CDoor::Render_GameObject()
 
     FAILED_CHECK_RETURN(Setup_Material(), );
 
-    m_pTextureCom->Set_Texture(m_iNumber);
+    m_pTextureCom->Set_Texture(m_iNumber - 1);
 
     m_pBufferCom->Render_Buffer();
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

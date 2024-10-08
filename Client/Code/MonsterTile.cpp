@@ -25,10 +25,10 @@ CMonsterTile* CMonsterTile::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _v
 		MSG_BOX("pTerrain Create Failed");
 		return nullptr;
 	}
-	pMonster->Setup_ImageNumber(_iNumber);
 	pMonster->Setup_Position(_vecPos);
 	pMonster->m_vecPos = _vecPos;
-
+	pMonster->Setup_ImageNumber(_iNumber);
+	pMonster->m_iNumber = _iNumber;
 	return pMonster;
 }
 
@@ -42,9 +42,10 @@ CMonsterTile* CMonsterTile::Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphic
 		MSG_BOX("pTerrain Create Failed");
 		return nullptr;
 	}
-	pMonster->Setup_ImageNumber(_iNumber);
 	pMonster->Setup_Position(_vecPos);
 	pMonster->m_vecPos = _vecPos;
+	pMonster->Setup_ImageNumber(_iNumber);
+	pMonster->m_iNumber = _iNumber;
 	pMonster->Setup_TriggerNumber(_iTriggerNumber);
 
 	return pMonster;
@@ -86,7 +87,7 @@ void CMonsterTile::Render_GameObject()
 
 	FAILED_CHECK_RETURN(Setup_Material(), );
 
-	m_pTextureCom->Set_Texture(m_iNumber);
+	m_pTextureCom->Set_Texture(m_iNumber - 1);
 
 	m_pBufferCom->Render_Buffer();
 

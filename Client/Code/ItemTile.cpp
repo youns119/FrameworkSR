@@ -25,10 +25,11 @@ CItemTile* CItemTile::Create_InfoNumber(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _v
 		MSG_BOX("pTerrain Create Failed");
 		return nullptr;
 	}
-	pItemTile->Setup_ImageNumber(_iNumber);
+
 	pItemTile->Setup_Position(_vecPos);
 	pItemTile->m_vecPos = _vecPos;
-
+	pItemTile->Setup_ImageNumber(_iNumber);
+	pItemTile->m_iNumber = _iNumber;
 	return pItemTile;
 }
 
@@ -42,9 +43,10 @@ CItemTile* CItemTile::Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _
 		MSG_BOX("pTerrain Create Failed");
 		return nullptr;
 	}
-	pItemTile->Setup_ImageNumber(_iNumber);
 	pItemTile->Setup_Position(_vecPos);
 	pItemTile->m_vecPos = _vecPos;
+	pItemTile->Setup_ImageNumber(_iNumber);
+	pItemTile->m_iNumber = _iNumber;
 	pItemTile->Setup_TriggerNumber(_iTriggerNumber);
 
 	return pItemTile;
@@ -84,7 +86,7 @@ void CItemTile::Render_GameObject()
 
 	FAILED_CHECK_RETURN(Setup_Material(), );
 
-	m_pTextureCom->Set_Texture(m_iNumber);
+	m_pTextureCom->Set_Texture(m_iNumber - 1);
 
 	m_pBufferCom->Render_Buffer();
 

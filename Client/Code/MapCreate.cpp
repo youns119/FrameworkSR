@@ -482,11 +482,11 @@ CLayer* CMapCreate::Find_Layer(const _tchar* _pLayerTag)
 	return pLayer;
 }
 
-HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer) //No Rotation
+HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer) 
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CFloor::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(1), m_iNumber, m_iTriggerNumber);//10.06
+	pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, TilePiking_OnTerrain(1),m_vecRot, m_iNumber, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Floor", pGameObject);
 
@@ -517,7 +517,7 @@ HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIR
 HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber-1, m_iTriggerNumber);//10.06
+	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
 
@@ -527,7 +527,7 @@ HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 HRESULT CMapCreate::Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CDoor::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber-1, _eTileDirection, m_iTriggerNumber);//10.06
+	pGameObject = CDoor::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Door", pGameObject);
 
@@ -537,7 +537,7 @@ HRESULT CMapCreate::Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIREC
 HRESULT CMapCreate::Create_Layer_PickingItem(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CItemTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber-1 , m_iTriggerNumber);//10.06
+	pGameObject = CItemTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber , m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"ItemTile", pGameObject);
 
@@ -1143,95 +1143,104 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 		return;
 	}
 
-	_int iNumber(0);
-	_int iTrigger(0);//10.06
+	_int iNumber_Type(0); // 설치하는 타일의 종류
+	_int iNumber(0); // 설치하는 타일의 이미지 번호
+	_int iTrigger(0); // 공간 그룹 => 트리거 작동을 위한 값
 	DWORD	dwByte(0);
 
 	multimap<const _tchar*, CGameObject*>::iterator it;
 	for (it = _pLayer->Get_LayerObjects()->begin(); it != _pLayer->Get_LayerObjects()->end(); it++)
 	{
-		iNumber = 0; //초기화 및 바닥이다(기본값)
-		iTrigger = 0;//10.06
+		iNumber_Type = 0;
+		iNumber = 0;
+		iTrigger = 0;
 
-		if (nullptr != dynamic_cast<CFloor*>((*it).second))
+		if (nullptr != dynamic_cast<CFloor*>((*it).second)) // 바닥
 		{
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 0번이다(바닥)
+			iNumber_Type = 0;
+			WriteFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); //타일 종류 번호 저장 0 = 바닥
 
-			iNumber = dynamic_cast<CFloor*>((*it).second)->Get_Number();
-			iTrigger = dynamic_cast<CFloor*>((*it).second)->Get_Trigger();//10.06
+			iNumber = dynamic_cast<CFloor*>((*it).second)->Get_Number(); // 이미지 번호
+			iTrigger = dynamic_cast<CFloor*>((*it).second)->Get_Trigger();//트리거 번호
 
-			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
-			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr); //꺾여있는 방향
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
-			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); //Trigger값
+			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //바닥 위치 저장
+			WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr); //바닥 회전 방향 저장
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이미지 번호 저장
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); // 트리거 번호 저장
 
-			//WriteFile(hFile, dynamic_cast<CFloor*>((*it).second)->Get_VecRot(), sizeof(_vec3), &dwByte, nullptr);//회전값 저장
 		}
-		if (nullptr != dynamic_cast<CWall*>((*it).second))
+		if (nullptr != dynamic_cast<CWall*>((*it).second)) // 좌우 벽
 		{
-			iNumber = 1;
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 1번이다(벽)
-			iNumber = dynamic_cast<CWall*>((*it).second)->Get_Number();
-			iTrigger = dynamic_cast<CWall*>((*it).second)->Get_Trigger();//10.06
-			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
+			iNumber_Type = 1;
+			WriteFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); //타일 종류 번호 저장 1 = 좌우 벽
+
+			iNumber = dynamic_cast<CWall*>((*it).second)->Get_Number();  // 이미지 번호 
+			iTrigger = dynamic_cast<CWall*>((*it).second)->Get_Trigger();// 트리거 번호
+
+			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치 저장
 			WriteFile(hFile, dynamic_cast<CWall*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //Monster를 위한 비어있는값
-			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); //무슨 trigger냐 값//10.06
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이미지 번호 저장
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); // 트리거 번호 저장
 		}
-		if (nullptr != dynamic_cast<CWallTB*>((*it).second))
+		if (nullptr != dynamic_cast<CWallTB*>((*it).second))// 앞뒤 벽
 		{
-			iNumber = 2;
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 2번이다(벽TB)
-			iNumber = dynamic_cast<CWallTB*>((*it).second)->Get_Number();
-			iTrigger = dynamic_cast<CWallTB*>((*it).second)->Get_Trigger();//10.06
-			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
-			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
-			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);//무슨 trigger냐 값//10.06
+			iNumber_Type = 2;
+			WriteFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); //타일 종류 번호 저장 2 = 앞뒤 벽
+
+			iNumber = dynamic_cast<CWallTB*>((*it).second)->Get_Number();  // 이미지 번호 
+			iTrigger = dynamic_cast<CWallTB*>((*it).second)->Get_Trigger();// 트리거 번호
+
+			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);  //위치 저장
+			WriteFile(hFile, dynamic_cast<CWallTB*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향 저장
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이미지 번호 저장
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); // 트리거 번호 저장
 		}
 		if (nullptr != dynamic_cast<CMonsterTile*>((*it).second))
 		{
-			iNumber = 3;
-			_vec3 vecTemp = { 0.f, 0.f, 0.f };
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 3번이다(몬스터)
-			iNumber = dynamic_cast<CMonsterTile*>((*it).second)->Get_Number();
-			iTrigger = dynamic_cast<CMonsterTile*>((*it).second)->Get_Trigger();//10.06
+			_vec3 vecTemp = { 0.f, 0.f, 0.f }; // 회전 or 방향벡터 값을 사용하지 경우 저장 양식을 위해 빈 값 적용
+
+			iNumber_Type = 3;
+			WriteFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); //타일 종류 번호 저장 3 = 몬스터
+			
+			iNumber = dynamic_cast<CMonsterTile*>((*it).second)->Get_Number();  // 이미지 번호 
+			iTrigger = dynamic_cast<CMonsterTile*>((*it).second)->Get_Trigger();// 트리거 번호
 
 			WriteFile(hFile, dynamic_cast<CMonsterTile*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, vecTemp, sizeof(_vec3), &dwByte, nullptr); //깡통(필요없지만 저장양식을 위해)
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);
-			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);//10.06
-			//필요한 정보는 단순히 이거 바닥이냐, 이거 몇번째 바닥이냐, 이거 벡터어디냐 
-			//필요한 정보는 단순히 이거 벽이냐, 이거 몇번째 벽이냐, 이거 벡터어디냐 
-			//필요한 정보는 단순히 이거 벽TB이냐, 이거 몇번째 벽TB이냐, 이거 벡터어디냐 
-			//필요한 정보는 단순히 이거 몬스터냐, 이거 몇번째 몬스터냐, 이거 벡터어디냐 
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);  // 이미지 번호 저장
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);  // 트리거 번호 저장
+
 		}
 		if (nullptr != dynamic_cast<CDoor*>((*it).second))
 		{
-			iNumber = 4;
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //이거 4번이다(문)
-			iNumber = dynamic_cast<CDoor*>((*it).second)->Get_Number();
-			iTrigger = dynamic_cast<CDoor*>((*it).second)->Get_Trigger();//10.06
-			WriteFile(hFile, dynamic_cast<CDoor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
-			WriteFile(hFile, dynamic_cast<CDoor*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
-			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);//무슨 trigger냐 값//10.06
+			iNumber_Type = 4;
+			WriteFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr);//타일 종류 번호 저장 4 = 문
+
+			iNumber = dynamic_cast<CDoor*>((*it).second)->Get_Number();  // 이미지 번호 
+			iTrigger = dynamic_cast<CDoor*>((*it).second)->Get_Trigger();// 트리거 번호
+
+			WriteFile(hFile, dynamic_cast<CDoor*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치 저장
+			WriteFile(hFile, dynamic_cast<CDoor*>((*it).second)->Get_TileDirection(), sizeof(_vec3), &dwByte, nullptr); //바라보는 방향 저장
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이미지 번호 저장
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); // 트리거 번호 저장
 		}
 		if (nullptr != dynamic_cast<CItemTile*>((*it).second))
 		{
-			iNumber = 5;
 			_vec3 vecTemp = { 0.f, 0.f, 0.f };
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); //아이템
-			iNumber = dynamic_cast<CItemTile*>((*it).second)->Get_Number();
-			iTrigger = dynamic_cast<CItemTile*>((*it).second)->Get_Trigger();//10.06
 
-			WriteFile(hFile, dynamic_cast<CItemTile*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치
+			iNumber_Type = 5;
+			WriteFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); //타일 종류 번호 저장 5 = 아이템
+
+			iNumber = dynamic_cast<CItemTile*>((*it).second)->Get_Number();  // 이미지 번호
+			iTrigger = dynamic_cast<CItemTile*>((*it).second)->Get_Trigger();// 트리거 번호
+
+			WriteFile(hFile, dynamic_cast<CItemTile*>((*it).second)->Get_VecPos(), sizeof(_vec3), &dwByte, nullptr); //위치 저장
 			WriteFile(hFile, vecTemp, sizeof(_vec3), &dwByte, nullptr); //깡통(필요없지만 저장양식을 위해)
-			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr);//Monster를 위한 비어있는값
-			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr);//무슨 trigger냐 값//10.06
+			WriteFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이미지 번호 저장
+			WriteFile(hFile, &iTrigger, sizeof(_int), &dwByte, nullptr); // 트리거 번호 저장
 		}
 	}
-
+	
 	CloseHandle(hFile);
 
 	MessageBox(g_hWnd, L"Save 완료", _T("성공"), MB_OK);
@@ -1239,6 +1248,7 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 
 void CMapCreate::MapLoad2(CLayer* _pLayer)
 {
+	// 현제 츨력되고 있는 레이어의 오브젝트 모두 제거
 	multimap<const _tchar*, CGameObject*>::iterator it = _pLayer->Get_LayerObjects()->begin();
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
@@ -1258,16 +1268,16 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	}
 
 	DWORD	dwByte(0);
-	_int iNumber_Type(0); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3)  문(4) 아이템(5)
-	_int iNumber(0); //이게 그럼 몇번째 녀석인지
-	_int iTrigger(0); //이게 그럼 몇번째 trigger인지//10.06
+	_int iNumber_Type(0); // 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3)  문(4) 아이템(5)
+	_int iNumber(0); //이미지 번호
+	_int iTrigger(0); //트리거 번호
 	_vec3 pPos{};
 	_vec3 pRot{};
 
 
 	while (true)
 	{
-		ReadFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); // 이게 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3) 
+		ReadFile(hFile, &iNumber_Type, sizeof(_int), &dwByte, nullptr); // 바닥인지(0) 벽인지(1) 벽TB인지(2) 몬스터인지(3)  문(4) 아이템(5)
 		ReadFile(hFile, &pPos, sizeof(_vec3), &dwByte, nullptr); // 포지션 값 저장
 		ReadFile(hFile, &pRot, sizeof(_vec3), &dwByte, nullptr); // 회전 또는 바라보는 방향 값 저장
 		ReadFile(hFile, &iNumber, sizeof(_int), &dwByte, nullptr); // 이게 그럼 몇번째 녀석인지
