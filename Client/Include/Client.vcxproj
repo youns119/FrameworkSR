@@ -191,6 +191,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Define.h" />
     <ClInclude Include="..\Header\MapCamera.h" />
     <ClInclude Include="..\Header\MapCreate.h" />
+    <ClInclude Include="..\Header\MiniGun.h" />
     <ClInclude Include="..\Header\Monster.h" />
     <ClInclude Include="..\Header\MonsterTile.h" />
     <ClInclude Include="..\Header\Player.h" />
@@ -286,6 +287,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MapCamera.cpp" />
     <ClCompile Include="..\Code\MapCreate.cpp" />
+    <ClCompile Include="..\Code\MiniGun.cpp" />
     <ClCompile Include="..\Code\Monster.cpp" />
     <ClCompile Include="..\Code\MonsterTile.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
