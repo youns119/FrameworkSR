@@ -40,6 +40,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fMaxAttackDelay(0.f)
 	, m_fCurAttackDelay(1.5f)
 	, m_fDashSpeed(0.f)
+	, m_fTime_Skill(1.f) //For TimeSkill
 	, m_iCurAmmo(6) //because Pistol
 	, m_iMaxAmmo(6) //because Pistol
 	, m_Right_CurState(CHANGE)
@@ -126,7 +127,7 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 		}
 		else
 		{
-			m_fTrapTime += _fTimeDelta;
+			m_fTrapTime += _fTimeDelta * m_fTime_Skill;
 		}
 
 	}
@@ -134,8 +135,8 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
 		{
-			Key_Input(_fTimeDelta);
-			Mouse_Move(_fTimeDelta);
+			Key_Input(_fTimeDelta * m_fTime_Skill);
+			Mouse_Move(_fTimeDelta * m_fTime_Skill);
 		}
 
 		Animation_End_Check();
@@ -443,10 +444,10 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	}
 
 	if (Engine::Key_Hold(DIK_J)) {
-		m_bLeftHandUse = false;
-		m_Right_CurState = EXECUTION;
-		m_pAnimator[RIGHT]->PlayAnimation(L"FinishKill", false);
-
+		//m_bLeftHandUse = false;
+		//m_Right_CurState = EXECUTION;
+		//m_pAnimator[RIGHT]->PlayAnimation(L"FinishKill", false);
+		Skill_Timer();
 	}
 
 	if (Engine::Key_Hold(DIK_R)) {
@@ -1448,6 +1449,20 @@ void CPlayer::Calculate_TimerHP(const _float& _fTimeDelta)
 	else
 		m_fTimerHP = 0.f;
 	//if u need, Use (_int)m_fTimerHP;
+}
+
+void CPlayer::Skill_Timer()
+{
+	if (1.5f < m_fTime_Skill) //느려진상황이니 원상복귀
+	{
+		Engine::Set_PlayerSkillTimer(1.0f);
+		m_fTime_Skill = 1.0f;
+	}
+	else
+	{
+		Engine::Set_PlayerSkillTimer(0.33f); //세배 느리게함
+		m_fTime_Skill = 3.0f;
+	}
 }
 
 void CPlayer::Free()

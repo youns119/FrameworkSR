@@ -12,6 +12,9 @@ CDrink::CDrink(LPDIRECT3DDEVICE9 _pGraphiceDev)
     , m_pBufferCom(nullptr)
     , m_eItemType(ITEM_TYPE::ITEM_DRINK)
     , m_fTimer(0.f)
+    , m_fJumpPower(0.f)
+    , m_vJumpDirection(0.f, 0.f, 0.f)
+    , m_bIsJump(true)
 {
     m_bIsRender = false;
 }
@@ -47,6 +50,10 @@ HRESULT CDrink::Ready_GameObject()
     m_pTransformCom->Set_Pos(10.5f, 0.1f, 5.f);
     m_pTransformCom->Set_Angle(D3DXToRadian(90.f), 0.f, 0.f);
 
+    m_fJumpPower = (rand() % 10) * 0.015f;
+    m_vJumpDirection = { (_float)(rand() % 5), 0.f, -(_float)(rand() % 5) };
+    D3DXVec3Normalize(&m_vJumpDirection, &m_vJumpDirection);
+
     return S_OK;
 }
 
@@ -61,29 +68,42 @@ _int CDrink::Update_GameObject(const _float& _fTimeDelta)
     m_pTransformCom->Get_WorldMatrix(&matWorld);
 
     m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+
+    D3DXMatrixIdentity(&matBill);
+
+    matBill._11 = matView._11;
+    matBill._13 = matView._13;
+    matBill._31 = matView._31;
+    matBill._33 = matView._33;
+
+    matBill._11 = matView._11;
+    matBill._12 = matView._12;
+    matBill._21 = matView._21;
+    matBill._22 = matView._22;
+
+    matBill._22 = matView._22;
+    matBill._23 = matView._23;
+    matBill._32 = matView._32;
+    matBill._33 = matView._33;
+
+    D3DXMatrixInverse(&matBill, 0, &matBill);
+
+    matResult = matBill * matWorld;
+
+    m_pTransformCom->Set_WorldMatrix(&(matResult));
+
     if (m_bIsRender)
     {
         _vec3 vPos;
         m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
         m_fTimer += _fTimeDelta;
-        if (0.15f < vPos.y)
-        {
-            vPos.y -= _fTimeDelta;
-        }
-        else
-        {
-            vPos.z -= _fTimeDelta;
-        }
-        m_pTransformCom->Set_Pos(vPos);
-        if (5.f < m_fTimer)
+        Falling_Action(_fTimeDelta);
+        if (15.f < m_fTimer)
         {
             m_fTimer = 0.f;
             Set_IsRender(false);
         }
     }
-    
-
-
 
     Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
@@ -109,13 +129,11 @@ void CDrink::Render_GameObject()
 
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    //m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
     m_pTextureCom->Set_Texture(); //Jonghan Change
 
     m_pBufferCom->Render_Buffer();
 
-    //m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -161,6 +179,29 @@ HRESULT CDrink::Add_Component()
     pComponent->SetOwner(*this);
 
     return S_OK;
+}
+
+void CDrink::Falling_Action(const _float& _fTimeDelta)
+{
+    //떨어지고 튀어오르고 난리 부르스
+    _vec3 vPos;
+    m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+    if (0.25f > vPos.y && m_bIsJump)
+    {
+        m_fJumpPower = (rand() % 10) * 0.02f;
+        m_bIsJump = false;
+    }
+    if (0.25f < vPos.y && !m_bIsJump)
+    {
+        m_bIsJump = true;
+    }
+    if (0.10f < vPos.y)
+    {
+        m_fJumpPower -= _fTimeDelta * 0.5f;
+        vPos.y += m_fJumpPower;
+        m_pTransformCom->Set_Pos(vPos + (m_vJumpDirection * _fTimeDelta * 2.f));
+    }
 }
 
 void CDrink::Free()
