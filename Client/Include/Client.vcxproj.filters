@@ -293,6 +293,12 @@
     <Filter Include="03.GameObject\09.Ammo\Laser">
       <UniqueIdentifier>{af936e54-c2de-4e51-ab2c-f3722b72ca20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\13. EffectKick">
+      <UniqueIdentifier>{6078c065-dac8-425e-9c64-4ebfaaac9731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\14. EffectKatanaAttack">
+      <UniqueIdentifier>{b75a2751-8db7-48df-95de-bab4e14eb044}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -574,6 +580,12 @@
     <ClInclude Include="..\Header\Laser.h">
       <Filter>03.GameObject\09.Ammo\Laser</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectKick.h">
+      <Filter>03.GameObject\06.Effect\13. EffectKick</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectKatanaAttack.h">
+      <Filter>03.GameObject\06.Effect\14. EffectKatanaAttack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -836,6 +848,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Laser.cpp">
       <Filter>03.GameObject\09.Ammo\Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectKick.cpp">
+      <Filter>03.GameObject\06.Effect\13. EffectKick</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectKatanaAttack.cpp">
+      <Filter>03.GameObject\06.Effect\14. EffectKatanaAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

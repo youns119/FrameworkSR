@@ -441,6 +441,14 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_Explosion", pGameObject), E_FAIL);
 
+	pGameObject = CEffectKick::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectKick", pGameObject), E_FAIL);
+
+	pGameObject = CEffectKatanaAttack::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectKatanaAttack", pGameObject), E_FAIL);
+
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

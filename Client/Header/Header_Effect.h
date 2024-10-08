@@ -12,5 +12,7 @@
 #include "../Header/EffectFlash.h"
 #include "../Header/EffectSmokeTrail.h"
 #include "../Header/EffectExplosion.h"
+#include "../Header/EffectKick.h"
+#include "../Header/EffectKatanaAttack.h"
 
 #include "../Header/EffectPool.h"

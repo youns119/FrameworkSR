@@ -10,20 +10,20 @@ class CEffect;
 
 END
 
-class CEffectBloodSplater : public CGameObject
+class CEffectKick : public CGameObject
 {
 private:
-	explicit CEffectBloodSplater(LPDIRECT3DDEVICE9 _pGraphicDev);
-	virtual ~CEffectBloodSplater();
+	explicit CEffectKick(LPDIRECT3DDEVICE9 _pGraphicDev);
+	virtual ~CEffectKick();
 
 public:
 	virtual HRESULT	Ready_GameObject();
-	virtual	_int	Update_GameObject(const _float& fTimeDelta);
+	virtual	_int	Update_GameObject(const _float& _fTimeDelta);
 	virtual	void	LateUpdate_GameObject();
 	virtual	void	Render_GameObject();
 
 public:
-	static CEffectBloodSplater* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CEffectKick* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 private:
 	virtual void Free();
@@ -33,6 +33,7 @@ private:
 
 private:
 	void Animate_UV();
+
 public:
 	static void OnOperate(void* _pParam);
 

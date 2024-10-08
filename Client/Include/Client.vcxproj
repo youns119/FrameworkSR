@@ -168,6 +168,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\EffectFanSpread.h" />
     <ClInclude Include="..\Header\EffectFlash.h" />
     <ClInclude Include="..\Header\EffectHeal.h" />
+    <ClInclude Include="..\Header\EffectKatanaAttack.h" />
+    <ClInclude Include="..\Header\EffectKick.h" />
     <ClInclude Include="..\Header\EffectMinigunShell.h" />
     <ClInclude Include="..\Header\EffectMuzzleFlash.h" />
     <ClInclude Include="..\Header\EffectPlayerBlood.h" />
@@ -263,6 +265,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\EffectFanSpread.cpp" />
     <ClCompile Include="..\Code\EffectFlash.cpp" />
     <ClCompile Include="..\Code\EffectHeal.cpp" />
+    <ClCompile Include="..\Code\EffectKatanaAttack.cpp" />
+    <ClCompile Include="..\Code\EffectKick.cpp" />
     <ClCompile Include="..\Code\EffectMinigunShell.cpp" />
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp" />
     <ClCompile Include="..\Code\EffectPlayerBlood.cpp" />
