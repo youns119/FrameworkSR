@@ -565,8 +565,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	// Kyubin
 	if (Engine::Key_Press(DIK_X))
 	{
-		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+		CComponent* pComponent(nullptr);
 
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
 		if (pComponent)
@@ -576,12 +575,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKatanaAttack", L"Com_EffectThird");
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
-
-		
-
 	}
 	if (Engine::Key_Release(DIK_X))
 	{
@@ -595,20 +591,11 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Stop_Effect();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
-		if (pComponent)
-			static_cast<CEffect*>(pComponent)->Operate_Effect();
-
 	}
 	if (Engine::Key_Press(DIK_Z))
 	{
 		CComponent* pComponent(nullptr);
 		CGameObject* pGameObject(nullptr);
-		//CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
-		//static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
-
-		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBloodSplater", L"Com_Effect");
-		//static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 		_vec3 vPos, vLook;
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
@@ -621,10 +608,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		static_cast<CEffectPool*>(pGameObject)->Operate();
 
-		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_SmokeTrail", L"Com_Transform");
-		//pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-		//static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
-		//static_cast<CEffectPool*>(pGameObject)->Operate();
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKatanaAttack", L"Com_EffectSecond");
+		if (pComponent)
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 	}
 	if (Engine::Key_Press(DIK_M))
@@ -642,16 +628,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		//pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		//static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
 		//static_cast<CEffectPool*>(pGameObject)->Operate();
-
-		// 스파크
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
-		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 3.f + _vec3(0.0f, 1.f, 0.f));
-		// 회전값도 조절 할 수 있음 나중에 벽의 법선 벡터 방향으로 회전 시켜서 사용할 예정
-		//static_cast<CTransform*>(pComponent)->Rotation(ROTATION::ROT_Z, D3DX_PI * 0.5f);
-		static_cast<CTransform*>(pComponent)->Set_Angle(-D3DX_PI * 0.5f, 0.f, 0.f);
-		//static_cast<CTransform*>(pComponent)->Set_Angle(0.f, 0.f, D3DX_PI * 0.5f);
-		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-		static_cast<CEffectPool*>(pGameObject)->Operate();
 
 	}
 }
@@ -1345,6 +1321,9 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 			{
 				m_Leg_CurState = KICK;
 				m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKick", L"Com_Effect");
+				static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
 		}
 		else
