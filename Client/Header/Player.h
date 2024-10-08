@@ -146,7 +146,11 @@ private:
 	_float m_fTilePos;
 	_float m_fSpeed;
 	_float m_fDashSpeed;
+	_float m_fCurAttackDelay;
+	_float m_fMaxAttackDelay;
 	_float m_flinear;
+	_int m_iMaxAmmo;
+	_int m_iCurAmmo;
 	_vec3 m_vDefaultPos[FINISH];
 	_vec3 m_vDefaultSize[FINISH];
 

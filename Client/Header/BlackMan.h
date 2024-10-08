@@ -34,6 +34,7 @@ private:
 
     CGameObject* m_pShield;
     _bool m_bIsShield;
+    _bool m_bIsFormChange;
 
 private:
     virtual void Free();

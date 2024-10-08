@@ -37,7 +37,11 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_flinear(0.f)
 	, m_fTilePos(0.f)
 	, m_fSpeed(0.f)
+	, m_fMaxAttackDelay(0.f)
+	, m_fCurAttackDelay(1.5f)
 	, m_fDashSpeed(0.f)
+	, m_iCurAmmo(6) //because Pistol
+	, m_iMaxAmmo(6) //because Pistol
 	, m_Right_CurState(CHANGE)
 	, m_Right_PreState(RIGHT_STATE_END)
 	, m_Left_CurState(LEFT_IDLE)
@@ -401,6 +405,9 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& _fTimeDelta)
 {
+	if (0.f < m_fCurAttackDelay)
+		m_fCurAttackDelay -= _fTimeDelta;
+
 	_vec3 vLook;
 	_vec3 vRight;
 	_vec3 vUp;
@@ -465,6 +472,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		default:
 			break;
 		}
+		m_iCurAmmo = m_iMaxAmmo;
 	}
 
 	if (Engine::Key_Hold(DIK_1)) {
@@ -474,6 +482,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
 		m_flinear = 0.f;
+		m_iCurAmmo = 6;
+		m_iMaxAmmo = 6;
+		m_fMaxAttackDelay = 0.5f;
 	}
 
 	if (Engine::Key_Hold(DIK_2)) {
@@ -483,6 +494,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Change", false);
 		m_bLeftHandUse = false;
 		m_flinear = 0.f;
+		m_iCurAmmo = 10;
+		m_iMaxAmmo = 10;
+		m_fMaxAttackDelay = 1.5f;
 	}
 
 	if (Engine::Key_Hold(DIK_3)) {
@@ -492,6 +506,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Change", false);
 		m_flinear = 0.f;
+		m_iCurAmmo = 2;
+		m_iMaxAmmo = 2;
+		m_fMaxAttackDelay = 1.5f;
 	}
 
 	if (Engine::Key_Hold(DIK_4)) {
@@ -501,6 +518,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_Right_CurState = IDLE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
 		m_flinear = 0.f;
+		m_iCurAmmo = 1;
+		m_iMaxAmmo = 1;
+		m_fMaxAttackDelay = 1.5f;
 	}
 
 	if (Engine::Key_Hold(DIK_5)) {
@@ -510,6 +530,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Change", false);
 		m_flinear = 0.f;
+		m_iCurAmmo = 100;//Dummy Code
+		m_iMaxAmmo = 100;//Dummy Code
+		m_fMaxAttackDelay = 1.5f;
 	}
 
 	if (Engine::Key_Hold(DIK_6)) {
@@ -523,7 +546,11 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Change", false);
 		m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Change", false);
 		m_flinear = 0.f;
+		m_iCurAmmo = 100;
+		m_iMaxAmmo = 100;
+		m_fMaxAttackDelay = 0.2f;
 	}
+	
 
 	
 
@@ -647,6 +674,18 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 	}
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB)) {
 
+		if (1 > m_iCurAmmo)
+		{
+			//Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f); //재장전 소리가 필요함
+			return;
+		}
+
+		if (0.5f < m_fCurAttackDelay)
+		{
+			//You can't shot!
+			return;
+		}
+
 		_vec3 RayStart, RayDir, vPos;
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
@@ -698,7 +737,8 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_PISTOL);
 			break;
 		}
-
+		m_fCurAttackDelay = m_fMaxAttackDelay;
+		m_iCurAmmo--;
 		// 규빈
 		CComponent* pComponent(nullptr);
 		CEffectMuzzleFlash* pMuzzleFlash(nullptr);
@@ -710,7 +750,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
 		if (m_WeaponState != KATANA && m_WeaponState != MINIGUN) {
 			//Engine::RayCast2(RayStart, RayDir);
-			if (Engine::FireRayCast(RayStart, RayDir, vPos))
+			if (Engine::FireRayCast(RayStart + _vec3(0.f, 0.5f, 0.f), RayDir, vPos))
 			{
 				CGameObject* pGameObject(nullptr);
 

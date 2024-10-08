@@ -30,24 +30,24 @@ public:
 		switch (_pParts)
 		{
 		case HIT_BODY:
-			vPos[0] = { -0.3,0.9f,0.f };
-			vPos[1] = { 0.3,0.9f,0.f };
-			vPos[2] = { 0.3,-0.9f,0.f };
-			vPos[3] = { -0.3,-0.9f,0.f };
+			vPos[0] = { -0.3f, 1.f, 0.4f };
+			vPos[1] = { 0.3f, 1.f, 0.4f };
+			vPos[2] = { 0.3f, -0.9f, 0.4f };
+			vPos[3] = { -0.3f, -0.9f, 0.4f };
 			TestCol = { 1.f, 1.f, 0.f, 1.f };
 			break;
 		case HIT_HEAD:
-			vPos[0] = { -0.2,0.9f,0.2 };
-			vPos[1] = { 0.2,0.9f,0.2 };
-			vPos[2] = { 0.2,0.7f,0.2 };
-			vPos[3] = { -0.2,0.7f,0.2 };
+			vPos[0] = { -0.2f, 1.f, 0.2f };
+			vPos[1] = { 0.2f, 1.f, 0.2f };
+			vPos[2] = { 0.2f, 0.7f, 0.2f };
+			vPos[3] = { -0.2f, 0.7f, 0.2f };
 			TestCol = { 1.f, 0.f, 0.f, 1.f };
 			break;
 		case HIT_CRITICAL:
-			vPos[0] = { -0.2,-0.1f,0.2 };
-			vPos[1] = { 0.2 ,-0.1f,0.2 };
-			vPos[2] = { 0.2,-0.3f,0.2 };
-			vPos[3] = { -0.2,-0.3f,0.2 };
+			vPos[0] = { -0.2f, 0.f, 0.2f };
+			vPos[1] = { 0.2f, 0.f, 0.2f };
+			vPos[2] = { 0.2f, -0.2f, 0.2f };
+			vPos[3] = { -0.2f, -0.2f, 0.2f };
 			TestCol = { 0.f, 0.f, 1.f, 1.f };
 			break;
 		}
