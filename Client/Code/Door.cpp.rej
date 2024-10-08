@@ -1,0 +1,12 @@
+diff a/Client/Code/Door.cpp b/Client/Code/Door.cpp	(rejected hunks)
+@@ -55,6 +55,10 @@
+         return nullptr;
+     }
+ 
++    if (_iNumber == 9)
++    {
++        pDoor->m_bLastDoor = true;
++    }
+     pDoor->Setup_Position(_vecPos);
+     pDoor->m_vecPos = _vecPos;
+     pDoor->Set_Number(_iNumber);
