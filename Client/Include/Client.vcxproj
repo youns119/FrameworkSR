@@ -160,6 +160,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\DrinkMachine.h" />
     <ClInclude Include="..\Header\Drone.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
+    <ClInclude Include="..\Header\EffectBloodJet.h" />
     <ClInclude Include="..\Header\EffectBloodSplater.h" />
     <ClInclude Include="..\Header\EffectBossRobotBooster.h" />
     <ClInclude Include="..\Header\EffectCircleLines.h" />
@@ -258,6 +259,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\DrinkMachine.cpp" />
     <ClCompile Include="..\Code\Drone.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
+    <ClCompile Include="..\Code\EffectBloodJet.cpp" />
     <ClCompile Include="..\Code\EffectBloodSplater.cpp" />
     <ClCompile Include="..\Code\EffectBossRobotBooster.cpp" />
     <ClCompile Include="..\Code\EffectCircleLines.cpp" />
