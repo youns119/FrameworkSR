@@ -30,6 +30,9 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsDrinking(false)
 	, m_bIsRotation(false)
 	, m_bIsTrapOn(false)
+	, m_bIsLeft(false)
+	, m_bIsRight(false)
+	, m_fMaxRotate(0.f)
 	, m_fTrapTime(0.f)
 	, m_fHP(0.f)
 	, m_fTimerHP(0.f)
@@ -429,6 +432,8 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	m_pBody_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
 	m_pBody_TransformCom->Get_Info(INFO::INFO_UP, &vUp);
 
+	Moving_Rotate(_fTimeDelta);
+
 	if (Engine::Key_Hold(DIK_W)) {
 		//Beomseung
 		if (!m_bLegUse)
@@ -443,13 +448,32 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	if (Engine::Key_Hold(DIK_A)) {
 		//Beomseung    
 		if (!m_bLegUse)
+		{
 			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, -m_fSpeed);
-
+			m_bIsLeft = true;
+		}
+	}
+	if (Engine::Key_Release(DIK_A)) {
+		//Beomseung    
+		if (!m_bLegUse)
+		{
+			m_bIsLeft = false;
+		}
 	}
 	if (Engine::Key_Hold(DIK_D)) {
 		//Beomseung    
 		if (!m_bLegUse)
+		{
 			m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), _fTimeDelta, m_fSpeed);
+			m_bIsRight = true;
+		}
+	}
+	if (Engine::Key_Release(DIK_D)) {
+		//Beomseung    
+		if (!m_bLegUse)
+		{
+			m_bIsRight = false;
+		}
 	}
 	if (Engine::Key_Press(DIK_SPACE)) {
 		m_bJumpCheck = true;
@@ -532,8 +556,8 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_Right_CurState = IDLE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
 		m_flinear = 0.f;
-		m_iCurAmmo = 1;
-		m_iMaxAmmo = 1;
+		m_iCurAmmo = 10;
+		m_iMaxAmmo = 10;
 		m_fMaxAttackDelay = 1.5f;
 	}
 
@@ -851,14 +875,14 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			Rotate_Arms(false);
 			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, 0.f, 2.f);
 			m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, 0.f, 2.f);
-			m_fDashSpeed = m_fSpeed * 1.5f;
+			m_fDashSpeed = m_fSpeed * 2.5f;
 		}
 	}
 	if (Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_RB))
 	{
 		_vec3 vLook;
 		if (0.f < m_fDashSpeed)
-			m_fDashSpeed -= (_fTimeDelta * 10.f);
+			m_fDashSpeed -= (_fTimeDelta * 33.f);
 		else
 			m_fDashSpeed = 0.f;
 
@@ -1525,6 +1549,103 @@ void CPlayer::Skill_Timer()
 	{
 		Engine::Set_PlayerSkillTimer(0.33f); //세배 느리게함
 		m_fTime_Skill = 3.0f;
+	}
+}
+
+void CPlayer::Moving_Rotate(const _float& _fTimeDelta)
+{
+	if (m_bIsLeft)
+	{
+
+		if (-5.f < m_fMaxRotate)
+		{
+			m_fMaxRotate -= _fTimeDelta * 300.f;
+			_matrix matWorld;
+			_vec3 vLook, vAngle;
+			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
+			D3DXMatrixRotationAxis(&matWorld, &vLook, -1 * (_fTimeDelta));
+			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
+			vAngle = *m_pBody_TransformCom->Get_Angle();
+			*(((_float*)&vAngle) + 0) -= vLook.x * 0.1f; //x
+			//*(((_float*)&vAngle) + 1) -= vLook.y * 0.1f; //y
+			*(((_float*)&vAngle) + 2) -= vLook.z * 0.1f; //z
+			m_pBody_TransformCom->Set_Angle(vAngle);
+		}
+		else
+		{
+			m_fMaxRotate = -5.f;
+		}
+	}
+	else if (m_bIsRight)
+	{
+		if (5.f > m_fMaxRotate)
+		{
+			m_fMaxRotate += _fTimeDelta * 300.f;
+			_matrix matWorld;
+			_vec3 vLook, vAngle;
+			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
+			D3DXMatrixRotationAxis(&matWorld, &vLook, _fTimeDelta);
+			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
+			vAngle = *m_pBody_TransformCom->Get_Angle();
+			*(((_float*)&vAngle) + 0) += vLook.x * 0.1f; //x
+			//*(((_float*)&vAngle) + 1) += vLook.y * 0.1f; //y
+			*(((_float*)&vAngle) + 2) += vLook.z * 0.1f; //z
+			m_pBody_TransformCom->Set_Angle(vAngle);
+
+		}
+		else
+		{
+			m_fMaxRotate = 5.f;
+		}
+	}
+	else if(0.f != m_fMaxRotate)
+	{
+		if (-0.15f > m_fMaxRotate)
+		{
+			m_fMaxRotate += _fTimeDelta * 300.f;
+			_matrix matWorld;
+			_vec3 vLook, vAngle;
+			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
+			D3DXMatrixRotationAxis(&matWorld, &vLook, _fTimeDelta);
+			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
+			vAngle = *m_pBody_TransformCom->Get_Angle();
+			*(((_float*)&vAngle) + 0) += vLook.x * 0.1f; //x
+			//*(((_float*)&vAngle) + 1) += vLook.y * 0.1f; //y
+			*(((_float*)&vAngle) + 2) += vLook.z * 0.1f; //z
+			m_pBody_TransformCom->Set_Angle(vAngle);
+		}
+		else if (0.15f < m_fMaxRotate)
+		{
+			m_fMaxRotate -= _fTimeDelta * 300.f;
+			_matrix matWorld;
+			_vec3 vLook, vAngle;
+			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
+			D3DXMatrixRotationAxis(&matWorld, &vLook, -1 * (_fTimeDelta));
+			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
+			vAngle = *m_pBody_TransformCom->Get_Angle();
+			*(((_float*)&vAngle) + 0) -= vLook.x * 0.1f; //x
+			//*(((_float*)&vAngle) + 0) -= vLook.y * 0.1f; //y
+			*(((_float*)&vAngle) + 2) -= vLook.z * 0.1f; //z
+			m_pBody_TransformCom->Set_Angle(vAngle);
+		}
+		else if (0.15f > m_fMaxRotate || -0.15f < m_fMaxRotate)
+		{
+			_matrix matWorld;
+			_vec3 vLook, vAngle;
+			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
+			D3DXMatrixRotationAxis(&matWorld, &vLook, -1 * (_fTimeDelta));
+			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
+			vAngle = *m_pBody_TransformCom->Get_Angle();
+			vAngle.x = 0.f;
+			vAngle.z = 0.f;
+			m_pBody_TransformCom->Set_Angle(vAngle);
+			m_fMaxRotate = 0.f;
+		}
 	}
 }
 

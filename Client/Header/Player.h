@@ -104,6 +104,7 @@ private:
 
 	void Calculate_TimerHP(const _float& _fTimeDelta);
 	void Skill_Timer();
+	void Moving_Rotate(const _float& _fTimeDelta);
 public:
 	void OnCollision(CCollider& _pOther);
 	void OnCollisionEnter(CCollider& _pOther);
@@ -140,6 +141,9 @@ private:
 	_bool m_bIsDrinking;
 	_bool m_bIsRotation;
 	_bool m_bIsTrapOn;
+	_bool m_bIsLeft;
+	_bool m_bIsRight;
+	_float m_fMaxRotate;
 	_float m_fTrapTime;
 	_float m_fHP;
 	_float m_fTimerHP;
