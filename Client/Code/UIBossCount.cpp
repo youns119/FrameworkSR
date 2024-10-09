@@ -38,7 +38,7 @@ HRESULT CUIBossCount::Ready_Unit(_int _iIndex)
 	m_iIndex = _iIndex;
 	m_fDist = 100.f;
 
-	m_pTransformCom->Set_Pos(0.f, -170.f, 0.f);
+	m_pTransformCom->Set_Pos(0.f, -200.f, 0.f);
 
 	m_pTransformCom->Set_Scale(100.f, 100.f, 0.f);
 
@@ -99,7 +99,7 @@ void CUIBossCount::Reset()
 	m_iCount = 0;
 	m_fDist = 100.f;
 
-	m_pTransformCom->Set_Pos(0.f, -170.f, 0.f);
+	m_pTransformCom->Set_Pos(0.f, -200.f, 0.f);
 
 	m_pTransformCom->Set_Scale(100.f, 100.f, 0.f);
 }

@@ -242,27 +242,6 @@
     <Filter Include="03.GameObject\06.Effect\12. EffectExplosion">
       <UniqueIdentifier>{88b0b71c-1d9a-4993-81d9-bff92c801eb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\10.FreeCam">
-      <UniqueIdentifier>{48b70013-ae9f-4684-95ef-0718c8e89ff7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\10.FreeCam\00.Indicator">
-      <UniqueIdentifier>{60de8278-55f1-4212-b9b4-9e064baed9a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\06.Screen">
-      <UniqueIdentifier>{87aa78f3-3597-4884-a547-37d3c8643642}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\06.Screen\00.ScreenOuter">
-      <UniqueIdentifier>{a60dd467-04c4-4396-845e-cbd6b40001ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\07.Player">
-      <UniqueIdentifier>{5e918870-b2aa-4779-b24b-c832e91d0269}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\07.Player\00.Reload">
-      <UniqueIdentifier>{dd62a65c-f491-47ad-b069-660bc5ca1f47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\07.Player\01.Item">
-      <UniqueIdentifier>{12d8a617-8bad-4869-bc98-4634d1a98d0d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.UI\05.Boss">
       <UniqueIdentifier>{a0ddb1e0-0a50-49be-afb2-671ba7f654a1}</UniqueIdentifier>
     </Filter>
@@ -304,6 +283,30 @@
     </Filter>
     <Filter Include="03.GameObject\06.Effect\15. EffectBloodJet">
       <UniqueIdentifier>{f54c68e6-c57f-4994-a780-7dea1d03acf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\06.Player">
+      <UniqueIdentifier>{5e918870-b2aa-4779-b24b-c832e91d0269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\06.Player\00.Reload">
+      <UniqueIdentifier>{dd62a65c-f491-47ad-b069-660bc5ca1f47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\06.Player\01.Item">
+      <UniqueIdentifier>{12d8a617-8bad-4869-bc98-4634d1a98d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\07.FreeCam">
+      <UniqueIdentifier>{48b70013-ae9f-4684-95ef-0718c8e89ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\07.FreeCam\00.Indicator">
+      <UniqueIdentifier>{60de8278-55f1-4212-b9b4-9e064baed9a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\10.Screen">
+      <UniqueIdentifier>{87aa78f3-3597-4884-a547-37d3c8643642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\10.Screen\00.ScreenVictory">
+      <UniqueIdentifier>{1adaaf5c-265a-4474-9bb8-50b97366526c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\10.Screen\01.ScreenBase">
+      <UniqueIdentifier>{0254548e-c735-4742-90a8-7b3fccd582ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -518,10 +521,10 @@
       <Filter>04.UI\04.Shop\00.ShopBase</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIIndicator.h">
-      <Filter>04.UI\10.FreeCam\00.Indicator</Filter>
+      <Filter>04.UI\07.FreeCam\00.Indicator</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIFreeCam.h">
-      <Filter>04.UI\10.FreeCam</Filter>
+      <Filter>04.UI\07.FreeCam</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DrinkMachine.h">
       <Filter>03.GameObject\12.DrinkMachine</Filter>
@@ -597,6 +600,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\EffectBloodJet.h">
       <Filter>03.GameObject\06.Effect\15. EffectBloodJet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIScreen.h">
+      <Filter>04.UI\10.Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIScreenVictory.h">
+      <Filter>04.UI\10.Screen\00.ScreenVictory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIScreenBase.h">
+      <Filter>04.UI\10.Screen\01.ScreenBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -793,10 +805,10 @@
       <Filter>04.UI\04.Shop\00.ShopBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIIndicator.cpp">
-      <Filter>04.UI\10.FreeCam\00.Indicator</Filter>
+      <Filter>04.UI\07.FreeCam\00.Indicator</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIFreeCam.cpp">
-      <Filter>04.UI\10.FreeCam</Filter>
+      <Filter>04.UI\07.FreeCam</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DrinkMachine.cpp">
       <Filter>03.GameObject\12.DrinkMachine</Filter>
@@ -872,6 +884,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectBloodJet.cpp">
       <Filter>03.GameObject\06.Effect\15. EffectBloodJet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIScreen.cpp">
+      <Filter>04.UI\10.Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIScreenVictory.cpp">
+      <Filter>04.UI\10.Screen\00.ScreenVictory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIScreenBase.cpp">
+      <Filter>04.UI\10.Screen\01.ScreenBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

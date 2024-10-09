@@ -65,8 +65,12 @@ inline HRESULT Ready_Proto(const _tchar* _pComponentTag, CComponent* _pComponent
 inline CComponent* Clone_Proto(const _tchar* _pComponentTag);
 
 // Renderer
+inline void Ready_Renderer(LPDIRECT3DDEVICE9& _pGraphicDev);
 inline void	Add_RenderGroup(RENDERID _eType, CGameObject* _pGameObject);
 inline void	Render_GameObject(LPDIRECT3DDEVICE9& _pGraphicDev);
+inline IDirect3DTexture9* Get_ChangedTexture();
+inline IDirect3DSurface9* Get_PreSurface();
+inline void Set_ChangeScreen(_bool _bChangeScreen);
 inline void	Clear_RenderGroup();
 
 // LightManager

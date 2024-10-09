@@ -1,0 +1,111 @@
+#include "pch.h"
+#include "..\Header\UIScreen.h"
+#include "..\Header\UIScreenVictory.h"
+#include "..\Header\UIScreenBase.h"
+#include "..\Header\UIShop.h"
+#include "Export_Utility.h"
+
+CUIScreen::CUIScreen(LPDIRECT3DDEVICE9 _pGraphicDev)
+	: CUI(_pGraphicDev)
+	, m_pUIScreenVictory(nullptr)
+	, m_pUIScreenBase(nullptr)
+	, m_bShop(false)
+	, m_fShopTime(0.f)
+{
+	m_eUIType = UITYPE::UI_SCREEN;
+}
+
+CUIScreen::~CUIScreen()
+{
+}
+
+CUIScreen* CUIScreen::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+{
+	CUIScreen* pUIScreen = new CUIScreen(_pGraphicDev);
+
+	if (FAILED(pUIScreen->Ready_UI()))
+	{
+		Safe_Release(pUIScreen);
+		MSG_BOX("UIScreen create Failed");
+		return nullptr;
+	}
+
+	return pUIScreen;
+}
+
+HRESULT CUIScreen::Ready_UI()
+{
+	FAILED_CHECK_RETURN(Add_Unit(), E_FAIL);
+
+	return S_OK;
+}
+
+_int CUIScreen::Update_UI(const _float& _fTimeDelta)
+{
+	m_fShopTime += _fTimeDelta;
+
+	Engine::Set_ChangeScreen(true);
+
+	if (m_fShopTime >= 3.f)
+		if (!m_bShop)
+		{
+			Engine::Activate_UI(UITYPE::UI_SHOP);
+			m_bShop = true;
+		}
+
+	if (m_pUIScreenBase->Get_BackToNormal())
+	{
+		m_bRender = false;
+		Engine::Set_ChangeScreen(false);
+	}
+
+	return Engine::CUI::Update_UI(_fTimeDelta);
+}
+
+void CUIScreen::LateUpdate_UI()
+{
+	Engine::CUI::LateUpdate_UI();
+}
+
+void CUIScreen::Render_UI()
+{
+	Engine::CUI::Render_UI();
+}
+
+HRESULT CUIScreen::Add_Unit()
+{
+	m_pUIScreenVictory = CUIScreenVictory::Create(m_pGraphicDev);
+	m_pUIScreenVictory->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIScreenVictory);
+
+	m_pUIScreenBase = CUIScreenBase::Create(m_pGraphicDev);
+	m_pUIScreenBase->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIScreenBase);
+
+	return S_OK;
+}
+
+void CUIScreen::Set_FloorTime(_float _fFloorTime)
+{
+	m_pUIScreenVictory->Set_FloorTime(_fFloorTime);
+}
+
+void CUIScreen::Set_Return(_bool _bReturn)
+{
+	m_pUIScreenBase->Set_Return(_bReturn);
+}
+
+void CUIScreen::Reset()
+{
+	Engine::Set_ChangeScreen(false);
+
+	m_bShop = false;
+	m_fShopTime = 0.f;
+
+	Engine::CUI::Reset();
+}
+
+void CUIScreen::Free()
+{
+	Engine::CUI::Free();
+}

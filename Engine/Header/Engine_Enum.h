@@ -29,6 +29,7 @@ namespace Engine
 		UI_INVENTORY,
 		UI_NORMAL,
 		UI_FREECAM,
+		UI_SCREEN,
 		UI_END,
 	};
 

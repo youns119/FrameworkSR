@@ -125,7 +125,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
            szWindowClass, 
            szTitle, 
            WS_OVERLAPPEDWINDOW,
-           CW_USEDEFAULT, 0, 
+           0, 0, 
            rc.right - rc.left, 
            rc.bottom - rc.top,
            nullptr, 

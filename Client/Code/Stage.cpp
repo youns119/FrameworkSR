@@ -15,6 +15,7 @@
 #include "../Header/UIMisterBullet.h"
 #include "../Header/UIRoboto.h"
 #include "../Header/UIFreeCam.h"
+#include "../Header/UIScreen.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -135,8 +136,17 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_ROBOTO)->empty())
 			Engine::Activate_UI(UITYPE::UI_ROBOTO);
-		else
-			Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
+		else Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
+	}
+
+	if (Engine::Key_Press(DIK_F8))
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
+		{
+			Engine::Activate_UI(UITYPE::UI_SCREEN);
+			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
+		}
+		else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
 	}
 
 	// 인벤토리 OnOff
@@ -363,6 +373,11 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	pUI = CUIFreeCam::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	pUI->Set_GameObject(m_pPlayer);
+
+	pUI = CUIScreen::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 	pUI->Set_GameObject(m_pPlayer);

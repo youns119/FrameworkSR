@@ -221,6 +221,9 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIPlusCenter.h" />
     <ClInclude Include="..\Header\UIPlusLeft.h" />
     <ClInclude Include="..\Header\UIRoboto.h" />
+    <ClInclude Include="..\Header\UIScreen.h" />
+    <ClInclude Include="..\Header\UIScreenBase.h" />
+    <ClInclude Include="..\Header\UIScreenVictory.h" />
     <ClInclude Include="..\Header\UIShop.h" />
     <ClInclude Include="..\Header\UIOverlay.h" />
     <ClInclude Include="..\Header\UIShopBase.h" />
@@ -318,6 +321,9 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIPlusCenter.cpp" />
     <ClCompile Include="..\Code\UIPlusLeft.cpp" />
     <ClCompile Include="..\Code\UIRoboto.cpp" />
+    <ClCompile Include="..\Code\UIScreen.cpp" />
+    <ClCompile Include="..\Code\UIScreenBase.cpp" />
+    <ClCompile Include="..\Code\UIScreenVictory.cpp" />
     <ClCompile Include="..\Code\UIShop.cpp" />
     <ClCompile Include="..\Code\UIOverlay.cpp" />
     <ClCompile Include="..\Code\UIShopBase.cpp" />

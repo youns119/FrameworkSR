@@ -39,8 +39,8 @@ HRESULT CUIOverlay::Ready_Unit()
 	m_pTransformCom[0]->Set_Pos(0.f, 0.f, 0.f);
 	m_pTransformCom[1]->Set_Pos(-WINCX / 2.f + 50.f, WINCY / 2.f - 50.f, 0.f);
 	m_pTransformCom[2]->Set_Pos(-WINCX / 2.f + 200.f, WINCY / 2.f - 50.f, 0.f);
-	m_pTransformCom[3]->Set_Pos(5.f, WINCY / 2.f - 105.f, 0.f);
-	m_pTransformCom[4]->Set_Pos(0.f, WINCY / 2.f - 100.f, 0.f);
+	m_pTransformCom[3]->Set_Pos(5.f, WINCY / 2.f - 75.f, 0.f);
+	m_pTransformCom[4]->Set_Pos(0.f, WINCY / 2.f - 70.f, 0.f);
 
 	m_pTransformCom[0]->Set_Scale(WINCX / 2.f, WINCY / 2.f, 0.f);
 	m_pTransformCom[1]->Set_Scale(15.f, 15.f, 0.f);

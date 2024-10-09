@@ -4,6 +4,10 @@
 IMPLEMENT_SINGLETON(CRenderer)
 
 CRenderer::CRenderer()
+	: m_pTexture(nullptr)
+	, m_pTextureSurface(nullptr)
+	, m_pPreSurface(nullptr)
+	, m_bChangeScreen(false)
 {
 	// 초기화 관련 추가
 	Clear_RenderGroup();
@@ -17,6 +21,25 @@ CRenderer::~CRenderer()
 	Free();
 }
 
+HRESULT CRenderer::Ready_Renderer(LPDIRECT3DDEVICE9& _pGraphicDev)
+{
+	_pGraphicDev->CreateTexture
+	(
+		WINCX, WINCY,
+		1,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_A8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&m_pTexture,
+		NULL
+	);
+
+	m_pTexture->GetSurfaceLevel(0, &m_pTextureSurface);
+	_pGraphicDev->GetRenderTarget(0, &m_pPreSurface);
+
+	return S_OK;
+}
+
 void CRenderer::Add_RenderGroup(RENDERID _eType, CGameObject* _pGameObject)
 {
 	if ((_uint)RENDERID::RENDER_END <= (_uint)_eType || _pGameObject == nullptr)
@@ -28,6 +51,12 @@ void CRenderer::Add_RenderGroup(RENDERID _eType, CGameObject* _pGameObject)
 
 void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& _pGraphicDev)
 {
+	if (m_bChangeScreen)
+	{
+		_pGraphicDev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+		_pGraphicDev->SetRenderTarget(0, m_pTextureSurface);
+	}
+
 	Render_Priority(_pGraphicDev);
 	Render_NonAlpha(_pGraphicDev);
 	Render_Alpha(_pGraphicDev);

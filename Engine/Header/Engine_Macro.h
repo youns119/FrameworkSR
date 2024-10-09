@@ -4,7 +4,7 @@
 namespace Engine
 {
 #define	WINCX		1400
-#define	WINCY		700
+#define	WINCY		800
 
 #define	VTXCNTX		129
 #define VTXCNTZ		129
