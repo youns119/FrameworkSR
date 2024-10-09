@@ -42,10 +42,12 @@ HRESULT CUIMisterBullet::Ready_UI()
 
 _int CUIMisterBullet::Update_UI(const _float& _fTimeDelta)
 {
-	if (static_cast<CPlayer*>(m_pGameObject)->Get_RightCurrState() == 6)
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+
+	if (pPlayer->Get_RightCurrState() == 6)
 	{
 		m_pUISniperHP->Set_Render(true);
-		m_pUISniperHP->Set_HP(static_cast<CPlayer*>(m_pGameObject)->Get_PlayerHP());
+		m_pUISniperHP->Set_HP(pPlayer->Get_PlayerHP());
 	}
 	else
 		m_pUISniperHP->Set_Render(false);

@@ -39,7 +39,8 @@ HRESULT CUIFreeCam::Ready_UI()
 _int CUIFreeCam::Update_UI(const _float& _fTimeDelta)
 {
 	_vec3 vPos{};
-	CComponent* pComponent = static_cast<CPlayer*>(m_pGameObject)->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform");
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+	CComponent* pComponent = pPlayer->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform");
 	static_cast<CTransform*>(pComponent)->Get_Info(INFO::INFO_POS, &vPos);
 
 	m_pIndicator->Set_Pos(vPos);

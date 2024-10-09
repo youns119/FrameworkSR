@@ -543,7 +543,7 @@ void CUIScreenVictory::Reset()
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_VICTORY]->Set_Scale(100.f, 100.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_OMEDETO]->Set_Scale(400.f, 400.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BARBACK]->Set_Scale(WINCX, WINCY / 12.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BAR]->Set_Scale(WINCX, WINCY / 12.f - 10.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BAR]->Set_Scale(WINCX, WINCY / 11.f - 10.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_FLOOR]->Set_Scale(200.f, 200.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_DOT]->Set_Scale(80.f, 80.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_DIGIT1]->Set_Scale(40.f, 40.f, 0.f);

@@ -18,7 +18,6 @@ public:
 	_float Get_ViewZ() const { return m_fViewZ; }
 	_float Get_Render() const { return m_bRender; }
 
-	void Set_GameObject(CGameObject* _pGameObject) { m_pGameObject = _pGameObject; }
 	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
 
 public:
@@ -37,7 +36,6 @@ protected:
 
 	vector<CUIUnit*> m_vecUIUnit;
 
-	CGameObject* m_pGameObject;
 	UITYPE m_eUIType;
 	bool m_bRender;
 	float m_fViewZ;

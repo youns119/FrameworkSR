@@ -9,6 +9,7 @@ class CUIUnit;
 END
 
 class CUICrossHair;
+class CUIReload;
 
 class CUINormal
 	: public Engine::CUI
@@ -33,5 +34,6 @@ private:
 	virtual void Free();
 
 private:
-	CUICrossHair* m_pCrossHair;
+	CUICrossHair* m_pUICrossHair;
+	CUIReload* m_pUIReload;
 };

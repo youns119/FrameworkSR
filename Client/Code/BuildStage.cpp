@@ -15,6 +15,7 @@
 #include "../Header/UIMisterBullet.h"
 #include "../Header/UIRoboto.h"
 #include "../Header/UIFreeCam.h"
+#include "../Header/UIScreen.h"
 
 CBuildStage::CBuildStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -137,6 +138,17 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 			Engine::Activate_UI(UITYPE::UI_ROBOTO);
 		else
 			Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
+	}
+
+	// 엘베 UI
+	if (Engine::Key_Press(DIK_F8))
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
+		{
+			Engine::Activate_UI(UITYPE::UI_SCREEN);
+			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
+		}
+		else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
 	}
 
 	// 인벤토리 OnOff
@@ -328,46 +340,46 @@ HRESULT CBuildStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 HRESULT CBuildStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 {
 	// 연욱
-	Engine::CUI* pUI = nullptr;
+	//Engine::CUI* pUI = nullptr;
 
-	for (int i = 0; i < 20; i++)
-	{
-		pUI = CUIPlus::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pUI, E_FAIL);
-		FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-		pUI->Set_GameObject(m_pPlayer);
-	}
+	//for (int i = 0; i < 20; i++)
+	//{
+	//	pUI = CUIPlus::Create(m_pGraphicDev);
+	//	NULL_CHECK_RETURN(pUI, E_FAIL);
+	//	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	//	pUI->Set_GameObject(m_pPlayer);
+	//}
 
-	pUI = CUINormal::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
+	//pUI = CUINormal::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pUI, E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	//pUI->Set_GameObject(m_pPlayer);
 
-	pUI = CUIInventory::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
+	//pUI = CUIInventory::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pUI, E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	//pUI->Set_GameObject(m_pPlayer);
 
-	pUI = CUIShop::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
+	//pUI = CUIShop::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pUI, E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	//pUI->Set_GameObject(m_pPlayer);
 
-	pUI = CUIMisterBullet::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
+	//pUI = CUIMisterBullet::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pUI, E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	//pUI->Set_GameObject(m_pPlayer);
 
-	pUI = CUIRoboto::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	//pUI = CUIRoboto::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pUI, E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
-	pUI = CUIFreeCam::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
+	//pUI = CUIFreeCam::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pUI, E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+	//pUI->Set_GameObject(m_pPlayer);
 
-	Engine::Activate_UI(UITYPE::UI_NORMAL);
+	//Engine::Activate_UI(UITYPE::UI_NORMAL);
 
 	return S_OK;
 }

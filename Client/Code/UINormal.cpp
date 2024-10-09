@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "..\Header\UINormal.h"
 #include "..\Header\UICrossHair.h"
+#include "..\Header\UIReload.h"
 #include "..\Header\Player.h"
 #include "Export_Utility.h"
 
 CUINormal::CUINormal(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
-	, m_pCrossHair(nullptr)
+	, m_pUICrossHair(nullptr)
+	, m_pUIReload(nullptr)
 {
 	m_eUIType = UITYPE::UI_NORMAL;
 }
@@ -38,30 +40,30 @@ HRESULT CUINormal::Ready_UI()
 
 _int CUINormal::Update_UI(const _float& _fTimeDelta)
 {
-	m_pCrossHair->Set_Render(true);
+	m_pUICrossHair->Set_Render(true);
 
 	if (!Engine::Get_ListUI(UITYPE::UI_INVENTORY)->empty() ||
 		!Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
 	{
-		m_pCrossHair->Set_Free(true);
-		m_pCrossHair->Set_CrossHair(CUICrossHair::UI_CROSSHAIR::CROSSHAIR_PISTOL);
+		m_pUICrossHair->Set_Free(true);
+		m_pUICrossHair->Set_CrossHair(CUICrossHair::UI_CROSSHAIR::CROSSHAIR_PISTOL);
 	}
 	else
 	{
-		CPlayer* pPlayer = static_cast<CPlayer*>(m_pGameObject);
+		CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
 
-		m_pCrossHair->Set_Free(false);
+		m_pUICrossHair->Set_Free(false);
 
 		int iHairNum = pPlayer->Get_WeaponState();
-		m_pCrossHair->Set_CrossHair((CUICrossHair::UI_CROSSHAIR)iHairNum);
+		m_pUICrossHair->Set_CrossHair((CUICrossHair::UI_CROSSHAIR)iHairNum);
 
-		if (m_pCrossHair->Get_CrossHair() == CUICrossHair::UI_CROSSHAIR::CROSSHAIR_SNIPER)
+		if (m_pUICrossHair->Get_CrossHair() == CUICrossHair::UI_CROSSHAIR::CROSSHAIR_SNIPER)
 		{
 			int iCurrState = pPlayer->Get_RightCurrState();
 
 			if (iCurrState == 5 || iCurrState == 6)
-				m_pCrossHair->Set_Render(false);
-			else m_pCrossHair->Set_Render(true);
+				m_pUICrossHair->Set_Render(false);
+			else m_pUICrossHair->Set_Render(true);
 		}
 	}
 
@@ -80,9 +82,13 @@ void CUINormal::Render_UI()
 
 HRESULT CUINormal::Add_Unit()
 {
-	m_pCrossHair = CUICrossHair::Create(m_pGraphicDev);
-	m_pCrossHair->Set_OwnerUI(this);
-	m_vecUIUnit.push_back(m_pCrossHair);
+	m_pUICrossHair = CUICrossHair::Create(m_pGraphicDev);
+	m_pUICrossHair->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUICrossHair);
+
+	m_pUIReload = CUIReload::Create(m_pGraphicDev);
+	m_pUIReload->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIReload);
 
 	return S_OK;
 }

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "..\Header\UICrossHair.h"
 #include "Export_Utility.h"
-#include "..\Header\Player.h"
+#include "..\Header\Define.h"
 
 CUICrossHair::CUICrossHair(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUIUnit(_pGraphicDev)

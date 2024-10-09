@@ -357,28 +357,23 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 		pUI = CUIPlus::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pUI, E_FAIL);
 		FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-		pUI->Set_GameObject(m_pPlayer);
 	}
 
 	pUI = CUINormal::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
 
 	pUI = CUIInventory::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
 
 	pUI = CUIShop::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
 
 	pUI = CUIMisterBullet::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
 
 	pUI = CUIRoboto::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
@@ -387,12 +382,10 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	pUI = CUIFreeCam::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
 
 	pUI = CUIScreen::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
 
 	Engine::Activate_UI(UITYPE::UI_NORMAL);
 

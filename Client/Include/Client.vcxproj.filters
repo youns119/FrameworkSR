@@ -323,6 +323,9 @@
     <Filter Include="02.Scene\01.Stage\04.BossStage">
       <UniqueIdentifier>{5ec89549-a06e-4594-8653-988032d4967e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\03.Normal\01.Reload">
+      <UniqueIdentifier>{58feec5f-cef1-4a2e-99ae-4fe76c413e15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -628,6 +631,9 @@
     <ClInclude Include="..\Header\BuildStage.h">
       <Filter>02.Scene\01.Stage\03.BuildingStage</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIReload.h">
+      <Filter>04.UI\03.Normal\01.Reload</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -914,6 +920,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\BuildStage.cpp">
       <Filter>02.Scene\01.Stage\03.BuildingStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIReload.cpp">
+      <Filter>04.UI\03.Normal\01.Reload</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
