@@ -43,6 +43,13 @@ CBuildStage* CBuildStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 HRESULT CBuildStage::Ready_Scene()
 {
+	CCollisionManager::GetInstance()->Free();
+	CBulletManager::GetInstance()->Free();
+	CTrigger::GetInstance()->Free();
+	CDrinkSpawner::GetInstance()->Free();
+
+
+
 	FAILED_CHECK_RETURN(Ready_LightInfo(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);

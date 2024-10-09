@@ -723,10 +723,10 @@ void CStage::Free()
 {
 	Engine::CScene::Free();
 	//CUIManager::DestroyInstance();
-	CCollisionManager::DestroyInstance();
-	CBulletManager::DestroyInstance();
-	CTrigger::DestroyInstance();
-	CDrinkSpawner::DestroyInstance();
+	//CCollisionManager::DestroyInstance();
+	//CBulletManager::DestroyInstance();
+	//CTrigger::DestroyInstance();
+	//CDrinkSpawner::DestroyInstance();
 	//CParticleSystem::Free()
 }
 
