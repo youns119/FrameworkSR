@@ -302,6 +302,9 @@
     <Filter Include="03.GameObject\09.Ammo\MiniGun">
       <UniqueIdentifier>{10dbb74a-ef2d-4c5e-a12b-f4a5d0e3963a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\15. EffectBloodJet">
+      <UniqueIdentifier>{f54c68e6-c57f-4994-a780-7dea1d03acf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -592,6 +595,9 @@
     <ClInclude Include="..\Header\MiniGun.h">
       <Filter>03.GameObject\09.Ammo\MiniGun</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectBloodJet.h">
+      <Filter>03.GameObject\06.Effect\15. EffectBloodJet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -863,6 +869,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\MiniGun.cpp">
       <Filter>03.GameObject\09.Ammo\MiniGun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBloodJet.cpp">
+      <Filter>03.GameObject\06.Effect\15. EffectBloodJet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

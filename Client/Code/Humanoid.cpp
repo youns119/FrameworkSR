@@ -3,6 +3,9 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 
+// ±Ôºó
+#include "../Header/EffectPool.h"
+
 CHumanoid::CHumanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CMonster(_pGraphicDev)
 	, m_eCurState(HUMANOIDSTATE::HUMANOID_IDLE)
@@ -67,6 +70,16 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 		switch (_eDamagedState)
 		{
 		case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
+
+			// ±Ôºó
+		{
+			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodJet", L"Com_Transform");
+			static_cast<CTransform*>(pComponent)->Set_Pos(vPos + _vec3(0.f, 0.f, -0.1f));
+			CGameObject* pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+			static_cast<CEffectPool*>(pGameObject)->Operate();
+		}
+
+
 			Changing_State(CHumanoid::HUMANOID_HEADSHOT);
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
 			//static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
