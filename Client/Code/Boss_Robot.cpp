@@ -19,6 +19,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_iRandom(0)
 	, m_iCount(0)
 	, m_bMoveStop(false)
+	, fLinear(0.f)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -40,6 +41,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_iRandom(0)
 	, m_iCount(0)
 	, m_bMoveStop(false)
+	, fLinear(0.f)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -83,7 +85,8 @@ HRESULT CBoss_Robot::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(10.f, 5.f, 25.f);
+	//m_pTransformCom->Set_Pos(10.f, 5.f, 25.f);
+	m_pTransformCom->Set_Scale(5.f, 5.f, 5.f);
 
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
@@ -92,8 +95,9 @@ HRESULT CBoss_Robot::Ready_GameObject()
 	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
-	IsBoss = true;
+
 	Set_Animation();
+	IsBoss = true;
 
 	return S_OK;
 }
@@ -126,7 +130,7 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 
 	matResult = matBill * matWorld;
 	if (!m_bMoveStop) {
-		Move();
+		Move(_fTimeDelta);
 	}
 	m_PatternDelayTime += _fTimeDelta;
 	if (m_PatternDelayTime >= m_fAttackTime) {
@@ -142,11 +146,7 @@ void CBoss_Robot::LateUpdate_GameObject()
 	_vec3 vPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-
 	CGameObject::Compute_ViewZ(&vPos);
-
-	//Change_State(); //this is Instance code for check Animation of Monster
 
 	State_Check();
 
@@ -158,14 +158,10 @@ void CBoss_Robot::Render_GameObject()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 	//Jonghan Monster Change Start
 
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pAnimatorCom->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CBoss_Robot::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
@@ -266,46 +262,6 @@ void CBoss_Robot::State_Check()//This Function Calling in Monster.cpp -> LateUpd
 	//Jonghan Test Code Start-> You should Delete it
 	if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
 	{
-		switch (m_eCurState)
-		{
-		case CBoss_Robot::BOSS_IDLE_NORMAL:
-			m_eCurState = CBoss_Robot::BOSS_IDLE_DAMAGED;
-			break;
-		case CBoss_Robot::BOSS_IDLE_DAMAGED:
-			m_eCurState = CBoss_Robot::BOSS_IDLE_MOREDAMAGED;
-			break;
-		case CBoss_Robot::BOSS_IDLE_MOREDAMAGED:
-			m_eCurState = CBoss_Robot::BOSS_ATTACK_NORMAL_TWOHAND;
-			break;
-		case CBoss_Robot::BOSS_ATTACK_NORMAL_TWOHAND:
-			m_eCurState = CBoss_Robot::BOSS_ATTACK_NORMAL_ONEHAND;
-			break;
-		case CBoss_Robot::BOSS_ATTACK_NORMAL_ONEHAND:
-			m_eCurState = CBoss_Robot::BOSS_ATTACK_DAMAGED_TWOHAND;
-			break;
-		case CBoss_Robot::BOSS_ATTACK_DAMAGED_TWOHAND:
-			m_eCurState = CBoss_Robot::BOSS_ATTACK_DAMAGED_ONEHAND;
-			break;
-		case CBoss_Robot::BOSS_ATTACK_DAMAGED_ONEHAND:
-			m_eCurState = CBoss_Robot::BOSS_HIT_NORMAL;
-			break;
-		case CBoss_Robot::BOSS_HIT_NORMAL:
-			m_eCurState = CBoss_Robot::BOSS_HIT_DAMAGED;
-			break;
-		case CBoss_Robot::BOSS_HIT_DAMAGED:
-			m_eCurState = CBoss_Robot::BOSS_SHIELD_NORMAL;
-			break;
-		case CBoss_Robot::BOSS_SHIELD_NORMAL:
-			m_eCurState = CBoss_Robot::BOSS_SHIELD_DAMAGED;
-			break;
-		case CBoss_Robot::BOSS_SHIELD_DAMAGED:
-			m_eCurState = CBoss_Robot::BOSS_TALKING;
-			break;
-		case CBoss_Robot::BOSS_TALKING:
-			m_eCurState = CBoss_Robot::BOSS_IDLE_NORMAL;
-			break;
-		}
-
 		if (m_eCurState != m_ePreState)
 		{
 			switch (m_eCurState)
@@ -359,28 +315,29 @@ void CBoss_Robot::State_Check()//This Function Calling in Monster.cpp -> LateUpd
 void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Monster.cpp -> Update
 {
 	if (m_bPatternEnd) {
-		m_iRandom = 1;//rand() % 3;
+		m_iRandom = rand() % 3;
 	}
 	Pattern_Manager(_fTimeDelta, m_iRandom);
 }
 
-void CBoss_Robot::Move()
+void CBoss_Robot::Move(const _float& _fTimeDelta)
 {
-	m_fAngle -= 0.5f;
+	m_fAngle -= 30.f * _fTimeDelta;
 	_vec3 BuildingPos = { 100.f,0.f,100.f };
 	_vec3 BuildingUp = { 0.f,1.f,0.f };
 	_vec3 vRight;
 	_matrix mRotate, mWorld;
-	_vec3 vResult;
+	_vec3 vUpRotate;
 	m_pTransformCom->Get_WorldMatrix(&mWorld);
 	memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
 	D3DXVec3Normalize(&vRight, &vRight);
 	vRight *= 30.f;
 	D3DXMatrixRotationAxis(&mRotate, &BuildingUp, D3DXToRadian(m_fAngle));
-	D3DXVec3TransformNormal(&vResult, &vRight, &mRotate);
-	m_pTransformCom->Set_Pos(vResult + BuildingPos);
-}
+	D3DXVec3TransformNormal(&vUpRotate, &vRight, &mRotate);
 
+
+	m_pTransformCom->Set_Pos(vUpRotate + BuildingPos);
+}
 
 void CBoss_Robot::Set_Animation()
 {
@@ -422,7 +379,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 	{
 	case BOSS_MISSILE_PATTERN:
 		m_bPatternEnd = false;
-		m_eCurState = BOSS_ATTACK_NORMAL_TWOHAND;
+		m_eCurState = BOSS_ATTACK_NORMAL_ONEHAND;
 		m_fAttackTime += _fTimeDelta;
 		if (m_fAttackTime > m_fDelayTime)
 		{
@@ -451,54 +408,51 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 	case BOSS_RAZER_PATTERN:
 		m_bPatternEnd = false;
 		m_bMoveStop = true;
-		m_eCurState = BOSS_ATTACK_DAMAGED_TWOHAND;
+		m_eCurState = BOSS_ATTACK_NORMAL_TWOHAND;
+		if (m_iCount >= 100.f) {
+			m_iCount = 0.f;
+			m_bPatternEnd = true;
+			m_eCurState = BOSS_IDLE_NORMAL;
+			m_PatternDelayTime = 0.f;
+			m_bMoveStop = false;
+			break;
+		}
 		m_fAttackTime += _fTimeDelta;
-		if (m_fAttackTime > m_fDelayTime)
+		if (m_fAttackTime > m_fDelayTime && m_iCount <= 1)
 		{
-			if (m_iCount >= 1)
-			{
-				m_iCount = 0;
-				m_bPatternEnd = true;
-				m_eCurState = BOSS_IDLE_NORMAL;
-				m_PatternDelayTime = 0.f;
-				m_bMoveStop = false;
-				break;
-			}
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_LASER);
-			m_iCount += 1;
-			m_fAttackTime = 0.f;
+			m_fAttackTime = 4.5f;
 		}
+		m_iCount += 1;
 		break;
 	case BOSS_SHOOT_PATTERN:
 		m_bPatternEnd = false;
 		m_eCurState = BOSS_ATTACK_NORMAL_ONEHAND;
 		m_fAttackTime += _fTimeDelta;
+		if (m_iCount >= 100)
+		{
+			m_iCount = 0;
+			m_bPatternEnd = true;
+			m_eCurState = BOSS_IDLE_NORMAL;
+			m_PatternDelayTime = 0.f;
+			break;
+		}
 		if (m_fAttackTime > m_fDelayTime)
 		{
-			if (m_iCount >= 5) {
-				m_bPatternEnd = true;
-				m_iCount = 0;
-				m_eCurState = BOSS_IDLE_NORMAL;
-				m_PatternDelayTime = 0.f;
-				break;
-			}
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
-			_vec3 vDir = vPlayerPos - vPos;
-			D3DXVec3Normalize(&vDir, &vDir);
-			Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5.f, Engine::CBulletManager::BULLET_PISTOL);
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_PISTOL, true);
 			m_fAttackTime = 4.5f;
-			m_iCount += 1;
 		}
+		m_iCount += 1;
 		break;
 	default:
 		break;
 	}
 
 }
-
 
 
 void CBoss_Robot::Free()

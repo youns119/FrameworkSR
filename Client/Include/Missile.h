@@ -4,6 +4,8 @@
 BEGIN(Engine)
 class CRcTex;
 class CTexture;
+class CCubeTex;
+class CMissileTex;
 class CTransform;
 class CCollider;
 END
@@ -27,7 +29,7 @@ private:
     HRESULT Add_Component();
 
 private:
-    Engine::CRcTex* m_pBufferCom;
+    Engine::CMissileTex* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CTransform* m_pTransformCom;
     Engine::CCollider* m_pColliderCom;

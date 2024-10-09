@@ -52,7 +52,7 @@ HRESULT CBulletManager::Add_MiniGun(CBullet* _pMiniGun)
 	return S_OK;
 }
 
-HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _vec3& vCurvePos)
+HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _bool& _bIsBoss, const _vec3& vCurvePos)
 {
 	_int iTemp(0);
 	_int iSour(0);
@@ -63,7 +63,7 @@ HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3&
 		{
 			if (!(iter->Get_IsRender()))
 			{
-				iter->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage);
+				iter->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, _bIsBoss);
 				return S_OK;
 			}
 		}
@@ -90,7 +90,7 @@ HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3&
 					vTemp = { _float(rand() % 2) * 0.1f, _float(rand() % 2) * 0.1f, 0.f };
 					break;
 				}
-				iter->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir + vTemp, _fAttackDamage);
+				iter->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir + vTemp, _fAttackDamage, _bIsBoss);
 				iTemp++;
 			}
 			if (5 < iTemp)

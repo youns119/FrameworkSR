@@ -3,7 +3,7 @@
 
 BEGIN(Engine)
 class CTexture;
-class CLaserTex;
+class CCubeTex;
 class CTransform;
 class CCollider;
 END
@@ -28,22 +28,25 @@ private:
     HRESULT Add_Component();
 
 private:
-    Engine::CLaserTex* m_pBufferCom;
+    Engine::CCubeTex* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CCollider* m_pColliderCom;
     Engine::CTransform* m_pTransformPiVot;
     Engine::CTransform* m_pTransformCom;
+    Engine::CTransform* m_pSecondTransformCom;
 
     _float m_fTimer;
     _float m_fFrame;
     _float m_fMaxFrame;
     _float m_fLinear;
-    _float m_fAngle;
+
     _vec3 m_vStart;
     _vec3 m_vEnd;
+
     _vec3 m_vLaserObj;
     _vec3 m_vLaserDir;
 
+    _float m_fAngle;
 
 private:
     virtual void Free();

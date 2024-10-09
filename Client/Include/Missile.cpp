@@ -3,8 +3,6 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 
-#include "../Header/EffectPool.h"
-
 CMissile::CMissile(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
 	, m_pBufferCom(nullptr)
@@ -29,7 +27,7 @@ HRESULT CMissile::Ready_GameObject()
 	m_pColliderCom->SetRadius(0.05f);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(false);
-	m_pTransformCom->Set_Scale(1.f, 1.f, 1.f);
+	m_pTransformCom->Set_Scale(0.2f, 0.2f, 1.5f);
 
 	return S_OK;
 }
@@ -56,17 +54,17 @@ _int CMissile::Update_GameObject(const _float& _fTimeDelta)
 
 	matResult = matBill * matWorld;
 
-	m_pTransformCom->Set_WorldMatrix(&(matResult));
-
-
 	if (m_bIsRender) {
-		m_fLinear += 0.005f;
+		m_fLinear += 0.2f * _fTimeDelta;
 		if (m_fLinear >= 1.f) {
 			m_fLinear = 0.f;
 			m_bIsRender = false;
+			m_pColliderCom->SetActive(false);
 		}
 		m_pTransformCom->Set_Pos(Bezier(m_vStart, m_vCurve, m_vEnd, m_fLinear));
 	}
+
+	m_pTransformCom->Set_WorldMatrix(&(matResult));
 	CGameObject::Compute_ViewZ(&m_vDir);
 	return iExit;
 }
@@ -85,7 +83,7 @@ void CMissile::Render_GameObject()
 	if (m_bIsRender)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
-
+		//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 		//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 		m_pTextureCom->Set_Texture((_uint)m_fFrame);
@@ -94,6 +92,7 @@ void CMissile::Render_GameObject()
 		m_pBufferCom->Render_Buffer();
 
 		//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	}
 }
 
@@ -106,10 +105,6 @@ void CMissile::Fire_Missile(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStart
 	m_vCurve = vCurvePos;
 	m_fAttackDamage = _fAttackDamage;
 	m_pTransformCom->Set_Pos(_vStartPos);
-
-	CGameObject* pGameObject = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_SmokeTrail", L"Com_Transform")->GetOwner();
-	static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
-	static_cast<CEffectPool*>(pGameObject)->Operate();
 }
 
 _vec3 CMissile::Bezier(_vec3 _vStartPos, _vec3 vCurvePos, _vec3 vEndPos, _float fTime)
@@ -126,7 +121,7 @@ CMissile* CMissile::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	if (FAILED(pMissile->Ready_GameObject()))
 	{
 		Safe_Release(pMissile);
-		MSG_BOX("Ammo Create Failed");
+		MSG_BOX("Missile Create Failed");
 		return nullptr;
 	}
 
@@ -141,18 +136,20 @@ HRESULT CMissile::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = dynamic_cast<CMissileTex*>(Engine::Clone_Proto(L"Proto_MissileTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Missile"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AmmoTexture", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MissileTexture", pComponent });
 
 	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 	pComponent->SetOwner(*this);
+
+
 
 	return S_OK;
 }

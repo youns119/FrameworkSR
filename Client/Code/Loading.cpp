@@ -70,7 +70,6 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HitBufferCom", Engine::CRcCol::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeTex", Engine::CCubeTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MissileTex", Engine::CMissileTex::Create(m_pGraphicDev)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LaserTex", Engine::CLaserTex::Create(m_pGraphicDev)), E_FAIL);
 	//YuBhin: Floor,Wall
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FloorTex", Engine::CFloorTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WallTex", Engine::CWallTex::Create(m_pGraphicDev)), E_FAIL);
@@ -148,8 +147,9 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DogDroneKatanaLeftTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Drone_Dog/Katana/Left/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	//Ammo (Monster Bullet)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AmmoTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Missile", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/Missile/0.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Laser", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/Laser/%d.png", TEXTUREID::TEX_NORMAL, 3)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Missile", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/Missile/0.dds", TEXTUREID::TEX_CUBE)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Laser", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/Laser/0.dds", TEXTUREID::TEX_CUBE)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossRobot_Bullet", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/Boss_Bullet/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MiniGunTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/MiniGun/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
 	//Shield (Monster Shield)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShieldTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Shield/Shield_fall/%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);

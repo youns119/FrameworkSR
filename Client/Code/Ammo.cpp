@@ -11,6 +11,8 @@ CAmmo::CAmmo(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fTimer(0.f)
 	, m_fFrame(0.f)
 	, m_fMaxFrame(4.f)
+	, m_bIsBoss(false)
+	, m_fLinear(0.f)
 {
 }
 
@@ -27,7 +29,7 @@ HRESULT CAmmo::Ready_GameObject()
 	m_pColliderCom->SetShow(false);
 	m_pColliderCom->SetActive(false);
 	_matrix matWorld;
-	m_pTransformCom->Set_Scale(0.05f, 0.05f, 0.05f);
+	m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
 	m_pTransformCom->Get_WorldMatrix(&matWorld);
 
 	matWorld._41 = 0.f;
@@ -48,30 +50,30 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 	_int iExit = Engine::CBullet::Update_GameObject(_fTimeDelta);
 
 	m_fFrame += 13.f * _fTimeDelta;
-	
+
 	if (m_fMaxFrame < m_fFrame) // Jonghan Change
 		m_fFrame = 0.f;
 
 	if (m_bIsRender)
 	{
 		m_fTimer += _fTimeDelta;
-		if (4.f < m_fTimer)
+		if (4.f < m_fTimer && !m_bIsBoss)
 		{
 			m_bIsRender = false;
 			m_pColliderCom->SetShow(false);
 			m_pColliderCom->SetActive(false);
 			m_fTimer = 0.f;
 		}
-	//Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
-	//	(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Transform"));
-	//NULL_CHECK_RETURN(pPlayerTransform, -1);
-	//
-	//_vec3 vPlayerPos;
-	//pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
-	//
-	//m_pTransformCom->Chase_Target(&vPlayerPos, 5.f * _fTimeDelta);
+		//Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform*>
+		//	(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_GameLogic", L"Player", L"Com_Transform"));
+		//NULL_CHECK_RETURN(pPlayerTransform, -1);
+		//
+		//_vec3 vPlayerPos;
+		//pPlayerTransform->Get_Info(INFO::INFO_POS, &vPlayerPos);
+		//
+		//m_pTransformCom->Chase_Target(&vPlayerPos, 5.f * _fTimeDelta);
 
-	//Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
+		//Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 		_matrix		matWorld, matView, matBill, matResult;
 		m_pTransformCom->Get_WorldMatrix(&matWorld);
 
@@ -87,14 +89,26 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 		D3DXMatrixInverse(&matBill, 0, &matBill);
 
 		matResult = matBill * matWorld;
-
-		m_pTransformCom->Set_WorldMatrix(&(matResult));
-
 		_vec3 vPos;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 5.f), vPos.y + (m_vDir.y * _fTimeDelta * 5.f), vPos.z + (m_vDir.z * _fTimeDelta * 5.f)); //Consider Speed of Bullet
+
+		m_pTransformCom->Set_WorldMatrix(&(matResult));
+		if (!m_bIsBoss) {
+			m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 5.f), vPos.y + (m_vDir.y * _fTimeDelta * 5.f), vPos.z + (m_vDir.z * _fTimeDelta * 5.f)); //Consider Speed of Bullet
+		}
+		else {
+			m_fLinear += 0.2f * _fTimeDelta;
+			if (m_fLinear >= 1.f) {
+				m_fLinear = 0.f;
+				m_bIsRender = false;
+				m_pColliderCom->SetActive(false);
+			}
+			_vec3 vResult;
+			D3DXVec3Lerp(&vResult, &m_fStartPos, &m_vDir, m_fLinear);
+			m_pTransformCom->Set_Pos(vResult);
+		}
+		//Jonghan Monster Change End
 		CGameObject::Compute_ViewZ(&vPos);
-	//Jonghan Monster Change End
 	}
 
 	return iExit;
@@ -113,16 +127,17 @@ void CAmmo::LateUpdate_GameObject()
 
 void CAmmo::Render_GameObject()
 {
-	if(m_bIsRender)
+	if (m_bIsRender)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
 		//Jonghan Monster Change Start
 
 		//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
-		m_pTextureCom->Set_Texture((_uint)m_fFrame); //Jonghan Change
-
+		if (!m_bIsBoss)
+			m_pTextureCom->Set_Texture((_uint)m_fFrame); //Jonghan Change
+		else
+			m_pTextureCom_Boss->Set_Texture((_uint)m_fFrame);
 
 		m_pBufferCom->Render_Buffer();
 
@@ -131,14 +146,16 @@ void CAmmo::Render_GameObject()
 	}
 }
 
-void CAmmo::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage)
+void CAmmo::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, const _bool& _bIsBoss)
 {
 	m_bIsRender = true;
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
-	m_pTransformCom->Set_Pos(_vStartPos.x, _vStartPos.y, _vStartPos.z);
+	m_fStartPos = _vStartPos;
+	m_pTransformCom->Set_Pos(m_fStartPos);
 	m_vDir = _vDir;
 	m_fAttackDamage = _fAttackDamage;
+	m_bIsBoss = _bIsBoss;
 }
 
 
@@ -169,6 +186,10 @@ HRESULT CAmmo::Add_Component()
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_AmmoTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AmmoTexture", pComponent });
+
+	pComponent = m_pTextureCom_Boss = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BossRobot_Bullet"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AmmoTexture", pComponent });
 
