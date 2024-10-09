@@ -18,6 +18,11 @@ inline CONTROLLERID Get_ControllerID()
 	return CManagement::GetInstance()->Get_ControllerID();
 }
 
+inline _int Get_CountScene()
+{
+	return CManagement::GetInstance()->Get_CountScene();
+}
+
 inline CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag)
 {
 	return CManagement::GetInstance()->Get_Component(_eID, _pLayerTag, _pObjTag, _pComponentTag);

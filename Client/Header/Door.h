@@ -41,11 +41,14 @@ private:
     virtual HRESULT Setup_Material();
     void Setup_Position(_vec3 _vecPos);
     void Setup_Angle(_vec3 _vecRot);
+    void Moving_Open();
 
 private:
     Engine::CWallTBTex* m_pBufferCom;
     Engine::CCollider* m_pColliderCom;
     _vec3 m_vecWallDirection;
+    _float m_fMovingSpeed;
+    _bool m_bIsOpen;
 
 public:
     void OnCollisionEnter(CCollider& _pOther);

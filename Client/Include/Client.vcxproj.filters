@@ -308,6 +308,21 @@
     <Filter Include="04.UI\10.Screen\01.ScreenBase">
       <UniqueIdentifier>{0254548e-c735-4742-90a8-7b3fccd582ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\01.Stage\00.GameStage1">
+      <UniqueIdentifier>{d54ee025-22f9-4278-9736-668d8eacc1e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\01.Stage\01.GameStage2">
+      <UniqueIdentifier>{d7aebe3b-d207-4060-851f-96724f7a1eba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\01.Stage\02.GameStage3">
+      <UniqueIdentifier>{98244517-772b-4a25-851c-76a7c0b693bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\01.Stage\03.BuildingStage">
+      <UniqueIdentifier>{1c41e8c9-c039-4f9b-8c80-c0e49118c5ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\01.Stage\04.BossStage">
+      <UniqueIdentifier>{5ec89549-a06e-4594-8653-988032d4967e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -342,9 +357,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Monster.h">
       <Filter>03.GameObject\02.Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Stage.h">
-      <Filter>02.Scene\01.Stage</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Loading.h">
       <Filter>02.Scene\02.Loading</Filter>
@@ -610,6 +622,12 @@
     <ClInclude Include="..\Header\UIScreenBase.h">
       <Filter>04.UI\10.Screen\01.ScreenBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Stage.h">
+      <Filter>02.Scene\01.Stage\00.GameStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BuildStage.h">
+      <Filter>02.Scene\01.Stage\03.BuildingStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -632,9 +650,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>03.GameObject\02.Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Stage.cpp">
-      <Filter>02.Scene\01.Stage</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Terrain.cpp">
       <Filter>03.GameObject\03.Terrain</Filter>
@@ -893,6 +908,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIScreenBase.cpp">
       <Filter>04.UI\10.Screen\01.ScreenBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Stage.cpp">
+      <Filter>02.Scene\01.Stage\00.GameStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BuildStage.cpp">
+      <Filter>02.Scene\01.Stage\03.BuildingStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

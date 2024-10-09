@@ -9,6 +9,8 @@ CDoor::CDoor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pBufferCom(nullptr)
     , m_pColliderCom(nullptr)
     , m_vecWallDirection({ 0.f, 0.f, 0.f })
+    , m_fMovingSpeed(0.f)
+    , m_bIsOpen(false)
 {
     m_iNumber = 0;
     m_iNumber_Type = 4;
@@ -82,7 +84,7 @@ HRESULT CDoor::Ready_GameObject()
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
     m_pColliderCom->SetTransform(m_pTransformCom);
-    m_pColliderCom->SetRadius(1.f);
+    m_pColliderCom->SetRadius(1.5f);
     m_pColliderCom->SetShow(true);
     m_pColliderCom->SetActive(true);
 
@@ -94,6 +96,24 @@ _int CDoor::Update_GameObject(const _float& _fTimeDelta)
     if (!m_bIsRender)
         return 0;
 
+    if (m_bIsOpen)
+    {
+        if (m_fMovingSpeed > 0.5f)
+        {
+            m_bIsOpen = false;
+        }
+        else
+        {
+            _vec3 vPos, vLook, vUp, vDir;
+            m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+            m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-5.5f));
+            m_fMovingSpeed += _fTimeDelta;
+        }
+
+
+        //vPos.x -= _fTimeDelta * 2.f;
+        //m_pTransformCom->Set_Pos(vPos);
+    }
 
     Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
@@ -203,6 +223,11 @@ void CDoor::Setup_Angle(_vec3 _vecRot)
     m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
 
+void CDoor::Moving_Open()
+{
+    m_bIsOpen = true;
+}
+
 void CDoor::OnCollisionEnter(CCollider& _pOther)
 {
     CPlayer* pPlayer = dynamic_cast<CPlayer*>(_pOther.GetOwner());
@@ -210,6 +235,7 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
     {
         Engine::Collision_With_Trigger(m_iTriggerNumber);
         Engine::Calculate_Trigger();
+        Moving_Open();
     }
 }
 

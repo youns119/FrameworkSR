@@ -1,6 +1,5 @@
 #include "pch.h"
-#include "..\Header\Stage.h"
-#include "../Header/BuildStage.h"
+#include "..\Header\BuildStage.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
 #include "..\Header\DynamicCamera.h"
@@ -16,21 +15,20 @@
 #include "../Header/UIMisterBullet.h"
 #include "../Header/UIRoboto.h"
 #include "../Header/UIFreeCam.h"
-#include "../Header/UIScreen.h"
 
-CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
+CBuildStage::CBuildStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
 	, m_pPlayer(nullptr)
 {
 }
 
-CStage::~CStage()
+CBuildStage::~CBuildStage()
 {
 }
 
-CStage* CStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CBuildStage* CBuildStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-	CStage* pStage = new CStage(_pGraphicDev);
+	CBuildStage* pStage = new CBuildStage(_pGraphicDev);
 
 	if (FAILED(pStage->Ready_Scene()))
 	{
@@ -42,7 +40,7 @@ CStage* CStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pStage;
 }
 
-HRESULT CStage::Ready_Scene()
+HRESULT CBuildStage::Ready_Scene()
 {
 	FAILED_CHECK_RETURN(Ready_LightInfo(), E_FAIL);
 
@@ -66,7 +64,7 @@ HRESULT CStage::Ready_Scene()
 	return S_OK;
 }
 
-_int CStage::Update_Scene(const _float& _fTimeDelta)
+_int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 {
 	// 콜라이더 OnOff
 	if (Engine::Key_Press(DIK_F1))
@@ -137,17 +135,8 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_ROBOTO)->empty())
 			Engine::Activate_UI(UITYPE::UI_ROBOTO);
-		else Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
-	}
-
-	if (Engine::Key_Press(DIK_F8))
-	{
-		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
-		{
-			Engine::Activate_UI(UITYPE::UI_SCREEN);
-			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
-		}
-		else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
+		else
+			Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
 	}
 
 	// 인벤토리 OnOff
@@ -166,33 +155,22 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 	}
 
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
-
-	if (Engine::Key_Press(DIK_RETURN))
-	{
-		Engine::CScene* pStage = CBuildStage::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pStage, -1);
-
-		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
-
-		return 0;
-	}
-
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 
 	return iExit;
 }
 
-void CStage::LateUpdate_Scene()
+void CBuildStage::LateUpdate_Scene()
 {
 	Engine::CScene::LateUpdate_Scene();
 	Engine::LateUpdate_Bullet(); //Jonghan Change // Is it Right? becuz BulletManager
 }
 
-void CStage::Render_Scene()
+void CBuildStage::Render_Scene()
 {
 }
 
-HRESULT CStage::Ready_LightInfo()
+HRESULT CBuildStage::Ready_LightInfo()
 {
 	D3DLIGHT9 tLightInfo;
 	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
@@ -209,7 +187,7 @@ HRESULT CStage::Ready_LightInfo()
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
+HRESULT CBuildStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -234,14 +212,14 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox", pGameObject), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ComponentCamera", Engine::CComponentCamera::Create(m_pGraphicDev)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ComponentCamera", Engine::CComponentCamera::Create(m_pGraphicDev)), E_FAIL);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
+HRESULT CBuildStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	Engine::CLayer* pLayer2 = CLayer::Create();
@@ -267,14 +245,14 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 		Engine::Set_DrinkObject(pSoda);
 	}
 
-	m_mapLayer.insert({ L"Layer_Wall" , pLayer});
-	m_mapLayer.insert({ L"Layer_Monster" , pLayer2});
+	m_mapLayer.insert({ L"Layer_Wall" , pLayer });
+	m_mapLayer.insert({ L"Layer_Monster" , pLayer2 });
 	m_mapLayer.insert({ L"Layer_Item" , pLayer3 });
 
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_Player(const _tchar* _pLayerTag)
+HRESULT CBuildStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -291,7 +269,7 @@ HRESULT CStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
+HRESULT CBuildStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -347,7 +325,7 @@ HRESULT CStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
+HRESULT CBuildStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 {
 	// 연욱
 	Engine::CUI* pUI = nullptr;
@@ -389,18 +367,13 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 	pUI->Set_GameObject(m_pPlayer);
 
-	pUI = CUIScreen::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	pUI->Set_GameObject(m_pPlayer);
-
 	Engine::Activate_UI(UITYPE::UI_NORMAL);
 
 	return S_OK;
 }
 
 // kyubin
-HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
+HRESULT CBuildStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -498,7 +471,7 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
+HRESULT CBuildStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -515,14 +488,14 @@ HRESULT CStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 	pGameObject = CBoss_Robot::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);
-	
+
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
 }
 
-void CStage::Set_Collision()
+void CBuildStage::Set_Collision()
 {
 	Engine::CheckGroup(L"Layer_Player", L"Layer_MonsterBullet");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
@@ -536,7 +509,7 @@ void CStage::Set_Collision()
 	Engine::CheckGroup(L"Layer_Monster", L"Layer_Wall");
 }
 
-CLayer* CStage::Find_Layer(const _tchar* _pLayerTag)
+CLayer* CBuildStage::Find_Layer(const _tchar* _pLayerTag)
 {
 	CLayer* pLayer = nullptr;
 
@@ -547,9 +520,9 @@ CLayer* CStage::Find_Layer(const _tchar* _pLayerTag)
 }
 
 
-void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
+void CBuildStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 {
-	HANDLE		hFile = CreateFile(L"../Data/GameStage0.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/BuildingStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -726,15 +699,9 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 }
 
 
-void CStage::Free()
+void CBuildStage::Free()
 {
 	Engine::CScene::Free();
-	//CUIManager::DestroyInstance();
-	CCollisionManager::DestroyInstance();
-	CBulletManager::DestroyInstance();
-	CTrigger::DestroyInstance();
-	CDrinkSpawner::DestroyInstance();
-	//CParticleSystem::Free()
 }
 
 

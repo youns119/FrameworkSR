@@ -53,6 +53,7 @@ inline HRESULT Create_Management(LPDIRECT3DDEVICE9 _pGraphicDev, CManagement** _
 inline CScene* Get_CurrScene();
 inline CComponent* Get_Component(COMPONENTID _eID, const _tchar* _pLayerTag, const _tchar* _pObjTag, const _tchar* _pComponentTag);
 inline CONTROLLERID Get_ControllerID();
+inline _int Get_CountScene();
 inline	HRESULT	Set_Scene(CScene* _pScene);
 inline void Set_ControllerID(CONTROLLERID _eController);
 inline	_int Update_Scene(const _float& _fTimeDelta);
