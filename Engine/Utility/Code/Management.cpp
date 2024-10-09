@@ -6,6 +6,7 @@ CManagement::CManagement()
 	: m_pScene(nullptr)
 	, m_eController(CONTROLLERID::CONTROL_PLAYER)
 	, m_fPlayerSkillTimer(1.f)
+	, m_iCountScene(0)
 {
 }
 
@@ -28,6 +29,8 @@ HRESULT CManagement::Set_Scene(CScene* _pScene)
 	Engine::Clear_RenderGroup();
 
 	m_pScene = _pScene;
+
+	m_iCountScene++;
 
 	return S_OK;
 }

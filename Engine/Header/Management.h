@@ -21,6 +21,7 @@ public:
 
 	HRESULT	Set_Scene(CScene* _pScene);
 	void Set_ControllerID(CONTROLLERID _eController) { m_eController = _eController; }
+	_int Get_CountScene() { return m_iCountScene; }
 
 public:
 	_int Update_Scene(const _float& _fTimeDelta);
@@ -36,6 +37,7 @@ private:
 
 	CONTROLLERID m_eController;
 	_float m_fPlayerSkillTimer;
+	_int m_iCountScene;
 };
 
 END
