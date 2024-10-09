@@ -39,7 +39,7 @@ private:
 	virtual HRESULT	Add_Component();
 	virtual void State_Check(); //Jonghan Change
 	virtual void Attack(const _float& _fTimeDelta);
-	void Move();
+	void Move(const _float& _fTimeDelta);
 	virtual void Set_Animation();
 	void Changing_State(BOSS_ROBOTSTATE _eState) { m_eCurState = _eState; }
 	_bool Check_Phase();

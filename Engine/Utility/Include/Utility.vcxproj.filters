@@ -133,9 +133,6 @@
     <Filter Include="04.Component\00.VIBuffer\08.MissileTex">
       <UniqueIdentifier>{0bd432b2-e0ce-41b7-ab95-699096aaec95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Component\00.VIBuffer\09.LaserTex">
-      <UniqueIdentifier>{91f16e7f-0248-4956-9674-1c385aef9b30}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Management.h">
@@ -261,9 +258,6 @@
     <ClInclude Include="..\..\Header\Soda.h">
       <Filter>10.DrinkSpawn\00.Soda</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\LaserTex.h">
-      <Filter>04.Component\00.VIBuffer\09.LaserTex</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\MissileTex.h">
       <Filter>04.Component\00.VIBuffer\08.MissileTex</Filter>
     </ClInclude>
@@ -388,9 +382,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Soda.cpp">
       <Filter>10.DrinkSpawn\00.Soda</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\LaserTex.cpp">
-      <Filter>04.Component\00.VIBuffer\09.LaserTex</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MissileTex.cpp">
       <Filter>04.Component\00.VIBuffer\08.MissileTex</Filter>
