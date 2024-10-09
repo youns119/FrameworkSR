@@ -191,7 +191,7 @@ HRESULT CAmmo::Add_Component()
 
 	pComponent = m_pTextureCom_Boss = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BossRobot_Bullet"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AmmoTexture", pComponent });
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_BossRobot_BulletTexture", pComponent });
 
 	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Engine::Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
