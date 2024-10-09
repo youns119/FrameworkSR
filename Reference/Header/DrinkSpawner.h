@@ -18,7 +18,7 @@ public:
 private:
     vector<CSoda*> m_vecDrinkObject;
 
-private:
+public:
     virtual void Free();
 
 };
