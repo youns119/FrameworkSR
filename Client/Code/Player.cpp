@@ -1605,6 +1605,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 						m_Right_CurState = EXECUTION;
 						m_pAnimator[RIGHT]->PlayAnimation(L"Execution_Knife", false);
 						m_fDashSpeed = 0.f;
+						m_bIsHasItem = false;
 					}
 					else //Drone
 					{
