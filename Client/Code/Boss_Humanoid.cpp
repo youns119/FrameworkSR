@@ -3,6 +3,8 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 #include "../Header/UIMisterBullet.h"
+#include "../Header/EffectPool.h"
+#include "../Header/EffectMuzzleFlash.h"
 
 CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CMonster(_pGraphicDev)
@@ -11,6 +13,8 @@ CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsDamaged(false)
 	, m_fSpawnTimer(2.5f)
 	, m_iBossKillCount(0)
+	, m_fAttackTime(0.f)
+    , m_fDelayTime(5.f)
 {
 	for (_int i = 0; i < CBoss_Humanoid::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -23,6 +27,8 @@ CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_bIsDamaged(false)
 	, m_fSpawnTimer(2.5f)
 	, m_iBossKillCount(0)
+	, m_fAttackTime(0.f)
+	, m_fDelayTime(5.f)
 {
 	for (_int i = 0; i < CBoss_Humanoid::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -76,9 +82,8 @@ HRESULT CBoss_Humanoid::Ready_GameObject()
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 
-	m_pHitBufferCom->SetvOffSet({ 0.f,0.f,0.f });
-	m_pHeadHit->SetvOffSet({ 0.5f,0.5f,0.f });
-	m_pCriticalHit->SetvOffSet({ -0.5f,0.5f,0.f });
+
+	m_pHitBufferCom->Set_Hit_Parts(CRcCol::HIT_BODY);
 
 	Set_Animation();
 
@@ -148,10 +153,15 @@ void CBoss_Humanoid::Render_GameObject()
 
 void CBoss_Humanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
+	_vec3 vPos;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 	Changing_State(CBoss_Humanoid::BOSS_DAMAGED); // Need to Interaction with EffectManager(Body or Blodd Explosion)
-	CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
-	if (pComponent)
-		static_cast<CEffect*>(pComponent)->Operate_Effect();
+	CComponent* pComponent;
+	CGameObject* pGameObject(nullptr);
+	pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
+	static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
+	pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+	static_cast<CEffectPool*>(pGameObject)->Operate();
 
 	static_cast<CUIMisterBullet*>(Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->front())->Add_Count();
 	++m_iBossKillCount;
@@ -168,11 +178,15 @@ void CBoss_Humanoid::Change_State()
 	{
 		switch (m_eCurState)
 		{
+		case CBoss_Humanoid::BOSS_IDLE:
+			m_eCurState = CBoss_Humanoid::BOSS_SPAWN;
+			break;
 		case CBoss_Humanoid::BOSS_SPAWN:
-			m_eCurState = CBoss_Humanoid::BOSS_ATTACK;
+			m_eCurState = CBoss_Humanoid::BOSS_IDLE;
 			break;
 		case CBoss_Humanoid::BOSS_ATTACK:
-			m_eCurState = CBoss_Humanoid::BOSS_SPAWN;
+			m_eCurState = CBoss_Humanoid::BOSS_IDLE;
+			m_fAttackTime = 0.f;
 			break;
 		}
 		m_pAnimatorCom->GetCurrAnim()->SetFinish(false);
@@ -182,11 +196,75 @@ void CBoss_Humanoid::Change_State()
 
 _vec3 CBoss_Humanoid::Calculate_NextPos(const _float& _fMinX, const _float& _fMaxX, const _float& _fMinY, const _float& _fMaxY)
 {
-	_float x, y, z(25.f);
-	x = _float(_int(rand()) % _int(_fMaxX - _fMinX)) + _fMinX;
-	y = _float(_int(rand()) % _int(_fMaxY - _fMinY)) + _fMinY;
+	_vec3 vPos; // we need Position.x & Position.y, Need Not Position.z
 
-	_vec3 vPos = { x,y,z }; // we need Position.x & Position.y, Need Not Position.z
+	_int iPosRandom = rand() % 10;
+	switch (iPosRandom)
+	{
+	case BOSS_CENTER:
+		vPos = { 26.f,-2.f ,57.f };
+		break;
+	case BOSS_CENTER_LEFT:
+		vPos = { 18.f, -2.f, 57.f };
+		break;
+	case BOSS_CENTER_LEFT_END:
+		vPos = { 13.f, -2.f, 57.f };
+		break;
+	case BOSS_CENTER_RIGHT:
+		vPos = { 33.f, -2.f, 57.f };
+		break;
+	case BOSS_CENTER_RIGHT_END:
+		vPos = { 39.f, -2.f, 57.f };
+		break;
+	case BOSS_UNDER_LEFT:
+		vPos = { 18.f, -5.f, 57.f };
+		break;
+	case BOSS_UNDER_LEFT_END:
+		vPos = { 13.f, -5.f, 57.f };
+		break;
+	case BOSS_UNDER_RIGHT:
+		vPos = { 33.f, -5.f, 57.f };
+		break;
+	case BOSS_UNDER_RIGHT_END:
+		vPos = { 39.f, -5.f, 57.f };
+		break;
+	case BOSS_UNDER_END_LEFT:
+		vPos = { 18.f, -8.f, 57.f };
+		break;
+	case BOSS_UNDER_END_LEFT_END:
+		vPos = { 13.f, -8.f, 57.f };
+		break;
+	case BOSS_UNDER_END_RIGHT:
+		vPos = { 33.f, -8.f, 57.f };
+		break;
+	case BOSS_UNDER_END_RIGHT_END:
+		vPos = { 39.f, -8.f, 57.f };
+		break;
+	case BOSS_UP_LEFT:
+		vPos = { 18.f, 1.f, 57.f };
+		break;
+	case BOSS_UP_LEFT_END:
+		vPos = { 13.f, 1.f, 57.f };
+		break;
+	case BOSS_UP_RIGHT:
+		vPos = { 33.f, 1.f, 57.f };
+		break;
+	case BOSS_UP_RIGHT_END:
+		vPos = { 39.f, 1.f, 57.f };
+		break;
+	case BOSS_UP_END_LEFT:
+		vPos = { 18.f, 4.f, 57.f };
+		break;
+	case BOSS_UP_END_LEFT_END:
+		vPos = { 13.f, 4.f, 57.f };
+		break;
+	case BOSS_UP_END_RIGHT:
+		vPos = { 33.f, 4.f, 57.f };
+		break;
+	case BOSS_UP_END_RIGHT_END:
+		vPos = { 39.f, 4.f, 57.f };
+		break;
+	}
 
 	return vPos;
 }
@@ -211,16 +289,6 @@ HRESULT CBoss_Humanoid::Add_Component()
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HitBufferCom", pComponent });
 	pComponent->SetOwner(*this);
 
-	pComponent = m_pHeadHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_HeadHit", pComponent });
-	pComponent->SetOwner(*this);
-
-	pComponent = m_pCriticalHit = dynamic_cast<CRcCol*>(Engine::Clone_Proto(L"Proto_HitBufferCom"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_CriticalHit", pComponent });
-	pComponent->SetOwner(*this);
-
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Buffer", pComponent });
@@ -232,6 +300,10 @@ HRESULT CBoss_Humanoid::Add_Component()
 	pComponent = m_pTextureCom[CBoss_Humanoid::BOSS_ATTACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BossHumanoidAttackTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_AttackTexture", pComponent });
+
+	pComponent = m_pTextureCom[CBoss_Humanoid::BOSS_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_BossHumanoidIdle"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_IdleTexture", pComponent });
 
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Engine::Clone_Proto(L"Proto_Calculator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -281,6 +353,7 @@ void CBoss_Humanoid::Set_Animation()
 {
 	m_pAnimatorCom->CreateAnimation(L"Spawn", m_pTextureCom[BOSS_SPAWN], 13.f);
 	m_pAnimatorCom->CreateAnimation(L"Attack", m_pTextureCom[BOSS_ATTACK], 9.f);
+	m_pAnimatorCom->CreateAnimation(L"IDLE", m_pTextureCom[BOSS_IDLE], 9.f);
 
 	m_pAnimatorCom->PlayAnimation(L"Spawn", false);
 }
@@ -316,6 +389,13 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 
 		vDir = vPlayerPos - vPos;
+		D3DXVec3Normalize(&vDir, &vDir);
+		if (m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() >= 7) {
+
+
+			Engine::RayCast(vPos, vDir);
+
+		}
 	}
 }
 

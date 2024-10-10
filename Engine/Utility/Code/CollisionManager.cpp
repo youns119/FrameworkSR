@@ -326,8 +326,12 @@ _bool CCollisionManager::FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _v
 		if (intersected || intersected2) {
 			//헤드피격
 			pTargetComponent = pTargetObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_HeadHit");
+			if (pTargetComponent == nullptr)
+			{
+				dynamic_cast<CCharacter*>(pTargetObject)->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT, 1.f);
+				return true;
+			}
 			pTargetCol = dynamic_cast<CRcCol*>(pTargetComponent);
-
 			v0 = *pTargetCol->VertexPos(0);
 			v1 = *pTargetCol->VertexPos(1);
 			v2 = *pTargetCol->VertexPos(2);

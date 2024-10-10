@@ -4,8 +4,30 @@ class CBoss_Humanoid :
     public CMonster
 {
 public:
-	enum BOSS_HUMANOIDSTATE { BOSS_SPAWN, BOSS_ATTACK, BOSS_DAMAGED, BOSS_END };
-
+	enum BOSS_HUMANOIDSTATE { BOSS_SPAWN,BOSS_IDLE,BOSS_ATTACK, BOSS_DAMAGED, BOSS_END };
+	enum BOSS_POS {
+		BOSS_CENTER,
+		BOSS_CENTER_LEFT,
+		BOSS_CENTER_LEFT_END,
+		BOSS_CENTER_RIGHT,
+		BOSS_CENTER_RIGHT_END,
+		BOSS_UNDER_LEFT,
+		BOSS_UNDER_LEFT_END,
+		BOSS_UNDER_RIGHT,
+		BOSS_UNDER_RIGHT_END,
+		BOSS_UNDER_END_LEFT,
+		BOSS_UNDER_END_LEFT_END,
+		BOSS_UNDER_END_RIGHT,
+		BOSS_UNDER_END_RIGHT_END,
+		BOSS_UP_LEFT,
+		BOSS_UP_LEFT_END,
+		BOSS_UP_RIGHT,
+		BOSS_UP_RIGHT_END,
+		BOSS_UP_END_LEFT,
+		BOSS_UP_END_LEFT_END,
+		BOSS_UP_END_RIGHT,
+		BOSS_UP_END_RIGHT_END,
+	};
 private:
     explicit CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev);
 	explicit CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos);
@@ -45,6 +67,8 @@ private:
 	_float m_fSpawnTimer;
 	_uint m_iBossKillCount;
 
+	_float m_fAttackTime;
+	_float m_fDelayTime;
 private:
 	virtual void Free();
 };
