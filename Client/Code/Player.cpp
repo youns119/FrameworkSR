@@ -32,6 +32,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	, m_bIsDrinking(false)
 	, m_bIsRotation(false)
 	, m_bIsTrapOn(false)
+	, m_bIsSlideOn(false)
 	, m_bIsLeft(false)
 	, m_bIsRight(false)
 	, m_bIsShaking(false)
@@ -100,6 +101,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos, _bool _bBossS
 	, m_bIsDrinking(false)
 	, m_bIsRotation(false)
 	, m_bIsTrapOn(false)
+	, m_bIsSlideOn(false)
 	, m_bIsLeft(false)
 	, m_bIsRight(false)
 	, m_bIsShaking(false)
@@ -227,6 +229,7 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 
 	Picking_Terrain();
 	Damage_Terrain();//유빈 - 산성,용암지형에 플레이어가 대미지를 받음
+	Speed_Terrain();
 	if (m_bIsTrapOn)
 	{
 		if (m_fTrapTime > 2.5f)	// 5초 정도로 설정// 왜 2.5로 되는지..모르겠음
@@ -239,6 +242,16 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 			m_fTrapTime += _fTimeDelta * m_fTime_Skill;
 		}
 
+	}
+	if (m_bIsSlideOn)
+	{
+		_vec3 vLook;
+		_vec3 vRight;
+		_vec3 vUp;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+		m_pBody_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
+		m_pBody_TransformCom->Get_Info(INFO::INFO_UP, &vUp);
+		m_pBody_TransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), _fTimeDelta, m_fSpeed);
 	}
 	if (Engine::Get_ControllerID() == CONTROLLERID::CONTROL_PLAYER)
 	{
@@ -1103,6 +1116,26 @@ void CPlayer::Damage_Terrain()
 		}
 	}
 }
+
+
+void CPlayer::Speed_Terrain()
+{
+	_vec3 vPos;
+	CGameObject* pGameObject;
+	m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
+
+	pGameObject = Engine::FloorRayCast2(vPos); // 레이픽킹된 바닥 정보를 받아옴
+
+	if (pGameObject != nullptr && dynamic_cast<CFloor*>(pGameObject)->Get_SlidSpeed() == true)// 슬라이드 타일인지 체크
+	{
+		m_bIsSlideOn = true;
+	}
+	else
+	{
+		m_bIsSlideOn = false;
+	}
+}
+
 
 void CPlayer::SetAnimation()
 {

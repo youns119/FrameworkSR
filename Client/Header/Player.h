@@ -108,7 +108,8 @@ private:
 	void Mouse_Fix();
 	void Jump(const _float& _fTimeDelta);
 	void Picking_Terrain();
-	void Damage_Terrain();//산성,용암 바닥 대미지
+	void Damage_Terrain();//산성,용암 바닥 대미지 - 유빈
+	void Speed_Terrain();// 슬라이드 타일 위에서 내려가기 - 유빈
 	void SetAnimation();
 	void Animation_End_Check();
 	void Animation_Pos();
@@ -157,7 +158,8 @@ private:
 	_bool m_bIsHasItem;
 	_bool m_bIsDrinking;
 	_bool m_bIsRotation;
-	_bool m_bIsTrapOn;
+	_bool m_bIsTrapOn;// 산성,용암 대미지 받기 여부
+	_bool m_bIsSlideOn;// 슬라이드 타일을 타고 있는지 체크
 	_bool m_bIsLeft;
 	_bool m_bIsRight;
 	_bool m_bIsShaking;
@@ -165,7 +167,7 @@ private:
 	_bool m_bIsBoss;
 	_float m_fShakingTimer;
 	_float m_fShakingSize;
-	_float m_fTrapTime;
+	_float m_fTrapTime; // 산성 용암 다시 대미지 입기까지 시간
 	_float m_fHP;
 	_float m_fTimerHP;
 	_float m_fJumpPower;
