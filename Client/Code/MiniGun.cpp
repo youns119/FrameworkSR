@@ -96,7 +96,7 @@ _int CMiniGun::Update_GameObject(const _float& _fTimeDelta)
 
 		_vec3 vPos;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 5.f), vPos.y + (m_vDir.y * _fTimeDelta * 5.f), vPos.z + (m_vDir.z * _fTimeDelta * 5.f)); //Consider Speed of Bullet
+		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 8.f), vPos.y + (m_vDir.y * _fTimeDelta * 8.f), vPos.z + (m_vDir.z * _fTimeDelta * 8.f)); //Consider Speed of Bullet
 		CGameObject::Compute_ViewZ(&vPos);
 		//Jonghan Monster Change End
 

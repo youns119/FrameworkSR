@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "..\Header\Stage.h"
-#include "../Header/BuildStage.h"
+#include "../Header/GameStage2.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
 #include "..\Header\DynamicCamera.h"
@@ -170,7 +170,7 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 
 	if (Engine::Key_Press(DIK_RETURN))
 	{
-		Engine::CScene* pStage = CBuildStage::Create(m_pGraphicDev);
+		Engine::CScene* pStage = CGameStage2::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pStage, -1);
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
@@ -282,7 +282,7 @@ HRESULT CStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CPlayer::Create(m_pGraphicDev);
+	pGameObject = CPlayer::Create(m_pGraphicDev, _vec3{ 7.5f, 1.f, 1.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	m_pPlayer = static_cast<CPlayer*>(pGameObject);

@@ -69,6 +69,7 @@ private:
 
 private:
 	explicit CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev);
+	explicit CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos);
 	virtual ~CPlayer();
 
 public:
@@ -87,6 +88,7 @@ public:
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos);
 
 public:
 	virtual	HRESULT Ready_GameObject();
@@ -163,11 +165,13 @@ private:
 	_float m_fCurAttackDelay;
 	_float m_fMaxAttackDelay;
 	_float m_fTime_Skill;
+	_float m_fDamage;
 	_float m_flinear[FINISH];
 	_int m_iMaxAmmo;
 	_int m_iCurAmmo;
 	_vec3 m_vDefaultPos[FINISH];
 	_vec3 m_vDefaultSize[FINISH];
+	_vec3 m_vStartPos;
 
 	RIGHT_STATE m_Right_CurState;
 	RIGHT_STATE m_Right_PreState;

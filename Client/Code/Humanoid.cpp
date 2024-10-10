@@ -76,25 +76,25 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 		{
 			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodJet", L"Com_Transform");
 			static_cast<CTransform*>(pComponent)->Set_Pos(vPos + _vec3(0.f, 0.f, -0.1f));
-			CGameObject* pGameObject2 = static_cast<CTransform*>(pComponent)->GetOwner();
-			static_cast<CEffectPool*>(pGameObject2)->Operate();
+			CGameObject* pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+			static_cast<CEffectPool*>(pGameObject)->Operate();
 		}
 
 
-			Changing_State(CHumanoid::HUMANOID_HEADSHOT);
-			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
-			//static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
-			
-			break;
+		Changing_State(CHumanoid::HUMANOID_HEADSHOT);
+		static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
+		//static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
+		dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
+		break;
 		case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
 			Changing_State(CHumanoid::HUMANOID_BULLSHOT);
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_NUTSHOT);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
 			Changing_State(CHumanoid::HUMANOID_KATANA);
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_SAYONARA);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
 
@@ -110,7 +110,7 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(2.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT:
 
@@ -122,11 +122,11 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(2.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_EXECUTION:
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_GOODBYE);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(20.f);
 			break;
 		}
 		m_pColliderCom->SetActive(false);

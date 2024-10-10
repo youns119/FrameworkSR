@@ -182,6 +182,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\FilterFundo.h" />
     <ClInclude Include="..\Header\Floor.h" />
     <ClInclude Include="..\Header\FlyingDrone.h" />
+    <ClInclude Include="..\Header\GameStage2.h" />
+    <ClInclude Include="..\Header\GameStage3.h" />
     <ClInclude Include="..\Header\GuideTerrain.h" />
     <ClInclude Include="..\Header\Header_Effect.h" />
     <ClInclude Include="..\Header\Humanoid.h" />
@@ -290,6 +292,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\FilterFundo.cpp" />
     <ClCompile Include="..\Code\Floor.cpp" />
     <ClCompile Include="..\Code\FlyingDrone.cpp" />
+    <ClCompile Include="..\Code\GameStage2.cpp" />
+    <ClCompile Include="..\Code\GameStage3.cpp" />
     <ClCompile Include="..\Code\GuideTerrain.cpp" />
     <ClCompile Include="..\Code\Humanoid.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />

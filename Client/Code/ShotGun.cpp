@@ -244,7 +244,7 @@ void CShotGun::Attack(const _float& _fTimeDelta)
 		m_bIsExecution = false;
 		Changing_State(CHumanoid::HUMANOID_IDLE);
 		m_pTransformCom->Set_Scale({ 1.f, 1.f, 1.f });
-		AddForce(30.f, m_vPlayerLook, 15.f);
+		AddForce(16.5f, m_vPlayerLook, 15.f);
 		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectHeal", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
 
