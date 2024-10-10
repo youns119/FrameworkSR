@@ -584,8 +584,6 @@ void CStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 
 		if (iNumber_Type == 0)
 		{
-			pRot = { 0.f, 0.f, 0.f };
-
 			pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
 
 

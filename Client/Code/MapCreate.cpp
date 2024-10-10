@@ -16,6 +16,7 @@ CMapCreate::CMapCreate(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bCreateCheck(false)
 	, m_fHeight(0.f)
 	, m_vecRot(0.f, 0.f, 0.f)
+	, m_vecPosition(0.f, 0.f, 0.f)
 	, m_iRidian(0)
 	, m_bGuiHovered(false)
 	, m_ImageName(nullptr)
@@ -486,7 +487,7 @@ HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, TilePiking_OnTerrain(1),m_vecRot, m_iNumber, m_iTriggerNumber);//10.06
+	pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, m_vecPosition = TilePiking_OnTerrain(1),m_vecRot, m_iNumber, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Floor", pGameObject);
 
@@ -496,7 +497,7 @@ HRESULT CMapCreate::Create_Layer_PickingFloor(CLayer* _pLayer)
 HRESULT CMapCreate::Create_Layer_PickingWall(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CWall::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(2), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
+	pGameObject = CWall::Create_InfoNumberDirectionTrigger(m_pGraphicDev, m_vecPosition = TilePiking_OnTerrain(2), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Wall", pGameObject);
 
@@ -507,7 +508,7 @@ HRESULT CMapCreate::Create_Layer_PickingWall(CLayer* _pLayer, Engine::TILE_DIREC
 HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CWallTB::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
+	pGameObject = CWallTB::Create_InfoNumberDirectionTrigger(m_pGraphicDev, m_vecPosition = TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"WallTB", pGameObject);
 
@@ -517,7 +518,7 @@ HRESULT CMapCreate::Create_Layer_PickingWallTB(CLayer* _pLayer, Engine::TILE_DIR
 HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber, m_iTriggerNumber);//10.06
+	pGameObject = CMonsterTile::Create_InfoNumberTrigger(m_pGraphicDev, m_vecPosition = TilePiking_OnTerrain(4), m_iNumber, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"MonsterTile", pGameObject);
 
@@ -527,7 +528,7 @@ HRESULT CMapCreate::Create_Layer_PickingMonster(CLayer* _pLayer)
 HRESULT CMapCreate::Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIRECTION _eTileDirection)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CDoor::Create_InfoNumberDirectionTrigger(m_pGraphicDev, TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
+	pGameObject = CDoor::Create_InfoNumberDirectionTrigger(m_pGraphicDev, m_vecPosition = TilePiking_OnTerrain(3), m_iNumber, _eTileDirection, m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"Door", pGameObject);
 
@@ -537,7 +538,7 @@ HRESULT CMapCreate::Create_Layer_PickingDoor(CLayer* _pLayer, Engine::TILE_DIREC
 HRESULT CMapCreate::Create_Layer_PickingItem(CLayer* _pLayer)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	pGameObject = CItemTile::Create_InfoNumberTrigger(m_pGraphicDev, TilePiking_OnTerrain(4), m_iNumber , m_iTriggerNumber);//10.06
+	pGameObject = CItemTile::Create_InfoNumberTrigger(m_pGraphicDev, m_vecPosition = TilePiking_OnTerrain(4), m_iNumber , m_iTriggerNumber);//10.06
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	_pLayer->Add_GameObject(L"ItemTile", pGameObject);
 
@@ -630,7 +631,7 @@ _vec3 CMapCreate::FloorCreate_OnTerrain(HWND _hWnd, CGuideTex* _pGuideBufferCom)
 				(
 					(pGuideTexPos[dwVtxId[1]].x + fU * (pGuideTexPos[dwVtxId[2]].x - pGuideTexPos[dwVtxId[1]].x)) - 1,
 					pGuideTexPos[dwVtxId[0]].y,
-					(pGuideTexPos[dwVtxId[1]].z + fV * (pGuideTexPos[dwVtxId[0]].z - pGuideTexPos[dwVtxId[1]].z) - 1)
+					(pGuideTexPos[dwVtxId[1]].z + fV * (pGuideTexPos[dwVtxId[0]].z - pGuideTexPos[dwVtxId[1]].z) - 1 )
 				);
 			}
 			// 터레인 -> 버텍스 인덱스를 그리는 순서와 동일하게 적용 210
@@ -1029,7 +1030,8 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 	{
 		if (_TileTag == L"Floor" && _TileTag == (*it).first)
 		{
-			if (dynamic_cast<CFloor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(1))
+			if (dynamic_cast<CFloor*>((*it).second)->Get_VecPos() == TilePiking_OnTerrain(1) &&
+				dynamic_cast<CFloor*>((*it).second)->Get_VecRot() == m_vecRot)
 			{
 				m_bCreateCheck = false;
 				break;
@@ -1129,7 +1131,7 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 
 void CMapCreate::MapSave2(CLayer* _pLayer)
 {
-	HANDLE		hFile = CreateFile(L"../Data/BuildingStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/GameStage1.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1252,7 +1254,7 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	multimap<const _tchar*, CGameObject*>::iterator it = _pLayer->Get_LayerObjects()->begin();
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
-	HANDLE		hFile = CreateFile(L"../Data/BuildingStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/GameStage1.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1291,7 +1293,6 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 		if (iNumber_Type == 0)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
-			pRot = { 0.f, 0.f, 0.f };
 
 			pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
 
@@ -1390,18 +1391,36 @@ void CMapCreate::ShowGUI()
 
 void CMapCreate::SetMenu()
 {
-	if (!ImGui::CollapsingHeader("setting")) // gui 숨겼다 보여주는 bool 값
-		return;
+	!ImGui::CollapsingHeader("setting"); // gui 숨겼다 보여주는 bool 값
+		//return;
 
-	//static int nOffset[2] = { 2,3 };
-	//ImGui::Text(u8"int값");
-	//ImGui::SameLine(100.f, 0.0f);
-	//ImGui::InputInt2("##3", nOffset);
+	static _vec3 vecPosition = {};
+	vecPosition.x =  m_vecPosition.x;
+	vecPosition.y =  m_vecPosition.y;
+	vecPosition.z =  m_vecPosition.z;
+	ImGui::Text(u8"설치된 좌표 값");
+	ImGui::SameLine(100.f, 0.f);
+	ImGui::InputFloat3("##3", vecPosition, "%2.f");
+
+
+
+	int iTemp = m_iRidian;
+
+	static int iRotation = 0;
+	ImGui::Text(u8"현재 회전 값");
+	ImGui::SameLine(100.f, 0.0f);
+	ImGui::InputInt("##3", &iRotation);
+	m_iRidian = iRotation;
+	if (m_iRidian != iTemp)
+	{
+		m_vecRot = { D3DXToRadian(m_iRidian),D3DXToRadian(0),D3DXToRadian(0) };
+	}
+
 
 	static int iTriggerOffset = 0;
 	ImGui::Text(u8"TriggerNumber값");
 	ImGui::SameLine(110.f, 0.0f);
-	ImGui::InputInt("#3", &iTriggerOffset);
+	ImGui::InputInt("#4", &iTriggerOffset);
 	m_iTriggerNumber = iTriggerOffset;
 
 	ImGui::NewLine();
