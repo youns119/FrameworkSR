@@ -7,6 +7,7 @@ CFloor::CFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_pBufferCom(nullptr)
     , m_pColliderCom(nullptr)
     , m_fDamage(0.f)
+    , m_bSlidSpeed(false)
 {
     m_iNumber = 0;
     m_iNumber_Type = 0;
@@ -31,6 +32,10 @@ CFloor* CFloor::Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _
     if (_iNumber == 27 || _iNumber == 28)
     {
         pFloor->m_fDamage = 10.f;
+    }
+    if (_iNumber == 13)
+    {
+        pFloor->m_bSlidSpeed = true;
     }
 
     pFloor->Setup_Position(_vecPos);
@@ -57,6 +62,11 @@ CFloor* CFloor::Create_InfoNumberTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 
     {
         pFloor->m_fDamage = 10.f;
     }
+    if (_iNumber == 13)
+    {
+        pFloor->m_bSlidSpeed = true;
+    }
+
     pFloor->Setup_Position(_vecPos);
     pFloor->Setup_Rotation(_vecRot);
     pFloor->m_vecPos = _vecPos;

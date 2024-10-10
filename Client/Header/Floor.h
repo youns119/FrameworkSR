@@ -24,6 +24,7 @@ public:
 	_vec3 Get_VecRot() { return m_vecRot; }
 	_int Get_Number() { return m_iNumber; }
 	_float Get_Damage() { return m_fDamage; }
+	_bool Get_SlidSpeed() { return m_bSlidSpeed; }
 	_int Get_Trigger() { return m_iTriggerNumber; }//10.06
 	void Set_Number(const _int& _iNumber) { m_iNumber = _iNumber; }
 	void Set_Trigger(const _int& _iTrigger) { m_iTriggerNumber = _iTrigger; }//10.06
@@ -48,5 +49,6 @@ private:
 	Engine::CCollider* m_pColliderCom;
 
 	_vec3 m_vecRot;
-	_float m_fDamage;
+	_float m_fDamage;// 산성,용암 대미지
+	_bool m_bSlidSpeed;// 슬라이드 타일 위에서 속도 적용 여부
 };

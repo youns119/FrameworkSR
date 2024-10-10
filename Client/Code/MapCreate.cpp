@@ -205,6 +205,10 @@ HRESULT CMapCreate::Ready_Scene()
 
 _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 {
+	if (Engine::Key_Press(DIK_F1))
+		Engine::Toggle_Collider();
+
+
 	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
 	{
 		m_vecPosition = TilePiking_OnTerrain(1);
@@ -1137,10 +1141,10 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 void CMapCreate::MapSave2(CLayer* _pLayer)
 {
 	 //HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
-	 //HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
+	 HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
 	 //HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
      //HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
-     HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
+     //HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1264,10 +1268,10 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
 	//HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
-	//HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
 	//HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
 	//HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
-	HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
+	//HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
