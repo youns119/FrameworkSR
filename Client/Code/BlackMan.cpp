@@ -3,6 +3,7 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 #include "../Header/Shield.h"
+#include "../Header/Player.h"
 
 CBlackMan::CBlackMan(LPDIRECT3DDEVICE9 _pGraphicDev) : 
     CHumanoid(_pGraphicDev)
@@ -379,21 +380,24 @@ void CBlackMan::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 			_int iIndex = rand() % 13;
 
 			CUI* pUI = Engine::Activate_UI(UITYPE::UI_PLUS);
-
+			CGameObject* pGameObject = nullptr;
 			switch (_eDamagedState)
 			{
 			case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:
 				Changing_State(CHumanoid::HUMANOID_HEADSHOT);
 				static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
 				//static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
+				
 				break;
 			case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
 				Changing_State(CHumanoid::HUMANOID_BULLSHOT);
 				static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_NUTSHOT);
+				
 				break;
 			case Engine::DAMAGED_STATE::DAMAGED_KATANA:
 				Changing_State(CHumanoid::HUMANOID_KATANA);
 				static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_SAYONARA);
+				
 				break;
 			case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
 
@@ -409,6 +413,7 @@ void CBlackMan::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 					Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
 
 				static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
+				
 				break;
 			case Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT:
 
@@ -420,10 +425,11 @@ void CBlackMan::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 					Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
 
 				static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
-
+				
 				break;
 			case Engine::DAMAGED_STATE::DAMAGED_EXECUTION:
 				static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_GOODBYE);
+				
 				break;
 			}
 			m_pColliderCom->SetActive(false);

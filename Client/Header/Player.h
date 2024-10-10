@@ -28,6 +28,7 @@ private:
 		ZOOMIN,
 		ZOOMING,
 		ZOOMOUT,
+		START,
 		RIGHT_STATE_END
 	};
 	enum LEFT_STATE {
@@ -81,6 +82,7 @@ public:
 	void Rooting_Item(Engine::ITEM_TYPE _eItemType);
 
 	void Set_PlayerHP(_float _fHP) { m_fHP = _fHP; }
+	void Set_PlayerHP_Plus(_float _fHP) { m_fHP += _fHP; }
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -108,6 +110,7 @@ private:
 	void Calculate_TimerHP(const _float& _fTimeDelta);
 	void Skill_Timer();
 	void Moving_Rotate();
+	void Shaking_Camera(const _float& _fTimeDelta);
 public:
 	void OnCollision(CCollider& _pOther);
 	void OnCollisionEnter(CCollider& _pOther);
@@ -146,6 +149,9 @@ private:
 	_bool m_bIsTrapOn;
 	_bool m_bIsLeft;
 	_bool m_bIsRight;
+	_bool m_bIsShaking;
+	_float m_fShakingTimer;
+	_float m_fShakingSize;
 	_float m_fTrapTime;
 	_float m_fHP;
 	_float m_fTimerHP;
