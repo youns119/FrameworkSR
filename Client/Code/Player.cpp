@@ -32,6 +32,9 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsTrapOn(false)
 	, m_bIsLeft(false)
 	, m_bIsRight(false)
+	, m_bIsShaking(false)
+	, m_fShakingTimer(0.f)
+	, m_fShakingSize(0.f)
 	, m_fTrapTime(0.f)
 	, m_fHP(0.f)
 	, m_fTimerHP(0.f)
@@ -128,8 +131,10 @@ HRESULT CPlayer::Ready_GameObject()
 _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
 	// 연욱 - 테스트용 플레이어 체력 깎기
-	if (Engine::Key_Hold(DIK_DOWN))
-		Calculate_TimerHP(_fTimeDelta * 10.f);
+	//if (Engine::Key_Hold(DIK_DOWN))
+
+	Calculate_TimerHP(_fTimeDelta );
+
 
 	Picking_Terrain();
 	Damage_Terrain();//유빈 - 산성,용암지형에 플레이어가 대미지를 받음
@@ -168,7 +173,7 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 	Moving_Rotate();
-
+	Shaking_Camera(_fTimeDelta);
 	Animation_Pos();
 	m_pLeg_TransformCom->Update_Component(_fTimeDelta);
 	m_pRight_TransformCom->Update_Component(_fTimeDelta);
@@ -731,7 +736,9 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		case SHOTGUN:
 			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Shoot", false);
-
+			m_bIsShaking = true;
+			m_fShakingSize = 20.f;
+			m_fShakingTimer = 0.5f;
 			// 규빈
 			vMuzzlePos.x += -180.f;
 			vMuzzlePos.y += 210.f;
@@ -739,7 +746,9 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		case SNIPER:
 			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Shoot", false);
-
+			m_bIsShaking = true;
+			m_fShakingSize = 40.f;
+			m_fShakingTimer = 0.5f;
 			// 규빈
 			vMuzzlePos.x += -160.f;
 			vMuzzlePos.y += 200.f;
@@ -1588,6 +1597,33 @@ void CPlayer::Moving_Rotate()
 
 		matResult = matRot * matWorld;
 		m_pBody_TransformCom->Set_WorldMatrix(&matResult);
+	}
+}
+
+void CPlayer::Shaking_Camera(const _float& _fTimeDelta)
+{
+	if (m_bIsShaking)
+	{
+		_matrix matWorld, matRot, matResult;
+
+		m_fShakingTimer -= _fTimeDelta;
+		_int iRan = rand() % (_int)m_fShakingSize;
+		_int iMinus = rand() % 2;
+		_float fRan;
+		if (0 < iMinus)
+			fRan = iRan * 0.1f;
+		else
+			fRan = iRan * -0.1f;
+
+		D3DXMatrixRotationZ(&matRot, D3DXToRadian(fRan));
+		matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
+
+		matResult = matRot * matWorld;
+		m_pBody_TransformCom->Set_WorldMatrix(&matResult);
+		if (0.f > m_fShakingTimer)
+		{
+			m_bIsShaking = false;
+		}
 	}
 }
 
