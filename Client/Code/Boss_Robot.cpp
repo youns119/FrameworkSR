@@ -21,6 +21,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_iCount2(0)
 	, m_bMoveStop(false)
 	, fLinear(0.f)
+	, m_LaserTime(0.f)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -44,6 +45,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_iCount2(0)
 	, m_bMoveStop(false)
 	, fLinear(0.f)
+	, m_LaserTime(0.f)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -409,31 +411,30 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 		}
 		break;
 	case BOSS_RAZER_PATTERN:
-		if (m_iCount >= 100.f) {
+		m_LaserTime += 1.f;
+		if (m_LaserTime >= 80.f) {
 			m_iCount = 0.f;
 			m_bPatternEnd = true;
 			m_eCurState = BOSS_IDLE_NORMAL;
 			m_PatternDelayTime = 0.f;
 			m_bMoveStop = false;
+			m_LaserTime = 0.f;
 			break;
 		}
 		m_bPatternEnd = false;
 		m_bMoveStop = true;
 		m_eCurState = BOSS_ATTACK_NORMAL_TWOHAND;
 		m_fAttackTime += _fTimeDelta;
-		if (m_fAttackTime > m_fDelayTime && m_iCount <= 1)
+		if (m_fAttackTime > m_fDelayTime && m_iCount < 1)
 		{
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_LASER);
 			m_fAttackTime = 4.5f;
+			m_iCount++;
 		}
-		m_iCount += 1;
 		break;
 	case BOSS_SHOOT_PATTERN:
-		m_bPatternEnd = false;
-		m_eCurState = BOSS_ATTACK_NORMAL_ONEHAND;
-		m_fAttackTime += _fTimeDelta;
 		if (m_iCount2 >= 10)
 		{
 			m_iCount2 = 0;
@@ -442,14 +443,17 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			m_PatternDelayTime = 0.f;
 			break;
 		}
+		m_bPatternEnd = false;
+		m_eCurState = BOSS_ATTACK_NORMAL_ONEHAND;
+		m_fAttackTime += _fTimeDelta;
 		if (m_fAttackTime > m_fDelayTime)
 		{
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_PISTOL, true);
 			m_fAttackTime = 4.5f;
+			m_iCount2 += 1;
 		}
-		m_iCount2 += 1;
 		break;
 	default:
 		break;
