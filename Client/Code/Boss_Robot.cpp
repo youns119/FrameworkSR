@@ -18,6 +18,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bPatternEnd(true)
 	, m_iRandom(0)
 	, m_iCount(0)
+	, m_iCount2(0)
 	, m_bMoveStop(false)
 	, fLinear(0.f)
 {
@@ -40,6 +41,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_bPatternEnd(true)
 	, m_iRandom(0)
 	, m_iCount(0)
+	, m_iCount2(0)
 	, m_bMoveStop(false)
 	, fLinear(0.f)
 {
@@ -323,8 +325,8 @@ void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Mo
 void CBoss_Robot::Move(const _float& _fTimeDelta)
 {
 	m_fAngle -= 30.f * _fTimeDelta;
-	_vec3 BuildingPos = { 20.f,20.f,45.f };
-	_vec3 BuildingUp = { 0.f,1.f,0.5f };
+	_vec3 BuildingPos = { 20.f,30.f,45.f };
+	_vec3 BuildingUp = { 0.f,1.f,0.2f };
 	_vec3 vRight;
 	_matrix mRotate, mWorld;
 	_vec3 vUpRotate;
@@ -400,16 +402,14 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			vRight *= 30.f;
 			D3DXMatrixRotationAxis(&mRotation, &vLook, D3DXToRadian(m_fMissileAngle));
 			D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
-			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_MISSILE,true ,vCurve + vPos);
+			_vec3 vOffSet = { 0.f, 0.5f, 0.f };
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos + vOffSet, 5.f, Engine::CBulletManager::BULLET_MISSILE,true ,vCurve + vPos);
 			m_fAttackTime = 4.5f;
 			m_fMissileAngle -= 15.f;
 		}
 		break;
 	case BOSS_RAZER_PATTERN:
-		m_bPatternEnd = false;
-		m_bMoveStop = true;
-		m_eCurState = BOSS_ATTACK_NORMAL_TWOHAND;
-		if (m_iCount >= 70.f) {
+		if (m_iCount >= 100.f) {
 			m_iCount = 0.f;
 			m_bPatternEnd = true;
 			m_eCurState = BOSS_IDLE_NORMAL;
@@ -417,6 +417,9 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			m_bMoveStop = false;
 			break;
 		}
+		m_bPatternEnd = false;
+		m_bMoveStop = true;
+		m_eCurState = BOSS_ATTACK_NORMAL_TWOHAND;
 		m_fAttackTime += _fTimeDelta;
 		if (m_fAttackTime > m_fDelayTime && m_iCount <= 1)
 		{
@@ -431,9 +434,9 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 		m_bPatternEnd = false;
 		m_eCurState = BOSS_ATTACK_NORMAL_ONEHAND;
 		m_fAttackTime += _fTimeDelta;
-		if (m_iCount >= 100)
+		if (m_iCount2 >= 10)
 		{
-			m_iCount = 0;
+			m_iCount2 = 0;
 			m_bPatternEnd = true;
 			m_eCurState = BOSS_IDLE_NORMAL;
 			m_PatternDelayTime = 0.f;
@@ -446,7 +449,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_PISTOL, true);
 			m_fAttackTime = 4.5f;
 		}
-		m_iCount += 1;
+		m_iCount2 += 1;
 		break;
 	default:
 		break;

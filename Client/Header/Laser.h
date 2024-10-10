@@ -44,9 +44,6 @@ private:
     _vec3 m_vEnd;
 
     _vec3 m_vLaserObj;
-    _vec3 m_vLaserDir;
-
-    _float m_fAngle;
 
 private:
     virtual void Free();

@@ -120,6 +120,36 @@ const _matrix* CTransform::Compute_LookAtTarget(const _vec3* _pTargetPos)
 	);
 }
 
+const void CTransform::LookAtTarget(const _vec3* _pTargetPos)
+{
+	_vec3 vLook = *_pTargetPos - m_vInfo[(_uint)INFO::INFO_POS];
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	_matrix	matRot;
+	D3DXMatrixIdentity(&matRot);
+	_vec3 vRight;
+	_vec3 vUp = { 0.f,1.f,0.f };
+	D3DXVec3Cross(&vRight, &vUp, &vLook);
+	D3DXVec3Cross(&vUp, &vLook, &vRight);
+
+	memcpy(&matRot.m[0][0], &vRight, sizeof(_vec3));
+	memcpy(&matRot.m[1][0], &vUp, sizeof(_vec3));
+	memcpy(&matRot.m[2][0], &vLook, sizeof(_vec3));
+
+
+	_matrix	matScale, matTrans;
+
+	D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
+	D3DXMatrixTranslation(&matTrans, m_vInfo[(_uint)INFO::INFO_POS].x, m_vInfo[(_uint)INFO::INFO_POS].y, m_vInfo[(_uint)INFO::INFO_POS].z);
+
+	m_matWorld = matScale * matRot * matTrans;
+
+}
+
+
+
+
+
 CComponent* CTransform::Clone()
 {
 	return new CTransform(*this);
