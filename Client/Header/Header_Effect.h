@@ -15,5 +15,6 @@
 #include "../Header/EffectKick.h"
 #include "../Header/EffectKatanaAttack.h"
 #include "../Header/EffectBloodJet.h"
+#include "../Header/EffectSniperMuzzleFlash.h"
 
 #include "../Header/EffectPool.h"

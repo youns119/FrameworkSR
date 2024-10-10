@@ -18,11 +18,11 @@ HRESULT CEffectMinigunShell::Ready_GameObject()
 
     for (_uint i = 0; i < OBJ_END; ++i)
     {
-		m_pTransformCom[i]->Set_Pos(0.f, 0.f, m_fViewZ);
-		m_pTransformCom[i]->Set_Scale(50.f, 50.f, 1.f);
+        m_pTransformCom[i]->Set_Pos(0.f, 0.f, m_fViewZ);
+        m_pTransformCom[i]->Set_Scale(50.f, 50.f, 1.f);
     }
 
-    m_pEffectCom->Set_LifeTime(0.5f);
+    m_pEffectCom->Set_LifeTime(1.f);
     m_pEffectCom->Set_CallBack(OnOperate);
     m_pEffectCom->Set_CallBackParam(this);
 
@@ -42,10 +42,10 @@ _int CEffectMinigunShell::Update_GameObject(const _float& _fTimeDelta)
     _vec3 vPosition;
     for (_uint i = 0; i < OBJ_END; ++i)
     {
-		m_pTransformCom[i]->Get_Info(INFO::INFO_POS, &vPosition);
-		m_vVelocity[i] += _vec3(0.0f, -9.8f * 150.f, 0.f) * _fTimeDelta;
-		vPosition += m_vVelocity[i] * _fTimeDelta;
-		m_pTransformCom[i]->Set_Pos(vPosition);
+        m_pTransformCom[i]->Get_Info(INFO::INFO_POS, &vPosition);
+        m_vVelocity[i] += _vec3(0.0f, -9.8f * 200.f, 0.f) * _fTimeDelta;
+        vPosition += m_vVelocity[i] * _fTimeDelta;
+        m_pTransformCom[i]->Set_Pos(vPosition);
     }
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
@@ -144,12 +144,12 @@ void CEffectMinigunShell::OnOperate(void* _pParam)
 
     for (_uint i = 0; i < OBJ_END; ++i)
     {
-		pThis->m_vVelocity[i] = {-600.f, 1200.f, 0.f};
-		pThis->m_vVelocity[i].x += (rand() % 1000 * 0.001f) * 250.f - 500.f;
-		pThis->m_vVelocity[i].y += (rand() % 1000 * 0.001f) * 250.f - 500.f;
+        pThis->m_vVelocity[i] = { -400.f, 1600.f, 0.f };
+        pThis->m_vVelocity[i].x += (rand() % 1000 * 0.001f) * 250.f - 500.f;
+        pThis->m_vVelocity[i].y += (rand() % 1000 * 0.001f) * 250.f - 500.f;
 
     }
 
-    pTransformComCapsule->Set_Pos(0.f, 0.f, pThis->m_fViewZ);
-    pTransformComBullet->Set_Pos(0.f, 0.f, pThis->m_fViewZ);
+    pTransformComCapsule->Set_Pos(-200.f, -300.f, pThis->m_fViewZ);
+    pTransformComBullet->Set_Pos(-200.f, -300.f, pThis->m_fViewZ);
 }

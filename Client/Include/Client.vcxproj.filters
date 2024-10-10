@@ -326,6 +326,9 @@
     <Filter Include="04.UI\03.Normal\01.Reload">
       <UniqueIdentifier>{58feec5f-cef1-4a2e-99ae-4fe76c413e15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\16 EffectSniperMuzzleFlash">
+      <UniqueIdentifier>{2c512db6-e759-4a13-a2f2-4129c096b5be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -634,6 +637,9 @@
     <ClInclude Include="..\Header\UIReload.h">
       <Filter>04.UI\03.Normal\01.Reload</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectSniperMuzzleFlash.h">
+      <Filter>03.GameObject\06.Effect\16 EffectSniperMuzzleFlash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -923,6 +929,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIReload.cpp">
       <Filter>04.UI\03.Normal\01.Reload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectSniperMuzzleFlash.cpp">
+      <Filter>03.GameObject\06.Effect\16 EffectSniperMuzzleFlash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
