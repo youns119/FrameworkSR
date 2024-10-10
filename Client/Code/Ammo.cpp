@@ -3,6 +3,10 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 
+#include "../Header/WallTB.h"
+#include "../Header/Wall.h"
+#include "../Header/EffectPool.h"
+
 CAmmo::CAmmo(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
 	, m_pBufferCom(nullptr)
@@ -109,6 +113,45 @@ _int CAmmo::Update_GameObject(const _float& _fTimeDelta)
 		}
 		//Jonghan Monster Change End
 		CGameObject::Compute_ViewZ(&vPos);
+
+		// ±Ôºó - º® ½ºÆÄÅ©
+		_vec3 RayStart = vPos;
+		_vec3 RayDir = m_vDir;
+		CGameObject* pGameObject(nullptr);
+		CComponent* pComponent(nullptr);
+		CWall* pWall(nullptr);
+		CWallTB* pWallTB(nullptr);
+
+		_float fDist = 0.f;
+		_vec3 vHitPosition;
+		D3DXVec3Normalize(&RayDir, &RayDir);
+		pGameObject = Engine::CCollisionManager::GetInstance()->RayCastWall(RayStart, RayDir, &vHitPosition);
+		//pGameObject->OnCollisionEnter(*m_pColliderCom);
+		pWall = dynamic_cast<CWall*>(pGameObject);
+		pWallTB = dynamic_cast<CWallTB*>(pGameObject);
+
+		_vec3 vNormal{ 0.f, 0.f, 0.f };
+		if (pWall)
+			vNormal = pWall->Get_TileDirection();
+		if (pWallTB)
+			vNormal = pWallTB->Get_TileDirection();
+
+		_vec3 vLength = vHitPosition - RayStart;
+		if (D3DXVec3Length(&vLength) < 0.3f)
+		{
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
+			static_cast<CTransform*>(pComponent)->Set_Pos(vHitPosition);
+			static_cast<CTransform*>(pComponent)->Set_Angle(-D3DX_PI * 0.5f * vNormal.z, 0.f, D3DX_PI * 0.5f * vNormal.x);
+			pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+			static_cast<CEffectPool*>(pGameObject)->Operate();
+
+			// ²ô±â
+			Set_IsRender(FALSE);
+			//m_bIsRender = false;
+			//m_pColliderCom->SetShow(false);
+			//m_pColliderCom->SetActive(false);
+			m_fTimer = 0.f;
+		}
 	}
 
 	return iExit;
