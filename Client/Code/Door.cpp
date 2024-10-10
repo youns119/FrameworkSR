@@ -252,7 +252,17 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
             {
                 Engine::Activate_UI(UITYPE::UI_SCREEN);
                 static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
+                m_bLastDoor = false;
+                pPlayer->Set_Clear();
             }
+        }
+        else if (m_bFirstDoor)
+        {
+            if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
+            {
+                
+            }
+            else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
         }
     }
 }

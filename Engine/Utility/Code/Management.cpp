@@ -24,9 +24,9 @@ CComponent* CManagement::Get_Component(COMPONENTID _eID, const _tchar* _pLayerTa
 
 HRESULT CManagement::Set_Scene(CScene* _pScene)
 {
+	Engine::Clear_RenderGroup();
 	Safe_Release(m_pScene);
 
-	Engine::Clear_RenderGroup();
 
 	m_pScene = _pScene;
 
