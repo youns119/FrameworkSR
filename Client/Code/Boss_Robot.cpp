@@ -323,15 +323,15 @@ void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Mo
 void CBoss_Robot::Move(const _float& _fTimeDelta)
 {
 	m_fAngle -= 30.f * _fTimeDelta;
-	_vec3 BuildingPos = { 100.f,0.f,100.f };
-	_vec3 BuildingUp = { 0.f,1.f,0.f };
+	_vec3 BuildingPos = { 20.f,20.f,45.f };
+	_vec3 BuildingUp = { 0.f,1.f,0.5f };
 	_vec3 vRight;
 	_matrix mRotate, mWorld;
 	_vec3 vUpRotate;
 	m_pTransformCom->Get_WorldMatrix(&mWorld);
 	memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
 	D3DXVec3Normalize(&vRight, &vRight);
-	vRight *= 30.f;
+	vRight *= 60.f;
 	D3DXMatrixRotationAxis(&mRotate, &BuildingUp, D3DXToRadian(m_fAngle));
 	D3DXVec3TransformNormal(&vUpRotate, &vRight, &mRotate);
 
@@ -400,7 +400,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			vRight *= 30.f;
 			D3DXMatrixRotationAxis(&mRotation, &vLook, D3DXToRadian(m_fMissileAngle));
 			D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
-			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_MISSILE, vCurve + vPos);
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_MISSILE,true ,vCurve + vPos);
 			m_fAttackTime = 4.5f;
 			m_fMissileAngle -= 15.f;
 		}
@@ -409,7 +409,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 		m_bPatternEnd = false;
 		m_bMoveStop = true;
 		m_eCurState = BOSS_ATTACK_NORMAL_TWOHAND;
-		if (m_iCount >= 100.f) {
+		if (m_iCount >= 70.f) {
 			m_iCount = 0.f;
 			m_bPatternEnd = true;
 			m_eCurState = BOSS_IDLE_NORMAL;

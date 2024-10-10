@@ -39,7 +39,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fHP(0.f)
 	, m_fTimerHP(0.f)
 	, m_fJumpPower(0.f)
-	, m_flinear(0.f)
 	, m_fTilePos(0.f)
 	, m_fSpeed(0.f)
 	, m_fMaxAttackDelay(0.f)
@@ -50,7 +49,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_iMaxAmmo(6) //because Pistol
 	, m_Right_CurState(CHANGE)
 	, m_Right_PreState(RIGHT_STATE_END)
-	, m_Left_CurState(LEFT_IDLE)
+	, m_Left_CurState(LEFT_CHANGE)
 	, m_Left_PreState(LEFT_STATE_END)
 	, m_Leg_CurState(LEG_IDLE)
 	, m_Leg_PreState(LEG_STATE_END)
@@ -62,6 +61,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	ZeroMemory(&m_fFrameEnd, sizeof(m_fFrameEnd));
 	ZeroMemory(&m_fFrameSpeed, sizeof(m_fFrameSpeed));
 	ZeroMemory(&m_pAnimator, sizeof(m_pAnimator));
+	ZeroMemory(&m_flinear, sizeof(m_flinear));
 	m_vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
 	m_vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -1.8f,2.f };
 	m_vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
@@ -339,9 +339,13 @@ HRESULT CPlayer::Add_Component()
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_MiniGun_GunPoint_Change", pComponent });
 
 	//Left
-	pComponent = m_pLeft_TextureCom[LEFT_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftArmTex"));
+	pComponent = m_pLeft_TextureCom[LEFT_IDLE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftIdle"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture2", pComponent });
+
+	pComponent = m_pLeft_TextureCom[LEFT_CHANGE] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftChange"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_LeftChange", pComponent });
 
 	pComponent = m_pLeft_TextureCom[DRINK] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_LeftDrink")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -524,7 +528,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_WeaponState = PISTOL;
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
-		m_flinear = 0.f;
 		m_iCurAmmo = 6;
 		m_iMaxAmmo = 6;
 		m_fMaxAttackDelay = 0.5f;
@@ -536,7 +539,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Change", false);
 		m_bLeftHandUse = false;
-		m_flinear = 0.f;
 		m_iCurAmmo = 10;
 		m_iMaxAmmo = 10;
 		m_fMaxAttackDelay = 1.5f;
@@ -548,7 +550,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_WeaponState = SHOTGUN;
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Change", false);
-		m_flinear = 0.f;
 		m_iCurAmmo = 2;
 		m_iMaxAmmo = 2;
 		m_fMaxAttackDelay = 1.5f;
@@ -560,7 +561,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_WeaponState = SNIPER;
 		m_Right_CurState = IDLE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
-		m_flinear = 0.f;
 		m_iCurAmmo = 10;
 		m_iMaxAmmo = 10;
 		m_fMaxAttackDelay = 1.5f;
@@ -572,7 +572,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_WeaponState = KATANA;
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Change", false);
-		m_flinear = 0.f;
 		m_iCurAmmo = 100;//Dummy Code
 		m_iMaxAmmo = 100;//Dummy Code
 		m_fMaxAttackDelay = 1.5f;
@@ -588,7 +587,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", false);
 		m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Change", false);
 		m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Change", false);
-		m_flinear = 0.f;
 		m_iCurAmmo = 100;
 		m_iMaxAmmo = 100;
 		m_fMaxAttackDelay = 1.0f;
@@ -1043,6 +1041,7 @@ void CPlayer::SetAnimation()
 
 	//Left
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Idle", m_pLeft_TextureCom[LEFT_IDLE], 8.f);
+	m_pAnimator[LEFT]->CreateAnimation(L"Left_Change", m_pLeft_TextureCom[LEFT_CHANGE], 8.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Drink", m_pLeft_TextureCom[DRINK], 8.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Execution", m_pLeft_TextureCom[LEFT_EXECUTION], 2.f);
 
@@ -1055,7 +1054,7 @@ void CPlayer::SetAnimation()
 	m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
 	m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 
-	m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
+	m_pAnimator[LEFT]->PlayAnimation(L"Left_Change", false);
 	m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
 	m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
 
@@ -1082,6 +1081,7 @@ void CPlayer::Animation_End_Check()
 			m_Leg_CurState = LEG_IDLE;
 			//m_bLegUse = false;
 		}
+		m_flinear[LEG] = 0.f;
 	}
 
 	if (m_pAnimator[RIGHT]->GetCurrAnim()->GetFinish())
@@ -1119,13 +1119,18 @@ void CPlayer::Animation_End_Check()
 			break;
 		}
 		m_bLeftHandUse = true;
-		m_flinear = 0;
+		m_flinear[RIGHT] = 0;
 	}
 	if (m_pAnimator[LEFT]->GetCurrAnim()->GetFinish())
 	{
 		if (m_WeaponState == MINIGUN) {
 			m_Left_CurState = MINIGUN_BODY_IDLE;
 			m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Idle", false);
+		}
+		else if (m_Left_CurState == LEFT_CHANGE)
+		{
+			m_Left_CurState = LEFT_IDLE;
+			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
 		}
 		else if (m_Left_CurState == LEFT_EXECUTION)
 		{
@@ -1141,6 +1146,7 @@ void CPlayer::Animation_End_Check()
 			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
 			m_bIsDrinking = false;
 		}
+		m_flinear[LEFT] = 0.f;
 	}
 }
 
@@ -1158,14 +1164,14 @@ void CPlayer::Animation_Pos()
 		}
 		break;
 	case MINIGUN_PANEL_CHANGE:
-		m_flinear += 0.1f;
-		if (m_flinear >= 1.f) {
-			m_flinear = 1.f;
+		m_flinear[LEG] += 0.1f;
+		if (m_flinear[LEG] >= 1.f) {
+			m_flinear[LEG] = 1.f;
 		}
 		m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG] * 1.2f);
 		vStart = { 0.f, -WINCY + 100.f , 2.f };
 		vEnd = { 0.f,-300.f,2.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEG]);
 		m_pLeg_TransformCom->Set_Pos(vPos);
 		break;
 	case MINIGUN_PANEL_IDLE:
@@ -1181,19 +1187,32 @@ void CPlayer::Animation_Pos()
 	case PISTOL:
 		switch (m_Right_CurState)
 		{
+		case CHANGE:
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.3f);
+			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
+			break;
+		case RELOAD:
+			if (m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() >= 4 && m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() <= 9)
+			{
+				m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.3f);
+			}
+			else {
+				m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
+			}
+			break;
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 
 			// 규빈: 형님 이렇게 대충 한번 해봤는데요... 이거 맞을까요?
-			if (m_flinear > 0.1f)
+			if (m_flinear[RIGHT] > 0.1f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
-			if (m_flinear > 0.7f)
+			if (m_flinear[RIGHT] > 0.7f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
@@ -1227,7 +1246,7 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 			m_pRight_TransformCom->Set_Pos(vPos);
 			break;
 		}
@@ -1256,7 +1275,7 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 1000.f, 0.f, 1.f };
 			vEnd = { 400.f, 0.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 			m_pRight_TransformCom->Set_Pos(vPos);
 			break;
 		}
@@ -1325,7 +1344,7 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 1000.f, 0.f, 1.f };
 			vEnd = { 400.f, 0.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 			m_pRight_TransformCom->Set_Pos(vPos);
 			break;
 		}
@@ -1333,12 +1352,12 @@ void CPlayer::Animation_Pos()
 	case MINIGUN:
 		switch (m_Right_CurState) {
 		case CHANGE:
-			if (m_flinear >= 1.f) {
-				m_flinear = 1.f;
+			if (m_flinear[RIGHT] >= 1.f) {
+				m_flinear[RIGHT] = 1.f;
 			}
 			vStart = { 0.f, -WINCY + 100.f , 2.f };
 			vEnd = { 0.f,-150.f,2.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 			m_pRight_TransformCom->Set_Pos(vPos);
 			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.5f);
 			break;
@@ -1351,6 +1370,20 @@ void CPlayer::Animation_Pos()
 	switch (m_Left_CurState)
 	{
 	case LEFT_IDLE:
+		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
+		m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
+		break;
+	case LEFT_CHANGE:
+		m_flinear[LEFT] += 0.2;
+		if (m_flinear[LEFT] >= 1.f) {
+			m_flinear[LEFT] = 1.f;
+		}
+		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
+		vStart = { m_vDefaultPos[LEFT].x, -WINCY, m_vDefaultPos[LEFT].z };
+		vEnd = m_vDefaultPos[LEFT];
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+		m_pLeft_TransformCom->Set_Pos(vPos);
+		break;
 	case DRINK:
 		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
 		m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
@@ -1360,23 +1393,23 @@ void CPlayer::Animation_Pos()
 		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT] * 0.5f);
 		break;
 	case MINIGUN_BODY_CHANGE:
-		if (m_flinear >= 1.f) {
-			m_flinear = 1.f;
+		if (m_flinear[LEFT] >= 1.f) {
+			m_flinear[LEFT] = 1.f;
 		}
 		vStart = { 0.f, -WINCY + 100.f , 2.f };
 		vEnd = { 0.f,-250.f,2.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 		m_pLeft_TransformCom->Set_Pos(vPos);
 		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT] * 0.5f);
 		break;
 	case LEFT_EXECUTION:
-		if (m_flinear >= 1.f) {
-			m_flinear = 1.f;
+		if (m_flinear[LEFT] >= 1.f) {
+			m_flinear[LEFT] = 1.f;
 		}
-		m_flinear += 0.025f;
+		m_flinear[LEFT] += 0.025f;
 		vStart = { -1500.f, -150.f, 1.f };
 		vEnd = { 700.f, -450.f, 1.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear);
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd,  m_flinear[LEFT]);
 		m_pLeft_TransformCom->Set_Pos(vPos);
 		break;
 	}

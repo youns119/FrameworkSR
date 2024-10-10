@@ -33,6 +33,7 @@ private:
 	};
 	enum LEFT_STATE {
 		LEFT_IDLE,
+		LEFT_CHANGE,
 		DRINK,
 		LEFT_EXECUTION,
 		MINIGUN_BODY_IDLE,
@@ -162,7 +163,7 @@ private:
 	_float m_fCurAttackDelay;
 	_float m_fMaxAttackDelay;
 	_float m_fTime_Skill;
-	_float m_flinear;
+	_float m_flinear[FINISH];
 	_int m_iMaxAmmo;
 	_int m_iCurAmmo;
 	_vec3 m_vDefaultPos[FINISH];
