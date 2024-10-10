@@ -534,7 +534,7 @@ void CStage::Set_Collision()
 
 
 	Engine::CheckGroup(L"Layer_PlayerBullet", L"Layer_Monster");
-	//Engine::CheckGroup(L"Layer_PlayerBullet", L"Layer_Wall"); //For Particle when collide with Wall & MiniGunBullet
+	//Engine::CheckGroup(L"Layer_PlayerBullet", L"Layer_Wall"); //For Particle when collide with Wall & MiniGunBullet // 레이 캐스팅으로 처리함
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Wall");
 	Engine::CheckGroup(L"Layer_Monster", L"Layer_Wall");
 }
