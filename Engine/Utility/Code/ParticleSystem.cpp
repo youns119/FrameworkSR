@@ -71,6 +71,7 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _rhs)
 {
 	//m_ParticleList.assign(_rhs.m_ParticleList.begin(), _rhs.m_ParticleList.end());
 	m_bOptionArray = _rhs.m_bOptionArray;
+	m_pVB->AddRef();
 }
 
 CParticleSystem::~CParticleSystem()

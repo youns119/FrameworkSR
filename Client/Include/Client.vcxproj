@@ -152,6 +152,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Axe.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\BlackMan.h" />
+    <ClInclude Include="..\Header\BossStage.h" />
     <ClInclude Include="..\Header\Boss_Humanoid.h" />
     <ClInclude Include="..\Header\Boss_Robot.h" />
     <ClInclude Include="..\Header\BuildStage.h" />
@@ -257,6 +258,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Ammo.cpp" />
     <ClCompile Include="..\Code\Axe.cpp" />
     <ClCompile Include="..\Code\BlackMan.cpp" />
+    <ClCompile Include="..\Code\BossStage.cpp" />
     <ClCompile Include="..\Code\Boss_Humanoid.cpp" />
     <ClCompile Include="..\Code\Boss_Robot.cpp" />
     <ClCompile Include="..\Code\BuildStage.cpp" />

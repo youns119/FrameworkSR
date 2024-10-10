@@ -640,6 +640,9 @@
     <ClInclude Include="..\Header\EffectSniperMuzzleFlash.h">
       <Filter>03.GameObject\06.Effect\16 EffectSniperMuzzleFlash</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\BossStage.h">
+      <Filter>02.Scene\01.Stage\04.BossStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -932,6 +935,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectSniperMuzzleFlash.cpp">
       <Filter>03.GameObject\06.Effect\16 EffectSniperMuzzleFlash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp">
+      <Filter>02.Scene\01.Stage\04.BossStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
