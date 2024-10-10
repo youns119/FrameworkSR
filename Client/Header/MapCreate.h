@@ -93,13 +93,10 @@ private:
 	_vec3 m_vecRot;//바닥 회전 적용
 	int m_iRidian;//바닥 회전 값
 	float m_fHeight;// 가이드 지형 높이
-	int m_iByte;
 
 	_int m_iTriggerNumber; // 이거 지금 몇번째 트리거에서 발동시킬것이냐 에 관한 int 값//10.06
-	bool m_bGuiHovered;
 
-	const _tchar* m_ImageName;
-	_int m_iNumber;
+	_int m_iNumber; // 저장되는 이미지 번호
 
 	_vec3 m_vecPosition; // imgui 에 현재 좌표 띄우는 용
 
