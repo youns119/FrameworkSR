@@ -70,8 +70,8 @@ HRESULT CUIScreenBase::Ready_Unit()
 
 	{
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_WIDE]->Set_Scale(WINCX / 2.f / 4.f * 5.f, WINCY / 2.f / 4.f * 5.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale((WINCX / 2.f) * 0.81f, (WINCY / 2.f) * 0.82f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(120.f, 210.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale(610.f, 620.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(250.f, 250.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_SCREEN]->Set_Scale((WINCX / 2.f) * 0.8f, (WINCY / 2.f) * 0.8f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Scale(85.f, 85.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Scale(340.f, 340.f, 0.f);
@@ -288,7 +288,7 @@ HRESULT CUIScreenBase::Add_Component()
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Frame1", pComponent });
 
-		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Grid"));
+		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Grid_"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Frame2", pComponent });
 
@@ -520,8 +520,8 @@ void CUIScreenBase::Reset()
 
 	{
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_WIDE]->Set_Scale(WINCX / 2.f / 4.f * 5.f, WINCY / 2.f / 4.f * 5.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale((WINCX / 2.f) * 0.81f, (WINCY / 2.f) * 0.82f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(120.f, 210.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale(610.f, 620.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(250.f, 250.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_SCREEN]->Set_Scale((WINCX / 2.f) * 0.8f, (WINCY / 2.f) * 0.8f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Scale(85.f, 85.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Scale(340.f, 340.f, 0.f);

@@ -40,6 +40,9 @@ public:
 private:
 	HRESULT Add_Component();
 
+public:
+	void Update_Color();
+
 private:
 	virtual void Free();
 
@@ -47,4 +50,6 @@ private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom[(_uint)UI_RELOAD::RELOAD_END];
 	Engine::CTransform* m_pTransformCom[(_uint)UI_RELOAD::RELOAD_END];
+
+	_bool m_bReload;
 };

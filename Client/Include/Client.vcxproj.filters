@@ -287,9 +287,6 @@
     <Filter Include="04.UI\06.Player">
       <UniqueIdentifier>{5e918870-b2aa-4779-b24b-c832e91d0269}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\06.Player\00.Reload">
-      <UniqueIdentifier>{dd62a65c-f491-47ad-b069-660bc5ca1f47}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.UI\06.Player\01.Item">
       <UniqueIdentifier>{12d8a617-8bad-4869-bc98-4634d1a98d0d}</UniqueIdentifier>
     </Filter>
@@ -323,9 +320,6 @@
     <Filter Include="02.Scene\01.Stage\04.BossStage">
       <UniqueIdentifier>{5ec89549-a06e-4594-8653-988032d4967e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\03.Normal\01.Reload">
-      <UniqueIdentifier>{58feec5f-cef1-4a2e-99ae-4fe76c413e15}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.GameObject\06.Effect\16 EffectSniperMuzzleFlash">
       <UniqueIdentifier>{2c512db6-e759-4a13-a2f2-4129c096b5be}</UniqueIdentifier>
     </Filter>
@@ -334,6 +328,9 @@
     </Filter>
     <Filter Include="04.UI\08.Phone\00.PhoneBase">
       <UniqueIdentifier>{5a0d843a-daeb-42b2-970c-6594579a3d77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\06.Player\00.Reload">
+      <UniqueIdentifier>{58feec5f-cef1-4a2e-99ae-4fe76c413e15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -641,7 +638,7 @@
       <Filter>02.Scene\01.Stage\03.BuildingStage</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIReload.h">
-      <Filter>04.UI\03.Normal\01.Reload</Filter>
+      <Filter>04.UI\06.Player\00.Reload</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectSniperMuzzleFlash.h">
       <Filter>03.GameObject\06.Effect\16 EffectSniperMuzzleFlash</Filter>
@@ -661,6 +658,8 @@
     <ClInclude Include="..\Header\GameStage3.h">
       <Filter>02.Scene\01.Stage\02.GameStage3</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIItem.h" />
+    <ClInclude Include="..\Header\UIPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -949,7 +948,7 @@
       <Filter>02.Scene\01.Stage\03.BuildingStage</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIReload.cpp">
-      <Filter>04.UI\03.Normal\01.Reload</Filter>
+      <Filter>04.UI\06.Player\00.Reload</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectSniperMuzzleFlash.cpp">
       <Filter>03.GameObject\06.Effect\16 EffectSniperMuzzleFlash</Filter>
@@ -969,6 +968,8 @@
     <ClCompile Include="..\Code\GameStage3.cpp">
       <Filter>02.Scene\01.Stage\02.GameStage3</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\UIItem.cpp" />
+    <ClCompile Include="..\Code\UIPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

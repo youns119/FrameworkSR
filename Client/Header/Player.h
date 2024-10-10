@@ -79,6 +79,8 @@ public:
 	_bool Get_LeftUse() { return m_bLeftHandUse; }
 	_float Get_TimerHP() { return m_fTimerHP; }
 	_float Get_PlayerHP() { return m_fHP; }
+	_int Get_MaxAmmo() { return m_iMaxAmmo; }
+	_int Get_CurrAmmo() { return m_iCurAmmo; }
 	_bool Get_HasItem() { return m_bIsHasItem; }
 	_bool Get_Drinking() { return m_bIsDrinking; }
 	void Rooting_Item(Engine::ITEM_TYPE _eItemType);

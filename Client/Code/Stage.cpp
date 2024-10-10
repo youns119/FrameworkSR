@@ -18,6 +18,7 @@
 #include "../Header/UIFreeCam.h"
 #include "../Header/UIScreen.h"
 #include "../Header/UIPhone.h"
+#include "../Header/UIPlayer.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -392,8 +393,13 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
+	pUI = CUIPlayer::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
 	Engine::Activate_UI(UITYPE::UI_NORMAL);
 	Engine::Activate_UI(UITYPE::UI_PHONE);
+	Engine::Activate_UI(UITYPE::UI_PLAYER);
 
 	return S_OK;
 }

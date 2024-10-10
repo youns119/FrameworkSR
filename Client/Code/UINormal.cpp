@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "..\Header\UINormal.h"
 #include "..\Header\UICrossHair.h"
-#include "..\Header\UIReload.h"
 #include "..\Header\Player.h"
 #include "Export_Utility.h"
 
 CUINormal::CUINormal(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
 	, m_pUICrossHair(nullptr)
-	, m_pUIReload(nullptr)
 {
 	m_eUIType = UITYPE::UI_NORMAL;
 }
@@ -85,10 +83,6 @@ HRESULT CUINormal::Add_Unit()
 	m_pUICrossHair = CUICrossHair::Create(m_pGraphicDev);
 	m_pUICrossHair->Set_OwnerUI(this);
 	m_vecUIUnit.push_back(m_pUICrossHair);
-
-	m_pUIReload = CUIReload::Create(m_pGraphicDev);
-	m_pUIReload->Set_OwnerUI(this);
-	m_vecUIUnit.push_back(m_pUIReload);
 
 	return S_OK;
 }

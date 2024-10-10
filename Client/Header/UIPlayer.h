@@ -8,17 +8,18 @@ class CUIUnit;
 
 END
 
-class CUICrossHair;
+class CUIReload;
+class CUIItem;
 
-class CUINormal
+class CUIPlayer
 	: public Engine::CUI
 {
 private:
-	explicit CUINormal(LPDIRECT3DDEVICE9 _pGraphicDev);
-	virtual ~CUINormal();
+	explicit CUIPlayer(LPDIRECT3DDEVICE9 _pGraphicDev);
+	virtual ~CUIPlayer();
 
 public:
-	static CUINormal* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CUIPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
 	HRESULT Ready_UI();
@@ -33,5 +34,6 @@ private:
 	virtual void Free();
 
 private:
-	CUICrossHair* m_pUICrossHair;
+	CUIReload* m_pUIReload;
+	CUIItem* m_pUIItem;
 };

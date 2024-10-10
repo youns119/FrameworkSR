@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "..\Header\UIReload.h"
+#include "..\Header\Player.h"
+#include "Export_System.h"
 #include "Export_Utility.h"
 
 CUIReload::CUIReload(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUIUnit(_pGraphicDev)
 	, m_pBufferCom(nullptr)
+	, m_bReload(false)
 {
 	for (_uint i = 0; i < (_uint)UI_RELOAD::RELOAD_END; ++i)
 	{
@@ -35,17 +38,17 @@ HRESULT CUIReload::Ready_Unit()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_REDBOX]->Set_Pos(-100.f, -100.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Set_Pos(-100.f, -100.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RGBBOX]->Set_Pos(-100.f, -100.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_R]->Set_Pos(-100.f, -100.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RELOAD]->Set_Pos(-100.f, -100.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_REDBOX]->Set_Pos(5.f, -75.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Set_Pos(0.f, -70.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RGBBOX]->Set_Pos(40.f, -70.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_R]->Set_Pos(-45.f, -70.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RELOAD]->Set_Pos(40.f, -70.f, 0.f);
 
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_REDBOX]->Set_Scale(100.f, 50.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Set_Scale(100.f, 50.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RGBBOX]->Set_Scale(100.f, 50.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_R]->Set_Scale(100.f, 50.f, 0.f);
-	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RELOAD]->Set_Scale(100.f, 50.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_REDBOX]->Set_Scale(90.f, 15.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Set_Scale(90.f, 15.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RGBBOX]->Set_Scale(50.f, 15.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_R]->Set_Scale(13.f, 13.f, 0.f);
+	m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RELOAD]->Set_Scale(30.f, 30.f, 0.f);
 
 	m_bRender = true;
 
@@ -59,15 +62,50 @@ _int CUIReload::Update_Unit(const _float& _fTimeDelta)
 
 void CUIReload::LateUpdate_Unit()
 {
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+
+	_float iMaxAmmo = (_float)(pPlayer->Get_MaxAmmo());
+	_float iCurrAmmo = (_float)(pPlayer->Get_CurrAmmo());
+
+	if (iCurrAmmo / iMaxAmmo <= 0.5f)
+		m_bReload = true;
+	else
+		m_bReload = false;
+
 	Engine::CUIUnit::LateUpdate_Unit();
 }
 
 void CUIReload::Render_Unit()
 {
-	//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Get_WorldMatrix());
+	if (!m_bReload) return;
 
-	//m_pTextureCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Set_Texture();
-	//m_pBufferCom->Render_Buffer();
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_RELOAD::RELOAD_REDBOX]->Get_WorldMatrix());
+
+	m_pTextureCom[(_uint)UI_RELOAD::RELOAD_REDBOX]->Set_Texture();
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Get_WorldMatrix());
+
+	m_pTextureCom[(_uint)UI_RELOAD::RELOAD_BLACKBOX]->Set_Texture();
+	m_pBufferCom->Render_Buffer();
+
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RGBBOX]->Get_WorldMatrix());
+
+		m_pTextureCom[(_uint)UI_RELOAD::RELOAD_RGBBOX]->Set_Texture();
+		Update_Color();
+		m_pBufferCom->Render_Buffer();
+	}
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_RELOAD::RELOAD_R]->Get_WorldMatrix());
+
+	m_pTextureCom[(_uint)UI_RELOAD::RELOAD_R]->Set_Texture();
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_RELOAD::RELOAD_RELOAD]->Get_WorldMatrix());
+
+	m_pTextureCom[(_uint)UI_RELOAD::RELOAD_RELOAD]->Set_Texture();
+	m_pBufferCom->Render_Buffer();
 }
 
 HRESULT CUIReload::Add_Component()
@@ -123,6 +161,15 @@ HRESULT CUIReload::Add_Component()
 	}
 
 	return S_OK;
+}
+
+void CUIReload::Update_Color()
+{
+	_float fHue = fmod((Engine::Get_Elapsed() + 30.f) * 70.f, 360.0f);
+	_float fSaturation = 1.0f;
+	_float fValue = 1.0f;
+
+	m_pTextureCom[(_uint)UI_RELOAD::RELOAD_RGBBOX]->Change_TextureColor(fHue, fSaturation, fValue);
 }
 
 void CUIReload::Free()
