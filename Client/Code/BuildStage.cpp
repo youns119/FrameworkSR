@@ -552,7 +552,7 @@ CLayer* CBuildStage::Find_Layer(const _tchar* _pLayerTag)
 
 void CBuildStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 {
-	HANDLE		hFile = CreateFile(L"../Data/BuildingStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -594,8 +594,6 @@ void CBuildStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 
 		if (iNumber_Type == 0)
 		{
-			pRot = { 0.f, 0.f, 0.f };
-
 			pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
 
 
