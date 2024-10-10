@@ -54,19 +54,19 @@ void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float
 			Changing_State(CDrone::DRONE_HEADSHOT);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
 			Changing_State(CDrone::DRONE_KATANA);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_SAYONARA);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		default:
 			Changing_State(CDrone::DRONE_DAMAGED);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
-			
+			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(2.f);
 			break;
 		}
 		m_pColliderCom->SetActive(false);

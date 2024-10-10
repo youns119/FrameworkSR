@@ -77,6 +77,72 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 			m_pRight_TextureCom[i][j] = nullptr;
 }
 
+CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
+	: Engine::CCharacter(_pGraphicDev)
+	, m_pRight_TransformCom(nullptr)
+	, m_pBody_TransformCom(nullptr)
+	, m_pCComponentCamera(nullptr)
+	, m_pLeft_TransformCom(nullptr)
+	, m_pLeg_TransformCom(nullptr)
+	, m_pPlayer_Buffer(nullptr)
+	, m_pCalculatorCom(nullptr)
+	, m_pColliderCom(nullptr)
+	, m_bJumpCheck(false)
+	, m_bLeftHandUse(true)
+	, m_bLegUse(false)
+	, m_bIsHasItem(false)
+	, m_bIsDrinking(false)
+	, m_bIsRotation(false)
+	, m_bIsTrapOn(false)
+	, m_bIsLeft(false)
+	, m_bIsRight(false)
+	, m_bIsShaking(false)
+	, m_fDamage(5.f)
+	, m_fShakingTimer(0.f)
+	, m_fShakingSize(0.f)
+	, m_fTrapTime(0.f)
+	, m_fHP(0.f)
+	, m_fTimerHP(0.f)
+	, m_fJumpPower(0.f)
+	, m_fTilePos(0.f)
+	, m_fSpeed(0.f)
+	, m_fMaxAttackDelay(0.f)
+	, m_fCurAttackDelay(1.5f)
+	, m_fDashSpeed(0.f)
+	, m_fTime_Skill(1.f) //For TimeSkill
+	, m_iCurAmmo(6) //because Pistol
+	, m_iMaxAmmo(6) //because Pistol
+	, m_Right_CurState(START)
+	, m_Right_PreState(RIGHT_STATE_END)
+	, m_Left_CurState(LEFT_IDLE)
+	, m_Left_PreState(LEFT_STATE_END)
+	, m_Leg_CurState(LEG_IDLE)
+	, m_Leg_PreState(LEG_STATE_END)
+	, m_WeaponState(PISTOL)
+	, m_eItemType(Engine::ITEM_TYPE::ITEM_END)
+	, m_vStartPos(_vStartPos)
+	//Beomseung
+{
+	ZeroMemory(&m_fFrameStart, sizeof(m_fFrameStart));
+	ZeroMemory(&m_fFrameEnd, sizeof(m_fFrameEnd));
+	ZeroMemory(&m_fFrameSpeed, sizeof(m_fFrameSpeed));
+	ZeroMemory(&m_pAnimator, sizeof(m_pAnimator));
+	ZeroMemory(&m_flinear, sizeof(m_flinear));
+	m_vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
+	m_vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -1.8f,2.f };
+	m_vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
+	m_vDefaultSize[LEFT] = { 500.f,500.f,0.f };
+	m_vDefaultSize[LEG] = { 500.f,500.f,0.f };
+
+	for (_int i = 0; i < LEG_STATE::LEG_STATE_END; ++i)
+		m_pLeg_TextureCom[i] = nullptr;
+	for (_int i = 0; i < LEFT_STATE::LEFT_STATE_END; ++i)
+		m_pLeft_TextureCom[i] = nullptr;
+	for (_int i = 0; i < WEAPON_STATE::WEAPON_STATE_END; ++i)
+		for (_int j = 0; j < RIGHT_STATE::RIGHT_STATE_END; ++j)
+			m_pRight_TextureCom[i][j] = nullptr;
+}
+
 CPlayer::~CPlayer()
 {
 }
@@ -104,13 +170,27 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pPlayer;
 }
 
+CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
+{
+	CPlayer* pPlayer = new CPlayer(_pGraphicDev, _vStartPos);
+
+	if (FAILED(pPlayer->Ready_GameObject()))
+	{
+		Safe_Release(pPlayer);
+		MSG_BOX("pPlayer Create Failed");
+		return nullptr;
+	}
+
+	return pPlayer;
+}
+
 HRESULT CPlayer::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	SetAnimation();
 
-	m_pBody_TransformCom->Set_Pos(8.f, 1.f, 3.f);
+	m_pBody_TransformCom->Set_Pos(m_vStartPos);
 
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
@@ -233,6 +313,10 @@ HRESULT CPlayer::Add_Component()
 	//Texture
 
 	//Right
+	//Start
+	pComponent = m_pRight_TextureCom[PISTOL][START] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Player_Start")));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Player_Start", pComponent });
 	//Pistol
 	pComponent = m_pRight_TextureCom[PISTOL][IDLE] = (dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Pistol_IDLE")));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -497,27 +581,31 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	}
 
 	if (Engine::Key_Hold(DIK_R)) {
-		switch (m_WeaponState) {
-		case PISTOL:
-			m_Right_CurState = RELOAD;
-			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Reload", false);
-			break;
-		case RIFLE:
-			m_Right_CurState = RELOAD;
-			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Reload", false);
-			m_bLeftHandUse = false;
-			break;
-		case SHOTGUN:
-			m_Right_CurState = RELOAD;
-			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Reload", false);
-			break;
-		case SNIPER:
-			m_Right_CurState = RELOAD;
-			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Reload", false);
-			m_bLeftHandUse = false;
-			break;
-		default:
-			break;
+		if (RELOAD != m_Right_CurState)
+		{
+			switch (m_WeaponState) {
+			case PISTOL:
+				m_Right_CurState = RELOAD;
+				m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Reload", false);
+				break;
+			case RIFLE:
+				m_Right_CurState = RELOAD;
+				m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Reload", false);
+				m_bLeftHandUse = false;
+				break;
+			case SHOTGUN:
+				m_Right_CurState = RELOAD;
+				m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Reload", false);
+				break;
+			case SNIPER:
+				m_Right_CurState = RELOAD;
+				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Reload", false);
+				m_bLeftHandUse = false;
+				break;
+			default:
+				break;
+			}
+			m_iCurAmmo = m_iMaxAmmo;
 		}
 		m_iCurAmmo = m_iMaxAmmo;
 	}
@@ -531,6 +619,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = 6;
 		m_iMaxAmmo = 6;
 		m_fMaxAttackDelay = 0.5f;
+		m_fDamage = 5.f;
 	}
 
 	if (Engine::Key_Hold(DIK_2)) {
@@ -542,6 +631,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = 10;
 		m_iMaxAmmo = 10;
 		m_fMaxAttackDelay = 1.5f;
+		m_fDamage = 7.f;
 	}
 
 	if (Engine::Key_Hold(DIK_3)) {
@@ -553,6 +643,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = 2;
 		m_iMaxAmmo = 2;
 		m_fMaxAttackDelay = 1.5f;
+		m_fDamage = 8.f;
 	}
 
 	if (Engine::Key_Hold(DIK_4)) {
@@ -564,6 +655,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = 10;
 		m_iMaxAmmo = 10;
 		m_fMaxAttackDelay = 1.5f;
+		m_fDamage = 10.f;
 	}
 
 	if (Engine::Key_Hold(DIK_5)) {
@@ -575,6 +667,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = 100;//Dummy Code
 		m_iMaxAmmo = 100;//Dummy Code
 		m_fMaxAttackDelay = 1.5f;
+		m_fDamage = 15.f;
 	}
 
 	if (Engine::Key_Hold(DIK_6)) {
@@ -590,6 +683,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = 100;
 		m_iMaxAmmo = 100;
 		m_fMaxAttackDelay = 1.0f;
+		m_fDamage = 3.f;
 	}
 	
 
@@ -782,7 +876,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
 		if (m_WeaponState != KATANA && m_WeaponState != MINIGUN) {
 			//Engine::RayCast2(RayStart, RayDir);
-			if (Engine::FireRayCast(RayStart + _vec3(0.f, 0.5f, 0.f), RayDir, vPos))
+			if (Engine::FireRayCast(RayStart + _vec3(0.f, 0.5f, 0.f), RayDir, vPos, m_fDamage))
 			{
 				CGameObject* pGameObject(nullptr);
 
@@ -842,12 +936,15 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
 			if (0.f < m_fCurAttackDelay)
 				m_fCurAttackDelay -= _fTimeDelta;
-			if (0.5f > m_fCurAttackDelay)
+			if (0.65f > m_fCurAttackDelay)
 			{
 
 				Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_MINIGUN);
 				m_fCurAttackDelay = m_fMaxAttackDelay;
 				m_iCurAmmo--;
+				m_bIsShaking = true;
+				m_fShakingSize = 20.f;
+				m_fShakingTimer = 0.3f;
 
 				CComponent* pComponent(nullptr);
 				CEffectMuzzleFlash* pMuzzleFlash(nullptr);
@@ -1003,6 +1100,7 @@ void CPlayer::SetAnimation()
 	//Right
 	//Jonghan
 	m_pAnimator[RIGHT]->CreateAnimation(L"Execution_Knife", m_pRight_TextureCom[PISTOL][EXECUTION], 2.f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Player_Start", m_pRight_TextureCom[PISTOL][START], 3.5f);
 	//Beomseung
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Idle", m_pRight_TextureCom[PISTOL][IDLE], 8.f);
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Shoot", m_pRight_TextureCom[PISTOL][SHOOT], 13.f);
@@ -1050,11 +1148,23 @@ void CPlayer::SetAnimation()
 	m_pAnimator[LEG]->CreateAnimation(L"Leg_Kick", m_pLeg_TextureCom[KICK], 18.f);
 	m_pAnimator[LEG]->CreateAnimation(L"Leg_Sliding", m_pLeg_TextureCom[SLIDING], 18.f);
 
-	m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
-	m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
-	m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
+	//m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
+	//m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
+	//m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
+	//
+	//m_pAnimator[LEFT]->PlayAnimation(L"Left_Change", false);
+	//m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
+	//m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
+	//
+	//m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
+	//m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG]);
+	//m_pLeg_TransformCom->Set_Pos(0, WINCY / -3.f, 2.f);
 
-	m_pAnimator[LEFT]->PlayAnimation(L"Left_Change", false);
+	m_pAnimator[RIGHT]->PlayAnimation(L"Player_Start", false);
+	m_Right_CurState = START;
+	m_bLeftHandUse = false;
+
+	m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
 	m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
 	m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
 
@@ -1086,6 +1196,15 @@ void CPlayer::Animation_End_Check()
 
 	if (m_pAnimator[RIGHT]->GetCurrAnim()->GetFinish())
 	{
+		if (m_Right_CurState == START)
+		{
+			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
+			m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
+			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
+			m_Right_CurState = IDLE;
+			m_bLeftHandUse = true;
+			return;
+		}
 		switch (m_WeaponState) {
 		case PISTOL:
 			m_Right_CurState = IDLE;
@@ -1206,24 +1325,28 @@ void CPlayer::Animation_Pos()
 			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 
 			// 규빈: 형님 이렇게 대충 한번 해봤는데요... 이거 맞을까요?
-			if (m_flinear[RIGHT] > 0.1f)
+			if (m_flinear[LEFT] > 0.1f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
-			if (m_flinear[RIGHT] > 0.7f)
+			if (m_flinear[LEFT] > 0.7f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 				m_fHP = 99.f; //Full Hp Restore
+				m_fTimerHP = 20.f;
 			}
 			m_pRight_TransformCom->Set_Pos(vPos);
 			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.7f);
 			break;
-
+		case START:
+			m_pRight_TransformCom->Set_Pos(0.f, m_vDefaultPos[RIGHT].y + 250.f, 2.f);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.8f);
+			break;
 		default:
 			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT]);
 			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
@@ -1439,10 +1562,12 @@ void CPlayer::OnCollision(CCollider& _pOther)
 	{
 		_vec3 vLook;
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-		if (pMonster == nullptr) {
+		if (pMonster == nullptr)
 			return;
-		}
-		pMonster->AddForce(30.f, vLook, 5.f);
+		if (pMonster->Get_IsDead())
+			return;
+
+		pMonster->AddForce(16.5f, vLook, 5.f);
 	}
 	if (m_WeaponState == KATANA && m_Right_CurState == SHOOT && m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() <= 1.f)
 	{
@@ -1462,48 +1587,55 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther.GetOwner());
 	if (nullptr != pMonster) //is it Monster == _pOther
 	{
-		if (m_bLegUse)
+		if (!pMonster->Get_IsDead())
 		{
-			if (m_bIsHasItem)
+			if (m_bLegUse)
 			{
-				_vec3 vLook;
-				m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-				if (pMonster->Get_Execution(vLook, true)) //Hunmanoid
+				if (m_bIsHasItem)
 				{
-					Rotate_Arms(true);
-					m_bLegUse = false;
-					m_Left_CurState = LEFT_EXECUTION;
-					m_pAnimator[LEFT]->PlayAnimation(L"Left_Execution", false);
-					m_Right_CurState = EXECUTION;
-					m_pAnimator[RIGHT]->PlayAnimation(L"Execution_Knife", false);
-					m_fDashSpeed = 0.f;
+					_vec3 vLook;
+					m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+					if (pMonster->Get_Execution(vLook, true)) //Hunmanoid
+					{
+						Rotate_Arms(true);
+						m_flinear[LEFT] = 0.f;
+						m_bLegUse = false;
+						m_Left_CurState = LEFT_EXECUTION;
+						m_pAnimator[LEFT]->PlayAnimation(L"Left_Execution", false);
+						m_Right_CurState = EXECUTION;
+						m_pAnimator[RIGHT]->PlayAnimation(L"Execution_Knife", false);
+						m_fDashSpeed = 0.f;
+					}
+					else //Drone
+					{
+						m_Leg_CurState = KICK;
+						m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+					}
 				}
-				else //Drone
+				else
 				{
 					m_Leg_CurState = KICK;
 					m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+
+					pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKick", L"Com_Effect");
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
 				}
 			}
 			else
 			{
-				m_Leg_CurState = KICK;
-				m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+				static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
 
-				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKick", L"Com_Effect");
-				static_cast<CEffect*>(pComponent)->Operate_Effect();
+				m_fTimerHP -= 1.f;
+				m_fHP -= 1.f;
+
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+
 			}
 		}
-		else
-		{
-			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
-			static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
 
-			m_fHP -= 1.f;
-
-			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
-			if (pComponent)
-				static_cast<CEffect*>(pComponent)->Operate_Effect();
-		}
 		return;
 	}
 
@@ -1514,6 +1646,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 		static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
 
+		m_fTimerHP -= 1.f;
 		m_fHP -= 1.f;
 
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
@@ -1530,6 +1663,8 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		m_fHP += 10.f;
 		if (99.f < m_fHP)
 			m_fHP = 99.f;
+
+		m_fTimerHP = 20.f;
 
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectGreenFlash", L"Com_Effect");
 		if (pComponent)

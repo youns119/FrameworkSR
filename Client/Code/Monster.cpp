@@ -36,7 +36,7 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 
 	Picking_Terrain();
 
-	if (!m_bIsDead || !m_bIsDead)
+	if (!m_bIsDead )
 		Attack(_fTimeDelta);
 
 	KnockBack(_fTimeDelta);
@@ -70,7 +70,8 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 	else
 		Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
-	Engine::Add_Collider(m_pColliderCom);
+	if (!m_bIsDead)
+		Engine::Add_Collider(m_pColliderCom);
 
 	//Jonghan Monster Change End
 
@@ -108,8 +109,8 @@ void CMonster::Damaged(const DAMAGED_STATE& _eDamagedState, const _float& _fAtta
 {
 	if (Engine::DAMAGED_STATE::DAMAGED_BODYSHOT == _eDamagedState || Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT == _eDamagedState)
 	{
-		//Damaged_By_Player(_eDamagedState, _fAttackDamage);
-		Damaged_By_Player(_eDamagedState, 0.f);
+		Damaged_By_Player(_eDamagedState, _fAttackDamage);
+		//Damaged_By_Player(_eDamagedState, 0.f);
 	}
 	else
 	{
@@ -121,7 +122,7 @@ void CMonster::AddForce(const _float& _fPower, _vec3 _vLook, const _float& _fDam
 {
 	D3DXVec3Normalize(&_vLook, &_vLook);
 	_vLook.y = 0.f;
-	_vLook *= _fPower;
+	_vLook *= _fPower * 0.8f;
 	vKnockBackForce = _vLook;
 	Damaged(Engine::DAMAGED_STATE::DAMAGED_PUSHSHOT, _fDamage);
 }

@@ -208,9 +208,9 @@ inline _float FloorRayCast(_vec3 vRayStart)
 	return CCollisionManager::GetInstance()->FloorRayCast(vRayStart);
 }
 
-inline _bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut)
+inline _bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut, const _float& _fDamage)
 {
-	return CCollisionManager::GetInstance()->FireRayCast(_vRayStart, _vRayDir, _vOut);
+	return CCollisionManager::GetInstance()->FireRayCast(_vRayStart, _vRayDir, _vOut, _fDamage);
 }
 
 inline CGameObject* FloorRayCast2(_vec3 vRayStart)

@@ -655,6 +655,12 @@
     <ClInclude Include="..\Header\UIPhoneBase.h">
       <Filter>04.UI\08.Phone\00.PhoneBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\GameStage2.h">
+      <Filter>02.Scene\01.Stage\01.GameStage2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\GameStage3.h">
+      <Filter>02.Scene\01.Stage\02.GameStage3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -956,6 +962,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIPhoneBase.cpp">
       <Filter>04.UI\08.Phone\00.PhoneBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GameStage2.cpp">
+      <Filter>02.Scene\01.Stage\01.GameStage2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GameStage3.cpp">
+      <Filter>02.Scene\01.Stage\02.GameStage3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
