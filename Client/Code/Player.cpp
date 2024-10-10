@@ -32,7 +32,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsTrapOn(false)
 	, m_bIsLeft(false)
 	, m_bIsRight(false)
-	, m_fMaxRotate(0.f)
 	, m_fTrapTime(0.f)
 	, m_fHP(0.f)
 	, m_fTimerHP(0.f)
@@ -164,6 +163,8 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 	Engine::Add_Collider(m_pColliderCom);
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
+	Moving_Rotate();
+
 	Animation_Pos();
 	m_pLeg_TransformCom->Update_Component(_fTimeDelta);
 	m_pRight_TransformCom->Update_Component(_fTimeDelta);
@@ -432,7 +433,6 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	m_pBody_TransformCom->Get_Info(INFO::INFO_RIGHT, &vRight);
 	m_pBody_TransformCom->Get_Info(INFO::INFO_UP, &vUp);
 
-	Moving_Rotate(_fTimeDelta);
 
 	if (Engine::Key_Hold(DIK_W)) {
 		//Beomseung
@@ -456,9 +456,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	if (Engine::Key_Release(DIK_A)) {
 		//Beomseung    
 		if (!m_bLegUse)
-		{
 			m_bIsLeft = false;
-		}
 	}
 	if (Engine::Key_Hold(DIK_D)) {
 		//Beomseung    
@@ -471,9 +469,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	if (Engine::Key_Release(DIK_D)) {
 		//Beomseung    
 		if (!m_bLegUse)
-		{
 			m_bIsRight = false;
-		}
 	}
 	if (Engine::Key_Press(DIK_SPACE)) {
 		m_bJumpCheck = true;
@@ -1568,100 +1564,24 @@ void CPlayer::Skill_Timer()
 	}
 }
 
-void CPlayer::Moving_Rotate(const _float& _fTimeDelta)
+void CPlayer::Moving_Rotate()
 {
+	_matrix matWorld, matRot, matResult;
 	if (m_bIsLeft)
 	{
+		D3DXMatrixRotationZ(&matRot, D3DXToRadian(-5.f));
+		matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
 
-		if (-5.f < m_fMaxRotate)
-		{
-			m_fMaxRotate -= _fTimeDelta * 300.f;
-			_matrix matWorld;
-			_vec3 vLook, vAngle;
-			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
-			D3DXMatrixRotationAxis(&matWorld, &vLook, -1 * (_fTimeDelta));
-			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
-			vAngle = *m_pBody_TransformCom->Get_Angle();
-			*(((_float*)&vAngle) + 0) -= vLook.x * 0.1f; //x
-			//*(((_float*)&vAngle) + 1) -= vLook.y * 0.1f; //y
-			*(((_float*)&vAngle) + 2) -= vLook.z * 0.1f; //z
-			m_pBody_TransformCom->Set_Angle(vAngle);
-		}
-		else
-		{
-			m_fMaxRotate = -5.f;
-		}
+		matResult = matRot * matWorld;
+		m_pBody_TransformCom->Set_WorldMatrix(&matResult);
 	}
 	else if (m_bIsRight)
 	{
-		if (5.f > m_fMaxRotate)
-		{
-			m_fMaxRotate += _fTimeDelta * 300.f;
-			_matrix matWorld;
-			_vec3 vLook, vAngle;
-			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
-			D3DXMatrixRotationAxis(&matWorld, &vLook, _fTimeDelta);
-			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
-			vAngle = *m_pBody_TransformCom->Get_Angle();
-			*(((_float*)&vAngle) + 0) += vLook.x * 0.1f; //x
-			//*(((_float*)&vAngle) + 1) += vLook.y * 0.1f; //y
-			*(((_float*)&vAngle) + 2) += vLook.z * 0.1f; //z
-			m_pBody_TransformCom->Set_Angle(vAngle);
+		D3DXMatrixRotationZ(&matRot, D3DXToRadian(5.f));
+		matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
 
-		}
-		else
-		{
-			m_fMaxRotate = 5.f;
-		}
-	}
-	else if(0.f != m_fMaxRotate)
-	{
-		if (-0.15f > m_fMaxRotate)
-		{
-			m_fMaxRotate += _fTimeDelta * 300.f;
-			_matrix matWorld;
-			_vec3 vLook, vAngle;
-			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
-			D3DXMatrixRotationAxis(&matWorld, &vLook, _fTimeDelta);
-			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
-			vAngle = *m_pBody_TransformCom->Get_Angle();
-			*(((_float*)&vAngle) + 0) += vLook.x * 0.1f; //x
-			//*(((_float*)&vAngle) + 1) += vLook.y * 0.1f; //y
-			*(((_float*)&vAngle) + 2) += vLook.z * 0.1f; //z
-			m_pBody_TransformCom->Set_Angle(vAngle);
-		}
-		else if (0.15f < m_fMaxRotate)
-		{
-			m_fMaxRotate -= _fTimeDelta * 300.f;
-			_matrix matWorld;
-			_vec3 vLook, vAngle;
-			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
-			D3DXMatrixRotationAxis(&matWorld, &vLook, -1 * (_fTimeDelta));
-			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
-			vAngle = *m_pBody_TransformCom->Get_Angle();
-			*(((_float*)&vAngle) + 0) -= vLook.x * 0.1f; //x
-			//*(((_float*)&vAngle) + 0) -= vLook.y * 0.1f; //y
-			*(((_float*)&vAngle) + 2) -= vLook.z * 0.1f; //z
-			m_pBody_TransformCom->Set_Angle(vAngle);
-		}
-		else if (0.15f > m_fMaxRotate || -0.15f < m_fMaxRotate)
-		{
-			_matrix matWorld;
-			_vec3 vLook, vAngle;
-			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
-			matWorld = *m_pBody_TransformCom->Get_WorldMatrix();
-			D3DXMatrixRotationAxis(&matWorld, &vLook, -1 * (_fTimeDelta));
-			D3DXVec3TransformNormal(&vLook, &vLook, &matWorld);
-			vAngle = *m_pBody_TransformCom->Get_Angle();
-			vAngle.x = 0.f;
-			vAngle.z = 0.f;
-			m_pBody_TransformCom->Set_Angle(vAngle);
-			m_fMaxRotate = 0.f;
-		}
+		matResult = matRot * matWorld;
+		m_pBody_TransformCom->Set_WorldMatrix(&matResult);
 	}
 }
 

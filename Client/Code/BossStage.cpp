@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "..\Header\BuildStage.h"
 #include "..\Header\BossStage.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
@@ -18,19 +17,19 @@
 #include "../Header/UIFreeCam.h"
 #include "../Header/UIScreen.h"
 
-CBuildStage::CBuildStage(LPDIRECT3DDEVICE9 _pGraphicDev)
+CBossStage::CBossStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
 	, m_pPlayer(nullptr)
 {
 }
 
-CBuildStage::~CBuildStage()
+CBossStage::~CBossStage()
 {
 }
 
-CBuildStage* CBuildStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CBossStage* CBossStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 {
-	CBuildStage* pStage = new CBuildStage(_pGraphicDev);
+	CBossStage* pStage = new CBossStage(_pGraphicDev);
 
 	if (FAILED(pStage->Ready_Scene()))
 	{
@@ -42,7 +41,7 @@ CBuildStage* CBuildStage::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pStage;
 }
 
-HRESULT CBuildStage::Ready_Scene()
+HRESULT CBossStage::Ready_Scene()
 {
 	CCollisionManager::GetInstance()->Free();
 	CBulletManager::GetInstance()->Free();
@@ -73,7 +72,7 @@ HRESULT CBuildStage::Ready_Scene()
 	return S_OK;
 }
 
-_int CBuildStage::Update_Scene(const _float& _fTimeDelta)
+_int CBossStage::Update_Scene(const _float& _fTimeDelta)
 {
 	// 콜라이더 OnOff
 	if (Engine::Key_Press(DIK_F1))
@@ -174,33 +173,23 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 		}
 	}
 
-	if (Engine::Key_Press(DIK_RETURN))
-	{
-		Engine::CScene* pStage = CBossStage::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pStage, -1);
-
-		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
-
-		return 0;
-	}
-
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 
 	return iExit;
 }
 
-void CBuildStage::LateUpdate_Scene()
+void CBossStage::LateUpdate_Scene()
 {
 	Engine::CScene::LateUpdate_Scene();
 	Engine::LateUpdate_Bullet(); //Jonghan Change // Is it Right? becuz BulletManager
 }
 
-void CBuildStage::Render_Scene()
+void CBossStage::Render_Scene()
 {
 }
 
-HRESULT CBuildStage::Ready_LightInfo()
+HRESULT CBossStage::Ready_LightInfo()
 {
 	D3DLIGHT9 tLightInfo;
 	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
@@ -217,7 +206,7 @@ HRESULT CBuildStage::Ready_LightInfo()
 	return S_OK;
 }
 
-HRESULT CBuildStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
+HRESULT CBossStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -249,7 +238,7 @@ HRESULT CBuildStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CBuildStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
+HRESULT CBossStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	Engine::CLayer* pLayer2 = CLayer::Create();
@@ -282,7 +271,7 @@ HRESULT CBuildStage::Ready_Layer_GameLogic(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CBuildStage::Ready_Layer_Player(const _tchar* _pLayerTag)
+HRESULT CBossStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -299,7 +288,7 @@ HRESULT CBuildStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CBuildStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
+HRESULT CBossStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -355,7 +344,7 @@ HRESULT CBuildStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CBuildStage::Ready_Layer_UI(const _tchar* _pLayerTag)
+HRESULT CBossStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 {
 	// 연욱
 	//Engine::CUI* pUI = nullptr;
@@ -403,7 +392,7 @@ HRESULT CBuildStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 }
 
 // kyubin
-HRESULT CBuildStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
+HRESULT CBossStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -501,7 +490,7 @@ HRESULT CBuildStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-HRESULT CBuildStage::Ready_Layer_Item(const _tchar* _pLayerTag)
+HRESULT CBossStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -515,9 +504,9 @@ HRESULT CBuildStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 	//pGameObject = CAxe::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
-	//pGameObject = CBoss_Robot::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);
+	pGameObject = CBoss_Robot::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);
 
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
@@ -525,7 +514,7 @@ HRESULT CBuildStage::Ready_Layer_Item(const _tchar* _pLayerTag)
 	return S_OK;
 }
 
-void CBuildStage::Set_Collision()
+void CBossStage::Set_Collision()
 {
 	Engine::CheckGroup(L"Layer_Player", L"Layer_MonsterBullet");
 	Engine::CheckGroup(L"Layer_Player", L"Layer_Item");
@@ -539,7 +528,7 @@ void CBuildStage::Set_Collision()
 	Engine::CheckGroup(L"Layer_Monster", L"Layer_Wall");
 }
 
-CLayer* CBuildStage::Find_Layer(const _tchar* _pLayerTag)
+CLayer* CBossStage::Find_Layer(const _tchar* _pLayerTag)
 {
 	CLayer* pLayer = nullptr;
 
@@ -550,9 +539,9 @@ CLayer* CBuildStage::Find_Layer(const _tchar* _pLayerTag)
 }
 
 
-void CBuildStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
+void CBossStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 {
-	HANDLE		hFile = CreateFile(L"../Data/BuildingStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/BossStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -729,7 +718,7 @@ void CBuildStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 }
 
 
-void CBuildStage::Free()
+void CBossStage::Free()
 {
 	Engine::CScene::Free();
 }
