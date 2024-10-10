@@ -707,6 +707,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
 		// ±Ôºó
 		_vec3 vMuzzlePos{};
+		CComponent* pComponent(nullptr);
 		m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
 
 		switch (m_WeaponState) {
@@ -742,6 +743,9 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			// ±Ôºó
 			vMuzzlePos.x += -160.f;
 			vMuzzlePos.y += 200.f;
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectSniperMuzzleFlash", L"Com_Effect");
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
+
 			break;
 		case KATANA:
 			m_Right_CurState = SHOOT;
@@ -755,13 +759,18 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		}
 		m_fCurAttackDelay = m_fMaxAttackDelay;
 		m_iCurAmmo--;
+
 		// ±Ôºó
-		CComponent* pComponent(nullptr);
-		CEffectMuzzleFlash* pMuzzleFlash(nullptr);
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
-		pMuzzleFlash = static_cast<CEffectMuzzleFlash*>(static_cast<CTransform*>(pComponent)->GetOwner());
-		pMuzzleFlash->Set_InitPos(vMuzzlePos);
-		static_cast<CEffect*>(pComponent)->Operate_Effect();
+		if (m_WeaponState != WEAPON_STATE::KATANA &&
+			m_WeaponState != WEAPON_STATE::MINIGUN &&
+			m_WeaponState != WEAPON_STATE::SNIPER)
+		{
+			CEffectMuzzleFlash* pMuzzleFlash(nullptr);
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
+			pMuzzleFlash = static_cast<CEffectMuzzleFlash*>(static_cast<CTransform*>(pComponent)->GetOwner());
+			pMuzzleFlash->Set_InitPos(vMuzzlePos);
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
+		}
 
 		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
 		if (m_WeaponState != KATANA && m_WeaponState != MINIGUN) {
@@ -837,9 +846,16 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 				CEffectMuzzleFlash* pMuzzleFlash(nullptr);
 				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
 				pMuzzleFlash = static_cast<CEffectMuzzleFlash*>(static_cast<CTransform*>(pComponent)->GetOwner());
-				vMuzzlePos.y += 1.f;
+				vMuzzlePos.y += 100.f;
 				pMuzzleFlash->Set_InitPos(vMuzzlePos);
 				static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+
+				// ÅºÇÇ
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_MinigunShell", L"Com_Transform");
+				CGameObject* pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+				static_cast<CEffectPool*>(pGameObject)->Operate();
+
 			}
 
 		}

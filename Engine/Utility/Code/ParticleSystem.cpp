@@ -71,7 +71,6 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _rhs)
 {
 	//m_ParticleList.assign(_rhs.m_ParticleList.begin(), _rhs.m_ParticleList.end());
 	m_bOptionArray = _rhs.m_bOptionArray;
-	m_pVB->AddRef();
 }
 
 CParticleSystem::~CParticleSystem()
@@ -167,7 +166,7 @@ _int CParticleSystem::Update_Component(const _float& _fTimeDelta)
 			CTransform* m_OwnerTransformCom = static_cast<CTransform*>(m_pOwner->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
 			matWorld = m_OwnerTransformCom->Get_WorldMatrix();
 			//D3DXMatrixInverse(&matWorldInverse, 0, matWorld);
-			D3DXMatrixTranspose(&matWorldInverse, matWorld); // transpose == inverse
+			D3DXMatrixTranspose(&matWorldInverse, matWorld);
 
 			D3DXVec3TransformNormal(&vDownDir, &vDownDir, &matWorldInverse);
 
@@ -434,7 +433,16 @@ void CParticleSystem::Reset_Particle(PARTICLEINFO* _pInfo)
 	case SHAPE::SPHERE:
 	{
 		// 구면 좌표계 활용해야함
-		_vec3 vLook = { 0.f, 0.f, 1.f };
+		_pInfo->vPosition = { 0.f, 0.f, 0.f };
+		_float fRadius = Get_RandomFloat(0.f, m_tParam.tInit.tSphere.fRadius);
+		_float fTheta = Get_RandomFloat(0.f, m_tParam.tInit.tSphere.fTheta);
+		_float fPhi = Get_RandomFloat(0.f, 2 * D3DX_PI);
+
+		_pInfo->vVelocity.x = fRadius * sin(fTheta) * cos(fPhi);
+		_pInfo->vVelocity.y = fRadius * cos(fTheta);
+		_pInfo->vVelocity.z = fRadius * sin(fTheta) * sin(fPhi);
+
+		_pInfo->vVelocity += Get_RandomVec3(-m_tParam.vVelocityNoise, m_tParam.vVelocityNoise);
 
 		break;
 	}

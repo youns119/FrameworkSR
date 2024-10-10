@@ -32,6 +32,7 @@ private:
 	Engine::CTexture* m_pTextureSmokeCom;
 	Engine::CParticleSystem* m_pParticleSystemSmoke;
 	Engine::CParticleSystem* m_pParticleSystemFlare;
+	Engine::CParticleSystem* m_pParticleSystemFragment;
 	Engine::CEffect* m_pEffectCom;
 
 public:
@@ -46,5 +47,6 @@ public:
 private:
 	void Set_FlareParticle();
 	void Set_SmokeParticle();
+	void Set_FragmentParticle();
 };
 
