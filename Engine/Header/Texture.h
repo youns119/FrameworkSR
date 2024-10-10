@@ -27,6 +27,7 @@ public :
 
 public:
 	void Change_TextureColor(_float _fHue, _float _fSaturation, _float _fValue);
+	void Change_TextureColor(D3DCOLOR _tColor);
 	void Change_Alpha(_float _fAlpha);
 
 private:

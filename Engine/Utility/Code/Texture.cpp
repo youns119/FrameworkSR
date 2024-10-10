@@ -103,6 +103,34 @@ void CTexture::Change_TextureColor(_float _fHue, _float _fSaturation, _float _fV
 	pLockTexture->UnlockRect(0);
 }
 
+void CTexture::Change_TextureColor(D3DCOLOR _tColor)
+{
+	D3DLOCKED_RECT tLockRect;
+	IDirect3DBaseTexture9* pTexture;
+
+	m_pGraphicDev->GetTexture(0, &pTexture);
+	IDirect3DTexture9* pLockTexture = static_cast<IDirect3DTexture9*>(pTexture);
+
+	pLockTexture->LockRect(0, &tLockRect, NULL, 0);
+
+	DWORD* pTexels = (DWORD*)tLockRect.pBits;
+	D3DSURFACE_DESC tDesc;
+
+	pLockTexture->GetLevelDesc(0, &tDesc);
+
+	for (UINT y = 0; y < tDesc.Height; y++)
+		for (UINT x = 0; x < tDesc.Width; x++)
+		{
+			D3DCOLOR currentColor = pTexels[x + y * (tLockRect.Pitch / 4)];
+			BYTE alpha = (BYTE)(currentColor >> 24);
+
+			if (alpha != 0)
+				pTexels[x + y * (tLockRect.Pitch / 4)] = _tColor;
+		}
+
+	pLockTexture->UnlockRect(0);
+}
+
 void CTexture::Change_Alpha(_float _fAlpha)
 {
 	DWORD textureFactor;

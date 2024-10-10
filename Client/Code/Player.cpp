@@ -60,9 +60,9 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	ZeroMemory(&m_fFrameSpeed, sizeof(m_fFrameSpeed));
 	ZeroMemory(&m_pAnimator, sizeof(m_pAnimator));
 	m_vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
-	m_vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -3.f,2.f };
+	m_vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -1.8f,2.f };
 	m_vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
-	m_vDefaultSize[LEFT] = { 300.f,300.f,0.f };
+	m_vDefaultSize[LEFT] = { 500.f,500.f,0.f };
 	m_vDefaultSize[LEG] = { 500.f,500.f,0.f };
 
 	for (_int i = 0; i < LEG_STATE::LEG_STATE_END; ++i)
@@ -127,6 +127,10 @@ HRESULT CPlayer::Ready_GameObject()
 
 _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
+	// 연욱 - 테스트용 플레이어 체력 깎기
+	if (Engine::Key_Hold(DIK_DOWN))
+		Calculate_TimerHP(_fTimeDelta * 10.f);
+
 	Picking_Terrain();
 	Damage_Terrain();//유빈 - 산성,용암지형에 플레이어가 대미지를 받음
 	if (m_bIsTrapOn)
@@ -919,7 +923,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			static_cast<CEffect*>(pComponent)->Stop_Effect();
 			Rotate_Arms(true);
 			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -3.f, 2.f);
-			m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -3.f, 2.f);
+			m_pLeft_TransformCom->Set_Pos(WINCX / -3.f, WINCY / -1.8f, 2.f);
 		}
 	}
 
@@ -1353,13 +1357,13 @@ void CPlayer::Rotate_Arms(const _bool& _bIsRecover)
 	if (_bIsRecover && m_bIsRotation) //원상복구
 	{
 		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
-		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
+		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, 0.5f);
 		m_bIsRotation = false;
 	}
 	else if (!_bIsRecover && !m_bIsRotation) //돌릴때(1. 대쉬할 때, )
 	{
 		m_pRight_TransformCom->Rotation(ROTATION::ROT_Z, 1.f);
-		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, -1.f);
+		m_pLeft_TransformCom->Rotation(ROTATION::ROT_Z, -0.5f);
 		m_bIsRotation = true;
 	}
 }
@@ -1469,6 +1473,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 		m_bIsDrinking = true;
+		m_Left_CurState = DRINK;
 		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
 
 		return;

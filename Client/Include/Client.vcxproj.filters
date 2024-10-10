@@ -329,6 +329,12 @@
     <Filter Include="03.GameObject\06.Effect\16 EffectSniperMuzzleFlash">
       <UniqueIdentifier>{2c512db6-e759-4a13-a2f2-4129c096b5be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\08.Phone">
+      <UniqueIdentifier>{d2cbf44f-0c9f-486f-9462-9a8907c6bdff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\08.Phone\00.PhoneBase">
+      <UniqueIdentifier>{5a0d843a-daeb-42b2-970c-6594579a3d77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -643,6 +649,12 @@
     <ClInclude Include="..\Header\BossStage.h">
       <Filter>02.Scene\01.Stage\04.BossStage</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIPhone.h">
+      <Filter>04.UI\08.Phone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIPhoneBase.h">
+      <Filter>04.UI\08.Phone\00.PhoneBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -938,6 +950,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>02.Scene\01.Stage\04.BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPhone.cpp">
+      <Filter>04.UI\08.Phone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPhoneBase.cpp">
+      <Filter>04.UI\08.Phone\00.PhoneBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

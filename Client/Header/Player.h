@@ -72,6 +72,9 @@ private:
 public:
 	WEAPON_STATE Get_WeaponState() { return m_WeaponState; }
 	RIGHT_STATE Get_RightCurrState() { return m_Right_CurState; }
+	LEFT_STATE Get_LeftCurrState() { return m_Left_CurState; }
+	_bool Get_LeftUse() { return m_bLeftHandUse; }
+	_float Get_TimerHP() { return m_fTimerHP; }
 	_float Get_PlayerHP() { return m_fHP; }
 	_bool Get_HasItem() { return m_bIsHasItem; }
 	_bool Get_Drinking() { return m_bIsDrinking; }

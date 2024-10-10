@@ -143,11 +143,9 @@ _int CBossStage::Update_Scene(const _float& _fTimeDelta)
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_ROBOTO)->empty())
 			Engine::Activate_UI(UITYPE::UI_ROBOTO);
-		else
-			Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
+		else Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
 	}
 
-	// ¿¤º£ UI
 	if (Engine::Key_Press(DIK_F8))
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())

@@ -220,6 +220,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIInventory.h" />
     <ClInclude Include="..\Header\UIMisterBullet.h" />
     <ClInclude Include="..\Header\UINormal.h" />
+    <ClInclude Include="..\Header\UIPhone.h" />
+    <ClInclude Include="..\Header\UIPhoneBase.h" />
     <ClInclude Include="..\Header\UIPlus.h" />
     <ClInclude Include="..\Header\UIPlusCenter.h" />
     <ClInclude Include="..\Header\UIPlusLeft.h" />
@@ -324,6 +326,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIInventory.cpp" />
     <ClCompile Include="..\Code\UIMisterBullet.cpp" />
     <ClCompile Include="..\Code\UINormal.cpp" />
+    <ClCompile Include="..\Code\UIPhone.cpp" />
+    <ClCompile Include="..\Code\UIPhoneBase.cpp" />
     <ClCompile Include="..\Code\UIPlus.cpp" />
     <ClCompile Include="..\Code\UIPlusCenter.cpp" />
     <ClCompile Include="..\Code\UIPlusLeft.cpp" />
