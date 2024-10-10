@@ -42,13 +42,13 @@ _int CFilterFundo::Update_GameObject(const _float& _fTimeDelta)
 {
     Engine::Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
-    CComponent* pComponenet = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform");
-    _vec3 vPos, vLook;
-    static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_POS, &vPos);
-    static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_LOOK, &vLook);
-    //vLook.y = 0.f;
-    vLook = { vLook.x, 0.f, vLook.z };
-    m_pTransformCom->Set_Pos(vPos + vLook * 0.2f + _vec3(0.f, 0.5f, 0.f));
+    //CComponent* pComponenet = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform");
+    //_vec3 vPos, vLook;
+    //static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_POS, &vPos);
+    //static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_LOOK, &vLook);
+    ////vLook.y = 0.f;
+    //vLook = { vLook.x, 0.f, vLook.z };
+    //m_pTransformCom->Set_Pos(vPos + vLook * 0.2f + _vec3(0.f, 0.5f, 0.f));
 
     return Engine::CGameObject::Update_GameObject(_fTimeDelta);
 }
@@ -56,9 +56,18 @@ _int CFilterFundo::Update_GameObject(const _float& _fTimeDelta)
 void CFilterFundo::LateUpdate_GameObject()
 {
 
+    CComponent* pComponenet = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform");
+    _vec3 vPos, vLook;
+    static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_POS, &vPos);
+    static_cast<CTransform*>(pComponenet)->Get_Info(INFO::INFO_LOOK, &vLook);
+    //vLook.y = 0.f;
+    vLook = { vLook.x, 0.f, vLook.z };
+    m_pTransformCom->Set_Pos(vPos + vLook * 0.2f + _vec3(0.f, 0.5f, 0.f));
+    m_pTransformCom->Update_Component(0.f); // 이러면 안된다는걸 알지만..
+
     // 빌보드
     const _vec3* pScale, * pAngle;
-    _vec3 vPos;
+    //_vec3 vPos;
     pScale = m_pTransformCom->Get_Scale();
     pAngle = m_pTransformCom->Get_Angle();
     m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
