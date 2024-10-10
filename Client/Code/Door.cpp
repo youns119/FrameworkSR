@@ -37,6 +37,10 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, 
     {
         pDoor->m_bLastDoor = true;
     }
+    if (_iNumber == 26 || _iNumber == 27)
+    {
+        pDoor->m_bFirstDoor = true;
+    }
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
     pDoor->Set_Number(_iNumber);
@@ -62,6 +66,10 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
     if (_iNumber == 9)
     {
         pDoor->m_bLastDoor = true;
+    }
+    if (_iNumber == 26 || _iNumber == 27)
+    {
+        pDoor->m_bFirstDoor = true;
     }
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
