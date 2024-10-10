@@ -36,7 +36,7 @@ HRESULT CEffectKatanaAttack::Ready_GameObject()
 
     m_iTotalFrame = 5 * 1;
     m_iAdditionalTotalFrame = 1 * 5;
-    
+
     return S_OK;
 }
 
@@ -80,26 +80,26 @@ void CEffectKatanaAttack::Render_GameObject()
 
     if (m_pEffectCom[0]->Get_Visibility())
     {
-		m_pTextureCom->Set_Texture(1);
+        m_pTextureCom->Set_Texture(1);
 
-		Animate_UV(0);
-		m_pBufferCom->Render_Buffer();
+        Animate_UV(0);
+        m_pBufferCom->Render_Buffer();
     }
 
     if (m_pEffectCom[1]->Get_Visibility())
     {
-		m_pTextureCom->Set_Texture(0);
+        m_pTextureCom->Set_Texture(0);
 
-		Animate_UV(1);
-		m_pBufferCom->Render_Buffer();
+        Animate_UV(1);
+        m_pBufferCom->Render_Buffer();
     }
 
     if (m_pEffectCom[2]->Get_Visibility())
     {
-		m_pTextureCom->Set_Texture(0);
+        m_pTextureCom->Set_Texture(0);
 
-		Animate_UV(2);
-		m_pBufferCom->Render_Buffer();
+        Animate_UV(2);
+        m_pBufferCom->Render_Buffer();
     }
 }
 
@@ -198,6 +198,6 @@ void CEffectKatanaAttack::OnOperateThird(void* _pParam)
 {
     CEffectKatanaAttack* pThis = (CEffectKatanaAttack*)_pParam;
     pThis->m_pTransformCom->Set_Scale(-100.f, WINCY * 2.f, 1.f);
-    pThis->m_pTransformCom->Set_Pos(-50, -100.f, pThis->m_fViewZ);
+    pThis->m_pTransformCom->Set_Pos(-70, -100.f, pThis->m_fViewZ);
     pThis->m_pTransformCom->Set_Angle(0.f, 0.f, D3DXToRadian(-40.f));
 }

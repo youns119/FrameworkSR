@@ -15,7 +15,7 @@ HRESULT CEffectBloodJet::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pEffectCom->Set_LifeTime(1.35f);
+	m_pEffectCom->Set_LifeTime(0.5f);
 	//m_pEffectCom->Set_Repeatable(FALSE);
 	m_pEffectCom->Set_Repeatable(FALSE);
 	m_pEffectCom->Set_CallBack(OnOperate);
@@ -75,17 +75,18 @@ void CEffectBloodJet::LateUpdate_GameObject()
 
 		// 좌우 반전
 		if (m_vRender[i].second.x < 0)
-			//m_vRenderTransform[i]->Set_Scale(-1.f, 1.f, 1.f);
-			m_vRenderTransform[i]->Set_Scale(-0.5f, 0.5f, 1.f);
+			m_vRenderTransform[i]->Set_Scale(-1.f, 1.f, 1.f);
+		//m_vRenderTransform[i]->Set_Scale(-0.3f, 0.3f, 1.f);
 		else
-			//m_vRenderTransform[i]->Set_Scale(1.f, 1.f, 1.f);
-			m_vRenderTransform[i]->Set_Scale(0.5f, 0.5f, 1.f);
+			m_vRenderTransform[i]->Set_Scale(1.f, 1.f, 1.f);
+		//m_vRenderTransform[i]->Set_Scale(0.3f, 0.3f, 1.f);
 
 	}
 
 	// biilboard
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 	Compute_ViewZ(&vPos);
+	m_fViewZ -= 0.5f;
 
 	Engine::CGameObject::LateUpdate_GameObject();
 }
@@ -126,7 +127,7 @@ void CEffectBloodJet::Render_GameObject()
 			m_pTextureCom->Set_Texture(iIdx);
 			m_pBufferCom->Render_Buffer();
 		}
-		
+
 
 		m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLOROP, dwPreCOLOROP);
 		m_pGraphicDev->SetTextureStageState(0, D3DTSS_CONSTANT, dwPreCONSTANT);
@@ -211,7 +212,7 @@ void CEffectBloodJet::Set_UVGrid()
 void CEffectBloodJet::OnOperate(void* _pParam)
 {
 	// position 은 오브젝트 풀에서 줄거임
-	CEffectBloodJet* pThis = (CEffectBloodJet*) _pParam;
+	CEffectBloodJet* pThis = (CEffectBloodJet*)_pParam;
 
 	for (int i = 0; i < pThis->m_vRender.size(); ++i)
 	{
@@ -222,7 +223,7 @@ void CEffectBloodJet::OnOperate(void* _pParam)
 
 		if (rand() % 2)
 			pThis->m_vRender[i].second.x *= -1.f;
-		
+
 		pThis->m_vRender[i].first = (BLOOD)iRandom;
 	}
 }

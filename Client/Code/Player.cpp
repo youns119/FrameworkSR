@@ -788,10 +788,10 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			{
 				CGameObject* pGameObject(nullptr);
 
-				vPos.y += 1.5f;
-
-				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodJet", L"Com_Transform");
+				//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
 				static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
+				static_cast<CTransform*>(pComponent)->Set_Scale(0.3f, 0.3f, 1.f);
 				pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 				static_cast<CEffectPool*>(pGameObject)->Operate();
 			}
@@ -1295,6 +1295,26 @@ void CPlayer::Animation_Pos()
 			m_pRight_TransformCom->Set_Pos(WINCX / 3.f, WINCY / -4.f, 2.f);
 			break;
 		case SHOOT:
+			// ±Ôºó - Ä«Å¸³ª °ø°Ý ÀÌÆåÆ®
+			{
+				_float fCurFrame = m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame();
+				if (fCurFrame >= 2.f && fCurFrame <= 3.f)
+				{
+					CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKatanaAttack", L"Com_EffectFirst");
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+				}
+				if (fCurFrame >= 9.f && fCurFrame <= 10.f)
+				{
+					CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKatanaAttack", L"Com_EffectSecond");
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+				}
+				if (fCurFrame >= 16.f && fCurFrame <= 17.f)
+				{
+					CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKatanaAttack", L"Com_EffectThird");
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+				}
+			}
+
 			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.4f);
 			m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
 			break;
