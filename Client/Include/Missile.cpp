@@ -2,6 +2,7 @@
 #include "Missile.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
+#include "../Header/EffectPool.h"
 
 CMissile::CMissile(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
@@ -105,6 +106,10 @@ void CMissile::Fire_Missile(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStart
 	m_vCurve = vCurvePos;
 	m_fAttackDamage = _fAttackDamage;
 	m_pTransformCom->Set_Pos(_vStartPos);
+
+	CGameObject* pGameObject = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_SmokeTrail", L"Com_Transform")->GetOwner();
+	static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
+	static_cast<CEffectPool*>(pGameObject)->Operate();
 }
 
 _vec3 CMissile::Bezier(_vec3 _vStartPos, _vec3 vCurvePos, _vec3 vEndPos, _float fTime)
