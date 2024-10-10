@@ -101,6 +101,7 @@ private:
 	const _tchar* m_ImageName;
 	_int m_iNumber;
 
+	_vec3 m_vecPosition; // imgui 에 현재 좌표 띄우는 용
 
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageFloor;
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageWall;
