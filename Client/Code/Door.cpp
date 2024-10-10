@@ -248,7 +248,13 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
 
         if (m_bLastDoor)
         {
-            if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
+            if (pPlayer->Get_BossStage())
+            {
+                //범승이가 보스를 소환하는 함수추가요망
+                //Engine::Get_CurrScene()->Get_GameObject(L"Layer_Monster", L"Boss_Humanoid"); 
+                //Engine::Get_CurrScene()->Get_GameObject(L"Layer_Monster", L"Boss_Robot"); 
+            }
+            else if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
             {
                 Engine::Activate_UI(UITYPE::UI_SCREEN);
                 static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
@@ -260,7 +266,7 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
         {
             if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
             {
-                
+
             }
             else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
         }

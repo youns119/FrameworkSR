@@ -318,7 +318,7 @@ HRESULT CStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CPlayer::Create(m_pGraphicDev, _vec3{ 7.5f, 1.f, 1.f });
+	pGameObject = CPlayer::Create(m_pGraphicDev, _vec3{ 8.75f, 1.f, 1.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	m_pPlayer = static_cast<CPlayer*>(pGameObject);

@@ -13,70 +13,7 @@
 #include"../Header/Wall.h"
 #include"../Header/WallTB.h"
 
-CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
-	: Engine::CCharacter(_pGraphicDev)
-	, m_pRight_TransformCom(nullptr)
-	, m_pBody_TransformCom(nullptr)
-	, m_pCComponentCamera(nullptr)
-	, m_pLeft_TransformCom(nullptr)
-	, m_pLeg_TransformCom(nullptr)
-	, m_pPlayer_Buffer(nullptr)
-	, m_pCalculatorCom(nullptr)
-	, m_pColliderCom(nullptr)
-	, m_bJumpCheck(false)
-	, m_bLeftHandUse(true)
-	, m_bLegUse(false)
-	, m_bIsHasItem(false)
-	, m_bIsDrinking(false)
-	, m_bIsRotation(false)
-	, m_bIsTrapOn(false)
-	, m_bIsLeft(false)
-	, m_bIsRight(false)
-	, m_bIsShaking(false)
-	, m_bIsClear(false)
-	, m_fShakingTimer(0.f)
-	, m_fShakingSize(0.f)
-	, m_fTrapTime(0.f)
-	, m_fHP(0.f)
-	, m_fTimerHP(0.f)
-	, m_fJumpPower(0.f)
-	, m_fTilePos(0.f)
-	, m_fSpeed(0.f)
-	, m_fMaxAttackDelay(0.f)
-	, m_fCurAttackDelay(1.5f)
-	, m_fDashSpeed(0.f)
-	, m_fTime_Skill(1.f) //For TimeSkill
-	, m_iCurAmmo(6) //because Pistol
-	, m_iMaxAmmo(6) //because Pistol
-	, m_Right_CurState(CHANGE)
-	, m_Right_PreState(RIGHT_STATE_END)
-	, m_Left_CurState(LEFT_CHANGE)
-	, m_Left_PreState(LEFT_STATE_END)
-	, m_Leg_CurState(LEG_IDLE)
-	, m_Leg_PreState(LEG_STATE_END)
-	, m_WeaponState(PISTOL)
-	, m_eItemType(Engine::ITEM_TYPE::ITEM_END)
-	//Beomseung
-{
-	ZeroMemory(&m_fFrameStart, sizeof(m_fFrameStart));
-	ZeroMemory(&m_fFrameEnd, sizeof(m_fFrameEnd));
-	ZeroMemory(&m_fFrameSpeed, sizeof(m_fFrameSpeed));
-	ZeroMemory(&m_pAnimator, sizeof(m_pAnimator));
-	ZeroMemory(&m_flinear, sizeof(m_flinear));
-	m_vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
-	m_vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -1.8f,2.f };
-	m_vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
-	m_vDefaultSize[LEFT] = { 500.f,500.f,0.f };
-	m_vDefaultSize[LEG] = { 500.f,500.f,0.f };
 
-	for (_int i = 0; i < LEG_STATE::LEG_STATE_END; ++i)
-		m_pLeg_TextureCom[i] = nullptr;
-	for (_int i = 0; i < LEFT_STATE::LEFT_STATE_END; ++i)
-		m_pLeft_TextureCom[i] = nullptr;
-	for (_int i = 0; i < WEAPON_STATE::WEAPON_STATE_END; ++i)
-		for (_int j = 0; j < RIGHT_STATE::RIGHT_STATE_END; ++j)
-			m_pRight_TextureCom[i][j] = nullptr;
-}
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	: Engine::CCharacter(_pGraphicDev)
@@ -99,6 +36,75 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	, m_bIsRight(false)
 	, m_bIsShaking(false)
 	, m_bIsClear(false)
+	, m_bIsBoss(false)
+	, m_fDamage(5.f)
+	, m_fShakingTimer(0.f)
+	, m_fShakingSize(0.f)
+	, m_fTrapTime(0.f)
+	, m_fHP(0.f)
+	, m_fTimerHP(0.f)
+	, m_fJumpPower(0.f)
+	, m_fTilePos(0.f)
+	, m_fSpeed(0.f)
+	, m_fMaxAttackDelay(0.f)
+	, m_fCurAttackDelay(1.5f)
+	, m_fDashSpeed(0.f)
+	, m_fTime_Skill(1.f) //For TimeSkill
+	, m_iCurAmmo(6) //because Pistol
+	, m_iMaxAmmo(6) //because Pistol
+	, m_Right_CurState(START)
+	, m_Right_PreState(RIGHT_STATE_END)
+	, m_Left_CurState(LEFT_IDLE)
+	, m_Left_PreState(LEFT_STATE_END)
+	, m_Leg_CurState(LEG_IDLE)
+	, m_Leg_PreState(LEG_STATE_END)
+	, m_WeaponState(PISTOL)
+	, m_eItemType(Engine::ITEM_TYPE::ITEM_END)
+	, m_vStartPos(_vStartPos)
+	//Beomseung
+{
+	ZeroMemory(&m_fFrameStart, sizeof(m_fFrameStart));
+	ZeroMemory(&m_fFrameEnd, sizeof(m_fFrameEnd));
+	ZeroMemory(&m_fFrameSpeed, sizeof(m_fFrameSpeed));
+	ZeroMemory(&m_pAnimator, sizeof(m_pAnimator));
+	ZeroMemory(&m_flinear, sizeof(m_flinear));
+	m_vDefaultPos[RIGHT] = { WINCX / 3.f,WINCY / -3.f,2.f };
+	m_vDefaultPos[LEFT] = { WINCX / -3.f,WINCY / -1.8f,2.f };
+	m_vDefaultSize[RIGHT] = { 500.f,500.f,0.f };
+	m_vDefaultSize[LEFT] = { 500.f,500.f,0.f };
+	m_vDefaultSize[LEG] = { 500.f,500.f,0.f };
+
+	for (_int i = 0; i < LEG_STATE::LEG_STATE_END; ++i)
+		m_pLeg_TextureCom[i] = nullptr;
+	for (_int i = 0; i < LEFT_STATE::LEFT_STATE_END; ++i)
+		m_pLeft_TextureCom[i] = nullptr;
+	for (_int i = 0; i < WEAPON_STATE::WEAPON_STATE_END; ++i)
+		for (_int j = 0; j < RIGHT_STATE::RIGHT_STATE_END; ++j)
+			m_pRight_TextureCom[i][j] = nullptr;
+}
+
+CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos, _bool _bBossStage)
+	: Engine::CCharacter(_pGraphicDev)
+	, m_pRight_TransformCom(nullptr)
+	, m_pBody_TransformCom(nullptr)
+	, m_pCComponentCamera(nullptr)
+	, m_pLeft_TransformCom(nullptr)
+	, m_pLeg_TransformCom(nullptr)
+	, m_pPlayer_Buffer(nullptr)
+	, m_pCalculatorCom(nullptr)
+	, m_pColliderCom(nullptr)
+	, m_bJumpCheck(false)
+	, m_bLeftHandUse(true)
+	, m_bLegUse(false)
+	, m_bIsHasItem(false)
+	, m_bIsDrinking(false)
+	, m_bIsRotation(false)
+	, m_bIsTrapOn(false)
+	, m_bIsLeft(false)
+	, m_bIsRight(false)
+	, m_bIsShaking(false)
+	, m_bIsClear(false)
+	, m_bIsBoss(_bBossStage)
 	, m_fDamage(5.f)
 	, m_fShakingTimer(0.f)
 	, m_fShakingSize(0.f)
@@ -158,9 +164,9 @@ void CPlayer::Rooting_Item(Engine::ITEM_TYPE _eItemType)
 	}
 }
 
-CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 {
-	CPlayer* pPlayer = new CPlayer(_pGraphicDev);
+	CPlayer* pPlayer = new CPlayer(_pGraphicDev, _vStartPos);
 
 	if (FAILED(pPlayer->Ready_GameObject()))
 	{
@@ -172,9 +178,9 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pPlayer;
 }
 
-CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
+CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos, _bool _bIsBossStage)
 {
-	CPlayer* pPlayer = new CPlayer(_pGraphicDev, _vStartPos);
+	CPlayer* pPlayer = new CPlayer(_pGraphicDev, _vStartPos, _bIsBossStage);
 
 	if (FAILED(pPlayer->Ready_GameObject()))
 	{
@@ -1327,7 +1333,7 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
 
 			// 규빈: 형님 이렇게 대충 한번 해봤는데요... 이거 맞을까요?
 			if (m_flinear[LEFT] > 0.1f)
@@ -1374,8 +1380,25 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+
+			if (m_flinear[LEFT] > 0.1f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+			}
+			if (m_flinear[LEFT] > 0.7f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+				m_fHP = 99.f; //Full Hp Restore
+				m_fTimerHP = 20.f;
+			}
 			m_pRight_TransformCom->Set_Pos(vPos);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.7f);
 			break;
 		}
 		break;
@@ -1401,10 +1424,27 @@ void CPlayer::Animation_Pos()
 			}
 			break;
 		case EXECUTION:
-			vStart = { 1000.f, 0.f, 1.f };
-			vEnd = { 400.f, 0.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
+			vStart = { 3000.f, 0.f, 1.f };
+			vEnd = { 270.f, -125.f, 1.f };
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+
+			if (m_flinear[LEFT] > 0.1f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+			}
+			if (m_flinear[LEFT] > 0.7f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+				m_fHP = 99.f; //Full Hp Restore
+				m_fTimerHP = 20.f;
+			}
 			m_pRight_TransformCom->Set_Pos(vPos);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.7f);
 			break;
 		}
 		break;
@@ -1470,10 +1510,27 @@ void CPlayer::Animation_Pos()
 			m_pRight_TransformCom->Set_Pos(0.f, WINCY / -3.f, 2.f);
 			break;
 		case EXECUTION:
-			vStart = { 1000.f, 0.f, 1.f };
-			vEnd = { 400.f, 0.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
+			vStart = { 3000.f, 0.f, 1.f };
+			vEnd = { 270.f, -125.f, 1.f };
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+
+			if (m_flinear[LEFT] > 0.1f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+			}
+			if (m_flinear[LEFT] > 0.7f)
+			{
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
+				if (pComponent)
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+				m_fHP = 99.f; //Full Hp Restore
+				m_fTimerHP = 20.f;
+			}
 			m_pRight_TransformCom->Set_Pos(vPos);
+			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 0.7f);
 			break;
 		}
 		break;
