@@ -191,6 +191,8 @@ HRESULT CMapCreate::Ready_Scene()
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/6.png", L"Proto_DOOR_6", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/7.png", L"Proto_DOOR_7", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/8.png", L"Proto_DOOR_8", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/25.png", L"Proto_DOOR_26", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/26.png", L"Proto_DOOR_27", TEXTUREID::TEX_NORMAL, 1);
 
 	Ready_Texture_ItemInsert(L"../Bin/Resource/Texture/MMJ_Item/DrinkMachine/Idle/0.png", L"Proto_Item0", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_ItemInsert(L"../Bin/Resource/Texture/MMJ_Item/Drop_Item/Axe.png", L"Proto_Item1", TEXTUREID::TEX_NORMAL, 1);
@@ -1139,8 +1141,8 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 	 //HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
 	 //HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
 	 //HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
-     HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
-     //HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
+     //HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
+     HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1266,8 +1268,8 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	//HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
 	//HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
 	//HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
-	HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
-	//HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
+	//HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1592,6 +1594,10 @@ void CMapCreate::SetDoor()
 
 		ret = ImGui::ImageButton(pStr, (*it).second, ImVec2(50.f, 50.f));
 		iTemp++;
+		if (iTemp == 10)
+		{
+			iTemp = 26;
+		}
 		iCount++;
 		if (iCount < 5)
 		{
