@@ -1243,6 +1243,7 @@ void CPlayer::Animation_Pos()
 			else {
 				m_pRight_TransformCom->Set_Pos(0.f, WINCY / -4.f, 2.f);
 			}
+			break;
 		case EXECUTION:
 			vStart = { 1000.f, 0.f, 1.f };
 			vEnd = { 400.f, 0.f, 1.f };
