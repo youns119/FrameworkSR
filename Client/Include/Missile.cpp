@@ -35,39 +35,25 @@ HRESULT CMissile::Ready_GameObject()
 
 _int CMissile::Update_GameObject(const _float& _fTimeDelta)
 {
-	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
-	Engine::Add_Collider(m_pColliderCom);
-	_int iExit = Engine::CBullet::Update_GameObject(_fTimeDelta);
-
-	_matrix		matWorld, matView, matBill, matResult;
-	m_pTransformCom->Get_WorldMatrix(&matWorld);
-
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-
-	D3DXMatrixIdentity(&matBill);
-
-	matBill._11 = matView._11;
-	matBill._13 = matView._13;
-	matBill._31 = matView._31;
-	matBill._33 = matView._33;
-
-	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	matResult = matBill * matWorld;
-
 	if (m_bIsRender) {
+		Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+		Engine::Add_Collider(m_pColliderCom);
+		_int iExit = Engine::CBullet::Update_GameObject(_fTimeDelta);
 		m_fLinear += 0.2f * _fTimeDelta;
 		if (m_fLinear >= 1.f) {
 			m_fLinear = 0.f;
 			m_bIsRender = false;
 			m_pColliderCom->SetActive(false);
 		}
+		_vec3 vNext, vPos;
 		m_pTransformCom->Set_Pos(Bezier(m_vStart, m_vCurve, m_vEnd, m_fLinear));
-	}
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		vNext = Bezier(m_vStart, m_vCurve, m_vEnd, m_fLinear + 0.1f);
+		m_pTransformCom->LookAtTarget(&vNext);
 
-	m_pTransformCom->Set_WorldMatrix(&(matResult));
-	CGameObject::Compute_ViewZ(&m_vDir);
-	return iExit;
+		CGameObject::Compute_ViewZ(&m_vDir);
+		return iExit;
+	}
 }
 
 void CMissile::LateUpdate_GameObject()

@@ -64,6 +64,7 @@ private:
 	_bool m_bPatternEnd;
 	_int m_iRandom;
 	_int m_iCount;
+	_int m_iCount2;
 	_bool m_bMoveStop;
 private:
 	virtual void Free();
