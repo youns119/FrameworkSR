@@ -51,4 +51,9 @@ void CTrigger::Free()
 {
 	for (_int i = 0; i < TRIGGERCOUNT; ++i)
 		m_vecTrigger[i].clear();
+
+
+	m_iCurTriggerNumber = 1;
+	m_iPreTriggerNumber = 0;
+	m_iPrePreTriggerNumber = 0;
 }

@@ -74,6 +74,10 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 	if (Engine::Key_Press(DIK_F1))
 		Engine::Toggle_Collider();
 
+	
+
+	
+
 	// 자유ㅠ시점 OnOff
 	if (Engine::Key_Press(DIK_F2))
 	{
@@ -147,9 +151,9 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
 		{
 			Engine::Activate_UI(UITYPE::UI_SCREEN);
-			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
+			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed()); //줄어들기전
 		}
-		else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
+		else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true); //줄어들어있으니까 줄어들어라
 	}
 
 	// 인벤토리 OnOff
@@ -167,6 +171,18 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 		}
 	}
 
+	
+	
+	
+	
+	
+	
+		
+		
+		
+	
+	
+
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
 
 	if (Engine::Key_Press(DIK_RETURN))
@@ -179,6 +195,23 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 		return 0;
 	}
 
+	
+	if (m_pPlayer->Get_Clear())
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty() == false)
+		{
+			Engine::CScene* pStage = CGameStage2::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pStage, -1);
+
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
+
+			return 0;
+
+		}
+		return 0;
+	}
+	
+
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 
 	return iExit;
@@ -188,6 +221,8 @@ void CStage::LateUpdate_Scene()
 {
 	Engine::CScene::LateUpdate_Scene();
 	Engine::LateUpdate_Bullet(); //Jonghan Change // Is it Right? becuz BulletManager
+
+	
 }
 
 void CStage::Render_Scene()

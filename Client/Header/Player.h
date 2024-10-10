@@ -83,10 +83,12 @@ public:
 	_int Get_CurrAmmo() { return m_iCurAmmo; }
 	_bool Get_HasItem() { return m_bIsHasItem; }
 	_bool Get_Drinking() { return m_bIsDrinking; }
+	_bool Get_Clear() { return m_bIsClear; }
 	void Rooting_Item(Engine::ITEM_TYPE _eItemType);
 
 	void Set_PlayerHP(_float _fHP) { m_fHP = _fHP; }
 	void Set_PlayerHP_Plus(_float _fHP) { m_fHP += _fHP; }
+	void Set_Clear() { m_bIsClear = true; }
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -155,6 +157,7 @@ private:
 	_bool m_bIsLeft;
 	_bool m_bIsRight;
 	_bool m_bIsShaking;
+	_bool m_bIsClear;
 	_float m_fShakingTimer;
 	_float m_fShakingSize;
 	_float m_fTrapTime;

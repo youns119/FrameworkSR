@@ -193,6 +193,21 @@ _int CGameStage3::Update_Scene(const _float& _fTimeDelta)
 		return 0;
 	}
 
+	if (m_pPlayer->Get_Clear())
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty() == false)
+		{
+			Engine::CScene* pStage = CBuildStage::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pStage, -1);
+
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
+
+			return 0;
+
+		}
+		return 0;
+	}
+
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 
 	return iExit;
@@ -738,7 +753,6 @@ void CGameStage3::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 	m_mapLayer.insert({ L"Layer_Floor", pLayerFloor });
 	m_mapLayer.insert({ L"Layer_Door", pLayerDoor });
 
-	MessageBox(g_hWnd, L"LoadTest 완료", _T("성공"), MB_OK);
 }
 
 

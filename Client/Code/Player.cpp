@@ -33,6 +33,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_bIsLeft(false)
 	, m_bIsRight(false)
 	, m_bIsShaking(false)
+	, m_bIsClear(false)
 	, m_fShakingTimer(0.f)
 	, m_fShakingSize(0.f)
 	, m_fTrapTime(0.f)
@@ -97,6 +98,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	, m_bIsLeft(false)
 	, m_bIsRight(false)
 	, m_bIsShaking(false)
+	, m_bIsClear(false)
 	, m_fDamage(5.f)
 	, m_fShakingTimer(0.f)
 	, m_fShakingSize(0.f)
@@ -212,6 +214,7 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 {
 	// 연욱 - 테스트용 플레이어 체력 깎기
 	//if (Engine::Key_Hold(DIK_DOWN))
+	
 
 	Calculate_TimerHP(_fTimeDelta );
 
@@ -1139,7 +1142,7 @@ void CPlayer::SetAnimation()
 
 	//Left
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Idle", m_pLeft_TextureCom[LEFT_IDLE], 8.f);
-	m_pAnimator[LEFT]->CreateAnimation(L"Left_Change", m_pLeft_TextureCom[LEFT_CHANGE], 8.f);
+	m_pAnimator[LEFT]->CreateAnimation(L"Left_Change", m_pLeft_TextureCom[LEFT_CHANGE], 4.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Drink", m_pLeft_TextureCom[DRINK], 8.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Execution", m_pLeft_TextureCom[LEFT_EXECUTION], 2.f);
 
@@ -1152,9 +1155,7 @@ void CPlayer::SetAnimation()
 	//m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
 	//m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 	//
-	//m_pAnimator[LEFT]->PlayAnimation(L"Left_Change", false);
-	//m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
-	//m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
+	
 	//
 	//m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
 	//m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG]);
@@ -1202,6 +1203,10 @@ void CPlayer::Animation_End_Check()
 			m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
 			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
 			m_Right_CurState = IDLE;
+			m_pAnimator[LEFT]->PlayAnimation(L"Left_Change", false);
+			m_Left_CurState = LEFT_CHANGE;
+			m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
+			m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
 			m_bLeftHandUse = true;
 			return;
 		}
@@ -1456,7 +1461,7 @@ void CPlayer::Animation_Pos()
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 				}
 			}
-
+			//상점 클릭하면
 			m_pRight_TransformCom->Set_Scale(m_vDefaultSize[RIGHT] * 1.4f);
 			m_pRight_TransformCom->Set_Pos(0.f, 0.f, 2.f);
 			break;

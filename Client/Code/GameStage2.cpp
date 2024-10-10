@@ -183,7 +183,7 @@ _int CGameStage2::Update_Scene(const _float& _fTimeDelta)
 	}
 
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
-
+	this;
 	if (Engine::Key_Press(DIK_RETURN))
 	{
 		Engine::CScene* pStage = CGameStage3::Create(m_pGraphicDev);
@@ -191,6 +191,21 @@ _int CGameStage2::Update_Scene(const _float& _fTimeDelta)
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
 
+		return 0;
+	}
+
+	if (m_pPlayer->Get_Clear())
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty() == false)
+		{
+			Engine::CScene* pStage = CGameStage3::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pStage, -1);
+
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
+
+			return 0;
+
+		}
 		return 0;
 	}
 
@@ -739,7 +754,7 @@ void CGameStage2::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 	m_mapLayer.insert({ L"Layer_Floor", pLayerFloor });
 	m_mapLayer.insert({ L"Layer_Door", pLayerDoor });
 
-	MessageBox(g_hWnd, L"LoadTest 완료", _T("성공"), MB_OK);
+	//MessageBox(g_hWnd, L"LoadTest 완료", _T("성공"), MB_OK);
 }
 
 
