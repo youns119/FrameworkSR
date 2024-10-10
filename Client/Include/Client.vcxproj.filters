@@ -658,8 +658,12 @@
     <ClInclude Include="..\Header\GameStage3.h">
       <Filter>02.Scene\01.Stage\02.GameStage3</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UIItem.h" />
-    <ClInclude Include="..\Header\UIPlayer.h" />
+    <ClInclude Include="..\Header\UIItem.h">
+      <Filter>04.UI\06.Player\01.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIPlayer.h">
+      <Filter>04.UI\06.Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -968,8 +972,12 @@
     <ClCompile Include="..\Code\GameStage3.cpp">
       <Filter>02.Scene\01.Stage\02.GameStage3</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UIItem.cpp" />
-    <ClCompile Include="..\Code\UIPlayer.cpp" />
+    <ClCompile Include="..\Code\UIItem.cpp">
+      <Filter>04.UI\06.Player\01.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPlayer.cpp">
+      <Filter>04.UI\06.Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
