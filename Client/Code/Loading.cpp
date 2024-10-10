@@ -179,7 +179,7 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DropMachineBrokenTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Item/DrinkMachine/Broken/%d.png", TEXTUREID::TEX_NORMAL, 6)), E_FAIL);
 	//Jonghan Stage Change End
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SkyBox", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/burger%d.dds", TEXTUREID::TEX_CUBE, 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SkyBox", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/burger%d.dds", TEXTUREID::TEX_CUBE, 8)), E_FAIL);
 
 	//Beomseung
 	// //Execution
@@ -237,7 +237,7 @@ _uint CLoading::Loading_Stage()
 	//Jonghan MonsterTile Texture
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Monster_Map", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/MapTool/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Item_Map", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Item/MapTool/%d.png", TEXTUREID::TEX_NORMAL, 3)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Door", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Door/%d.png", TEXTUREID::TEX_NORMAL, 27)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Door", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Door/%d.png", TEXTUREID::TEX_NORMAL, 28)), E_FAIL);
 
 	// Kyubin
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MuzzleFlashTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Effect/Flare1_Edit.png", TEXTUREID::TEX_NORMAL)), E_FAIL);

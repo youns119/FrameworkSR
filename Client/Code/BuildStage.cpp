@@ -253,7 +253,7 @@ HRESULT CBuildStage::Ready_Layer_Environment(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
 
-	pGameObject = CSkyBox::Create(m_pGraphicDev);
+	pGameObject = CSkyBox::Create(m_pGraphicDev, 5);//5=도시배경,7=까만배경
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox", pGameObject), E_FAIL);
 

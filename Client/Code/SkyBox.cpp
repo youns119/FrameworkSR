@@ -7,6 +7,16 @@ CSkyBox::CSkyBox(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_pTextureCom(nullptr)
+	, m_iTextureNumber(1)
+{
+}
+
+CSkyBox::CSkyBox(LPDIRECT3DDEVICE9 _pGraphicDev, int _iTextureNumber)
+	: Engine::CGameObject(_pGraphicDev)
+	, m_pBufferCom(nullptr)
+	, m_pTransformCom(nullptr)
+	, m_pTextureCom(nullptr)
+	, m_iTextureNumber(_iTextureNumber)
 {
 }
 
@@ -14,9 +24,9 @@ CSkyBox::~CSkyBox()
 {
 }
 
-CSkyBox* CSkyBox::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
+CSkyBox* CSkyBox::Create(LPDIRECT3DDEVICE9 _pGraphicDev, int _iTextureNumber)
 {
-	CSkyBox* pSkyBox = new CSkyBox(_pGraphicDev);
+	CSkyBox* pSkyBox = new CSkyBox(_pGraphicDev, _iTextureNumber);
 
 	if (FAILED(pSkyBox->Ready_GameObject()))
 	{
@@ -32,7 +42,7 @@ HRESULT CSkyBox::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(40.f, 40.f, 40.f);
+	m_pTransformCom->Set_Scale(20.f, 20.f, 20.f);
 
 	return S_OK;
 }
@@ -52,7 +62,7 @@ void CSkyBox::LateUpdate_GameObject()
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matCamWorld);
 	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
 
-	m_pTransformCom->Set_Pos(matCamWorld._41, matCamWorld._42 + 3.f, matCamWorld._43);
+	m_pTransformCom->Set_Pos(matCamWorld._41, matCamWorld._42 -1.f, matCamWorld._43);
 }
 
 void CSkyBox::Render_GameObject()
@@ -61,7 +71,7 @@ void CSkyBox::Render_GameObject()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	m_pTextureCom->Set_Texture(3);
+	m_pTextureCom->Set_Texture(m_iTextureNumber);
 
 	m_pBufferCom->Render_Buffer();
 

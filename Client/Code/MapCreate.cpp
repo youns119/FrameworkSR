@@ -18,8 +18,6 @@ CMapCreate::CMapCreate(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_vecRot(0.f, 0.f, 0.f)
 	, m_vecPosition(0.f, 0.f, 0.f)
 	, m_iRidian(0)
-	, m_bGuiHovered(false)
-	, m_ImageName(nullptr)
 	, m_iNumber(0)
 	, m_iTriggerNumber(0)
 {
@@ -191,8 +189,9 @@ HRESULT CMapCreate::Ready_Scene()
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/6.png", L"Proto_DOOR_6", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/7.png", L"Proto_DOOR_7", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/8.png", L"Proto_DOOR_8", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/25.png", L"Proto_DOOR_26", TEXTUREID::TEX_NORMAL, 1);
-	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/26.png", L"Proto_DOOR_27", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/25.png", L"Proto_DOOR_25", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/26.png", L"Proto_DOOR_26", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_DoorInsert(L"../Bin/Resource/Texture/MMJ_Door/27.png", L"Proto_DOOR_27", TEXTUREID::TEX_NORMAL, 1);
 
 	Ready_Texture_ItemInsert(L"../Bin/Resource/Texture/MMJ_Item/DrinkMachine/Idle/0.png", L"Proto_Item0", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_ItemInsert(L"../Bin/Resource/Texture/MMJ_Item/Drop_Item/Axe.png", L"Proto_Item1", TEXTUREID::TEX_NORMAL, 1);
@@ -440,10 +439,9 @@ HRESULT CMapCreate::Ready_Layer_ToolEnvironment(const _tchar* _pLayerTag)
 	);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
-	//dynamic_cast<CDynamicCamera*>(pGameObject)->Toggle_Active();
 
 
-	pGameObject = CSkyBox::Create(m_pGraphicDev);
+	pGameObject = CSkyBox::Create(m_pGraphicDev,5);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox", pGameObject), E_FAIL);
 
@@ -1142,7 +1140,7 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 	 //HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
 	 //HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
      //HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
-     HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
+     HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1261,7 +1259,7 @@ void CMapCreate::MapSave2(CLayer* _pLayer)
 
 void CMapCreate::MapLoad2(CLayer* _pLayer)
 {
-	// 현제 츨력되고 있는 레이어의 오브젝트 모두 제거
+	// 현재 츨력되고 있는 레이어의 오브젝트 모두 제거
 	multimap<const _tchar*, CGameObject*>::iterator it = _pLayer->Get_LayerObjects()->begin();
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
@@ -1269,7 +1267,7 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	//HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
 	//HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
 	//HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
-	HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1478,7 +1476,6 @@ void CMapCreate::SetFloor()
 		if (ret)
 		{
 			m_iNumber = iTemp;
-			m_ImageName = (*it).first;
 		}
 
 		delete[] pStr;
@@ -1522,7 +1519,6 @@ void CMapCreate::SetWall()
 		if (ret)
 		{
 			m_iNumber = iTemp;
-			m_ImageName = (*it).first;
 		}
 
 		delete[] pStr;
@@ -1564,7 +1560,6 @@ void CMapCreate::SetMonster()
 		if (ret)
 		{
 			m_iNumber = iTemp;
-			m_ImageName = (*it).first;
 		}
 
 		delete[] pStr;
@@ -1610,7 +1605,6 @@ void CMapCreate::SetDoor()
 		if (ret)
 		{
 			m_iNumber = iTemp;
-			m_ImageName = (*it).first;
 		}
 
 		delete[] pStr;
@@ -1652,7 +1646,6 @@ void CMapCreate::SetItem()
 		if (ret)
 		{
 			m_iNumber = iTemp;
-			m_ImageName = (*it).first;
 		}
 
 		delete[] pStr;

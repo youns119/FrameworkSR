@@ -33,11 +33,11 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, 
         return nullptr;
     }
 
-    if (_iNumber == 9)
+    if (_iNumber == 9 || _iNumber == 26)
     {
         pDoor->m_bLastDoor = true;
     }
-    if (_iNumber == 26 || _iNumber == 27)
+    if (_iNumber == 27 || _iNumber == 28)
     {
         pDoor->m_bFirstDoor = true;
     }
@@ -63,11 +63,11 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
         return nullptr;
     }
 
-    if (_iNumber == 9)
+    if (_iNumber == 9 || _iNumber == 26)
     {
         pDoor->m_bLastDoor = true;
     }
-    if (_iNumber == 26 || _iNumber == 27)
+    if (_iNumber == 27 || _iNumber == 28)
     {
         pDoor->m_bFirstDoor = true;
     }
