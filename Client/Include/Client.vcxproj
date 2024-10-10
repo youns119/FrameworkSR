@@ -209,6 +209,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TileContorl.h" />
+    <ClInclude Include="..\Header\UIAction.h" />
+    <ClInclude Include="..\Header\UIActionBase.h" />
     <ClInclude Include="..\Header\UIBossBar.h" />
     <ClInclude Include="..\Header\UIBossCount.h" />
     <ClInclude Include="..\Header\UIBossLifeBar.h" />
@@ -319,6 +321,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TileContorl.cpp" />
+    <ClCompile Include="..\Code\UIAction.cpp" />
+    <ClCompile Include="..\Code\UIActionBase.cpp" />
     <ClCompile Include="..\Code\UIBossBar.cpp" />
     <ClCompile Include="..\Code\UIBossCount.cpp" />
     <ClCompile Include="..\Code\UIBossLifeBar.cpp" />

@@ -13,7 +13,7 @@
 #include"../Header/Wall.h"
 #include"../Header/WallTB.h"
 
-
+#include "../Header/UIAction.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	: Engine::CCharacter(_pGraphicDev)
@@ -1348,6 +1348,8 @@ void CPlayer::Animation_Pos()
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 
+				ActionUI(0);
+
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
 			}
@@ -1394,6 +1396,8 @@ void CPlayer::Animation_Pos()
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 
+				ActionUI(0);
+
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
 			}
@@ -1439,6 +1443,8 @@ void CPlayer::Animation_Pos()
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+				ActionUI(0);
 
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
@@ -1525,6 +1531,8 @@ void CPlayer::Animation_Pos()
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+				ActionUI(0);
 
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
@@ -1737,6 +1745,8 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		m_Left_CurState = DRINK;
 		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
 
+		ActionUI(1);
+
 		return;
 	}
 	else if (nullptr != dynamic_cast<CItem*>(_pOther.GetOwner()))
@@ -1875,6 +1885,21 @@ void CPlayer::Shaking_Camera(const _float& _fTimeDelta)
 		{
 			m_bIsShaking = false;
 		}
+	}
+}
+
+void CPlayer::ActionUI(_int _iActionType)
+{
+	if (Engine::Get_ListUI(UITYPE::UI_ACTION)->empty())
+	{
+		Engine::Activate_UI(UITYPE::UI_ACTION);
+		static_cast<CUIAction*>(Engine::Get_ListUI(UITYPE::UI_ACTION)->front())->Set_ActionType((CUIAction::ACTION_TYPE)_iActionType);
+	}
+	else if (static_cast<CUIAction*>(Engine::Get_ListUI(UITYPE::UI_ACTION)->front())->Get_ActionType() != (CUIAction::ACTION_TYPE)_iActionType)
+	{
+		Engine::Deactivate_UI(UITYPE::UI_ACTION);
+		Engine::Activate_UI(UITYPE::UI_ACTION);
+		static_cast<CUIAction*>(Engine::Get_ListUI(UITYPE::UI_ACTION)->front())->Set_ActionType((CUIAction::ACTION_TYPE)_iActionType);
 	}
 }
 

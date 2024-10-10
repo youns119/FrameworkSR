@@ -332,6 +332,12 @@
     <Filter Include="04.UI\06.Player\00.Reload">
       <UniqueIdentifier>{58feec5f-cef1-4a2e-99ae-4fe76c413e15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\09.Action">
+      <UniqueIdentifier>{2369ef94-06c9-4f3d-ba88-96c4752ab9dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\09.Action\00.ActionBase">
+      <UniqueIdentifier>{b6cd19ed-604a-4eeb-b9c3-4e5df01ac04a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -664,6 +670,12 @@
     <ClInclude Include="..\Header\UIPlayer.h">
       <Filter>04.UI\06.Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIAction.h">
+      <Filter>04.UI\09.Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIActionBase.h">
+      <Filter>04.UI\09.Action\00.ActionBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -977,6 +989,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIPlayer.cpp">
       <Filter>04.UI\06.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIAction.cpp">
+      <Filter>04.UI\09.Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIActionBase.cpp">
+      <Filter>04.UI\09.Action\00.ActionBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

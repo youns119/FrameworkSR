@@ -19,6 +19,7 @@
 #include "../Header/UIScreen.h"
 #include "../Header/UIPhone.h"
 #include "../Header/UIPlayer.h"
+#include "../Header/UIAction.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -154,6 +155,12 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed()); //줄어들기전
 		}
 		else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true); //줄어들어있으니까 줄어들어라
+	}
+
+	if (Engine::Key_Press(DIK_F9))
+	{
+		if (Engine::Get_ListUI(UITYPE::UI_ACTION)->empty())
+			Engine::Activate_UI(UITYPE::UI_ACTION);
 	}
 
 	// 인벤토리 OnOff
@@ -429,6 +436,10 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	pUI = CUIPlayer::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
+	pUI = CUIAction::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 

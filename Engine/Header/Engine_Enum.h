@@ -22,12 +22,12 @@ namespace Engine
 	enum class UITYPE
 	{
 		UI_PHONE,
-		UI_RGB,
 		UI_SHOP,
 		UI_PLUS,
 		UI_MISTERBULLET,
 		UI_ROBOTO,
 		UI_PLAYER,
+		UI_ACTION,
 		UI_INVENTORY,
 		UI_NORMAL,
 		UI_FREECAM,

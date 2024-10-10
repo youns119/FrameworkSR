@@ -88,7 +88,7 @@ public:
 	void Rooting_Item(Engine::ITEM_TYPE _eItemType);
 
 	void Set_PlayerHP(_float _fHP) { m_fHP = _fHP; }
-	void Set_PlayerHP_Plus(_float _fHP) { m_fHP += _fHP; }
+	void Set_PlayerHP_Plus(_float _fHP) { m_fTimerHP += _fHP; }
 	void Set_Clear() { m_bIsClear = true; }
 
 public:
@@ -119,6 +119,9 @@ private:
 	void Skill_Timer();
 	void Moving_Rotate();
 	void Shaking_Camera(const _float& _fTimeDelta);
+
+	void ActionUI(_int _iActionType);
+
 public:
 	void OnCollision(CCollider& _pOther);
 	void OnCollisionEnter(CCollider& _pOther);
