@@ -27,6 +27,7 @@ CMapCreate::CMapCreate(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 CMapCreate::~CMapCreate()
 {
+	Free();
 }
 
 CMapCreate* CMapCreate::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -170,6 +171,7 @@ HRESULT CMapCreate::Ready_Scene()
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/83.png", L"Proto_WALL_83", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/84.png", L"Proto_WALL_84", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/85.png", L"Proto_WALL_85", TEXTUREID::TEX_NORMAL, 1);
+	Ready_Texture_WallInsert(L"../Bin/Resource/Texture/MMJ_Wall/86.png", L"Proto_WALL_86", TEXTUREID::TEX_NORMAL, 1);
 
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/0.png", L"Proto_Monster1", TEXTUREID::TEX_NORMAL, 1);
 	Ready_Texture_MonsterInsert(L"../Bin/Resource/Texture/MMJ_Monster/MapTool/1.png", L"Proto_Monster2", TEXTUREID::TEX_NORMAL, 1);
@@ -202,7 +204,10 @@ HRESULT CMapCreate::Ready_Scene()
 
 _int CMapCreate::Update_Scene(const _float& _fTimeDelta)
 {
-
+	if (Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+	{
+		m_vecPosition = TilePiking_OnTerrain(1);
+	}
 	if (Engine::Key_Hold(DIK_Z))
 	{		// 바닥 생성
 		if (Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_LB))
@@ -1131,7 +1136,11 @@ void CMapCreate::PickingTile_PosCheck(CLayer* _pLayer, const _tchar* _TileTag)
 
 void CMapCreate::MapSave2(CLayer* _pLayer)
 {
-	HANDLE		hFile = CreateFile(L"../Data/GameStage1.txt",	// 파일 이름까지 포함된 경로
+	 //HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
+	 //HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
+	 //HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
+     HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
+     //HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_WRITE,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성
@@ -1254,7 +1263,11 @@ void CMapCreate::MapLoad2(CLayer* _pLayer)
 	multimap<const _tchar*, CGameObject*>::iterator it = _pLayer->Get_LayerObjects()->begin();
 	_pLayer->Get_LayerObjects()->erase(it, _pLayer->Get_LayerObjects()->end());
 
-	HANDLE		hFile = CreateFile(L"../Data/GameStage1.txt",	// 파일 이름까지 포함된 경로
+	//HANDLE		hFile = CreateFile(L"../Data/1_TutorialStage.txt",	// 파일 이름까지 포함된 경로
+	//HANDLE		hFile = CreateFile(L"../Data/2_SlidingStage.txt",	// 파일 이름까지 포함된 경로
+	//HANDLE		hFile = CreateFile(L"../Data/3_FloorStage.txt",		// 파일 이름까지 포함된 경로
+	HANDLE		hFile = CreateFile(L"../Data/4_BuildingStage.txt",	// 파일 이름까지 포함된 경로
+	//HANDLE		hFile = CreateFile(L"../Data/5_RobotBossStage.txt",	// 파일 이름까지 포함된 경로
 		GENERIC_READ,		// 파일 접근 모드(GENERIC_WRITE : 쓰기, GENERIC_READ : 읽기)
 		NULL,				// 공유 방식(파일이 열려 있는 상태에서 다른 프로세스가 오픈 할 때 허가 할 것인가)
 		NULL,				// 보안 속성

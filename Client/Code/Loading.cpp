@@ -231,7 +231,7 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Floor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Floor/%d.png", TEXTUREID::TEX_NORMAL, 32)), E_FAIL);
 
 	// wallTexture
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Wall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Wall/%d.png", TEXTUREID::TEX_NORMAL, 86)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Wall", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Wall/%d.png", TEXTUREID::TEX_NORMAL, 87)), E_FAIL);
 
 	//Jonghan MonsterTile Texture
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Monster_Map", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/MapTool/%d.png", TEXTUREID::TEX_NORMAL, 8)), E_FAIL);
