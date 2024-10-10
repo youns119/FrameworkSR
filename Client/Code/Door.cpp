@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "../Header/Door.h"
 #include "../Header/Player.h"
+#include "../Header/UIScreen.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
 
@@ -236,6 +237,15 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
         Engine::Collision_With_Trigger(m_iTriggerNumber);
         Engine::Calculate_Trigger();
         Moving_Open();
+
+        if (m_bLastDoor)
+        {
+            if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
+            {
+                Engine::Activate_UI(UITYPE::UI_SCREEN);
+                static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
+            }
+        }
     }
 }
 

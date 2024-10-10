@@ -267,7 +267,7 @@ void CUIScreenVictory::Render_Unit()
 			m_pTextureCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_FLOOR]->Set_Texture();
 			m_pBufferCom->Render_Buffer();
 
-			if (m_bTextureRendered && m_fDelayTime >= 1.f)
+			if (m_fDelayTime >= 1.f)
 			{
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTextureTransformCom->Get_WorldMatrix());
 
@@ -278,7 +278,6 @@ void CUIScreenVictory::Render_Unit()
 			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, tPreFactor);
 		}
 
-		if (!m_bTextureRendered)
 		{
 			m_pGraphicDev->SetRenderTarget(0, m_pTextureSurface);
 			m_pGraphicDev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0, 0, 0, 0), 1.0f, 0);
@@ -485,8 +484,8 @@ void CUIScreenVictory::Update_FloorTime()
 {
 	_float iIntNumber = (int)m_fFloorTime;
 
-	m_iDigit[0] = (int)(m_fFloorTime / 60 / 60);
-	_int iNumber = (int)m_fFloorTime % 60 % 60;
+	m_iDigit[0] = (int)(m_fFloorTime / 600);
+	_int iNumber = (int)m_fFloorTime % 600;
 
 	m_iDigit[1] = iNumber / 60;
 	iNumber = iNumber % 60;
