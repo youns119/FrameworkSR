@@ -821,10 +821,22 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 	if (Engine::Get_Stop())
 		return;
 
-	if (dwMouseMove = Engine::Get_DIMouseMove(MOUSEMOVESTATE::DIMS_Y))
+	if (dwMouseMove = Engine::Get_DIMouseMove(MOUSEMOVESTATE::DIMS_Y)) // 위로 넘어가거나 밑으로 넘어가는 각도 제한
 	{
-		if (EXECUTION != m_Right_CurState)
-			m_pBody_TransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(dwMouseMove / 20.f));
+		_float fAngleX = m_pBody_TransformCom->Get_Angle()->x;
+		if (D3DXToRadian(80.f) > fAngleX && D3DXToRadian(-80.f) < fAngleX)
+		{
+			if (EXECUTION != m_Right_CurState)
+				m_pBody_TransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(dwMouseMove / 20.f));
+		}
+		else if (D3DXToRadian(80.f) <= fAngleX)
+		{
+			m_pBody_TransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(-0.45f));
+		}
+		else if (D3DXToRadian(-80.f) >= fAngleX)
+		{
+			m_pBody_TransformCom->Rotation(ROTATION::ROT_X, D3DXToRadian(0.45f));
+		}
 	}
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(MOUSEMOVESTATE::DIMS_X))
@@ -1248,7 +1260,7 @@ void CPlayer::SetAnimation()
 	//Right
 	//Jonghan
 	m_pAnimator[RIGHT]->CreateAnimation(L"Execution_Knife", m_pRight_TextureCom[PISTOL][EXECUTION], 2.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Player_Start", m_pRight_TextureCom[PISTOL][START], 3.5f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Player_Start", m_pRight_TextureCom[PISTOL][START], 4.5f);
 	//Beomseung
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Idle", m_pRight_TextureCom[PISTOL][IDLE], 8.f);
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Shoot", m_pRight_TextureCom[PISTOL][SHOOT], 13.f);

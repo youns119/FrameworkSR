@@ -239,6 +239,11 @@ inline HRESULT Add_MiniGun(CBullet* _pMiniGun)
 	return CBulletManager::GetInstance()->Add_MiniGun(_pMiniGun);
 }
 
+inline HRESULT Add_HumanoidHead(CBullet* _pHead)
+{
+	return CBulletManager::GetInstance()->Add_HumanoidHead(_pHead);
+}
+
 inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _bool& _bIsBoss, const _vec3& vCurvePos)
 {
 	return CBulletManager::GetInstance()->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, _eBulletType, _bIsBoss, vCurvePos);

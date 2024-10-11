@@ -190,6 +190,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\GuideTerrain.h" />
     <ClInclude Include="..\Header\Header_Effect.h" />
     <ClInclude Include="..\Header\Humanoid.h" />
+    <ClInclude Include="..\Header\HumanoidHead.h" />
     <ClInclude Include="..\Header\Item.h" />
     <ClInclude Include="..\Header\ItemTile.h" />
     <ClInclude Include="..\Header\Knife.h" />
@@ -309,6 +310,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\GameStage3.cpp" />
     <ClCompile Include="..\Code\GuideTerrain.cpp" />
     <ClCompile Include="..\Code\Humanoid.cpp" />
+    <ClCompile Include="..\Code\HumanoidHead.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\ItemTile.cpp" />
     <ClCompile Include="..\Code\Knife.cpp" />

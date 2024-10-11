@@ -187,21 +187,17 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 		return 0;
 	}
 
-	if (m_pPlayer->Get_Clear())
+	if (5 < dynamic_cast<CBoss_Humanoid*>(this->Get_GameObject(L"Layer_Monster", L"Boss_Humanoid"))->Get_BossKillCount())
 	{
-		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty() == false)
-		{
-			Engine::CScene* pStage = CBossStage::Create(m_pGraphicDev);
-			NULL_CHECK_RETURN(pStage, -1);
+		Engine::CScene* pStage = CBossStage::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pStage, -1);
 
-			FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
 
-			return 0;
-
-		}
 		return 0;
 
 	}
+
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);
 	Engine::Update_Bullet(_fTimeDelta); //Jonghan Change
 
@@ -367,6 +363,16 @@ HRESULT CBuildStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 		FAILED_CHECK_RETURN(Engine::Add_MiniGun(pMiniGun), E_FAIL);
 		FAILED_CHECK_RETURN(pLayer2->Add_GameObject(L"MiniGun", pMiniGun), E_FAIL);
 	}
+	for (_int i = 0; i < 8; ++i)
+	{
+		Engine::CBullet* pHead = nullptr;
+		pHead = CHumanoidHead::Create(m_pGraphicDev);
+
+		NULL_CHECK_RETURN(pHead, E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_HumanoidHead(pHead), E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HumanoidHead", pHead), E_FAIL);
+	}
+
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 	m_mapLayer.insert({ L"Layer_PlayerBullet" , pLayer2 });
 

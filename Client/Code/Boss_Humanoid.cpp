@@ -273,10 +273,40 @@ void CBoss_Humanoid::Damaged_ReAction()
 {
 	m_pAnimatorCom->Toggle_Pause();
 	m_bIsDamaged = true;
-	m_iBossKillCount++;
+
+
+	//Head 날리기
+	_vec3 vLook, vRight;
+	_vec3 vPos, vPlayerPos, vCurve;
+	_matrix mRotation, mWorld;
+
+	if (nullptr == m_pPlayerTransformCom)
+	{
+		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+		NULL_CHECK(m_pPlayerTransformCom, -1);
+	}
+	if (m_iBossKillCount < 6)
+	{
+		_int iTemp = rand() % 180;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+		m_pTransformCom->Get_WorldMatrix(&mWorld);
+		memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
+		memcpy(&vLook, &mWorld.m[2][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
+		vRight *= 30.f;
+		D3DXMatrixRotationAxis(&mRotation, &vLook, D3DXToRadian(_float(iTemp)));
+		D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
+
+		_vec3 vOffSet = { 0.f, 0.5f, 0.f };
+
+		Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos + vOffSet, 5.f, Engine::CBulletManager::BULLET_HEAD, true, vCurve + vPos);
+	}
+
+	//Head날리기 끝
 	if (5 <= m_iBossKillCount)
 	{
-		//Change Scene or Do Something to change Boss_Robot
 	}
 }
 
