@@ -114,6 +114,7 @@ inline HRESULT Add_Bullet(CBullet* _pBullet);
 inline HRESULT Add_Missile(CBullet* _pMissile);
 inline HRESULT Add_Laser(CBullet* _pLaser);
 inline HRESULT Add_MiniGun(CBullet* _pMiniGun);
+inline HRESULT Add_HumanoidHead(CBullet* _pHead);
 inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _bool& _bIsBoss = false, const _vec3& vCurvePos = { 0.f,0.f,0.f });
 inline _int Update_Bullet(const _float& _fTimeDelta);
 inline void LateUpdate_Bullet();

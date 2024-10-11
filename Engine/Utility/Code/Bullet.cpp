@@ -13,7 +13,9 @@ CBullet::CBullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const 
 	: CGameObject(_pGraphicDev)
 	, m_vDir(_vDir)
 	, m_fAttackDamage(_fAttackDamage)
+
 {
+	m_bIsRender = false;
 }
 
 CBullet::~CBullet()
@@ -41,18 +43,6 @@ void CBullet::Render_GameObject()
 
 }
 
-void CBullet::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, const _bool& _bIsBoss)
-{
-
-}
-
-void CBullet::Fire_Missile(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vEndPos, const _float& _fAttackDamage, const _vec3& vCurvePos)
-{
-}
-
-void CBullet::Fire_Laser(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vEndPos, const _float& _fAttackDamage)
-{
-}
 void CBullet::Free()
 {
 	CGameObject::Free();

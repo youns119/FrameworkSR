@@ -356,6 +356,9 @@
     <Filter Include="04.UI\06.Player\02.Emergency">
       <UniqueIdentifier>{0da4f3d7-84d0-46a4-8583-208d0dd33752}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\09.Ammo\HumanoindHead">
+      <UniqueIdentifier>{d8ebdf09-096b-4f3c-9b57-2ff754ab4406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -712,6 +715,9 @@
     <ClInclude Include="..\Header\UIEmergency.h">
       <Filter>04.UI\06.Player\02.Emergency</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\HumanoidHead.h">
+      <Filter>03.GameObject\09.Ammo\HumanoindHead</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1049,6 +1055,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIEmergency.cpp">
       <Filter>04.UI\06.Player\02.Emergency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HumanoidHead.cpp">
+      <Filter>03.GameObject\09.Ammo\HumanoindHead</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
