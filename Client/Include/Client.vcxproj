@@ -162,6 +162,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\DrinkMachine.h" />
     <ClInclude Include="..\Header\Drone.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
+    <ClInclude Include="..\Header\EffectBigExplosion.h" />
     <ClInclude Include="..\Header\EffectBloodJet.h" />
     <ClInclude Include="..\Header\EffectBloodSplater.h" />
     <ClInclude Include="..\Header\EffectBossRobotBooster.h" />
@@ -173,10 +174,12 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\EffectHeal.h" />
     <ClInclude Include="..\Header\EffectKatanaAttack.h" />
     <ClInclude Include="..\Header\EffectKick.h" />
+    <ClInclude Include="..\Header\EffectLaserTarget.h" />
     <ClInclude Include="..\Header\EffectMinigunShell.h" />
     <ClInclude Include="..\Header\EffectMuzzleFlash.h" />
     <ClInclude Include="..\Header\EffectPlayerBlood.h" />
     <ClInclude Include="..\Header\EffectPool.h" />
+    <ClInclude Include="..\Header\EffectShockWave.h" />
     <ClInclude Include="..\Header\EffectSmokeTrail.h" />
     <ClInclude Include="..\Header\EffectSniperMuzzleFlash.h" />
     <ClInclude Include="..\Header\FilterFundo.h" />
@@ -276,6 +279,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\DrinkMachine.cpp" />
     <ClCompile Include="..\Code\Drone.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
+    <ClCompile Include="..\Code\EffectBigExplosion.cpp" />
     <ClCompile Include="..\Code\EffectBloodJet.cpp" />
     <ClCompile Include="..\Code\EffectBloodSplater.cpp" />
     <ClCompile Include="..\Code\EffectBossRobotBooster.cpp" />
@@ -287,10 +291,12 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\EffectHeal.cpp" />
     <ClCompile Include="..\Code\EffectKatanaAttack.cpp" />
     <ClCompile Include="..\Code\EffectKick.cpp" />
+    <ClCompile Include="..\Code\EffectLaserTarget.cpp" />
     <ClCompile Include="..\Code\EffectMinigunShell.cpp" />
     <ClCompile Include="..\Code\EffectMuzzleFlash.cpp" />
     <ClCompile Include="..\Code\EffectPlayerBlood.cpp" />
     <ClCompile Include="..\Code\EffectPool.cpp" />
+    <ClCompile Include="..\Code\EffectShockWave.cpp" />
     <ClCompile Include="..\Code\EffectSmokeTrail.cpp" />
     <ClCompile Include="..\Code\EffectSniperMuzzleFlash.cpp" />
     <ClCompile Include="..\Code\FilterFundo.cpp" />

@@ -101,7 +101,7 @@ public:
 			struct tagSphere
 			{
 				tagSphere() { ZeroMemory(this, sizeof(tagSphere)); }
-				_vec3 vAxis;
+				_vec3 vStartPos;
 				_float fRadius;
 				_float fPhi;
 				_float fTheta;
@@ -111,6 +111,7 @@ public:
 			struct tagCircle
 			{
 				tagCircle() { ZeroMemory(this, sizeof(tagCircle)); }
+				_vec3 vStartPos;
 				_float fHeight;
 				_float fRadius;
 
