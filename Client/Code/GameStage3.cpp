@@ -157,12 +157,6 @@ _int CGameStage3::Update_Scene(const _float& _fTimeDelta)
 		else
 		{
 			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
-			Engine::CScene* pStage = CBuildStage::Create(m_pGraphicDev);
-			NULL_CHECK_RETURN(pStage, -1);
-
-			FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
-
-			return 0;
 		}
 	}
 

@@ -9,6 +9,7 @@
 
 CMiniGun::CMiniGun(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
+	, m_pColliderCom(nullptr)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
 	, m_pTransformCom(nullptr)

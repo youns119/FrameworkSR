@@ -64,6 +64,8 @@ HRESULT CBossStage::Ready_Scene()
 	//ChangeMapLoad();
 	Set_Collision();
 
+	if (false == Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty())
+		Engine::Deactivate_UI(UITYPE::UI_MISTERBULLET);
 
 	Engine::Calculate_Trigger();//10.06
 

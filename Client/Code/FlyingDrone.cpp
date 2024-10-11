@@ -212,7 +212,7 @@ void CFlyingDrone::Attack(const _float& _fTimeDelta)
 	else
 	{
 		Changing_State(CDrone::DRONE_WALK);
-		if (1.5f > fDistance)
+		if (1.f > fDistance)
 		{
 			D3DXVec3Normalize(&vKnockBack, &vDir);
 			vKnockBackForce = (vKnockBack * -20.f);

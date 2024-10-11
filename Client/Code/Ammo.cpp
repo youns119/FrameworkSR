@@ -10,6 +10,8 @@
 CAmmo::CAmmo(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
 	, m_pBufferCom(nullptr)
+	, m_pColliderCom(nullptr)
+	, m_pTextureCom_Boss(nullptr)
 	, m_pTextureCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_fTimer(0.f)
@@ -199,6 +201,15 @@ void CAmmo::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos,
 	m_vDir = _vDir;
 	m_fAttackDamage = _fAttackDamage;
 	m_bIsBoss = _bIsBoss;
+
+	if (m_bIsBoss) //Boss¿œ∂ß scale
+	{
+
+	}
+	else //Boss æ∆¥“∂ß scale
+	{
+
+	}
 }
 
 

@@ -38,6 +38,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	, m_bIsShaking(false)
 	, m_bIsClear(false)
 	, m_bIsBoss(false)
+	, m_bIsShop(false)
 	, m_fDamage(5.f)
 	, m_fShakingTimer(0.f)
 	, m_fShakingSize(0.f)
@@ -107,6 +108,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos, _bool _bBossS
 	, m_bIsShaking(false)
 	, m_bIsClear(false)
 	, m_bIsBoss(_bBossStage)
+	, m_bIsShop(false)
 	, m_fDamage(5.f)
 	, m_fShakingTimer(0.f)
 	, m_fShakingSize(0.f)
@@ -293,7 +295,26 @@ void CPlayer::LateUpdate_GameObject()
 void CPlayer::Render_GameObject()
 {
 	if (!Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
+	{
+		m_bIsShop = true;
 		return;
+	}
+	else if (m_bIsShop)
+	{
+		m_bIsShop = false;
+		m_pAnimator[RIGHT]->PlayAnimation(L"Player_Start", false);
+		m_Right_CurState = START;
+		m_bLeftHandUse = false;
+
+		m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
+		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
+		m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
+
+		m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
+		m_pLeg_TransformCom->Set_Scale(m_vDefaultSize[LEG]);
+		m_pLeg_TransformCom->Set_Pos(0, WINCY / -3.f, 2.f);
+		return;
+	}
 
 	//Beomseung Fix
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -1129,6 +1150,9 @@ void CPlayer::Speed_Terrain()
 	if (pGameObject != nullptr && dynamic_cast<CFloor*>(pGameObject)->Get_SlidSpeed() == true)// 슬라이드 타일인지 체크
 	{
 		m_bIsSlideOn = true;
+		m_bLegUse = true;
+		m_Leg_CurState = SLIDING;
+		m_pAnimator[LEG]->PlayAnimation(L"Leg_Sliding", false);
 	}
 	else
 	{
@@ -1181,7 +1205,7 @@ void CPlayer::SetAnimation()
 
 	//Left
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Idle", m_pLeft_TextureCom[LEFT_IDLE], 8.f);
-	m_pAnimator[LEFT]->CreateAnimation(L"Left_Change", m_pLeft_TextureCom[LEFT_CHANGE], 4.f);
+	m_pAnimator[LEFT]->CreateAnimation(L"Left_Change", m_pLeft_TextureCom[LEFT_CHANGE], 18.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Drink", m_pLeft_TextureCom[DRINK], 8.f);
 	m_pAnimator[LEFT]->CreateAnimation(L"Left_Execution", m_pLeft_TextureCom[LEFT_EXECUTION], 2.f);
 
@@ -1632,7 +1656,7 @@ void CPlayer::Animation_Pos()
 		if (m_flinear[LEFT] >= 1.f) {
 			m_flinear[LEFT] = 1.f;
 		}
-		m_flinear[LEFT] += 0.025f;
+		m_flinear[LEFT] += 0.045f;
 		vStart = { -1500.f, -150.f, 1.f };
 		vEnd = { 700.f, -450.f, 1.f };
 		D3DXVec3Lerp(&vPos, &vStart, &vEnd,  m_flinear[LEFT]);
@@ -1662,6 +1686,17 @@ void CPlayer::OnCollision(CCollider& _pOther)
 	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther.GetOwner());
 
 	if (m_Leg_CurState == KICK && m_pAnimator[LEG]->GetCurrAnim()->GetCurrFrame() <= 1.f)
+	{
+		_vec3 vLook;
+		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+		if (pMonster == nullptr)
+			return;
+		if (pMonster->Get_IsDead())
+			return;
+
+		pMonster->AddForce(16.5f, vLook, 5.f);
+	}
+	if (m_Leg_CurState == SLIDING)
 	{
 		_vec3 vLook;
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
@@ -1856,6 +1891,9 @@ void CPlayer::Calculate_TimerHP(const _float& _fTimeDelta)
 		m_fTimerHP -= _fTimeDelta;
 	else
 		m_fTimerHP = 0.f;
+
+	if (20.f < m_fTimerHP)
+		m_fTimerHP = 20.f;
 	//if u need, Use (_int)m_fTimerHP;
 }
 
