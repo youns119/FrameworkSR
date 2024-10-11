@@ -31,6 +31,11 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 {
 	//Jonghan Monster Change Start
 
+	if (m_bIsExecution)
+		Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
+	else if (m_bIsRender)
+		Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+
 	if (!m_bIsRender) //Trigger
 		return 0;
 
@@ -65,10 +70,6 @@ _int CMonster::Update_GameObject(const _float& _fTimeDelta)
 
 
 
-	if (m_bIsExecution)
-		Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
-	else
-		Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
 	if (!m_bIsDead)
 		Engine::Add_Collider(m_pColliderCom);

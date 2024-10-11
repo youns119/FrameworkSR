@@ -23,6 +23,9 @@ public :
 private:
 	HRESULT	Ready_Prototype();
 
+	//선환표 비디오재생
+	void PlayVideo(HWND _hWnd, const wstring& _strFilePath);
+
 private :
 	HRESULT Ready_Layer_Environment(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_GameLogic(const _tchar* _pLayerTag) { return S_OK; }
@@ -33,4 +36,6 @@ private :
 
 private :
 	CLoading* m_pLoading;
+	HWND m_hVideoHandle;
+	_bool m_bVideoPlaying;
 };

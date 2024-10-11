@@ -1422,6 +1422,9 @@ void CPlayer::Animation_End_Check()
 			m_Left_CurState = LEFT_IDLE;
 			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
 			m_bIsDrinking = false;
+			m_bIsShaking = true;
+			m_fShakingSize = 20.f;
+			m_fShakingTimer = 0.3f;
 
 			ActionUI(0);
 		}
@@ -1796,12 +1799,20 @@ void CPlayer::OnCollision(CCollider& _pOther)
 
 		pMonster->AddForce(16.5f, vLook, 5.f);
 	}
-	if (m_WeaponState == KATANA && m_Right_CurState == SHOOT && m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() <= 1.f)
+	if (m_WeaponState == KATANA && m_Right_CurState == SHOOT)
 	{
 		if (pMonster == nullptr) {
 			return;
 		}
-		pMonster->Damaged_By_Player(DAMAGED_STATE::DAMAGED_KATANA);
+		if (m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() <= 2.f) {
+		}
+		else if (7.f < m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() && 11.f > m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame()) {
+		}
+		else if (14.f < m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() && 18.f > m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame()) {
+		}
+		else
+			return;
+		pMonster->Damaged_By_Player(DAMAGED_STATE::DAMAGED_KATANA, m_fDamage);
 
 	}
 
@@ -1838,13 +1849,18 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 					{
 						m_Leg_CurState = KICK;
 						m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+						m_bIsShaking = true;
+						m_fShakingSize = 20.f;
+						m_fShakingTimer = 0.3f;
 					}
 				}
 				else
 				{
 					m_Leg_CurState = KICK;
 					m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
-
+					m_bIsShaking = true;
+					m_fShakingSize = 20.f;
+					m_fShakingTimer = 0.3f;
 					pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKick", L"Com_Effect");
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 				}
@@ -1918,6 +1934,9 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		{
 			m_Leg_CurState = KICK;
 			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+			m_bIsShaking = true;
+			m_fShakingSize = 20.f;
+			m_fShakingTimer = 0.3f;
 			dynamic_cast<CDrinkMachine*>(_pOther.GetOwner())->Break_Machine();
 		}
 	}

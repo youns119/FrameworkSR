@@ -248,7 +248,7 @@ HRESULT CGameStage2::Ready_Layer_Environment(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
 
-	pGameObject = CSkyBox::Create(m_pGraphicDev, 7);//5=도시배경,7=까만배경
+	pGameObject = CSkyBox::Create(m_pGraphicDev, 5);//5=도시배경,7=까만배경
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox", pGameObject), E_FAIL);
 
@@ -467,30 +467,6 @@ HRESULT CGameStage2::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	pGameObject = CEffectSniperMuzzleFlash::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectSniperMuzzleFlash", pGameObject), E_FAIL);
-
-	m_mapLayer.insert({ _pLayerTag , pLayer });
-
-	return S_OK;
-}
-
-HRESULT CGameStage2::Ready_Layer_Item(const _tchar* _pLayerTag)
-{
-	Engine::CLayer* pLayer = CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-
-	Engine::CGameObject* pGameObject = nullptr;
-
-	//pGameObject = CKnife::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Knife", pGameObject), E_FAIL);
-	//
-	//pGameObject = CAxe::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
-	/*pGameObject = CBoss_Robot::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);*/
-
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

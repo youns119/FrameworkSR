@@ -56,7 +56,6 @@ private:
 	HRESULT Ready_Layer_MonsterBullet(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_Effect(const _tchar* _pLayerTag);
-	HRESULT Ready_Layer_Item(const _tchar* _pLayerTag);
 
 private:
 	void Set_Collision();
