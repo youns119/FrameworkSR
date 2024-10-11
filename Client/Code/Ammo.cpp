@@ -204,11 +204,11 @@ void CAmmo::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos,
 
 	if (m_bIsBoss) //BossÀÏ¶§ scale
 	{
-
+		m_pTransformCom->Set_Scale(0.5f, 0.5f, 0.5f);
 	}
 	else //Boss ¾Æ´Ò¶§ scale
 	{
-
+		m_pTransformCom->Set_Scale(0.25f, 0.25f, 0.25f);
 	}
 }
 

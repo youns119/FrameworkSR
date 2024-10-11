@@ -672,10 +672,10 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_Right_CurState = CHANGE;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Change", false);
 		m_bLeftHandUse = false;
-		m_iCurAmmo = 10;
-		m_iMaxAmmo = 10;
-		m_fMaxAttackDelay = 1.5f;
-		m_fDamage = 7.f;
+		m_iCurAmmo = 30;
+		m_iMaxAmmo = 30;
+		m_fMaxAttackDelay = 1.0f;
+		m_fDamage = 2.f;
 	}
 
 	if (Engine::Key_Hold(DIK_3)) {
@@ -968,33 +968,109 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 
 	if (Engine::Mouse_Hold(MOUSEKEYSTATE::DIM_LB))
 	{
-		if (MINIGUN == m_WeaponState)
+		CComponent* pComponent(nullptr);
+		CEffectMuzzleFlash* pMuzzleFlash(nullptr);
+		_vec3 RayStart, RayDir, vPos;
+		_vec3 vMuzzlePos{};
+
+		switch (m_WeaponState)
 		{
+		case CPlayer::RIFLE:
+
+
+			if (0.f < m_fCurAttackDelay)
+				m_fCurAttackDelay -= _fTimeDelta;
+			if (0.65f > m_fCurAttackDelay)
+			{
+				m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
+				m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
+				// 규빈
+				m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
+				m_fCurAttackDelay = m_fMaxAttackDelay;
+				m_iCurAmmo--;
+				if (1 > m_iCurAmmo)
+				{
+					m_Right_CurState = IDLE;
+					break;
+				}
+				m_Right_CurState = SHOOT;
+				m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Shoot", false);
+				// 규빈
+				vMuzzlePos.x += -120.f;
+				vMuzzlePos.y += 100.f;
+				m_bIsShaking = true;
+				m_fShakingSize = 15.f;
+				m_fShakingTimer = 0.2f;
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
+				pMuzzleFlash = static_cast<CEffectMuzzleFlash*>(static_cast<CTransform*>(pComponent)->GetOwner());
+				pMuzzleFlash->Set_InitPos(vMuzzlePos);
+				static_cast<CEffect*>(pComponent)->Operate_Effect();
+				if (Engine::FireRayCast(RayStart + _vec3(0.f, 0.5f, 0.f), RayDir, vPos, m_fDamage))
+				{
+					CGameObject* pGameObject(nullptr);
+
+					pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodJet", L"Com_Transform");
+					//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
+					static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
+					static_cast<CTransform*>(pComponent)->Set_Scale(0.3f, 0.3f, 1.f);
+					pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+					static_cast<CEffectPool*>(pGameObject)->Operate();
+				}
+				else // 레이캐스팅 -> 몬스터가 검출되지 않은 경우에
+				{
+					// 규빈 - 벽 스파크
+					CGameObject* pGameObject(nullptr);
+					CComponent* pComponent(nullptr);
+					CWall* pWall(nullptr);
+					CWallTB* pWallTB(nullptr);
+
+					_float fDist = 0.f;
+					_vec3 vHitPosition;
+					D3DXVec3Normalize(&RayDir, &RayDir);
+					pGameObject = Engine::CCollisionManager::GetInstance()->RayCastWall(RayStart + _vec3(0.f, 0.5f, 0.f), RayDir, &vHitPosition);
+					//pGameObject->OnCollisionEnter(*m_pColliderCom);
+					pWall = dynamic_cast<CWall*>(pGameObject);
+					pWallTB = dynamic_cast<CWallTB*>(pGameObject);
+
+					_vec3 vNormal{ 0.f, 0.f, 0.f };
+					if (pWall)
+						vNormal = pWall->Get_TileDirection();
+					if (pWallTB)
+						vNormal = pWallTB->Get_TileDirection();
+
+					pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
+					static_cast<CTransform*>(pComponent)->Set_Pos(vHitPosition);
+					static_cast<CTransform*>(pComponent)->Set_Angle(-D3DX_PI * 0.5f * vNormal.z, 0.f, D3DX_PI * 0.5f * vNormal.x);
+					pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+					static_cast<CEffectPool*>(pGameObject)->Operate();
+
+				}
+			}
+
+			break;
+		case CPlayer::MINIGUN:
 			if (1 > m_iCurAmmo)
 			{
 				m_Right_CurState = IDLE;
 				m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Change", false);
 			}
-			_vec3 RayStart, RayDir, vPos;
 			m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
 			m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
 			// 규빈
-			_vec3 vMuzzlePos{};
 			m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
 			if (0.f < m_fCurAttackDelay)
 				m_fCurAttackDelay -= _fTimeDelta;
-			if (0.65f > m_fCurAttackDelay)
+			if (0.85f > m_fCurAttackDelay)
 			{
 
 				Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_MINIGUN);
 				m_fCurAttackDelay = m_fMaxAttackDelay;
 				m_iCurAmmo--;
 				m_bIsShaking = true;
-				m_fShakingSize = 20.f;
+				m_fShakingSize = 35.f;
 				m_fShakingTimer = 0.3f;
 
-				CComponent* pComponent(nullptr);
-				CEffectMuzzleFlash* pMuzzleFlash(nullptr);
+
 				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectMuzzleFlash", L"Com_Effect");
 				pMuzzleFlash = static_cast<CEffectMuzzleFlash*>(static_cast<CTransform*>(pComponent)->GetOwner());
 				vMuzzlePos.y += 100.f;
@@ -1008,7 +1084,9 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 				static_cast<CEffectPool*>(pGameObject)->Operate();
 
 			}
-
+			break;
+		default:
+			break;
 		}
 	}
 	if (Engine::Mouse_Release(MOUSEKEYSTATE::DIM_LB))
@@ -1397,16 +1475,16 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 
 			// 규빈: 형님 이렇게 대충 한번 해봤는데요... 이거 맞을까요?
-			if (m_flinear[LEFT] > 0.1f)
+			if (m_flinear[RIGHT] > 0.1f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
-			if (m_flinear[LEFT] > 0.7f)
+			if (m_flinear[RIGHT] > 0.7f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
@@ -1444,15 +1522,15 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 
-			if (m_flinear[LEFT] > 0.1f)
+			if (m_flinear[RIGHT] > 0.1f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
-			if (m_flinear[LEFT] > 0.7f)
+			if (m_flinear[RIGHT] > 0.7f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
@@ -1490,15 +1568,15 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 
-			if (m_flinear[LEFT] > 0.1f)
+			if (m_flinear[RIGHT] > 0.1f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
-			if (m_flinear[LEFT] > 0.7f)
+			if (m_flinear[RIGHT] > 0.7f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
@@ -1576,15 +1654,15 @@ void CPlayer::Animation_Pos()
 		case EXECUTION:
 			vStart = { 3000.f, 0.f, 1.f };
 			vEnd = { 270.f, -125.f, 1.f };
-			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[LEFT]);
+			D3DXVec3Lerp(&vPos, &vStart, &vEnd, m_flinear[RIGHT]);
 
-			if (m_flinear[LEFT] > 0.1f)
+			if (m_flinear[RIGHT] > 0.1f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectFirst");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
-			if (m_flinear[LEFT] > 0.7f)
+			if (m_flinear[RIGHT] > 0.7f)
 			{
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
@@ -1652,13 +1730,13 @@ void CPlayer::Animation_Pos()
 		m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT] * 0.5f);
 		break;
 	case LEFT_EXECUTION:
-		if (m_flinear[LEFT] >= 1.f) {
-			m_flinear[LEFT] = 1.f;
+		if (m_flinear[RIGHT] >= 1.f) {
+			m_flinear[RIGHT] = 1.f;
 		}
-		m_flinear[LEFT] += 0.045f;
-		vStart = { -1500.f, -150.f, 1.f };
-		vEnd = { 700.f, -450.f, 1.f };
-		D3DXVec3Lerp(&vPos, &vStart, &vEnd,  m_flinear[LEFT]);
+		m_flinear[RIGHT] += 0.045f;
+		vStart = { -1300.f, -150.f, 1.f };
+		vEnd = { 900.f, -450.f, 1.f };
+		D3DXVec3Lerp(&vPos, &vStart, &vEnd,  m_flinear[RIGHT]);
 		m_pLeft_TransformCom->Set_Pos(vPos);
 		break;
 	}
@@ -1735,7 +1813,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 					if (pMonster->Get_Execution(vLook, true)) //Hunmanoid
 					{
 						Rotate_Arms(true);
-						m_flinear[LEFT] = 0.f;
+						m_flinear[RIGHT] = 0.f;
 						m_bLegUse = false;
 						m_Left_CurState = LEFT_EXECUTION;
 						m_pAnimator[LEFT]->PlayAnimation(L"Left_Execution", false);
