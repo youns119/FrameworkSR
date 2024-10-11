@@ -165,7 +165,7 @@ HRESULT CUIReload::Add_Component()
 
 void CUIReload::Update_Color()
 {
-	_float fHue = fmod((Engine::Get_Elapsed() + 30.f) * 70.f, 360.0f);
+	_float fHue = fmod(Engine::Get_Elapsed() * 70.f, 360.0f);
 	_float fSaturation = 1.0f;
 	_float fValue = 1.0f;
 

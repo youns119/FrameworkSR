@@ -101,7 +101,6 @@ _int CUIItem::Update_Unit(const _float& _fTimeDelta)
 		else if (m_fTick > 0.5f) m_bTick = true;
 	}
 
-
 	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
@@ -226,9 +225,9 @@ HRESULT CUIItem::Add_Component()
 
 void CUIItem::Update_Color(CTexture* _pTexture)
 {
-	m_fColor += 30.f;
+	m_fColor += 80.f;
 
-	_float fHue = fmod((Engine::Get_Elapsed() + m_fColor) * 70.f, 360.0f);
+	_float fHue = fmod(Engine::Get_Elapsed() * m_fColor, 360.0f);
 	_float fSaturation = 1.0f;
 	_float fValue = 1.0f;
 

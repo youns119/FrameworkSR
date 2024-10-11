@@ -27,6 +27,7 @@ namespace Engine
 		UI_MISTERBULLET,
 		UI_ROBOTO,
 		UI_PLAYER,
+		UI_DOWN,
 		UI_ACTION,
 		UI_INVENTORY,
 		UI_NORMAL,

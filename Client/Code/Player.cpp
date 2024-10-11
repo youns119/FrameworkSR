@@ -14,6 +14,7 @@
 #include"../Header/WallTB.h"
 
 #include "../Header/UIAction.h"
+#include "../Header/UIDown.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	: Engine::CCharacter(_pGraphicDev)
@@ -1274,6 +1275,7 @@ void CPlayer::Animation_End_Check()
 			m_pLeft_TransformCom->Set_Scale(m_vDefaultSize[LEFT]);
 			m_pLeft_TransformCom->Set_Pos(m_vDefaultPos[LEFT]);
 			m_bLeftHandUse = true;
+			m_fTimerHP = 20.f;
 			return;
 		}
 		switch (m_WeaponState) {
@@ -1330,6 +1332,8 @@ void CPlayer::Animation_End_Check()
 			m_Left_CurState = LEFT_IDLE;
 			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
 			m_bIsDrinking = false;
+
+			ActionUI(0);
 		}
 		else {
 			m_Left_CurState = LEFT_IDLE;
@@ -1408,8 +1412,6 @@ void CPlayer::Animation_Pos()
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 
-				ActionUI(0);
-
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
 			}
@@ -1456,8 +1458,6 @@ void CPlayer::Animation_Pos()
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
 
-				ActionUI(0);
-
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
 			}
@@ -1503,8 +1503,6 @@ void CPlayer::Animation_Pos()
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
-
-				ActionUI(0);
 
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
@@ -1591,8 +1589,6 @@ void CPlayer::Animation_Pos()
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectExecutionBlood", L"Com_EffectSecond");
 				if (pComponent)
 					static_cast<CEffect*>(pComponent)->Operate_Effect();
-
-				ActionUI(0);
 
 				m_fHP = 99.f; //Full Hp Restore
 				m_fTimerHP = 20.f;
@@ -1964,6 +1960,12 @@ void CPlayer::Shaking_Camera(const _float& _fTimeDelta)
 
 void CPlayer::ActionUI(_int _iActionType)
 {
+	for (_int i = 0; i < 3; i++)
+	{
+		CUIDown* pUIDown = static_cast<CUIDown*>(Engine::Activate_UI(UITYPE::UI_DOWN));
+		pUIDown->Init(i);
+	}
+
 	if (Engine::Get_ListUI(UITYPE::UI_ACTION)->empty())
 	{
 		Engine::Activate_UI(UITYPE::UI_ACTION);

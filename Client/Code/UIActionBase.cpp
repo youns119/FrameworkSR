@@ -213,9 +213,9 @@ HRESULT CUIActionBase::Add_Component()
 
 void CUIActionBase::Update_Color(CTexture* _pTexture)
 {
-	m_fColor += 50.f;
+	m_fColor += 100.f;
 
-	_float fHue = fmod((Engine::Get_Elapsed() + m_fColor) * 70.f, 360.0f);
+	_float fHue = fmod(Engine::Get_Elapsed() * m_fColor, 360.0f);
 	_float fSaturation = 1.0f;
 	_float fValue = 1.0f;
 

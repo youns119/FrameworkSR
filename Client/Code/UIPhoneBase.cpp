@@ -131,7 +131,7 @@ void CUIPhoneBase::Render_Unit()
 {
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
 
-	if ((pPlayer->Get_LeftCurrState() >= 1 && pPlayer->Get_LeftCurrState() <= 4) ||
+	if ((pPlayer->Get_LeftCurrState() >= 1 && pPlayer->Get_LeftCurrState() <= 5) ||
 		!pPlayer->Get_LeftUse() ||
 		!Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
 		return;

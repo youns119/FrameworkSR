@@ -8,19 +8,17 @@ class CUIUnit;
 
 END
 
-class CUIReload;
-class CUIItem;
-class CUIEmergency;
+class CUIDownBase;
 
-class CUIPlayer
+class CUIDown
 	: public Engine::CUI
 {
 private:
-	explicit CUIPlayer(LPDIRECT3DDEVICE9 _pGraphicDev);
-	virtual ~CUIPlayer();
+	explicit CUIDown(LPDIRECT3DDEVICE9 _pGraphicDev);
+	virtual ~CUIDown();
 
 public:
-	static CUIPlayer* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CUIDown* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
 	HRESULT Ready_UI();
@@ -31,11 +29,17 @@ public:
 private:
 	HRESULT Add_Unit();
 
+public:
+	void Init(_int _iIndex);
+
+public:
+	virtual void Reset();
+
 private:
 	virtual void Free();
 
 private:
-	CUIReload* m_pUIReload;
-	CUIItem* m_pUIItem;
-	CUIEmergency* m_pUIEmergency;
+	CUIDownBase* m_pUIDownBase;
+
+	_float m_fDuration;
 };

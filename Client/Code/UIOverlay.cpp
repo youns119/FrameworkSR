@@ -86,11 +86,6 @@ void CUIOverlay::Render_Unit()
 		Update_Color(m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_MODERATOR]);
 		m_pBufferCom->Render_Buffer();
 
-		//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[4]->Get_WorldMatrix());
-		//m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_MODERATOR_A]->Change_Alpha(fAlpha4);
-		//m_pTextureCom[(_uint)UI_OVERLAY::OVERLAY_MODERATOR_A]->Set_Texture();
-		//m_pBufferCom->Render_Buffer();
-
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, tPreFactor);
 	}
 

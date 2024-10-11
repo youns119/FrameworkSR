@@ -296,15 +296,6 @@
     <Filter Include="04.UI\07.FreeCam\00.Indicator">
       <UniqueIdentifier>{60de8278-55f1-4212-b9b4-9e064baed9a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\10.Screen">
-      <UniqueIdentifier>{87aa78f3-3597-4884-a547-37d3c8643642}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\10.Screen\00.ScreenVictory">
-      <UniqueIdentifier>{1adaaf5c-265a-4474-9bb8-50b97366526c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\10.Screen\01.ScreenBase">
-      <UniqueIdentifier>{0254548e-c735-4742-90a8-7b3fccd582ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Scene\01.Stage\00.GameStage1">
       <UniqueIdentifier>{d54ee025-22f9-4278-9736-668d8eacc1e7}</UniqueIdentifier>
     </Filter>
@@ -346,6 +337,24 @@
     </Filter>
     <Filter Include="03.GameObject\06.Effect\19. LaserTarget">
       <UniqueIdentifier>{972f6c2f-4d07-448e-98c4-8c401f74da87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\99.Screen">
+      <UniqueIdentifier>{87aa78f3-3597-4884-a547-37d3c8643642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\99.Screen\00.ScreenVictory">
+      <UniqueIdentifier>{1adaaf5c-265a-4474-9bb8-50b97366526c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\99.Screen\01.ScreenBase">
+      <UniqueIdentifier>{0254548e-c735-4742-90a8-7b3fccd582ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\10.Down">
+      <UniqueIdentifier>{11109680-3fb6-423b-bf03-a33704446dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\10.Down\00.DownBase">
+      <UniqueIdentifier>{606b2d5e-6534-4125-af8b-4bf2c2af8567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\06.Player\02.Emergency">
+      <UniqueIdentifier>{0da4f3d7-84d0-46a4-8583-208d0dd33752}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -638,13 +647,13 @@
       <Filter>03.GameObject\06.Effect\15. EffectBloodJet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIScreen.h">
-      <Filter>04.UI\10.Screen</Filter>
+      <Filter>04.UI\99.Screen</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIScreenVictory.h">
-      <Filter>04.UI\10.Screen\00.ScreenVictory</Filter>
+      <Filter>04.UI\99.Screen\00.ScreenVictory</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIScreenBase.h">
-      <Filter>04.UI\10.Screen\01.ScreenBase</Filter>
+      <Filter>04.UI\99.Screen\01.ScreenBase</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Stage.h">
       <Filter>02.Scene\01.Stage\00.GameStage1</Filter>
@@ -693,6 +702,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\EffectBigExplosion.h">
       <Filter>03.GameObject\06.Effect\18. BigExplosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIDown.h">
+      <Filter>04.UI\10.Down</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIDownBase.h">
+      <Filter>04.UI\10.Down\00.DownBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIEmergency.h">
+      <Filter>04.UI\06.Player\02.Emergency</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -967,13 +985,13 @@
       <Filter>03.GameObject\06.Effect\15. EffectBloodJet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIScreen.cpp">
-      <Filter>04.UI\10.Screen</Filter>
+      <Filter>04.UI\99.Screen</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIScreenVictory.cpp">
-      <Filter>04.UI\10.Screen\00.ScreenVictory</Filter>
+      <Filter>04.UI\99.Screen\00.ScreenVictory</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIScreenBase.cpp">
-      <Filter>04.UI\10.Screen\01.ScreenBase</Filter>
+      <Filter>04.UI\99.Screen\01.ScreenBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Stage.cpp">
       <Filter>02.Scene\01.Stage\00.GameStage1</Filter>
@@ -1022,6 +1040,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectLaserTarget.cpp">
       <Filter>03.GameObject\06.Effect\19. LaserTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIDown.cpp">
+      <Filter>04.UI\10.Down</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIDownBase.cpp">
+      <Filter>04.UI\10.Down\00.DownBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIEmergency.cpp">
+      <Filter>04.UI\06.Player\02.Emergency</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

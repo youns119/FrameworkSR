@@ -2,6 +2,7 @@
 #include "..\Header\UIPlayer.h"
 #include "..\Header\UIReload.h"
 #include "..\Header\UIItem.h"
+#include "..\Header\UIEmergency.h"
 #include "..\Header\Player.h"
 #include "Export_Utility.h"
 
@@ -9,6 +10,7 @@ CUIPlayer::CUIPlayer(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
 	, m_pUIReload(nullptr)
 	, m_pUIItem(nullptr)
+	, m_pUIEmergency(nullptr)
 {
 	m_eUIType = UITYPE::UI_PLAYER;
 }
@@ -68,6 +70,10 @@ HRESULT CUIPlayer::Add_Unit()
 	m_pUIItem = CUIItem::Create(m_pGraphicDev);
 	m_pUIItem->Set_OwnerUI(this);
 	m_vecUIUnit.push_back(m_pUIItem);
+
+	m_pUIEmergency = CUIEmergency::Create(m_pGraphicDev);
+	m_pUIEmergency->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIEmergency);
 
 	return S_OK;
 }
