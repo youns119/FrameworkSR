@@ -129,7 +129,7 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(20.f);
 			break;
 		}
-		m_pColliderCom->SetActive(false);
+		//m_pColliderCom->SetActive(false);
 		m_bIsDead = true;
 	}
 }

@@ -59,7 +59,6 @@ HRESULT CBuildStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_MonsterBullet(L"Layer_MonsterBullet"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(L"Layer_Effect"), E_FAIL);
-	//FAILED_CHECK_RETURN(Ready_Layer_Item(L"Layer_Item"), E_FAIL); //맵 로드 문제로 Ready_Layer_GameLogic함수에서 아이템 레이어 생성해주고 있습니다.
 
 	//MapLoad(Find_Layer(L"Layer_GameLogic"));
 	//ChangeMapLoad();
@@ -472,30 +471,6 @@ HRESULT CBuildStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	pGameObject = CEffectSniperMuzzleFlash::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectSniperMuzzleFlash", pGameObject), E_FAIL);
-
-	m_mapLayer.insert({ _pLayerTag , pLayer });
-
-	return S_OK;
-}
-
-HRESULT CBuildStage::Ready_Layer_Item(const _tchar* _pLayerTag)
-{
-	Engine::CLayer* pLayer = CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-
-	Engine::CGameObject* pGameObject = nullptr;
-
-	//pGameObject = CKnife::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Knife", pGameObject), E_FAIL);
-	//
-	//pGameObject = CAxe::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Axe", pGameObject), E_FAIL);
-	//pGameObject = CBoss_Robot::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Robot", pGameObject), E_FAIL);
-
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

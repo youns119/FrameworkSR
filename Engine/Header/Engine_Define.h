@@ -25,6 +25,9 @@
 #include "FMOD/fmod.hpp"
 #pragma comment(lib, "fmod_vc.lib")
 
+#include <vfw.h>
+#pragma comment(lib, "vfw32.lib")
+
 #include <io.h>
 
 #define DIRECTINPUT_VERSION	0x0800
