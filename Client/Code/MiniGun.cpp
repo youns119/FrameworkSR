@@ -6,6 +6,7 @@
 #include "../Header/WallTB.h"
 #include "../Header/Wall.h"
 #include "../Header/EffectPool.h"
+#include "../Header/Monster.h"
 
 CMiniGun::CMiniGun(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
@@ -97,7 +98,7 @@ _int CMiniGun::Update_GameObject(const _float& _fTimeDelta)
 
 		_vec3 vPos;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 8.f), vPos.y + (m_vDir.y * _fTimeDelta * 8.f), vPos.z + (m_vDir.z * _fTimeDelta * 8.f)); //Consider Speed of Bullet
+		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 15.f), vPos.y + (m_vDir.y * _fTimeDelta * 15.f), vPos.z + (m_vDir.z * _fTimeDelta * 15.f)); //Consider Speed of Bullet
 		CGameObject::Compute_ViewZ(&vPos);
 		//Jonghan Monster Change End
 
@@ -196,6 +197,16 @@ CMiniGun* CMiniGun::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	}
 
 	return pMiniGun;
+}
+
+void CMiniGun::OnCollisionEnter(CCollider& _pOther)
+{
+	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther.GetOwner());
+	if (nullptr != pMonster)
+	{
+ 		pMonster->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT, m_fAttackDamage);
+		Set_IsRender(FALSE);
+	}
 }
 
 HRESULT CMiniGun::Add_Component()

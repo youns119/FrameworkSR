@@ -24,6 +24,9 @@ public:
 
     static CMiniGun* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
+public:
+    void OnCollisionEnter(CCollider& _pOther);
+
 private:
     HRESULT Add_Component();
 

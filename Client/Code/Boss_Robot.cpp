@@ -95,7 +95,7 @@ HRESULT CBoss_Robot::Ready_GameObject()
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
-	m_pColliderCom->SetRadius(1.f);
+	m_pColliderCom->SetRadius(3.f);
 	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
@@ -115,6 +115,7 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 	}
 
 	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
+	Engine::Add_Collider(m_pColliderCom);
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 	_matrix		matWorld, matView, matBill, matResult;
@@ -140,6 +141,8 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 	if (m_PatternDelayTime >= m_fAttackTime) {
 		Attack(_fTimeDelta);
 	}
+
+	m_pTransformCom->Update_Component(_fTimeDelta); //충돌처리용도로 넣어봄 Jonghan
 
 	m_pTransformCom->Set_WorldMatrix(&(matResult));
 	return iExit;
