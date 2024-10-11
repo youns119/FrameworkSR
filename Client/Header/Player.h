@@ -165,6 +165,7 @@ private:
 	_bool m_bIsShaking;
 	_bool m_bIsClear;
 	_bool m_bIsBoss;
+	_bool m_bIsShop;
 	_float m_fShakingTimer;
 	_float m_fShakingSize;
 	_float m_fTrapTime; // 산성 용암 다시 대미지 입기까지 시간

@@ -65,6 +65,9 @@ HRESULT CBuildStage::Ready_Scene()
 	//ChangeMapLoad();
 	Set_Collision();
 
+	if (Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty())
+		Engine::Activate_UI(UITYPE::UI_MISTERBULLET);
+
 
 	Engine::Calculate_Trigger();//10.06
 
@@ -126,9 +129,9 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 	}
 
 	// MisterBullet 보스 카운트 Up
-	if (!Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty() &&
-		Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
-		static_cast<CUIMisterBullet*>(Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->front())->Add_Count();
+	//if (!Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty() &&
+	//	Engine::Mouse_Press(MOUSEKEYSTATE::DIM_LB))
+	//	static_cast<CUIMisterBullet*>(Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->front())->Add_Count();
 
 	// MisterBullet 스나이퍼 HP 조절
 	if (!Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty())
@@ -510,6 +513,10 @@ HRESULT CBuildStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	pGameObject = CEffectPool::Create(m_pGraphicDev, (CGameObject * (*)(LPDIRECT3DDEVICE9))CEffectBloodJet::Create);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectPool_BloodJet", pGameObject), E_FAIL);
+
+	pGameObject = CEffectSniperMuzzleFlash::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectSniperMuzzleFlash", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
