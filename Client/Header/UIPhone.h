@@ -9,6 +9,7 @@ class CUIUnit;
 END
 
 class CUIPhoneBase;
+class CUIPhoneBoss;
 
 class CUIPhone
 	: public Engine::CUI
@@ -34,4 +35,5 @@ private:
 
 private:
 	CUIPhoneBase* m_pUIPhoneBase;
+	CUIPhoneBoss* m_pUIPhoneBoss;
 };

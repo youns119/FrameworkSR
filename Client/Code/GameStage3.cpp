@@ -139,14 +139,6 @@ _int CGameStage3::Update_Scene(const _float& _fTimeDelta)
 			m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() + 1.f);
 	}
 
-	// Roboto 보스 체력 UI OnOff
-	if (Engine::Key_Press(DIK_F7))
-	{
-		if (Engine::Get_ListUI(UITYPE::UI_ROBOTO)->empty())
-			Engine::Activate_UI(UITYPE::UI_ROBOTO);
-		else Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
-	}
-
 	if (Engine::Key_Press(DIK_F8))
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
@@ -374,51 +366,6 @@ HRESULT CGameStage3::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 
 HRESULT CGameStage3::Ready_Layer_UI(const _tchar* _pLayerTag)
 {
-	// 연욱
-	Engine::CUI* pUI = nullptr;
-
-	for (int i = 0; i < 20; i++)
-	{
-		pUI = CUIPlus::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pUI, E_FAIL);
-		FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-	}
-
-	pUI = CUINormal::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIInventory::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIShop::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIMisterBullet::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIRoboto::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIFreeCam::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIScreen::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIPhone::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	Engine::Activate_UI(UITYPE::UI_NORMAL);
-	Engine::Activate_UI(UITYPE::UI_PHONE);
-
 	return S_OK;
 }
 

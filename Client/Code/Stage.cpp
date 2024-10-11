@@ -140,14 +140,6 @@ _int CStage::Update_Scene(const _float& _fTimeDelta)
 			m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() + 1.f);
 	}
 
-	// Roboto 보스 체력 UI OnOff
-	if (Engine::Key_Press(DIK_F7))
-	{
-		if (Engine::Get_ListUI(UITYPE::UI_ROBOTO)->empty())
-			Engine::Activate_UI(UITYPE::UI_ROBOTO);
-		else Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
-	}
-
 	if (Engine::Key_Press(DIK_F8))
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
@@ -417,10 +409,6 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	pUI = CUIMisterBullet::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pUI, E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
-
-	pUI = CUIRoboto::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 

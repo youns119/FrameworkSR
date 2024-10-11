@@ -42,6 +42,12 @@ HRESULT CUIPlayer::Ready_UI()
 
 _int CUIPlayer::Update_UI(const _float& _fTimeDelta)
 {
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+
+	if (pPlayer->Get_BossStage())
+		m_pUIEmergency->Set_Render(false);
+	else m_pUIEmergency->Set_Render(true);
+
 	return Engine::CUI::Update_UI(_fTimeDelta);
 }
 

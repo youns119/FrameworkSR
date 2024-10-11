@@ -257,12 +257,6 @@
     <Filter Include="04.UI\05.Boss\01.Roboto\00.BossLifeBar">
       <UniqueIdentifier>{dba3a156-cae4-4ce8-bad1-eaba8bd92a52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\05.Boss\01.Roboto\01.BossBar">
-      <UniqueIdentifier>{364c12c9-e68d-46e2-aab2-0045ba8be47b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\05.Boss\01.Roboto\02.BossName">
-      <UniqueIdentifier>{58cc1bb8-9a31-4d63-9d90-d220b63c683e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.UI\05.Boss\02.SniperHP">
       <UniqueIdentifier>{187f472e-f973-40c3-a0dc-0b3e0e687365}</UniqueIdentifier>
     </Filter>
@@ -358,6 +352,9 @@
     </Filter>
     <Filter Include="03.GameObject\09.Ammo\HumanoindHead">
       <UniqueIdentifier>{d8ebdf09-096b-4f3c-9b57-2ff754ab4406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\08.Phone\01.PhoneBoss">
+      <UniqueIdentifier>{29da3f88-c735-434f-a4de-1d4f97fb9f53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -616,12 +613,6 @@
     <ClInclude Include="..\Header\UIBossLifeBar.h">
       <Filter>04.UI\05.Boss\01.Roboto\00.BossLifeBar</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UIBossBar.h">
-      <Filter>04.UI\05.Boss\01.Roboto\01.BossBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\UIBossName.h">
-      <Filter>04.UI\05.Boss\01.Roboto\02.BossName</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UIRoboto.h">
       <Filter>04.UI\05.Boss\01.Roboto</Filter>
     </ClInclude>
@@ -717,6 +708,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\HumanoidHead.h">
       <Filter>03.GameObject\09.Ammo\HumanoindHead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIPhoneBoss.h">
+      <Filter>04.UI\08.Phone\01.PhoneBoss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -957,12 +951,6 @@
     <ClCompile Include="..\Code\UIBossLifeBar.cpp">
       <Filter>04.UI\05.Boss\01.Roboto\00.BossLifeBar</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UIBossBar.cpp">
-      <Filter>04.UI\05.Boss\01.Roboto\01.BossBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\UIBossName.cpp">
-      <Filter>04.UI\05.Boss\01.Roboto\02.BossName</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UIRoboto.cpp">
       <Filter>04.UI\05.Boss\01.Roboto</Filter>
     </ClCompile>
@@ -1058,6 +1046,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\HumanoidHead.cpp">
       <Filter>03.GameObject\09.Ammo\HumanoindHead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPhoneBoss.cpp">
+      <Filter>04.UI\08.Phone\01.PhoneBoss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,7 @@ protected:
 protected:
 	LPDIRECT3DDEVICE9 m_pGraphicDev;
 
-	map<const _tchar*, CComponent*>	m_mapComponent[(_uint)COMPONENTID::ID_END];
+	multimap<const _tchar*, CComponent*>	m_mapComponent[(_uint)COMPONENTID::ID_END];
 
 	_bool m_bRender;
 	_float m_fViewZ;

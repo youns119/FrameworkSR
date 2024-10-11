@@ -1,10 +1,14 @@
 #include "pch.h"
 #include "..\Header\UIPhone.h"
 #include "..\Header\UIPhoneBase.h"
+#include "..\Header\UIPhoneBoss.h"
+#include "..\Header\Player.h"
+#include "Export_Utility.h"
 
 CUIPhone::CUIPhone(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
 	, m_pUIPhoneBase(nullptr)
+	, m_pUIPhoneBoss(nullptr)
 {
 	m_eUIType = UITYPE::UI_PHONE;
 }
@@ -36,6 +40,19 @@ HRESULT CUIPhone::Ready_UI()
 
 _int CUIPhone::Update_UI(const _float& _fTimeDelta)
 {
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+
+	if (pPlayer->Get_BossStage())
+	{
+		m_pUIPhoneBase->Set_Render(false);
+		m_pUIPhoneBoss->Set_Render(true);
+	}
+	else
+	{
+		m_pUIPhoneBase->Set_Render(true);
+		m_pUIPhoneBoss->Set_Render(false);
+	}
+
 	return Engine::CUI::Update_UI(_fTimeDelta);
 }
 
@@ -54,6 +71,10 @@ HRESULT CUIPhone::Add_Unit()
 	m_pUIPhoneBase = CUIPhoneBase::Create(m_pGraphicDev);
 	m_pUIPhoneBase->Set_OwnerUI(this);
 	m_vecUIUnit.push_back(m_pUIPhoneBase);
+
+	m_pUIPhoneBoss = CUIPhoneBoss::Create(m_pGraphicDev);
+	m_pUIPhoneBoss->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIPhoneBoss);
 
 	return S_OK;
 }

@@ -17,9 +17,10 @@ public:
 	enum class UI_LIFEBAR
 	{
 		LIFEBAR_LIFEBAR,
-		LIFEBAR_LIFEBAR_A,
 		LIFEBAR_LOGO,
 		LIFEBAR_BATTERY,
+		LIFEBAR_TEXT,
+		LIFEBAR_BAR,
 		LIFEBAR_END,
 	};
 
@@ -47,6 +48,17 @@ private:
 
 private:
 	Engine::CRcTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom[(_uint)UI_LIFEBAR::LIFEBAR_END];
-	Engine::CTransform* m_pTransformCom[(_uint)UI_LIFEBAR::LIFEBAR_END - 1];
+	Engine::CTexture* m_pTextureCom[(_uint)UI_LIFEBAR::LIFEBAR_END - 1];
+	Engine::CTexture* m_pBarTextureCom[18];
+	Engine::CTransform* m_pTransformCom[(_uint)UI_LIFEBAR::LIFEBAR_END];
+	Engine::CTransform* m_pBarTransformCom[18];
+	Engine::CTransform* m_pTransformTexture;
+
+	IDirect3DTexture9* m_pTexture;
+	IDirect3DSurface9* m_pTextureSurface;
+	IDirect3DSurface9* m_pPreSurface;
+
+	_int m_iCount;
+	_float m_fMaxHP;
+	_float m_fCurrHP;
 };

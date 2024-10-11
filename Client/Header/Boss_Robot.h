@@ -19,6 +19,7 @@ private:
     virtual ~CBoss_Robot();
 
 public:
+	_float Get_BossMaxHP() { return m_fBoss_MaxHP; }
 	_float Get_BossHP() { return m_fBoss_HP; }
 
 public:
@@ -52,6 +53,7 @@ private:
 
 	BOSS_ROBOTHEALTHSTATE m_eCurHealthState;
 
+	_float m_fBoss_MaxHP;
 	_float m_fBoss_HP;
 	_float m_fShield_HP;
 
