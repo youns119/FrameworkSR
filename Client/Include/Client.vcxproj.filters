@@ -338,6 +338,15 @@
     <Filter Include="04.UI\09.Action\00.ActionBase">
       <UniqueIdentifier>{b6cd19ed-604a-4eeb-b9c3-4e5df01ac04a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\17. ShockWave">
+      <UniqueIdentifier>{eecc1573-0c41-4e5d-95f2-c4d28239262a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\18. BigExplosion">
+      <UniqueIdentifier>{01dc75de-ee17-4f4d-b46e-fbdf3c5b799b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\06.Effect\19. LaserTarget">
+      <UniqueIdentifier>{972f6c2f-4d07-448e-98c4-8c401f74da87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -676,6 +685,15 @@
     <ClInclude Include="..\Header\UIActionBase.h">
       <Filter>04.UI\09.Action\00.ActionBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectShockWave.h">
+      <Filter>03.GameObject\06.Effect\17. ShockWave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectLaserTarget.h">
+      <Filter>03.GameObject\06.Effect\19. LaserTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectBigExplosion.h">
+      <Filter>03.GameObject\06.Effect\18. BigExplosion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -995,6 +1013,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIActionBase.cpp">
       <Filter>04.UI\09.Action\00.ActionBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectShockWave.cpp">
+      <Filter>03.GameObject\06.Effect\17. ShockWave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBigExplosion.cpp">
+      <Filter>03.GameObject\06.Effect\18. BigExplosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectLaserTarget.cpp">
+      <Filter>03.GameObject\06.Effect\19. LaserTarget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -745,29 +745,34 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	{
 		CComponent* pComponent(nullptr);
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
-		if (pComponent)
-			static_cast<CEffect*>(pComponent)->Operate_Effect();
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
+		//if (pComponent)
+		//	static_cast<CEffect*>(pComponent)->Operate_Effect();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Left", L"Com_Effect");
-		if (pComponent)
-			static_cast<CEffect*>(pComponent)->Operate_Effect();
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Left", L"Com_Effect");
+		//if (pComponent)
+		//	static_cast<CEffect*>(pComponent)->Operate_Effect();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKatanaAttack", L"Com_EffectThird");
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectLaserTarget", L"Com_Effect");
 		if (pComponent)
+		{
+			static_cast<CEffect*>(pComponent)->Set_CallerObject(this);
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
+		}
+
 	}
+
 	if (Engine::Key_Release(DIK_X))
 	{
 		CComponent* pComponent(nullptr);
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Left", L"Com_Effect");
-		if (pComponent)
-			static_cast<CEffect*>(pComponent)->Stop_Effect();
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Left", L"Com_Effect");
+		//if (pComponent)
+		//	static_cast<CEffect*>(pComponent)->Stop_Effect();
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
-		if (pComponent)
-			static_cast<CEffect*>(pComponent)->Stop_Effect();
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
+		//if (pComponent)
+		//	static_cast<CEffect*>(pComponent)->Stop_Effect();
 
 	}
 	if (Engine::Key_Press(DIK_Z))
@@ -779,16 +784,8 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &vPos);
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectFanSpread", L"Com_Effect");
-		static_cast<CEffect*>(pComponent)->Operate_Effect();
-
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_MinigunShell", L"Com_Transform");
-		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-		static_cast<CEffectPool*>(pGameObject)->Operate();
-
-		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectKatanaAttack", L"Com_EffectSecond");
-		if (pComponent)
-			static_cast<CEffect*>(pComponent)->Operate_Effect();
+		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectFanSpread", L"Com_Effect");
+		//static_cast<CEffect*>(pComponent)->Operate_Effect();
 
 	}
 	if (Engine::Key_Press(DIK_M))
@@ -806,6 +803,12 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		//pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 		//static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
 		//static_cast<CEffectPool*>(pGameObject)->Operate();
+
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBigExplosion", L"Com_Transform");
+		static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 8.f);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBigExplosion", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
+
 
 	}
 }

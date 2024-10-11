@@ -548,6 +548,18 @@ HRESULT CStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectSniperMuzzleFlash", pGameObject), E_FAIL);
 
+	pGameObject = CEffectShockWave::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectShockWave", pGameObject), E_FAIL);
+
+	pGameObject = CEffectBigExplosion::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBigExplosion", pGameObject), E_FAIL);
+
+	pGameObject = CEffectLaserTarget::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectLaserTarget", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;

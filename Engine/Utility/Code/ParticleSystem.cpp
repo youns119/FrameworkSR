@@ -434,7 +434,7 @@ void CParticleSystem::Reset_Particle(PARTICLEINFO* _pInfo)
 	case SHAPE::SPHERE:
 	{
 		// 구면 좌표계 활용해야함
-		_pInfo->vPosition = { 0.f, 0.f, 0.f };
+		_pInfo->vPosition = m_tParam.tInit.tSphere.vStartPos;
 		_float fRadius = Get_RandomFloat(0.f, m_tParam.tInit.tSphere.fRadius);
 		_float fTheta = Get_RandomFloat(0.f, m_tParam.tInit.tSphere.fTheta);
 		_float fPhi = Get_RandomFloat(0.f, 2 * D3DX_PI);
@@ -448,7 +448,7 @@ void CParticleSystem::Reset_Particle(PARTICLEINFO* _pInfo)
 		break;
 	}
 	case SHAPE::CIRCLE:
-		_pInfo->vPosition = { 0.f, 0.f, 0.f };
+		_pInfo->vPosition = m_tParam.tInit.tCircle.vStartPos;
 		_float fTheta = rand() % 1000 * 0.001 * D3DX_PI * 2;
 		_float fRadius = Get_RandomFloat(0.1f, m_tParam.tInit.tCircle.fRadius);
 

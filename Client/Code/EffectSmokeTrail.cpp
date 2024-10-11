@@ -160,11 +160,11 @@ void CEffectSmokeTrail::Set_ParticleParameter()
     tParticleParam.tInit.tHexahedron.vInitVelocity = { 0.f, 0.f, 0.f };
     tParticleParam.vVelocityNoise = { 0.3f, 0.3f, 0.3f };
     tParticleParam.vColor = _vec4(0.6f, .6f, .6f, 1.5f);
-    tParticleParam.vColorFade = _vec4(0.2f, 0.2f, 0.2f, 0.0f); // 255 대신 500 넣어서 투명해지기 전에 더 빨리 초록색이 되도록
+    tParticleParam.vColorFade = _vec4(0.2f, 0.2f, 0.2f, 0.0f);
     tParticleParam.iTotalCnt = 500;
 
     tParticleParam.fSize = 1.0f;
-    tParticleParam.fLifeTime = 1.f;
+    tParticleParam.fLifeTime = 1.5f;
 
     tParticleParam.fEmitRate = 75.f;
     tParticleParam.iEmitCnt = 3;
