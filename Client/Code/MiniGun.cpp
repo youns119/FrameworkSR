@@ -202,7 +202,7 @@ CMiniGun* CMiniGun::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 void CMiniGun::OnCollisionEnter(CCollider& _pOther)
 {
 	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther.GetOwner());
-	if (nullptr != pMonster)
+	if (nullptr != pMonster && !pMonster->Get_IsDead())
 	{
  		pMonster->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT, m_fAttackDamage);
 		Set_IsRender(FALSE);

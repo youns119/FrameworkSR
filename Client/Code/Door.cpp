@@ -107,7 +107,7 @@ _int CDoor::Update_GameObject(const _float& _fTimeDelta)
 
     if (m_bIsOpen)
     {
-        if (m_fMovingSpeed > 0.5f)
+        if (m_fMovingSpeed > 0.6f)
         {
             m_bIsOpen = false;
         }
@@ -234,7 +234,11 @@ void CDoor::Setup_Angle(_vec3 _vecRot)
 
 void CDoor::Moving_Open()
 {
-    m_bIsOpen = true;
+    if (!m_bIsOpen)
+    {
+        m_bIsOpen = true;
+        Engine::Play_Sound(L"Door_Open.wav", CHANNELID::SOUND_EFFECT, 0.85f);
+    }
 }
 
 void CDoor::OnCollisionEnter(CCollider& _pOther)
@@ -260,6 +264,8 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
                 static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
                 m_bLastDoor = false;
                 pPlayer->Set_Clear();
+                Engine::Stop_All();
+                Engine::Play_Sound(L"Stage_Clear.wav", CHANNELID::SOUND_EFFECT, 0.7f);
             }
         }
         else if (m_bFirstDoor)

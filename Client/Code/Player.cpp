@@ -302,8 +302,10 @@ void CPlayer::Render_GameObject()
 	}
 	else if (m_bIsShop)
 	{
+		Engine::Stop_All();
 		m_bIsShop = false;
 		m_pAnimator[RIGHT]->PlayAnimation(L"Player_Start", false);
+		Engine::Play_Sound(L"Fist_Combo.wav", CHANNELID::SOUND_PLAYER, 0.6f);
 		m_Right_CurState = START;
 		m_bLeftHandUse = false;
 
@@ -650,6 +652,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 				break;
 			}
 			m_iCurAmmo = m_iMaxAmmo;
+			Engine::Play_Sound(L"Reload.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		m_iCurAmmo = m_iMaxAmmo;
 	}
@@ -676,6 +679,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iMaxAmmo = 30;
 		m_fMaxAttackDelay = 1.0f;
 		m_fDamage = 2.f;
+		Engine::Play_Sound(L"Change_Rifle.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 	}
 
 	if (Engine::Key_Hold(DIK_3)) {
@@ -688,6 +692,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iMaxAmmo = 2;
 		m_fMaxAttackDelay = 1.5f;
 		m_fDamage = 8.f;
+		Engine::Play_Sound(L"Change_ShotGun.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 	}
 
 	if (Engine::Key_Hold(DIK_4)) {
@@ -870,6 +875,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		case PISTOL:
 			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Shoot", false);
+			Engine::Play_Sound(L"Shoot_Single.wav", CHANNELID::SOUND_PLAYER_GUN, 0.9f);
 
 			// ±Ôºó
 			vMuzzlePos.x -= 100.f;
@@ -879,7 +885,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		case RIFLE:
 			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Shoot", false);
-
+			Engine::Play_Sound(L"Player_Rifle.wav", CHANNELID::SOUND_PLAYER_GUN, 0.9f);
 			// ±Ôºó
 			vMuzzlePos.x += -120.f;
 			vMuzzlePos.y += 100.f;
@@ -887,6 +893,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		case SHOTGUN:
 			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Shoot", false);
+			Engine::Play_Sound(L"Player_ShotGun.wav", CHANNELID::SOUND_PLAYER_GUN, 0.9f);
 			m_bIsShaking = true;
 			m_fShakingSize = 20.f;
 			m_fShakingTimer = 0.5f;
@@ -897,6 +904,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		case SNIPER:
 			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Shoot", false);
+			Engine::Play_Sound(L"Player_Sniper.wav", CHANNELID::SOUND_PLAYER_GUN, 0.8f);
 			m_bIsShaking = true;
 			m_fShakingSize = 40.f;
 			m_fShakingTimer = 0.5f;
@@ -910,6 +918,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		case KATANA:
 			m_Right_CurState = SHOOT;
 			m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Shoot", false);
+			Engine::Play_Sound(L"Katana_Combo.wav", CHANNELID::SOUND_PLAYER_GUN, 1.0f);
 			break;
 		case MINIGUN:
 			m_Right_CurState = SHOOT;
@@ -1007,6 +1016,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 				}
 				m_Right_CurState = SHOOT;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Shoot", false);
+				Engine::Play_Sound(L"Player_Rifle.wav", CHANNELID::SOUND_PLAYER_GUN, 0.9f);
 				// ±Ôºó
 				vMuzzlePos.x += -120.f;
 				vMuzzlePos.y += 100.f;
@@ -1076,6 +1086,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			{
 
 				Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_MINIGUN);
+				Engine::Play_Sound(L"Shoot_MiniGun1.wav", CHANNELID::SOUND_PLAYER_GUN, 0.5f);
 				m_fCurAttackDelay = m_fMaxAttackDelay;
 				m_iCurAmmo--;
 				m_bIsShaking = true;
@@ -1123,6 +1134,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 		}
 		else
 		{
+			Engine::Play_Sound(L"Dash.wav", CHANNELID::SOUND_PLAYER_LEG, 0.7f);
 			m_bLegUse = true;
 			m_Leg_CurState = LEG_IDLE;
 			m_pAnimator[LEG]->PlayAnimation(L"Leg_Idle", false);
@@ -1225,6 +1237,8 @@ void CPlayer::Damage_Terrain()
 		{
 			m_fHP -= dynamic_cast<CFloor*>(pGameObject)->Get_Damage();
 			m_bIsTrapOn = true;
+			Engine::Play_Sound(L"Damaged_Floor.wav", CHANNELID::SOUND_EFFECT, 0.5f);
+
 			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
 			if (pComponent)
 				static_cast<CEffect*>(pComponent)->Operate_Effect();
@@ -1260,7 +1274,7 @@ void CPlayer::SetAnimation()
 	//Right
 	//Jonghan
 	m_pAnimator[RIGHT]->CreateAnimation(L"Execution_Knife", m_pRight_TextureCom[PISTOL][EXECUTION], 2.f);
-	m_pAnimator[RIGHT]->CreateAnimation(L"Player_Start", m_pRight_TextureCom[PISTOL][START], 4.5f);
+	m_pAnimator[RIGHT]->CreateAnimation(L"Player_Start", m_pRight_TextureCom[PISTOL][START], 3.5f);
 	//Beomseung
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Idle", m_pRight_TextureCom[PISTOL][IDLE], 8.f);
 	m_pAnimator[RIGHT]->CreateAnimation(L"Pistol_Shoot", m_pRight_TextureCom[PISTOL][SHOOT], 13.f);
@@ -1356,6 +1370,32 @@ void CPlayer::Animation_End_Check()
 	{
 		if (m_Right_CurState == START)
 		{
+
+			_int iTemp = rand() % 100;
+
+			if (m_bIsBoss)
+			{
+				if (0 == iTemp % 2)
+					Engine::Play_BGM(L"Boss_Sniper.wav", 0.6f);
+				else
+					Engine::Play_BGM(L"Boss_Robot.wav", 0.65f);
+			}
+			else if (!m_bIsShop)
+			{
+				if (0 == iTemp % 6)
+					Engine::Play_BGM(L"Stage_01.wav", 0.4f);
+				else if (1 == iTemp % 6)
+					Engine::Play_BGM(L"Stage_02.wav", 0.4f);
+				else if (2 == iTemp % 6)
+					Engine::Play_BGM(L"Stage_04.wav", 0.4f);
+				else if (3 == iTemp % 6)
+					Engine::Play_BGM(L"Stage_05.wav", 0.4f);
+				else if (4 == iTemp % 6)
+					Engine::Play_BGM(L"Stage_06.wav", 0.4f);
+				else
+					Engine::Play_BGM(L"Stage_08.wav", 0.4f);
+			}
+
 			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
 			m_pRight_TransformCom->Set_Scale(600.f, 600.f, 0.f);
 			m_pRight_TransformCom->Set_Pos(m_vDefaultPos[RIGHT]);
@@ -1419,6 +1459,7 @@ void CPlayer::Animation_End_Check()
 			m_bLegUse = true;
 			m_Leg_CurState = KICK;
 			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+			Engine::Play_Sound(L"Kick.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 			m_Left_CurState = LEFT_IDLE;
 			m_pAnimator[LEFT]->PlayAnimation(L"Left_Idle", true);
 			m_bIsDrinking = false;
@@ -1804,6 +1845,10 @@ void CPlayer::OnCollision(CCollider& _pOther)
 		if (pMonster == nullptr) {
 			return;
 		}
+		if (pMonster->Get_IsDead())
+		{
+			return;
+		}
 		if (m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() <= 2.f) {
 		}
 		else if (7.f < m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame() && 11.f > m_pAnimator[RIGHT]->GetCurrAnim()->GetCurrFrame()) {
@@ -1842,6 +1887,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 						m_pAnimator[LEFT]->PlayAnimation(L"Left_Execution", false);
 						m_Right_CurState = EXECUTION;
 						m_pAnimator[RIGHT]->PlayAnimation(L"Execution_Knife", false);
+						Engine::Play_Sound(L"Execution_Combo.wav", CHANNELID::SOUND_PLAYER_GUN, 0.7f);
 						m_fDashSpeed = 0.f;
 						m_bIsHasItem = false;
 					}
@@ -1849,6 +1895,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 					{
 						m_Leg_CurState = KICK;
 						m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+						Engine::Play_Sound(L"Kick.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 						m_bIsShaking = true;
 						m_fShakingSize = 20.f;
 						m_fShakingTimer = 0.3f;
@@ -1858,6 +1905,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 				{
 					m_Leg_CurState = KICK;
 					m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+					Engine::Play_Sound(L"Kick.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 					m_bIsShaking = true;
 					m_fShakingSize = 20.f;
 					m_fShakingTimer = 0.3f;
@@ -1893,6 +1941,8 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		m_fTimerHP -= 1.f;
 		m_fHP -= 1.f;
 
+		Engine::Play_Sound(L"Blood_02.wav", CHANNELID::SOUND_PLAYER_DAMAGED, 0.65f);
+
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
@@ -1913,7 +1963,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectGreenFlash", L"Com_Effect");
 		if (pComponent)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
-
+		Engine::Play_Sound(L"DrinkSoda.wav", CHANNELID::SOUND_PLAYER, 0.9f);
 		m_bIsDrinking = true;
 		m_Left_CurState = DRINK;
 		m_pAnimator[LEFT]->PlayAnimation(L"Left_Drink", false);
@@ -1934,6 +1984,8 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		{
 			m_Leg_CurState = KICK;
 			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
+			Engine::Play_Sound(L"DrinkMachine_Break.wav", CHANNELID::SOUND_PLAYER_LEG, 0.6f);
+			Engine::Play_Sound(L"Soda_Spawn.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 			m_bIsShaking = true;
 			m_fShakingSize = 20.f;
 			m_fShakingTimer = 0.3f;
