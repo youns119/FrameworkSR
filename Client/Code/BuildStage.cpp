@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "..\Header\BuildStage.h"
-#include "..\Header\BossStage.h"
+#include "..\Header\CutScene.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
 #include "..\Header\DynamicCamera.h"
@@ -171,7 +171,7 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 
 	if (Engine::Key_Press(DIK_RETURN))
 	{
-		Engine::CScene* pStage = CBossStage::Create(m_pGraphicDev);
+		Engine::CScene* pStage = CCutScene::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pStage, -1);
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
@@ -181,9 +181,8 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 
 	if (5 < dynamic_cast<CBoss_Humanoid*>(this->Get_GameObject(L"Layer_Monster", L"Boss_Humanoid"))->Get_BossKillCount())
 	{
-		PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/BuildingToBoss_Sound.wmv");
 
-		Engine::CScene* pStage = CBossStage::Create(m_pGraphicDev);
+		Engine::CScene* pStage = CCutScene::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pStage, -1);
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);

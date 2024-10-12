@@ -362,6 +362,9 @@
     <Filter Include="03.GameObject\11.Filter\01. Dying">
       <UniqueIdentifier>{55c6c87a-20c8-4311-b127-5b37cd1b3183}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\04.CutScene">
+      <UniqueIdentifier>{06455788-18b8-4a46-850d-b4847870c18b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -724,6 +727,9 @@
     <ClInclude Include="..\Header\FilterDying.h">
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CutScene.h">
+      <Filter>02.Scene\04.CutScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1067,6 +1073,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\FilterDying.cpp">
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CutScene.cpp">
+      <Filter>02.Scene\04.CutScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

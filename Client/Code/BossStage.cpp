@@ -48,6 +48,9 @@ HRESULT CBossStage::Ready_Scene()
 	CTrigger::GetInstance()->Free();
 	CDrinkSpawner::GetInstance()->Free();
 
+	//Engine::Activate_UI(UITYPE::UI_ROBOTO);
+	Engine::Activate_UI(UITYPE::UI_NORMAL);
+
 	// UIต้ รัมýวี
 	//{
 	//	Engine::Deactivate_UI(UITYPE::UI_PHONE);
