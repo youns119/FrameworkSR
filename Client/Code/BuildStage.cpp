@@ -367,6 +367,15 @@ HRESULT CBuildStage::Ready_Layer_MonsterBullet(const _tchar* _pLayerTag)
 		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HumanoidHead", pHead), E_FAIL);
 	}
 
+	for (_int i = 0; i < 1; ++i)
+	{
+		Engine::CBullet* pBoss_Humanoid_Laser = nullptr;
+		pBoss_Humanoid_Laser = CBoss_Humanoid_Laser::Create(m_pGraphicDev);
+
+		NULL_CHECK_RETURN(pBoss_Humanoid_Laser, E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_Boss_Humanoid_Laser(pBoss_Humanoid_Laser), E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_Humanoid_Laser", pBoss_Humanoid_Laser), E_FAIL);
+	}
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 	m_mapLayer.insert({ L"Layer_PlayerBullet" , pLayer2 });
 

@@ -12,6 +12,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fBoss_HP(100.f)
 	, m_fShield_HP(0.f)
 	, m_PatternDelayTime(0.f)
+	, m_fPatternAttackTime(5.f)
 	, m_fDelayTime(4.8f)
 	, m_fAttackTime(5.0f)
 	, m_fAngle(180.f)
@@ -37,6 +38,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_fBoss_HP(100.f)
 	, m_fShield_HP(0.f)
 	, m_PatternDelayTime(0.f)
+	, m_fPatternAttackTime(5.f)
 	, m_fDelayTime(4.8f)
 	, m_fAttackTime(5.0f)
 	, m_fAngle(180.f)
@@ -140,7 +142,7 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 		Move(_fTimeDelta);
 	}
 	m_PatternDelayTime += _fTimeDelta;
-	if (m_PatternDelayTime >= m_fAttackTime) {
+	if (m_PatternDelayTime >= m_fPatternAttackTime) {
 		Attack(_fTimeDelta);
 	}
 
@@ -346,6 +348,15 @@ void CBoss_Robot::Move(const _float& _fTimeDelta)
 
 
 	m_pTransformCom->Set_Pos(vUpRotate + BuildingPos);
+
+	CComponent* pComponent(nullptr);
+	pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
+	if (pComponent)
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
+
+	pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Left", L"Com_Effect");
+	if (pComponent)
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
 }
 
 void CBoss_Robot::Set_Animation()
@@ -416,14 +427,13 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 		}
 		break;
 	case BOSS_RAZER_PATTERN:
-		m_LaserTime += 1.f;
-		if (m_LaserTime >= 80.f) {
+		if (Engine::Get_Bullet_Linear(CBulletManager::BULLET_LASER) >= 0.9)
+		{
 			m_iCount = 0.f;
 			m_bPatternEnd = true;
 			m_eCurState = BOSS_IDLE_NORMAL;
 			m_PatternDelayTime = 0.f;
 			m_bMoveStop = false;
-			m_LaserTime = 0.f;
 			break;
 		}
 		m_bPatternEnd = false;

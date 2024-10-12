@@ -102,7 +102,7 @@ inline void CheckGroup(const _tchar* _pLeft, const _tchar* _pRight);
 inline void Clear_Collider();
 inline void Reset();
 //Beomseung
-inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
+inline _bool RayCast(_vec3 vRayStart, _vec3 vRayDir);
 inline _bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
 inline _float FloorRayCast(_vec3 vRayStart);
 inline _bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut, const _float& _fDamage);
@@ -115,7 +115,9 @@ inline HRESULT Add_Missile(CBullet* _pMissile);
 inline HRESULT Add_Laser(CBullet* _pLaser);
 inline HRESULT Add_MiniGun(CBullet* _pMiniGun);
 inline HRESULT Add_HumanoidHead(CBullet* _pHead);
+inline HRESULT Add_Boss_Humanoid_Laser(CBullet* _pBossLaser);
 inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _bool& _bIsBoss = false, const _vec3& vCurvePos = { 0.f,0.f,0.f });
+inline _float Get_Bullet_Linear(CBulletManager::BULLETTYPE _eBulletType);
 inline _int Update_Bullet(const _float& _fTimeDelta);
 inline void LateUpdate_Bullet();
 

@@ -44,7 +44,7 @@ public:
 	virtual void Render_GameObject();
 	virtual _bool Get_Execution(_vec3 _vLook, const _bool& _bIsDo) { return false; }
 	_int Get_BossKillCount() { return m_iBossKillCount; }
-
+	_bool Get_IsDamaged() { return m_bIsDamaged; }
 public:
 	virtual void Damaged_By_Player(const DAMAGED_STATE& _eDamagedState = DAMAGED_STATE::DAMAGED_BODYSHOT, const _float& _fAttackDamage = 0.f);
 

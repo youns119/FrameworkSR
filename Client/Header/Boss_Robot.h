@@ -59,6 +59,7 @@ private:
 
 	_float m_fDelayTime;
 	_float m_PatternDelayTime;
+	_float m_fPatternAttackTime;
 	_float m_fAttackTime;
 	_float fLinear;
 	_float m_fAngle;

@@ -46,7 +46,7 @@ public:
 	void Reset();
 
 public:
-	vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir);
+	_bool RayCast(_vec3 vRayStart, _vec3 vRayDir);
 	_bool RayCast2(_vec3 vRayStart, _vec3 vRayDir);
 	_bool FireRayCast(_vec3 _vRayStart, _vec3 _vRayDir, _vec3& _vOut, const _float& _fDamage);
 	_float FloorRayCast(_vec3 vRayStart);

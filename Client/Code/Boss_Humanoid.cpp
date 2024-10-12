@@ -5,7 +5,7 @@
 #include "../Header/UIMisterBullet.h"
 #include "../Header/EffectPool.h"
 #include "../Header/EffectMuzzleFlash.h"
-
+#include "../Header/Player.h"
 CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CMonster(_pGraphicDev)
 	, m_eCurState(CBoss_Humanoid::BOSS_SPAWN)
@@ -72,7 +72,7 @@ HRESULT CBoss_Humanoid::Ready_GameObject()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(2.f, 0.f, 5.f);
+	m_pTransformCom->Set_Pos(m_vStartPos.x, m_vStartPos.y + 1.f, m_vStartPos.z);
 
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
@@ -156,6 +156,7 @@ void CBoss_Humanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, cons
 	_vec3 vPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 	Changing_State(CBoss_Humanoid::BOSS_DAMAGED); // Need to Interaction with EffectManager(Body or Blodd Explosion)
+	m_pAnimatorCom->GetCurrAnim()->SetFinish(true);
 	CComponent* pComponent;
 	CGameObject* pGameObject(nullptr);
 	pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
@@ -362,6 +363,9 @@ void CBoss_Humanoid::State_Check()
 		_vec3 vPos;
 		switch (m_eCurState)
 		{
+		case CBoss_Humanoid::BOSS_IDLE:
+			m_pAnimatorCom->PlayAnimation(L"IDLE", true);
+			break;
 		case CBoss_Humanoid::BOSS_SPAWN:
 			vPos = Calculate_NextPos(10.f, 20.f, 10.f, 20.f); // We need to Know WindowsTexture X Y Z
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
@@ -405,7 +409,7 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 		else
 			m_fSpawnTimer -= _fTimeDelta;
 	}
-	else if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState)
+	else if (CBoss_Humanoid::BOSS_IDLE == m_eCurState)
 	{
 		_vec3 vPos, vPlayerPos, vDir;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
@@ -420,11 +424,30 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 
 		vDir = vPlayerPos - vPos;
 		D3DXVec3Normalize(&vDir, &vDir);
-		if (m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() >= 7) {
 
+		Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 100, CBulletManager::BULLET_BOSS_HUMANOID_LASER);
+		if (Engine::Get_Bullet_Linear(CBulletManager::BULLET_BOSS_HUMANOID_LASER) >= 0.9f)
+		{
+			m_eCurState = CBoss_Humanoid::BOSS_ATTACK;
+		}
+	}
+	else if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState) {
+		_vec3 vPos, vPlayerPos, vDir;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		if (nullptr == m_pPlayerTransformCom)
+		{
+			m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+				(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+			NULL_CHECK(m_pPlayerTransformCom, -1);
+		}
+		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+		vDir = vPlayerPos - vPos;
 
-			Engine::RayCast(vPos, vDir);
-
+		if (m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() >= 7 && m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() < 8) {
+			if (Engine::RayCast(vPos, vDir)) {
+				CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+				m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);
+			}
 		}
 	}
 }

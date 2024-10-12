@@ -62,6 +62,13 @@ HRESULT CBulletManager::Add_HumanoidHead(CBullet* _pHead)
 	return S_OK;
 }
 
+HRESULT CBulletManager::Add_Boss_Humanoid_Laser(CBullet* _pBossLaser)
+{
+	NULL_CHECK_RETURN(_pBossLaser, E_FAIL);
+	m_vecBoss_Humanoid_Laser.push_back(_pBossLaser);
+	return S_OK;
+}
+
 HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _bool& _bIsBoss, const _vec3& vCurvePos)
 {
 	_int iTemp(0);
@@ -151,9 +158,59 @@ HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3&
 			}
 		}
 		break;
+	case BULLET_BOSS_HUMANOID_LASER:
+		for (auto& iter : m_vecBoss_Humanoid_Laser)
+		{
+			if (!(iter->Get_IsRender()))
+			{
+				iter->Boss_Sniper_Laser(_pGraphicDev, _vStartPos, _vDir);
+				return S_OK;
+				break;
+			}
+		}
+		break;
     }
 	return E_FAIL;
 }
+
+
+_float CBulletManager::Get_Bullet_Linear(CBulletManager::BULLETTYPE _eBulletType)
+{
+	switch (_eBulletType) {
+	case BULLET_LASER:
+		for (auto& iter : m_vecLaser)
+		{
+			if ((iter->Get_IsRender()))
+			{
+				return iter->Get_Linear();
+				break;
+			}
+		}
+		break;
+	case BULLET_MISSILE:
+		for (auto& iter : m_vecMissile)
+		{
+			if ((iter->Get_IsRender()))
+			{
+				return iter->Get_Linear();
+				break;
+			}
+		}
+		break;
+	case BULLET_BOSS_HUMANOID_LASER:
+		for (auto& iter : m_vecBoss_Humanoid_Laser)
+		{
+			if ((iter->Get_IsRender()))
+			{
+				return iter->Get_Linear();
+				break;
+			}
+		}
+		break;
+	}
+	return 0.f;
+}
+
 
 _int CBulletManager::Update_Bullet(const _float& _fTimeDelta)
 {
@@ -166,6 +223,8 @@ _int CBulletManager::Update_Bullet(const _float& _fTimeDelta)
 	for (auto& iter : m_vecMiniGun)
 		iter->Update_GameObject(_fTimeDelta);
 	for (auto& iter : m_vecHead)
+		iter->Update_GameObject(_fTimeDelta);
+	for (auto& iter : m_vecBoss_Humanoid_Laser)
 		iter->Update_GameObject(_fTimeDelta);
 	return 0;
 }
@@ -182,6 +241,8 @@ void CBulletManager::LateUpdate_Bullet()
 		iter->LateUpdate_GameObject();
 	for (auto& iter : m_vecHead)
 		iter->LateUpdate_GameObject();
+	for (auto& iter : m_vecBoss_Humanoid_Laser)
+		iter->LateUpdate_GameObject();
 }
 
 
@@ -193,4 +254,5 @@ void CBulletManager::Free()
 	m_vecLaser.clear();
 	m_vecMiniGun.clear();
 	m_vecHead.clear();
+	m_vecBoss_Humanoid_Laser.clear();
 }
