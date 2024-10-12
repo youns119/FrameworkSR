@@ -352,7 +352,8 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
             }
             else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
 
-            if (!static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_BossStage())
+            if (!static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_BossStage() &&
+                Engine::Get_ListUI(UITYPE::UI_FLOOR)->empty())
                 Engine::Activate_UI(UITYPE::UI_FLOOR);
         }
     }
