@@ -29,7 +29,7 @@ HRESULT CMiniGun::Ready_GameObject()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
-	m_pColliderCom->SetRadius(0.05f);
+	m_pColliderCom->SetRadius(0.5f);
 	m_pColliderCom->SetShow(false);
 	m_pColliderCom->SetActive(false);
 	_matrix matWorld;
@@ -98,7 +98,7 @@ _int CMiniGun::Update_GameObject(const _float& _fTimeDelta)
 
 		_vec3 vPos;
 		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 15.f), vPos.y + (m_vDir.y * _fTimeDelta * 15.f), vPos.z + (m_vDir.z * _fTimeDelta * 15.f)); //Consider Speed of Bullet
+		m_pTransformCom->Set_Pos(vPos.x + (m_vDir.x * _fTimeDelta * 20.f), vPos.y + (m_vDir.y * _fTimeDelta * 20.f), vPos.z + (m_vDir.z * _fTimeDelta * 20.f)); //Consider Speed of Bullet
 		CGameObject::Compute_ViewZ(&vPos);
 		//Jonghan Monster Change End
 
