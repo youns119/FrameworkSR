@@ -2,6 +2,8 @@
 #include "../Header/Laser.h"
 #include "Export_Utility.h"
 
+#include "../Header/EffectLaserTarget.h"
+
 CLaser::CLaser(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
 	, m_pBufferCom(nullptr)
@@ -64,6 +66,37 @@ _int CLaser::Update_GameObject(const _float& _fTimeDelta)
 		vTarget = vPos;
 		//가상물체 바라보기.
 		m_pTransformPiVot->LookAtTarget(&vTarget);
+		
+
+		// 규빈
+		// vTarget = p2,  vMonsterPos = p1, p3 = (0, 0, 0);
+		//_vec3 vUp = { 0.f, 1.f, 0.f };
+		// laser vector = monster pos -> rotated vTarget
+		_vec3 vRotationAxis, vLaserDir;
+		_matrix matRotation;
+		vLaserDir = vTarget - vMonsterPos;
+		const _matrix* matPivotWorld = m_pTransformPiVot->Get_WorldMatrix();
+		memcpy(&vRotationAxis, &matPivotWorld->m[0], sizeof(_vec3));
+		D3DXMatrixRotationAxis(&matRotation, &vRotationAxis, D3DX_PI * 0.5f);
+		//D3DXMatrixRotationX(&matRotation, -D3DX_PI * 0.5f);
+		D3DXVec3TransformNormal(&vLaserDir, &vLaserDir, &matRotation);
+
+		if (vLaserDir.y != 0)
+		{
+			_float fU = (-1.f - vMonsterPos.y) / vLaserDir.y;
+			_vec3 vLaserEffectPos = vMonsterPos + fU * (vLaserDir);
+			vLaserEffectPos.y = 0.f;
+			CComponent* pComponent(nullptr);
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectLaserTarget", L"Com_Transform");
+			static_cast<CTransform*>(pComponent)->Set_Pos(vLaserEffectPos);
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectLaserTarget", L"Com_Effect");
+			if (!static_cast<CEffect*>(pComponent)->Get_Visibility())
+			{
+				static_cast<CEffect*>(pComponent)->Operate_Effect();
+				static_cast<CEffect*>(pComponent)->Set_CallerObject(this);
+			}
+		}
+
 		return iExit;
 	}
 	return 0;

@@ -48,31 +48,38 @@ void CEffectLaserTarget::LateUpdate_GameObject()
 	//CLaser* pTarget = static_cast<CLaser*>(m_pEffectCom->Get_CallerObject());
 	CGameObject* pTarget = m_pEffectCom->Get_CallerObject();
 
-	//if (!pTarget->Get_IsRender())
 	//	m_bIsMissing = TRUE;
 
-	if (m_fGraceTime >= 1.f)
+	//if (m_fGraceTime >= 1.f)
+	if (!pTarget->Get_IsRender())
 		m_pEffectCom->Stop_Effect();
 	else
 	{
-		// 레이저와 바닥의 교차점 위치를 얻어와야 함
-		//CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
-		CTransform* pTargetTransform = static_cast<CTransform*>(pTarget->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Body_Transform"));
+		_vec3 vTargetPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vTargetPos);
+		// 옥상 사각형 바닥안에 있는지 판단
+		if (vTargetPos.x > 8.f && vTargetPos.x < 31.f &&
+			vTargetPos.z > 34.f && vTargetPos.z < 53.f)
+		{
+			m_bIsInGround = TRUE;
 
-		_vec3 vTargetPos, vLook;
-		pTargetTransform->Get_Info(INFO::INFO_POS, &vTargetPos);
-		pTargetTransform->Get_Info(INFO::INFO_LOOK, &vLook);
+			Engine::CParticleSystem::PARAM tParticleCohesionPointParam = m_pParticleSystemComCohesionPoint->Get_Parameter();
+			tParticleCohesionPointParam.tInit.tSphere.vStartPos = vTargetPos;
+			m_pParticleSystemComCohesionPoint->Set_Parameter(tParticleCohesionPointParam);
 
-		Engine::CParticleSystem::PARAM tParticleCohesionPointParam = m_pParticleSystemComCohesionPoint->Get_Parameter();
-		tParticleCohesionPointParam.tInit.tSphere.vStartPos = vTargetPos + vLook * 3.f;
-		m_pParticleSystemComCohesionPoint->Set_Parameter(tParticleCohesionPointParam);
+			Engine::CParticleSystem::PARAM tParticleSparkParam = m_pParticleSystemComSpark->Get_Parameter();
+			tParticleSparkParam.tInit.tSphere.vStartPos = vTargetPos;
+			m_pParticleSystemComSpark->Set_Parameter(tParticleSparkParam);
 
-		Engine::CParticleSystem::PARAM tParticleSparkParam = m_pParticleSystemComSpark->Get_Parameter();
-		tParticleSparkParam.tInit.tSphere.vStartPos = vTargetPos + vLook * 3.f;
-		m_pParticleSystemComSpark->Set_Parameter(tParticleSparkParam);
+			Compute_ViewZ(&vTargetPos);
+			pTarget->Compute_ViewZ(&vTargetPos);
+			m_fViewZ -= 10.f;
 
-		Compute_ViewZ(&vTargetPos);
-		m_fViewZ += 10.f;
+		}
+		else
+		{
+			m_bIsInGround = FALSE;
+		}
 	}
 
 
@@ -83,6 +90,9 @@ void CEffectLaserTarget::LateUpdate_GameObject()
 void CEffectLaserTarget::Render_GameObject()
 {
 	if (!m_pEffectCom->Get_Visibility())
+		return;
+
+	if (!m_bIsInGround)
 		return;
 
 	m_pTextureCom->Set_Texture();
@@ -149,14 +159,15 @@ void CEffectLaserTarget::Set_ParticleCohesionPointParameter()
 {
 	CParticleSystem::PARAM tParam;
 	tParam.eShape = CParticleSystem::SHAPE::SPHERE;
-	tParam.tInit.tSphere.fRadius = 1.0f;
+	tParam.tInit.tSphere.fRadius = 3.0f;
 	tParam.tInit.tSphere.fTheta = D3DX_PI / 6.f;
 	//tParam.vVelocityNoise = _vec3(1.f, 1.f, 1.f);
 	tParam.vColor = _vec4(1.0f, 0.f, 0.0f, 1.f);
 	tParam.vColorFade = _vec4(0.995f, 0.454f, 0.454f, 0.f);
 	tParam.iTotalCnt = 200;
 
-	tParam.fSize = 0.5f;
+	//tParam.fSize = 0.5f;
+	tParam.fSize = 5.5f;
 	tParam.fLifeTime = 0.15f;
 
 	tParam.fEmitRate = 80.f;
@@ -178,13 +189,13 @@ void CEffectLaserTarget::Set_ParticleSparkParameter()
 {
 	CParticleSystem::PARAM tParam;
 	tParam.eShape = CParticleSystem::SHAPE::SPHERE;
-	tParam.tInit.tSphere.fRadius = 4.6f;
+	tParam.tInit.tSphere.fRadius = 10.6f;
 	tParam.tInit.tSphere.fTheta = D3DX_PI / 6.f;
 	tParam.vColor = _vec4(1.0f, 0.461f, 0.461f, 1.f);
 	tParam.vColorFade = _vec4(0.917f, 0.35f, 0.0f, 1.f);
 	tParam.iTotalCnt = 200;
 
-	tParam.fSize = 0.05f;
+	tParam.fSize = 0.5f;
 	tParam.fLifeTime = 0.45f;
 
 	tParam.fEmitRate = 80.;

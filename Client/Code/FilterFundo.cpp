@@ -18,7 +18,7 @@ CFilterFundo* CFilterFundo::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
     if (FAILED(pFilter->Ready_GameObject(), E_FAIL))
     {
         Safe_Release(pFilter);
-        MSG_BOX("Effect BossRobotBooster create Failed");
+        MSG_BOX("Filter Fundo create Failed");
         return nullptr;
     }
 

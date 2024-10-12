@@ -52,7 +52,7 @@ HRESULT CEffectPool::Ready_GameObject()
 	// 만드는 함수를 콜백으로 넘길까? 이렇ㄱ ㅔ해볼게
 	NULL_CHECK_RETURN(m_fnCreate, E_FAIL);
 
-	for (_uint i = 0; i < 10; ++i)
+	for (_uint i = 0; i < 15; ++i)
 		m_vecObject.push_back(m_fnCreate(m_pGraphicDev));
 
 	return S_OK;

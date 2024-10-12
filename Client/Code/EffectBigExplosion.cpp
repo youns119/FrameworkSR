@@ -2,6 +2,7 @@
 #include "../Header/EffectBigExplosion.h"
 #include "Export_Utility.h"
 #include "../Header/EffectShockWave.h"
+#include "../Header/EffectPool.h"
 
 CEffectBigExplosion::CEffectBigExplosion(LPDIRECT3DDEVICE9 _pGrphicDev)
 	: CGameObject(_pGrphicDev)
@@ -144,11 +145,12 @@ void CEffectBigExplosion::OnOperate(void* _pParam)
 	_vec3 vPos;
 	pThis->m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 
-	CGameObject* pShockWave = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectShockWave", L"Com_Effect")->GetOwner();
-	CComponent* pComponent = pShockWave->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform");
+	CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_ShockWave", L"Com_Transform");
+	CGameObject* pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
 	static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
-	pComponent = pShockWave->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Effect");
-	static_cast<CEffect*>(pComponent)->Operate_Effect();
+	//static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(pThis);
+	static_cast<CEffectPool*>(pGameObject)->Operate();
+
 
 
 	pThis->m_pEffectCom->Stop_Effect();
