@@ -29,6 +29,9 @@ public:
 private:
 	HRESULT Add_Unit();
 
+public:
+	void Boss_Hit();
+
 private:
 	virtual void Free();
 

@@ -47,7 +47,6 @@ HRESULT CBossStage::Ready_Scene()
 	CBulletManager::GetInstance()->Free();
 	CTrigger::GetInstance()->Free();
 	CDrinkSpawner::GetInstance()->Free();
-	Engine::Activate_UI(UITYPE::UI_NORMAL);
 
 	// UIµé ÃÑÁýÇÕ
 	//{
@@ -80,6 +79,10 @@ HRESULT CBossStage::Ready_Scene()
 
 	if (false == Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->empty())
 		Engine::Deactivate_UI(UITYPE::UI_MISTERBULLET);
+
+	Engine::Activate_UI(UITYPE::UI_NORMAL);
+	Engine::Activate_UI(UITYPE::UI_PHONE);
+	Engine::Activate_UI(UITYPE::UI_PLAYER);
 
 	Engine::Calculate_Trigger();//10.06
 

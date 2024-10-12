@@ -718,9 +718,11 @@
     <ClInclude Include="..\Header\FilterDying.h">
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UIComboBase.h" />
     <ClInclude Include="..\Header\CutScene.h">
       <Filter>02.Scene\04.CutScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIComboBase.h">
+      <Filter>04.UI\01.Combo\00.ComboBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1060,9 +1062,11 @@
     <ClCompile Include="..\Code\FilterDying.cpp">
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UIComboBase.cpp" />
     <ClCompile Include="..\Code\CutScene.cpp">
       <Filter>02.Scene\04.CutScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIComboBase.cpp">
+      <Filter>04.UI\01.Combo\00.ComboBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

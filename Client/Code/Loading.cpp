@@ -317,6 +317,9 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Count", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/MisterBullet/Boss_Kill_Count.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_Boss - Roboto
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_LifeBar", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BOSS_LIFEBAR.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_LifeBar_A", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BOSS_LIFEBAR_A.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_LifeBar_P", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BOSS_LIFEBAR_P.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_LifeBar_B", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BOSS_LIFEBAR_B.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Logo", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/LOGO.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Battery", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/BATTERY_LIFE.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBoss_Bar", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Boss/Roboto/Bar.png", TEXTUREID::TEX_NORMAL)), E_FAIL);

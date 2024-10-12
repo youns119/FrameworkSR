@@ -3,6 +3,8 @@
 #include "Export_System.h"
 #include "Export_Utility.h"
 
+#include "..\Header\UIRoboto.h"
+
 CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CMonster(_pGraphicDev)
 	, m_eCurState(CBoss_Robot::BOSS_TALKING)
@@ -181,6 +183,8 @@ void CBoss_Robot::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _
 		m_fShield_HP -= _fAttackDamage;
 	else
 		m_fBoss_HP -= _fAttackDamage;
+
+	static_cast<CUIRoboto*>(Engine::Get_ListUI(UITYPE::UI_ROBOTO)->front())->Boss_Hit();
 }
 
 

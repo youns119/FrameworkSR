@@ -59,6 +59,11 @@ HRESULT CUIRoboto::Add_Unit()
 	return S_OK;
 }
 
+void CUIRoboto::Boss_Hit()
+{
+	m_pUIBossLifeBar->Boss_Hit();
+}
+
 void CUIRoboto::Free()
 {
 	Engine::CUI::Free();
