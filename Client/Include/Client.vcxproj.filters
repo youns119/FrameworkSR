@@ -371,6 +371,9 @@
     <Filter Include="04.UI\99.Screen\00.ScreenBase">
       <UniqueIdentifier>{0254548e-c735-4742-90a8-7b3fccd582ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\08.Shield\Boss_Shield">
+      <UniqueIdentifier>{02c212a9-024e-4fd4-bf5a-ef251a043012}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -742,6 +745,9 @@
     <ClInclude Include="..\Header\UIVictoryBase.h">
       <Filter>04.UI\12.Victory\00.VictoryBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Boss_Shield.h">
+      <Filter>03.GameObject\08.Shield\Boss_Shield</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1094,6 +1100,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIVictoryBase.cpp">
       <Filter>04.UI\12.Victory\00.VictoryBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Shield.cpp">
+      <Filter>03.GameObject\08.Shield\Boss_Shield</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

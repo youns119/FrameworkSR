@@ -154,6 +154,7 @@ _uint CLoading::Loading_Stage()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MiniGunTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Bullet/MiniGun/%d.png", TEXTUREID::TEX_NORMAL, 4)), E_FAIL);
 	//Shield (Monster Shield)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShieldTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/BlackMan/Shield/Shield_fall/%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Boss_ShieldTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Robot/Shield/ShieldImg/Shield01.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	//Boss_Humanoid
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossHumanoidSpawnTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Humanoid/Spawn/%d.png", TEXTUREID::TEX_NORMAL, 17)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BossHumanoidAttackTex", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Monster/Boss/Humanoid/Attack/%d.png", TEXTUREID::TEX_NORMAL, 21)), E_FAIL);

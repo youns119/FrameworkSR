@@ -18,6 +18,7 @@
 #include "Boss_Humanoid.h"
 #include "Boss_Robot.h"
 #include "Shield.h"
+#include "Boss_Shield.h"
 #include "Knife.h"
 #include "Axe.h"
 #include "DrinkMachine.h"

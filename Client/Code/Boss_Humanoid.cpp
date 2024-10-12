@@ -443,7 +443,7 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 		vDir = vPlayerPos - vPos;
 
-		if (m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() >= 7 && m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() < 8) {
+		if (m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() >= 12 && m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() < 13) {
 			if (Engine::RayCast(vPos, vDir)) {
 				CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
 				m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);

@@ -7,6 +7,7 @@
 #include "../Header/Wall.h"
 #include "../Header/EffectPool.h"
 #include "../Header/Monster.h"
+#include "../Header/Boss_Shield.h"
 
 CMiniGun::CMiniGun(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CBullet(_pGraphicDev)
@@ -206,6 +207,11 @@ void CMiniGun::OnCollisionEnter(CCollider& _pOther)
 	{
  		pMonster->Damaged(DAMAGED_STATE::DAMAGED_BODYSHOT, m_fAttackDamage);
 		Set_IsRender(FALSE);
+	}
+	CBoss_Shield* pBoss_Shield = dynamic_cast<CBoss_Shield*>(_pOther.GetOwner());
+	if (nullptr != pBoss_Shield)
+	{
+		pBoss_Shield->Set_Shield_HP(pBoss_Shield->Get_Shield_HP() - 1.f);
 	}
 }
 

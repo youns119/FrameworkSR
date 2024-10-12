@@ -4,7 +4,7 @@
 #include "Export_Utility.h"
 
 #include "..\Header\UIRoboto.h"
-
+#include "../Header/Boss_Shield.h"
 CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CMonster(_pGraphicDev)
 	, m_eCurState(CBoss_Robot::BOSS_TALKING)
@@ -23,9 +23,15 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_iRandom(0)
 	, m_iCount(0)
 	, m_iCount2(0)
+	, m_iCount3(0)
 	, m_bMoveStop(false)
 	, fLinear(0.f)
 	, m_LaserTime(0.f)
+	, m_pShield(nullptr)
+	, m_bIsShield(false)
+	, m_bIsDead(false)
+	, m_iSpeed(1.f)
+	, m_iDeadCount(0)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -49,9 +55,15 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_iRandom(0)
 	, m_iCount(0)
 	, m_iCount2(0)
+	, m_iCount3(0)
 	, m_bMoveStop(false)
 	, fLinear(0.f)
 	, m_LaserTime(0.f)
+	, m_pShield(nullptr)
+	, m_bIsShield(false)
+	, m_bIsDead(false)
+	, m_iSpeed(1.f)
+	, m_iDeadCount(0)
 {
 	for (_int i = 0; i < CBoss_Robot::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -77,7 +89,7 @@ CBoss_Robot* CBoss_Robot::Create(LPDIRECT3DDEVICE9 _pGraphicDev)
 	return pGameObject;
 }
 
-CBoss_Robot* CBoss_Robot::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
+CBoss_Robot* CBoss_Robot::Create(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pShield, _vec3 _vecPos)
 {
 	CBoss_Robot* pGameObject = new CBoss_Robot(_pGraphicDev, _vecPos);
 
@@ -87,7 +99,7 @@ CBoss_Robot* CBoss_Robot::Create(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 		MSG_BOX("Boss_Robot Create Failed");
 		return nullptr;
 	}
-
+	pGameObject->Set_Shield(_pShield);
 	return pGameObject;
 }
 
@@ -119,7 +131,7 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
 			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
 	}
-
+	Boss_Dead(_fTimeDelta);
 	Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 	Engine::Add_Collider(m_pColliderCom);
 
@@ -140,11 +152,11 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	matResult = matBill * matWorld;
-	if (!m_bMoveStop) {
+	if (!m_bMoveStop && !m_bIsDead) {
 		Move(_fTimeDelta);
 	}
 	m_PatternDelayTime += _fTimeDelta;
-	if (m_PatternDelayTime >= m_fPatternAttackTime) {
+	if (m_PatternDelayTime >= m_fPatternAttackTime && !m_bIsDead) {
 		Attack(_fTimeDelta);
 	}
 
@@ -185,6 +197,12 @@ void CBoss_Robot::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _
 		m_fBoss_HP -= _fAttackDamage;
 
 	static_cast<CUIRoboto*>(Engine::Get_ListUI(UITYPE::UI_ROBOTO)->front())->Boss_Hit();
+	if (m_fBoss_HP <= 0.f)
+	{
+		m_eCurState = BOSS_DEAD;
+		m_bIsDead = true;
+	}
+
 }
 
 
@@ -317,6 +335,9 @@ void CBoss_Robot::State_Check()//This Function Calling in Monster.cpp -> LateUpd
 			case CBoss_Robot::BOSS_TALKING:
 				m_pAnimatorCom->PlayAnimation(L"Talking", false);
 				break;
+			case CBoss_Robot::BOSS_DEAD:
+				m_pAnimatorCom->PlayAnimation(L"Idle_Normal", false);
+				break;
 			}
 
 			m_ePreState = m_eCurState;
@@ -330,23 +351,35 @@ void CBoss_Robot::State_Check()//This Function Calling in Monster.cpp -> LateUpd
 void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Monster.cpp -> Update
 {
 	if (m_bPatternEnd) {
-		m_iRandom = rand() % 3;
+		m_iRandom = rand() % 4;
+		switch (m_iRandom)
+		{
+		case 0:
+			Engine::Play_Sound(L"RobotBoss0.wav", CHANNELID::SOUND_ENEMY, 0.5f);
+			break;
+		case 1:
+			Engine::Play_Sound(L"RobotBoss1.wav", CHANNELID::SOUND_ENEMY, 0.5f);
+			break;
+		case 2:
+			Engine::Play_Sound(L"RobotBoss2.wav", CHANNELID::SOUND_ENEMY, 0.5f);
+			break;
+		}
 	}
 	Pattern_Manager(_fTimeDelta, m_iRandom);
 }
 
 void CBoss_Robot::Move(const _float& _fTimeDelta)
 {
-	m_fAngle -= 30.f * _fTimeDelta;
-	_vec3 BuildingPos = { 20.f,30.f,45.f };
-	_vec3 BuildingUp = { 0.f,1.f,0.2f };
+	m_fAngle -= 25.f * _fTimeDelta;
+	_vec3 BuildingPos = { 20.f,25.f,45.f };
+	_vec3 BuildingUp = { 0.f,1.f,0.1f };
 	_vec3 vRight;
 	_matrix mRotate, mWorld;
 	_vec3 vUpRotate;
 	m_pTransformCom->Get_WorldMatrix(&mWorld);
 	memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
 	D3DXVec3Normalize(&vRight, &vRight);
-	vRight *= 60.f;
+	vRight *= 40.f;
 	D3DXMatrixRotationAxis(&mRotate, &BuildingUp, D3DXToRadian(m_fAngle));
 	D3DXVec3TransformNormal(&vUpRotate, &vRight, &mRotate);
 
@@ -474,12 +507,74 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			m_iCount2 += 1;
 		}
 		break;
+	case BOSS_SHIELD_PATTERN:
+	{
+		if (static_cast<CBoss_Shield*>(m_pShield)->Get_Shield_HP() <= 0)
+		{
+			m_bPatternEnd = true;
+			m_eCurState = BOSS_IDLE_NORMAL;
+			m_pColliderCom->SetActive(true);
+			m_pColliderCom->SetShow(true);
+			static_cast<CBoss_Shield*>(m_pShield)->Set_IsRender(false);
+			m_iCount3 = 0;
+			break;
+		}
+		else if (m_iCount3 == 0 && static_cast<CBoss_Shield*>(m_pShield)->Get_Shield_HP() > 0.f) {
+			m_bPatternEnd = false;
+			//m_bMoveStop = true;
+			m_eCurState = BOSS_SHIELD_NORMAL;
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			static_cast<CBoss_Shield*>(m_pShield)->Spawn_Shield(vPos);
+			m_pColliderCom->SetActive(false);
+			m_pColliderCom->SetShow(false);
+			m_iCount3 += 1;
+		}
+		break;
+	}
 	default:
 		break;
 	}
 
 }
+void CBoss_Robot::Boss_Dead(const _float& _fTimeDelta)
+{
+	_vec3 vPos, vPlayerPos;
+	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+	if (m_bIsDead)
+	{
+		_vec3 vUp;
+		m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
+		vUp *= -1;
+		m_pTransformCom->Move_Pos(&vUp, _fTimeDelta, m_iSpeed);
+		if (vPos.y <= -20.f && m_iDeadCount == 0)
+		{
 
+			m_iSpeed = 0.f;
+			_matrix mWorld, mRotation;
+			_vec3 vRight, vLook, vCurve;
+			_int iTemp = rand() % 180;
+			m_pTransformCom->Get_WorldMatrix(&mWorld);
+			memcpy(&vRight, &mWorld.m[0][0], sizeof(_vec3));
+			memcpy(&vLook, &mWorld.m[2][0], sizeof(_vec3));
+			D3DXVec3Normalize(&vRight, &vRight);
+			vRight *= 30.f;
+			D3DXMatrixRotationAxis(&mRotation, &vLook, D3DXToRadian(_float(iTemp)));
+			D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
+
+			_vec3 vOffSet = { 0.f, 0.5f, 0.f };
+
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos + vOffSet, 5.f, Engine::CBulletManager::BULLET_HEAD, true, vCurve + vPos);
+			m_iDeadCount += 1;
+		}
+
+		/*if (Engine::Get_Bullet_Linear(CBulletManager::BULLET_HEAD) >= 0.98)
+		{
+			CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+			m_pPlayer->Set_Right_State(CPlayer::BOSS_DEAD);
+		}*/
+	}
+}
 
 void CBoss_Robot::Free()
 {
