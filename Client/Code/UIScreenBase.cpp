@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "..\Header\UIScreenBase.h"
+#include "..\Header\UIShop.h"
+#include "..\Header\Player.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
 
@@ -11,7 +13,9 @@ CUIScreenBase::CUIScreenBase(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pWideSurface(nullptr)
 	, m_pPreSurface(nullptr)
 	, m_bReturn(false)
-	, m_iFloor(0)
+	, m_iFloor(1)
+	, m_iPhase(0)
+	, m_fBuzzTime(0.f)
 {
 	for (_uint i = 0; i < (_uint)UI_SCREENBASE::SCREENBASE_END - 2; i++)
 		m_pTextureCom[i] = nullptr;
@@ -61,6 +65,9 @@ HRESULT CUIScreenBase::Ready_Unit()
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Pos(WINCX * 0.5f - 110.f, -52.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Pos(WINCX * 0.5f - 123.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2]->Set_Pos(WINCX * 0.5f - 110.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3]->Set_Pos(WINCX * 0.5f - 120.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4]->Set_Pos(WINCX * 0.5f - 118.f, WINCY * 0.5f - 110.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 27.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 350.f, 0.f);
@@ -80,7 +87,10 @@ HRESULT CUIScreenBase::Ready_Unit()
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Scale(125.f, 125.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Scale(75.f, 75.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Scale(220.f, 220.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(80.f, 80.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(90.f, 90.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2]->Set_Scale(100.f, 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3]->Set_Scale(95.f, 95.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4]->Set_Scale(122.f, 122.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Scale(90.f, 190.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Scale(90.f, 90.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Scale(100.f, 100.f, 0.f);
@@ -170,6 +180,42 @@ _int CUIScreenBase::Update_Unit(const _float& _fTimeDelta)
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_WIDE]->Set_Scale(vScale.x, vScale.y, 0.f);
 	}
 
+	if (!Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
+	{
+		if (static_cast<CUIShop*>(Engine::Get_ListUI(UITYPE::UI_SHOP)->front())->Get_Finish())
+		{
+			m_fBuzzTime += _fTimeDelta;
+
+			if (m_iPhase == 0)
+			{
+				m_pAnimatorCom[2]->PlayAnimation(L"Static", true);
+
+				m_iPhase = 1;
+			}
+
+			if (m_iPhase == 1 && m_fBuzzTime >= 0.5f)
+			{
+				if (m_iFloor == 1)
+				{
+					m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace2", true);
+					m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair2", true);
+				}
+				else if (m_iFloor == 2)
+				{
+					m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace3", true);
+					m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair3", true);
+				}
+				else if (m_iFloor == 3)
+				{
+					m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace4", true);
+					m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair4", true);
+				}
+
+				m_iPhase = 2;
+			}
+		}
+	}
+
 	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
@@ -215,7 +261,7 @@ void CUIScreenBase::Render_Unit()
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Get_WorldMatrix());
 
-		m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Texture(m_iFloor);
+		m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Texture(m_iFloor - 1);
 		Update_Color();
 		m_pBufferCom->Render_Buffer();
 
@@ -235,10 +281,37 @@ void CUIScreenBase::Render_Unit()
 			m_pAnimatorCom[2]->Render_Animator();
 			m_pBufferCom->Render_Buffer();
 
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Get_WorldMatrix());
+			if (m_iPhase == 0)
+			{
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Get_WorldMatrix());
 
-			m_pAnimatorCom[3]->Render_Animator();
-			m_pBufferCom->Render_Buffer();
+				m_pAnimatorCom[3]->Render_Animator();
+				m_pBufferCom->Render_Buffer();
+			}
+			else if (m_iPhase == 2)
+			{
+				if (m_iFloor == 1)
+				{
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2]->Get_WorldMatrix());
+
+					m_pAnimatorCom[3]->Render_Animator();
+					m_pBufferCom->Render_Buffer();
+				}
+				else if (m_iFloor == 2)
+				{
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3]->Get_WorldMatrix());
+
+					m_pAnimatorCom[3]->Render_Animator();
+					m_pBufferCom->Render_Buffer();
+				}
+				else if (m_iFloor == 3)
+				{
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4]->Get_WorldMatrix());
+
+					m_pAnimatorCom[3]->Render_Animator();
+					m_pBufferCom->Render_Buffer();
+				}
+			}
 
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Get_WorldMatrix());
 
@@ -324,9 +397,33 @@ HRESULT CUIScreenBase::Add_Component()
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Face1", pComponent });
 
+		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE2] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Streamer_Face2"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Face2", pComponent });
+
+		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE3] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Streamer_Face3"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Face3", pComponent });
+
+		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE4] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Streamer_Face4"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Face4", pComponent });
+
 		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Streamer_Hair1"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Hair1", pComponent });
+
+		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Streamer_Hair2"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Hair2", pComponent });
+
+		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Streamer_Hair3"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Hair3", pComponent });
+
+		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Streamer_Hair4"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Streamer_Hair4", pComponent });
 
 		pComponent = m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_INT] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_INT"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -396,7 +493,19 @@ HRESULT CUIScreenBase::Add_Component()
 
 		pComponent = m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1] = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
-		m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Streamer_Hair", pComponent });
+		m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Streamer_Hair1", pComponent });
+
+		pComponent = m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2] = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Streamer_Hair2", pComponent });
+
+		pComponent = m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3] = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Streamer_Hair3", pComponent });
+
+		pComponent = m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4] = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Streamer_Hair4", pComponent });
 
 		pComponent = m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT] = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -469,12 +578,16 @@ void CUIScreenBase::Set_Animation()
 	m_pAnimatorCom[1]->PlayAnimation(L"Chat", true);
 
 	m_pAnimatorCom[2]->CreateAnimation(L"Static", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STATIC], 10.f);
-	m_pAnimatorCom[2]->PlayAnimation(L"Static", true);
-
 	m_pAnimatorCom[2]->CreateAnimation(L"StreamerFace1", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1], 8.f);
+	m_pAnimatorCom[2]->CreateAnimation(L"StreamerFace2", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE2], 8.f);
+	m_pAnimatorCom[2]->CreateAnimation(L"StreamerFace3", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE3], 8.f);
+	m_pAnimatorCom[2]->CreateAnimation(L"StreamerFace4", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE4], 8.f);
 	m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace1", true);
 
 	m_pAnimatorCom[3]->CreateAnimation(L"StreamerHair1", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1], 10.f);
+	m_pAnimatorCom[3]->CreateAnimation(L"StreamerHair2", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2], 10.f);
+	m_pAnimatorCom[3]->CreateAnimation(L"StreamerHair3", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3], 10.f);
+	m_pAnimatorCom[3]->CreateAnimation(L"StreamerHair4", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4], 10.f);
 	m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair1", true);
 
 	m_pAnimatorCom[4]->CreateAnimation(L"Int", m_pTextureCom[(_uint)UI_SCREENBASE::SCREENBASE_INT], 7.f);
@@ -494,6 +607,8 @@ void CUIScreenBase::Reset()
 {
 	m_bReturn = false;
 	m_iFloor = 0;
+	m_iPhase = 0;
+	m_fBuzzTime = 0.f;
 
 	for (_int i = 0; i < 2; ++i)
 		m_bBackToNormal[i] = false;
@@ -511,6 +626,9 @@ void CUIScreenBase::Reset()
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Pos(WINCX * 0.5f - 110.f, -52.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Pos(WINCX * 0.5f - 123.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2]->Set_Pos(WINCX * 0.5f - 110.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3]->Set_Pos(WINCX * 0.5f - 120.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4]->Set_Pos(WINCX * 0.5f - 118.f, WINCY * 0.5f - 110.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 27.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 350.f, 0.f);
@@ -530,13 +648,19 @@ void CUIScreenBase::Reset()
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Scale(125.f, 125.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Scale(75.f, 75.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Scale(220.f, 220.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(80.f, 80.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(90.f, 90.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR2]->Set_Scale(100.f, 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR3]->Set_Scale(95.f, 95.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR4]->Set_Scale(122.f, 122.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Scale(90.f, 190.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Scale(90.f, 90.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Scale(100.f, 100.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Scale(30.f, 30.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Scale(65.f, 65.f, 0.f);
 	}
+
+	m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace1", true);
+	m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair1", true);
 }
 
 void CUIScreenBase::Free()

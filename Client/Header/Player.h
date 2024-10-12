@@ -81,6 +81,7 @@ public:
 	_float Get_PlayerHP() { return m_fHP; }
 	_int Get_MaxAmmo() { return m_iMaxAmmo; }
 	_int Get_CurrAmmo() { return m_iCurAmmo; }
+	_int Get_CurrFloor() { return m_iCurrFloor; }
 	_bool Get_HasItem() { return m_bIsHasItem; }
 	_bool Get_Drinking() { return m_bIsDrinking; }
 	_bool Get_Clear() { return m_bIsClear; }
@@ -89,6 +90,7 @@ public:
 
 	void Set_PlayerHP(_float _fHP) { m_fHP = _fHP; }
 	void Set_PlayerHP_Plus(_float _fHP) { m_fTimerHP += _fHP; }
+	void Set_CurrFloor(_int _iFloor) { m_iCurrFloor = _iFloor; }
 	void Set_Clear() { m_bIsClear = true; }
 
 public:
@@ -182,6 +184,7 @@ private:
 	_float m_flinear[FINISH];
 	_int m_iMaxAmmo;
 	_int m_iCurAmmo;
+	_int m_iCurrFloor;
 	_vec3 m_vDefaultPos[FINISH];
 	_vec3 m_vDefaultSize[FINISH];
 	_vec3 m_vStartPos;

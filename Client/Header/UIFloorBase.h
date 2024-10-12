@@ -58,5 +58,9 @@ private:
 	Engine::CTransform* m_pTransformCom[(_uint)UI_FLOOR::FLOOR_END];
 
 	_int m_iFloor;
+	_float m_fScaleRatio[5];
+	_float m_fPosRatio[5];
+	_vec3 m_vDir[5];
+	_float m_fTimeDelay;
 	_float m_fAlpha;
 };

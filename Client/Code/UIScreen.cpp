@@ -89,6 +89,11 @@ void CUIScreen::Set_Return(_bool _bReturn)
 	m_pUIScreenBase->Set_Return(_bReturn);
 }
 
+void CUIScreen::Set_Floor(_int _iFloor)
+{
+	m_pUIScreenBase->Set_Floor(_iFloor);
+}
+
 void CUIScreen::Reset()
 {
 	Engine::Set_ChangeScreen(false);

@@ -31,6 +31,7 @@ private:
 
 public:
 	void Set_Return(_bool _bReturn);
+	void Set_Floor(_int _iFloor);
 
 public:
 	virtual void Reset();

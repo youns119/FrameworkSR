@@ -3,6 +3,7 @@
 #include "../Header/Player.h"
 #include "../Header/UIScreen.h"
 #include "../Header/UIVictory.h"
+#include "../Header/UIFloor.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
 
@@ -335,6 +336,8 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
                 Engine::Activate_UI(UITYPE::UI_VICTORY);
                 Engine::Activate_UI(UITYPE::UI_SCREEN);
                 static_cast<CUIVictory*>(Engine::Get_ListUI(UITYPE::UI_VICTORY)->front())->Set_FloorTime(Engine::Get_Elapsed());
+                static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->
+                    Set_Floor(static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_CurrFloor());
                 m_bLastDoor = false;
                 pPlayer->Set_Clear();
                 Engine::Stop_All();
@@ -348,6 +351,9 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
 
             }
             else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
+
+            if (!static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_BossStage())
+                Engine::Activate_UI(UITYPE::UI_FLOOR);
         }
     }
 }

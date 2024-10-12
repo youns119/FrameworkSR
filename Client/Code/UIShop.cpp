@@ -3,6 +3,7 @@
 #include "..\Header\UIShopBase.h"
 #include "..\Header\UIShopBuzz.h"
 #include "..\Header\UIShopCard.h"
+#include "..\Header\Player.h"
 #include "Export_Utility.h"
 
 CUIShop::CUIShop(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -47,6 +48,21 @@ HRESULT CUIShop::Ready_UI()
 
 _int CUIShop::Update_UI(const _float& _fTimeDelta)
 {
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+
+	if (pPlayer->Get_CurrFloor() == 3)
+	{
+		m_vecUIShopCard[0]->Set_Upgrade(CUIShopCard::UI_UPGRADE::UPGRADE_SLOWBULLET);
+		m_vecUIShopCard[1]->Set_Upgrade(CUIShopCard::UI_UPGRADE::UPGRADE_MASCULINITY);
+		m_vecUIShopCard[2]->Set_Upgrade(CUIShopCard::UI_UPGRADE::UPGRADE_BOSSKILLER);
+	}
+	else if (pPlayer->Get_BossStage())
+	{
+		m_vecUIShopCard[0]->Set_Upgrade(CUIShopCard::UI_UPGRADE::UPGRADE_MASCULINITY);
+		m_vecUIShopCard[1]->Set_Upgrade(CUIShopCard::UI_UPGRADE::UPGRADE_SNIPER);
+		m_vecUIShopCard[2]->Set_Upgrade(CUIShopCard::UI_UPGRADE::UPGRADE_SLOWBULLET);
+	}
+
 	if (m_fFinishTime >= 2.f)
 	{
 		m_bRender = false;

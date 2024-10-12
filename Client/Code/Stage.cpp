@@ -325,6 +325,7 @@ HRESULT CStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	m_pPlayer = static_cast<CPlayer*>(pGameObject);
+	m_pPlayer->Set_CurrFloor(1);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
@@ -440,6 +441,10 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	pUI = CUIVictory::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
+	pUI = CUIFloor::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
