@@ -4,6 +4,7 @@ CBullet::CBullet(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CGameObject(_pGraphicDev)
 	, m_vDir({0.f, 0.f, 0.f})
 	, m_fAttackDamage(0.f)
+	, m_fLinear(0.f)
 {
 	m_bIsRender = false;
 
@@ -13,6 +14,7 @@ CBullet::CBullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const 
 	: CGameObject(_pGraphicDev)
 	, m_vDir(_vDir)
 	, m_fAttackDamage(_fAttackDamage)
+	, m_fLinear(0.f)
 
 {
 	m_bIsRender = false;

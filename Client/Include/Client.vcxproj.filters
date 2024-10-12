@@ -356,6 +356,9 @@
     <Filter Include="04.UI\08.Phone\01.PhoneBoss">
       <UniqueIdentifier>{29da3f88-c735-434f-a4de-1d4f97fb9f53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\09.Ammo\Boss_Humanoid_Laser">
+      <UniqueIdentifier>{b487a5af-8142-44fc-93f8-3b011ac1235c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -712,6 +715,9 @@
     <ClInclude Include="..\Header\UIPhoneBoss.h">
       <Filter>04.UI\08.Phone\01.PhoneBoss</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Boss_Humanoid_Laser.h">
+      <Filter>03.GameObject\09.Ammo\Boss_Humanoid_Laser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1049,6 +1055,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIPhoneBoss.cpp">
       <Filter>04.UI\08.Phone\01.PhoneBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Humanoid_Laser.cpp">
+      <Filter>03.GameObject\09.Ammo\Boss_Humanoid_Laser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

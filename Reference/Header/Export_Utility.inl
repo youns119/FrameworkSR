@@ -194,7 +194,7 @@ inline void Reset()
 }
 
 //Beomseung
-inline vector<CGameObject*> RayCast(_vec3 vRayStart, _vec3 vRayDir)
+inline _bool RayCast(_vec3 vRayStart, _vec3 vRayDir)
 {
 	return CCollisionManager::GetInstance()->RayCast(vRayStart, vRayDir);
 }
@@ -244,9 +244,19 @@ inline HRESULT Add_HumanoidHead(CBullet* _pHead)
 	return CBulletManager::GetInstance()->Add_HumanoidHead(_pHead);
 }
 
+inline HRESULT Add_Boss_Humanoid_Laser(CBullet* _pBossLaser)
+{
+	return CBulletManager::GetInstance()->Add_Boss_Humanoid_Laser(_pBossLaser);
+}
+
 inline HRESULT Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3& _vStartPos, const _vec3& _vDir, const _float& _fAttackDamage, CBulletManager::BULLETTYPE _eBulletType, const _bool& _bIsBoss, const _vec3& vCurvePos)
 {
 	return CBulletManager::GetInstance()->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir, _fAttackDamage, _eBulletType, _bIsBoss, vCurvePos);
+}
+
+inline _float Get_Bullet_Linear(CBulletManager::BULLETTYPE _eBulletType)
+{
+	return CBulletManager::GetInstance()->Get_Bullet_Linear(_eBulletType);
 }
 
 inline _int Update_Bullet(const _float& _fTimeDelta)
