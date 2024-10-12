@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "../Header/EffectBigExplosion.h"
 #include "Export_Utility.h"
+#include "Export_System.h"
 #include "../Header/EffectShockWave.h"
 #include "../Header/EffectPool.h"
 
@@ -151,6 +152,10 @@ void CEffectBigExplosion::OnOperate(void* _pParam)
 	//static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(pThis);
 	static_cast<CEffectPool*>(pGameObject)->Operate();
 
+	std::wstring strSoundKey = L"explosions-00";
+	_uint iIdx = rand() % 4 + 1;
+	strSoundKey += std::to_wstring(iIdx) + L".wav";
+	Engine::Play_Sound(strSoundKey.c_str(), CHANNELID::SOUND_EFFECT, 1.0f);
 
 
 	pThis->m_pEffectCom->Stop_Effect();

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "../Header/EffectExplosion.h"
 #include "Export_Utility.h"
+#include "Export_System.h"
 
 CEffectExplosion::CEffectExplosion(LPDIRECT3DDEVICE9 _pGrphicDev)
 	: CGameObject(_pGrphicDev)
@@ -140,6 +141,12 @@ void CEffectExplosion::OnOperate(void* _pParam)
 	pThis->m_pParticleSystemFragment->Reset();
 
 	pThis->m_pEffectCom->Stop_Effect();
+
+	std::wstring strSoundKey = L"explosions-00";
+	_uint iIdx = rand() % 4 + 1;
+	strSoundKey += std::to_wstring(iIdx) + L".wav";
+	Engine::Play_Sound(strSoundKey.c_str(), CHANNELID::SOUND_EFFECT, 0.7f);
+
 }
 
 //void CEffectExplosion::Set_FlareParticle()

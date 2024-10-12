@@ -962,6 +962,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 				CComponent* pComponent(nullptr);
 				CWall* pWall(nullptr);
 				CWallTB* pWallTB(nullptr);
+				CFloor* pFloor(nullptr);
 
 				_float fDist = 0.f;
 				_vec3 vHitPosition;
@@ -970,12 +971,15 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 				//pGameObject->OnCollisionEnter(*m_pColliderCom);
 				pWall = dynamic_cast<CWall*>(pGameObject);
 				pWallTB = dynamic_cast<CWallTB*>(pGameObject);
+				pFloor = dynamic_cast<CFloor*>(pGameObject);
 
 				_vec3 vNormal{ 0.f, 0.f, 0.f };
 				if (pWall)
 					vNormal = pWall->Get_TileDirection();
-				if (pWallTB)
+				else if (pWallTB)
 					vNormal = pWallTB->Get_TileDirection();
+				else if (pFloor)
+					vNormal = { 0.f, 1.f, 0.f };
 
 				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
 				static_cast<CTransform*>(pComponent)->Set_Pos(vHitPosition);
@@ -1045,6 +1049,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 					CComponent* pComponent(nullptr);
 					CWall* pWall(nullptr);
 					CWallTB* pWallTB(nullptr);
+					CFloor* pFloor(nullptr);
 
 					_float fDist = 0.f;
 					_vec3 vHitPosition;
@@ -1053,12 +1058,15 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 					//pGameObject->OnCollisionEnter(*m_pColliderCom);
 					pWall = dynamic_cast<CWall*>(pGameObject);
 					pWallTB = dynamic_cast<CWallTB*>(pGameObject);
+					pFloor = dynamic_cast<CFloor*>(pGameObject);
 
 					_vec3 vNormal{ 0.f, 0.f, 0.f };
 					if (pWall)
 						vNormal = pWall->Get_TileDirection();
-					if (pWallTB)
+					else if (pWallTB)
 						vNormal = pWallTB->Get_TileDirection();
+					else if (pFloor)
+						vNormal = { 0.f, 1.f, 0.f };
 
 					pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Spark", L"Com_Transform");
 					static_cast<CTransform*>(pComponent)->Set_Pos(vHitPosition);

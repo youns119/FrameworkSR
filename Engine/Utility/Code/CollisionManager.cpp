@@ -568,13 +568,77 @@ CGameObject* CCollisionManager::RayCastWall(_vec3 vRayStart, _vec3 vRayDir, _vec
 
 	}
 
-	if (fMinDist > 1000.f)
-		return nullptr;
+
+	if (fMinDist < 1000.f)
+	{
+		*_vPos = fMinDist * vRayDir + vRayStart;
+		return pReturn;
+	}
 
 
-	*_vPos = fMinDist * vRayDir + vRayStart;
-	return pReturn;
+	// floor ray casting
+	auto pFloor = CManagement::GetInstance()->Get_CurrScene()->Get_LayerObjects(L"Layer_Floor");
+
+	for (auto pObject : *pFloor)
+	{
+		CGameObject* pGameObject = pObject.second;
+		//if (!pGameObject->Get_IsRender())
+		//	continue;
+
+		CComponent* pComponent = pGameObject->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer");
+		CFloorTex* pFloorTex = static_cast<CFloorTex*>(pComponent);
+
+		pComponent = pGameObject->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform");
+		CTransform* pFloorTransform = static_cast<CTransform*>(pComponent);
+		const _matrix* pFloorWorld = pFloorTransform->Get_WorldMatrix();
+
+		//_vec3 vVertex0 = *pFloorTex->Get_VertexPos(0);
+		//_vec3 vVertex1 = *pFloorTex->Get_VertexPos(1);
+		//_vec3 vVertex2 = *pFloorTex->Get_VertexPos(2);
+		//_vec3 vVertex3 = *pFloorTex->Get_VertexPos(3);
+
+		_vec3 vVertex0 = { 0.f, 0.f, 1.f };
+		_vec3 vVertex1 = { 1.f, 0.f, 1.f };
+		_vec3 vVertex2 = { 1.f, 0.f, 0.f };
+		_vec3 vVertex3 = { 0.f, 0.f, 0.f };
+
+
+
+		D3DXVec3TransformCoord(&vVertex0, &vVertex0, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex1, &vVertex1, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex2, &vVertex2, pFloorWorld);
+		D3DXVec3TransformCoord(&vVertex3, &vVertex3, pFloorWorld);
+
+		float fU, fV, fDist(0.f);
+		if (D3DXIntersectTri(&vVertex0, &vVertex1, &vVertex2, &vRayStart, &vRayDir, &fU, &fV, &fDist))
+		{
+			if (fDist < fMinDist)
+			{
+				fMinDist = fDist;
+				pReturn = pGameObject;
+			}
+		}
+
+		else if (D3DXIntersectTri(&vVertex0, &vVertex2, &vVertex3, &vRayStart, &vRayDir, &fU, &fV, &fDist))
+		{
+			if (fDist < fMinDist)
+			{
+				fMinDist = fDist;
+				pReturn = pGameObject;
+			}
+		}
+
+	}
+
+	if (fMinDist < 1000.f)
+	{
+		*_vPos = fMinDist * vRayDir + vRayStart;
+		return pReturn;
+	}
+
+	return nullptr;
 }
+
 
 void CCollisionManager::Free()
 {
