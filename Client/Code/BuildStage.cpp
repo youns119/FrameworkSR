@@ -181,7 +181,7 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 
 	if (5 < dynamic_cast<CBoss_Humanoid*>(this->Get_GameObject(L"Layer_Monster", L"Boss_Humanoid"))->Get_BossKillCount())
 	{
-		PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/BuildingToBoss.wmv");
+		PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/BuildingToBoss_Sound.wmv");
 
 		Engine::CScene* pStage = CBossStage::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pStage, -1);
