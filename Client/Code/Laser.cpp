@@ -68,19 +68,26 @@ _int CLaser::Update_GameObject(const _float& _fTimeDelta)
 		{
 			CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
 			m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);
+
+
+			// ±‘∫Û : «√∑π¿ÃæÓ ««∞› ¿Ã∆Â∆Æ
+			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+			static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+	
 		}
 		// ±‘∫Û
 		// vTarget = p2,  vMonsterPos = p1, p3 = (0, 0, 0);
 		//_vec3 vUp = { 0.f, 1.f, 0.f };
 		// laser vector = monster pos -> rotated vTarget
-		_vec3 vRotationAxis, vLaserDir;
+		_vec3 vLaserDir = vDir;
+
+		_vec3 vRotationAxis;
 		_matrix matRotation;
-		vLaserDir = vTarget - vMonsterPos;
-		const _matrix* matPivotWorld = m_pTransformPiVot->Get_WorldMatrix();
-		memcpy(&vRotationAxis, &matPivotWorld->m[0], sizeof(_vec3));
-		D3DXMatrixRotationAxis(&matRotation, &vRotationAxis, D3DX_PI * 0.5f);
-		//D3DXMatrixRotationX(&matRotation, -D3DX_PI * 0.5f);
-		D3DXVec3TransformNormal(&vLaserDir, &vLaserDir, &matRotation);
+		//const _matrix* matPivotWorld = m_pTransformPiVot->Get_WorldMatrix();
+		//memcpy(&vRotationAxis, &matPivotWorld->m[0], sizeof(_vec3));
+		//D3DXMatrixRotationAxis(&matRotation, &vRotationAxis, D3DX_PI * 0.5f);
+		////D3DXMatrixRotationX(&matRotation, -D3DX_PI * 0.5f);
+		//D3DXVec3TransformNormal(&vLaserDir, &vLaserDir, &matRotation);
 
 		if (vLaserDir.y != 0)
 		{
