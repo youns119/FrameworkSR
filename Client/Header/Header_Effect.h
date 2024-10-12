@@ -19,5 +19,6 @@
 #include "../Header/EffectShockWave.h"
 #include "../Header/EffectBigExplosion.h"
 #include "../Header/EffectLaserTarget.h"
+#include "../Header/FilterDying.h"
 
 #include "../Header/EffectPool.h"

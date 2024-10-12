@@ -477,6 +477,9 @@ HRESULT CBossStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectLaserTarget", pGameObject), E_FAIL);
 
+	pGameObject = CFilterDying::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"FilterDying", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

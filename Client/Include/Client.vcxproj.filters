@@ -359,6 +359,9 @@
     <Filter Include="03.GameObject\09.Ammo\Boss_Humanoid_Laser">
       <UniqueIdentifier>{b487a5af-8142-44fc-93f8-3b011ac1235c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\11.Filter\01. Dying">
+      <UniqueIdentifier>{55c6c87a-20c8-4311-b127-5b37cd1b3183}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -718,6 +721,9 @@
     <ClInclude Include="..\Header\Boss_Humanoid_Laser.h">
       <Filter>03.GameObject\09.Ammo\Boss_Humanoid_Laser</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\FilterDying.h">
+      <Filter>03.GameObject\11.Filter\01. Dying</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1058,6 +1064,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_Humanoid_Laser.cpp">
       <Filter>03.GameObject\09.Ammo\Boss_Humanoid_Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FilterDying.cpp">
+      <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
