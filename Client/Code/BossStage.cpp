@@ -418,15 +418,15 @@ HRESULT CBossStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectHeal", pGameObject), E_FAIL);
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
-	//pGameObject = CEffectBossRobotBooster::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBossRobotBooster_Right", pGameObject), E_FAIL);
-	//m_mapLayer.insert({ _pLayerTag , pLayer });
+	pGameObject = CEffectBossRobotBooster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBossRobotBooster_Right", pGameObject), E_FAIL);
+	m_mapLayer.insert({ _pLayerTag , pLayer });
 
-	//pGameObject = CEffectBossRobotBooster::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBossRobotBooster_Left", pGameObject), E_FAIL);
-	//m_mapLayer.insert({ _pLayerTag , pLayer });
+	pGameObject = CEffectBossRobotBooster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EffectBossRobotBooster_Left", pGameObject), E_FAIL);
+	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 
 	pGameObject = CFilterFundo::Create(m_pGraphicDev);
@@ -644,7 +644,11 @@ void CBossStage::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 			}
 			else if (iNumber == 8)
 			{
-				pGameObject = CBoss_Robot::Create(m_pGraphicDev, pPos);
+				Engine::CGameObject* pShield = nullptr;
+				pShield = CBoss_Shield::Create(m_pGraphicDev);
+				NULL_CHECK_RETURN(pShield, );
+				_pLayer2->Add_GameObject(L"Boss_Shield", pShield);
+				pGameObject = CBoss_Robot::Create(m_pGraphicDev, pShield, pPos);
 				NULL_CHECK_RETURN(pGameObject, );
 				_pLayer2->Add_GameObject(L"Boss_Robot", pGameObject);
 				Engine::Set_Trigger(iTrigger, pGameObject);//10.06

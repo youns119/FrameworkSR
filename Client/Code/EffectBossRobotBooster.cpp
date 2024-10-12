@@ -31,7 +31,7 @@ HRESULT CEffectBossRobotBooster::Ready_GameObject()
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
     m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
-    m_pTransformCom->Set_Scale(0.6f, 0.3f, 1.f);
+    m_pTransformCom->Set_Scale(2.f, 2.f, 1.f);
     m_pTransformCom->Rotation(ROTATION::ROT_Z, D3DX_PI * 0.5f);
 
     m_pEffectCom->Set_LifeTime(0.3f);
@@ -67,7 +67,7 @@ _int CEffectBossRobotBooster::Update_GameObject(const _float& _fTimeDelta)
     D3DXVec3Cross(&vTargetRight, &vUp, &vTargetLook);
     D3DXVec3Normalize(&vTargetRight, &vTargetRight);
 
-    _vec3 vOffset = { 0.4f, -0.9f, -0.4f };
+    _vec3 vOffset = { 2.f, -5.0f, -0.4f };
     _float fAngle = 12.285; // ㅋㅋ 모름 성공임 ! 라디안 값임 
 
     CGameObject* pGameObject = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Transform")->GetOwner();
@@ -100,7 +100,7 @@ void CEffectBossRobotBooster::LateUpdate_GameObject()
     m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
     Compute_ViewZ(&vPos);
     // 로봇 발보다 무족건 뒤에서 출력되어야 함
-    m_fViewZ += 1.5f;
+    m_fViewZ += 5.f;
 
     Engine::CGameObject::LateUpdate_GameObject();
 

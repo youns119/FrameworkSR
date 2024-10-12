@@ -65,7 +65,7 @@ public :
 	void Chase_Target(const _vec3* _pTargetPos, const _float& _fSpeed);
 	const _matrix* Compute_LookAtTarget(const _vec3* _pTargetPos);
 	const void LookAtTarget(const _vec3* _pTargetPos);
-
+	const void LookAtTarget2(const _vec3* _pTargetPos);
 public :
 	virtual CComponent* Clone();
 
