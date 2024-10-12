@@ -329,12 +329,6 @@
     <Filter Include="04.UI\99.Screen">
       <UniqueIdentifier>{87aa78f3-3597-4884-a547-37d3c8643642}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\99.Screen\00.ScreenVictory">
-      <UniqueIdentifier>{1adaaf5c-265a-4474-9bb8-50b97366526c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\99.Screen\01.ScreenBase">
-      <UniqueIdentifier>{0254548e-c735-4742-90a8-7b3fccd582ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.UI\10.Down">
       <UniqueIdentifier>{11109680-3fb6-423b-bf03-a33704446dd2}</UniqueIdentifier>
     </Filter>
@@ -361,6 +355,21 @@
     </Filter>
     <Filter Include="02.Scene\04.CutScene">
       <UniqueIdentifier>{6f47414a-bb43-469f-96e0-e0365cc58337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\11.Floor">
+      <UniqueIdentifier>{7bd59755-4517-4663-8797-7d50783f49e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\12.Victory">
+      <UniqueIdentifier>{eca88fe6-7781-471a-8098-b6f2b7658f7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\11.Floor\00.FloorBase">
+      <UniqueIdentifier>{72858c99-40a1-4904-9fdc-c25e65057531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\12.Victory\00.VictoryBase">
+      <UniqueIdentifier>{fa137eb8-22dd-4dea-8a40-0810364ee7a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\99.Screen\00.ScreenBase">
+      <UniqueIdentifier>{0254548e-c735-4742-90a8-7b3fccd582ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -643,11 +652,8 @@
     <ClInclude Include="..\Header\UIScreen.h">
       <Filter>04.UI\99.Screen</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UIScreenVictory.h">
-      <Filter>04.UI\99.Screen\00.ScreenVictory</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UIScreenBase.h">
-      <Filter>04.UI\99.Screen\01.ScreenBase</Filter>
+      <Filter>04.UI\99.Screen\00.ScreenBase</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Stage.h">
       <Filter>02.Scene\01.Stage\00.GameStage1</Filter>
@@ -723,6 +729,18 @@
     </ClInclude>
     <ClInclude Include="..\Header\UIComboBase.h">
       <Filter>04.UI\01.Combo\00.ComboBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIFloorBase.h">
+      <Filter>04.UI\11.Floor\00.FloorBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIFloor.h">
+      <Filter>04.UI\11.Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIVictory.h">
+      <Filter>04.UI\12.Victory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIVictoryBase.h">
+      <Filter>04.UI\12.Victory\00.VictoryBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -987,11 +1005,8 @@
     <ClCompile Include="..\Code\UIScreen.cpp">
       <Filter>04.UI\99.Screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UIScreenVictory.cpp">
-      <Filter>04.UI\99.Screen\00.ScreenVictory</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UIScreenBase.cpp">
-      <Filter>04.UI\99.Screen\01.ScreenBase</Filter>
+      <Filter>04.UI\99.Screen\00.ScreenBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Stage.cpp">
       <Filter>02.Scene\01.Stage\00.GameStage1</Filter>
@@ -1067,6 +1082,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIComboBase.cpp">
       <Filter>04.UI\01.Combo\00.ComboBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIFloorBase.cpp">
+      <Filter>04.UI\11.Floor\00.FloorBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIFloor.cpp">
+      <Filter>04.UI\11.Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIVictory.cpp">
+      <Filter>04.UI\12.Victory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIVictoryBase.cpp">
+      <Filter>04.UI\12.Victory\00.VictoryBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

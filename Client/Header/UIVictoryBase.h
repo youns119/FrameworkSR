@@ -10,34 +10,34 @@ class CTransform;
 
 END
 
-class CUIScreenVictory
+class CUIVictoryBase
 	: public Engine::CUIUnit
 {
 public:
-	enum class UI_SCREENVICTORY
+	enum class UI_VICTORY
 	{
-		SCREENVICTORY_ICON,
-		SCREENVICTORY_LIVE,
-		SCREENVICTORY_BALLOON,
-		SCREENVICTORY_BACKGROUND,
-		SCREENVICTORY_VICTORY,
-		SCREENVICTORY_OMEDETO,
-		SCREENVICTORY_BARBACK,
-		SCREENVICTORY_BAR,
-		SCREENVICTORY_FLOOR,
-		SCREENVICTORY_DOT,
-		SCREENVICTORY_DIGIT1,
-		SCREENVICTORY_DIGIT2,
-		SCREENVICTORY_DIGIT3,
-		SCREENVICTORY_DIGIT4,
-		SCREENVICTORY_DIGIT5,
-		SCREENVICTORY_SEC,
-		SCREENVICTORY_END,
+		VICTORY_ICON,
+		VICTORY_LIVE,
+		VICTORY_BALLOON,
+		VICTORY_BACKGROUND,
+		VICTORY_VICTORY,
+		VICTORY_OMEDETO,
+		VICTORY_BARBACK,
+		VICTORY_BAR,
+		VICTORY_FLOOR,
+		VICTORY_DOT,
+		VICTORY_DIGIT1,
+		VICTORY_DIGIT2,
+		VICTORY_DIGIT3,
+		VICTORY_DIGIT4,
+		VICTORY_DIGIT5,
+		VICTORY_SEC,
+		VICTORY_END,
 	};
 
 private:
-	explicit CUIScreenVictory(LPDIRECT3DDEVICE9 _pGraphicDev);
-	virtual ~CUIScreenVictory();
+	explicit CUIVictoryBase(LPDIRECT3DDEVICE9 _pGraphicDev);
+	virtual ~CUIVictoryBase();
 
 public:
 	void Set_FloorTime(_float _fFloorTime)
@@ -47,7 +47,7 @@ public:
 	}
 
 public:
-	static CUIScreenVictory* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CUIVictoryBase* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
 	HRESULT Ready_Unit();
@@ -70,8 +70,8 @@ private:
 
 private:
 	Engine::CRcTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_END];
-	Engine::CTransform* m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_END];
+	Engine::CTexture* m_pTextureCom[(_uint)UI_VICTORY::VICTORY_END];
+	Engine::CTransform* m_pTransformCom[(_uint)UI_VICTORY::VICTORY_END];
 	Engine::CTransform* m_pTextureTransformCom;
 
 	_bool m_bTextureRendered;

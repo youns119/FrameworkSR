@@ -382,6 +382,9 @@ _uint CLoading::Loading_Stage()
 	// UI_Down
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIDown_Black", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Down/Down_Black.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIDown_Second", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Down/6sec.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	// UI_Floor
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIFloor_BackGround", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Floor/Floor_BackGround.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIFloor_Floor", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/DWhite/DWhite_Floor_%d.png", TEXTUREID::TEX_NORMAL, 5)), E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loading Complete!!");
 

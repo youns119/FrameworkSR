@@ -226,6 +226,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIDown.h" />
     <ClInclude Include="..\Header\UIDownBase.h" />
     <ClInclude Include="..\Header\UIEmergency.h" />
+    <ClInclude Include="..\Header\UIFloor.h" />
+    <ClInclude Include="..\Header\UIFloorBase.h" />
     <ClInclude Include="..\Header\UIFreeCam.h" />
     <ClInclude Include="..\Header\UIIndicator.h" />
     <ClInclude Include="..\Header\UIInventory.h" />
@@ -243,7 +245,6 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIRoboto.h" />
     <ClInclude Include="..\Header\UIScreen.h" />
     <ClInclude Include="..\Header\UIScreenBase.h" />
-    <ClInclude Include="..\Header\UIScreenVictory.h" />
     <ClInclude Include="..\Header\UIShop.h" />
     <ClInclude Include="..\Header\UIOverlay.h" />
     <ClInclude Include="..\Header\UIShopBase.h" />
@@ -251,6 +252,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIShopCard.h" />
     <ClInclude Include="..\Header\UISniperHP.h" />
     <ClInclude Include="..\Header\UIUpgradeCard.h" />
+    <ClInclude Include="..\Header\UIVictory.h" />
+    <ClInclude Include="..\Header\UIVictoryBase.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\WallTB.h" />
     <ClInclude Include="..\Header\WhiteSuit.h" />
@@ -346,6 +349,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIDown.cpp" />
     <ClCompile Include="..\Code\UIDownBase.cpp" />
     <ClCompile Include="..\Code\UIEmergency.cpp" />
+    <ClCompile Include="..\Code\UIFloor.cpp" />
+    <ClCompile Include="..\Code\UIFloorBase.cpp" />
     <ClCompile Include="..\Code\UIFreeCam.cpp" />
     <ClCompile Include="..\Code\UIIndicator.cpp" />
     <ClCompile Include="..\Code\UIInventory.cpp" />
@@ -363,7 +368,6 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIRoboto.cpp" />
     <ClCompile Include="..\Code\UIScreen.cpp" />
     <ClCompile Include="..\Code\UIScreenBase.cpp" />
-    <ClCompile Include="..\Code\UIScreenVictory.cpp" />
     <ClCompile Include="..\Code\UIShop.cpp" />
     <ClCompile Include="..\Code\UIOverlay.cpp" />
     <ClCompile Include="..\Code\UIShopBase.cpp" />
@@ -371,6 +375,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIShopCard.cpp" />
     <ClCompile Include="..\Code\UISniperHP.cpp" />
     <ClCompile Include="..\Code\UIUpgradeCard.cpp" />
+    <ClCompile Include="..\Code\UIVictory.cpp" />
+    <ClCompile Include="..\Code\UIVictoryBase.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\WallTB.cpp" />
     <ClCompile Include="..\Code\WhiteSuit.cpp" />

@@ -8,17 +8,17 @@ class CUIUnit;
 
 END
 
-class CUIScreenBase;
+class CUIVictoryBase;
 
-class CUIScreen
+class CUIVictory
 	: public Engine::CUI
 {
 private:
-	explicit CUIScreen(LPDIRECT3DDEVICE9 _pGraphicDev);
-	virtual ~CUIScreen();
+	explicit CUIVictory(LPDIRECT3DDEVICE9 _pGraphicDev);
+	virtual ~CUIVictory();
 
 public:
-	static CUIScreen* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
+	static CUIVictory* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
 
 public:
 	HRESULT Ready_UI();
@@ -30,17 +30,11 @@ private:
 	HRESULT Add_Unit();
 
 public:
-	void Set_Return(_bool _bReturn);
-
-public:
-	virtual void Reset();
+	void Set_FloorTime(_float _fFloorTime);
 
 private:
 	virtual void Free();
 
 private:
-	CUIScreenBase* m_pUIScreenBase;
-
-	_bool m_bShop;
-	_float m_fShopTime;
+	CUIVictoryBase* m_pUIVictoryBase;
 };

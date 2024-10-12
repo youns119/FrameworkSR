@@ -144,15 +144,15 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 	}
 
 	// 엘베 UI
-	if (Engine::Key_Press(DIK_F8))
-	{
-		if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
-		{
-			Engine::Activate_UI(UITYPE::UI_SCREEN);
-			static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
-		}
-		else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
-	}
+	//if (Engine::Key_Press(DIK_F8))
+	//{
+	//	if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
+	//	{
+	//		Engine::Activate_UI(UITYPE::UI_SCREEN);
+	//		static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
+	//	}
+	//	else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
+	//}
 
 	// 인벤토리 OnOff
 	if (Engine::Key_Press(DIK_TAB))

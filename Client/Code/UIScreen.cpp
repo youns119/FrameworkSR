@@ -1,13 +1,12 @@
 #include "pch.h"
 #include "..\Header\UIScreen.h"
-#include "..\Header\UIScreenVictory.h"
 #include "..\Header\UIScreenBase.h"
 #include "..\Header\UIShop.h"
+#include "..\Header\UIVictory.h"
 #include "Export_Utility.h"
 
 CUIScreen::CUIScreen(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
-	, m_pUIScreenVictory(nullptr)
 	, m_pUIScreenBase(nullptr)
 	, m_bShop(false)
 	, m_fShopTime(0.f)
@@ -56,6 +55,10 @@ _int CUIScreen::Update_UI(const _float& _fTimeDelta)
 	if (m_pUIScreenBase->Get_BackToNormal())
 	{
 		m_bRender = false;
+
+		if (!Engine::Get_ListUI(UITYPE::UI_VICTORY)->empty())
+			static_cast<CUIVictory*>(Engine::Get_ListUI(UITYPE::UI_VICTORY)->front())->Set_Render(false);
+
 		Engine::Set_ChangeScreen(false);
 	}
 
@@ -74,20 +77,11 @@ void CUIScreen::Render_UI()
 
 HRESULT CUIScreen::Add_Unit()
 {
-	m_pUIScreenVictory = CUIScreenVictory::Create(m_pGraphicDev);
-	m_pUIScreenVictory->Set_OwnerUI(this);
-	m_vecUIUnit.push_back(m_pUIScreenVictory);
-
 	m_pUIScreenBase = CUIScreenBase::Create(m_pGraphicDev);
 	m_pUIScreenBase->Set_OwnerUI(this);
 	m_vecUIUnit.push_back(m_pUIScreenBase);
 
 	return S_OK;
-}
-
-void CUIScreen::Set_FloorTime(_float _fFloorTime)
-{
-	m_pUIScreenVictory->Set_FloorTime(_fFloorTime);
 }
 
 void CUIScreen::Set_Return(_bool _bReturn)

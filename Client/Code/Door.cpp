@@ -2,6 +2,7 @@
 #include "../Header/Door.h"
 #include "../Header/Player.h"
 #include "../Header/UIScreen.h"
+#include "../Header/UIVictory.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
 
@@ -256,8 +257,9 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
             }
             else if (Engine::Get_ListUI(UITYPE::UI_SCREEN)->empty())
             {
+                Engine::Activate_UI(UITYPE::UI_VICTORY);
                 Engine::Activate_UI(UITYPE::UI_SCREEN);
-                static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_FloorTime(Engine::Get_Elapsed());
+                static_cast<CUIVictory*>(Engine::Get_ListUI(UITYPE::UI_VICTORY)->front())->Set_FloorTime(Engine::Get_Elapsed());
                 m_bLastDoor = false;
                 pPlayer->Set_Clear();
             }
