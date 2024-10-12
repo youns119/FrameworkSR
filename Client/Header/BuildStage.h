@@ -57,6 +57,9 @@ private:
 	HRESULT Ready_Layer_UI(const _tchar* _pLayerTag);
 	HRESULT Ready_Layer_Effect(const _tchar* _pLayerTag);
 
+
+	void PlayVideo(HWND _hWnd, const wstring& _strFilePath);
+
 private:
 	void Set_Collision();
 	// 레이어 찾을려는 용도 - 유빈
@@ -69,5 +72,7 @@ private:
 
 private:
 	CPlayer* m_pPlayer;
+	HWND m_hVideoHandle;
+	_bool m_bVideoPlaying;
 };
 
