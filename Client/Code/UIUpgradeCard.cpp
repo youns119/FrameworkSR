@@ -42,8 +42,8 @@ HRESULT CUIUpgradeCard::Ready_Unit(_vec3 _vPos)
 	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Pos(_vPos);
 	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_BOARDER]->Set_Pos(_vPos);
 
-	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(170.f, 170.f, 0.f);
-	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_BOARDER]->Set_Scale(230.f, 200.f, 0.f);
+	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(150.f, 150.f, 0.f);
+	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_BOARDER]->Set_Scale(210.f, 190.f, 0.f);
 
 	m_tRect.left = (_long)(_vPos.x - 80.f);
 	m_tRect.right = (_long)(_vPos.x + 80.f);
@@ -71,7 +71,7 @@ void CUIUpgradeCard::Render_Unit()
 {
 	if (m_eCurrCard != UI_CARD::CARD_BLANK && m_bHover)
 	{
-		m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(170.f * 1.2f, 170.f * 1.2f, 0.f);
+		m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(150.f * 1.2f, 150.f * 1.2f, 0.f);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Get_WorldMatrix());
 
 		m_pTextureCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Texture((int)m_eCurrCard);
@@ -84,7 +84,7 @@ void CUIUpgradeCard::Render_Unit()
 	}
 	else
 	{
-		m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(170.f, 170.f, 0.f);
+		m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(150.f, 150.f, 0.f);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Get_WorldMatrix());
 
 		m_pTextureCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Texture((int)m_eCurrCard);
@@ -137,8 +137,8 @@ void CUIUpgradeCard::Reset()
 {
 	m_bHover = false;
 
-	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(170.f, 170.f, 0.f);
-	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_BOARDER]->Set_Scale(230.f, 200.f, 0.f);
+	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_CARD]->Set_Scale(150.f, 150.f, 0.f);
+	m_pTransformCom[(_uint)UI_UPGRADE::UPGRADE_BOARDER]->Set_Scale(210.f, 190.f, 0.f);
 }
 
 void CUIUpgradeCard::Free()

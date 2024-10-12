@@ -51,41 +51,41 @@ HRESULT CUIScreenBase::Ready_Unit()
 	{
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_WIDE]->Set_Pos(WINCX * 0.1f + 22.f, -WINCY * 0.1f - 7.2f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Pos(-WINCX * 0.1f + 10.f, WINCY * 0.1f - 10.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 215.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_SCREEN]->Set_Pos(-WINCX * 0.1f + 10.f, WINCY * 0.1f - 10.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Pos(-WINCX * 0.5f + 100.f, -WINCY * 0.5f + 70.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Pos(-150.f, -WINCY * 0.5f + 70.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Pos(300.f, -WINCY * 0.5f + 70.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Pos(WINCX * 0.5f - 145.f, -WINCY * 0.5f + 160.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Pos(WINCX * 0.5f - 135.f, -60.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Pos(WINCX * 0.5f - 125.f, -50.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 215.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 100.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 215.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 30.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 370.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Pos(WINCX * 0.5f - 200.f, WINCY * 0.5f - 400.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Pos(WINCX * 0.5f - 100.f, WINCY * 0.5f - 400.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Pos(-WINCX * 0.5f + 100.f, -WINCY * 0.5f + 65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Pos(-100.f, -WINCY * 0.5f + 65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Pos(300.f, -WINCY * 0.5f + 65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Pos(WINCX * 0.5f - 123.f, -WINCY * 0.5f + 140.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Pos(WINCX * 0.5f - 120.f, -65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Pos(WINCX * 0.5f - 110.f, -52.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Pos(WINCX * 0.5f - 123.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 27.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 350.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Pos(WINCX * 0.5f - 182.f, WINCY * 0.5f - 370.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Pos(WINCX * 0.5f - 90.f, WINCY * 0.5f - 367.f, 0.f);
 	}
 
 	{
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_WIDE]->Set_Scale(WINCX / 2.f / 4.f * 5.f, WINCY / 2.f / 4.f * 5.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale(610.f, 620.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(250.f, 250.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale(560.f, 560.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(235.f, 228.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_SCREEN]->Set_Scale((WINCX / 2.f) * 0.8f, (WINCY / 2.f) * 0.8f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Scale(85.f, 85.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Scale(340.f, 340.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Scale(50.f, 50.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Scale(155.f, 155.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Scale(135.f, 135.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Scale(85.f, 85.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Scale(235.f, 235.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(100.f, 100.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Scale(110.f, 210.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Scale(100.f, 100.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Scale(110.f, 110.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Scale(35.f, 35.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Scale(70.f, 70.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Scale(80.f, 80.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Scale(320.f, 320.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Scale(40.f, 40.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Scale(147.f, 147.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Scale(125.f, 125.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Scale(75.f, 75.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Scale(220.f, 220.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(80.f, 80.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Scale(90.f, 190.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Scale(90.f, 90.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Scale(100.f, 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Scale(30.f, 30.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Scale(65.f, 65.f, 0.f);
 	}
 
 	m_bRender = true;
@@ -501,41 +501,41 @@ void CUIScreenBase::Reset()
 	{
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_WIDE]->Set_Pos(WINCX * 0.1f + 22.f, -WINCY * 0.1f - 7.2f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Pos(-WINCX * 0.1f + 10.f, WINCY * 0.1f - 10.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 215.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_SCREEN]->Set_Pos(-WINCX * 0.1f + 10.f, WINCY * 0.1f - 10.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Pos(-WINCX * 0.5f + 100.f, -WINCY * 0.5f + 70.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Pos(-150.f, -WINCY * 0.5f + 70.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Pos(300.f, -WINCY * 0.5f + 70.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Pos(WINCX * 0.5f - 145.f, -WINCY * 0.5f + 160.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Pos(WINCX * 0.5f - 135.f, -60.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Pos(WINCX * 0.5f - 125.f, -50.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 215.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 100.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 215.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 30.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Pos(WINCX * 0.5f - 133.f, WINCY * 0.5f - 370.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Pos(WINCX * 0.5f - 200.f, WINCY * 0.5f - 400.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Pos(WINCX * 0.5f - 100.f, WINCY * 0.5f - 400.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Pos(-WINCX * 0.5f + 100.f, -WINCY * 0.5f + 65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Pos(-100.f, -WINCY * 0.5f + 65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Pos(300.f, -WINCY * 0.5f + 65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Pos(WINCX * 0.5f - 123.f, -WINCY * 0.5f + 140.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Pos(WINCX * 0.5f - 120.f, -65.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Pos(WINCX * 0.5f - 110.f, -52.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Pos(WINCX * 0.5f - 123.f, WINCY * 0.5f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 195.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 27.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Pos(WINCX * 0.5f - 117.f, WINCY * 0.5f - 350.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Pos(WINCX * 0.5f - 182.f, WINCY * 0.5f - 370.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Pos(WINCX * 0.5f - 90.f, WINCY * 0.5f - 367.f, 0.f);
 	}
 
 	{
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_WIDE]->Set_Scale(WINCX / 2.f / 4.f * 5.f, WINCY / 2.f / 4.f * 5.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale(610.f, 620.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(250.f, 250.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME1]->Set_Scale(560.f, 560.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FRAME2]->Set_Scale(235.f, 228.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_SCREEN]->Set_Scale((WINCX / 2.f) * 0.8f, (WINCY / 2.f) * 0.8f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Scale(85.f, 85.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Scale(340.f, 340.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Scale(50.f, 50.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Scale(155.f, 155.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Scale(135.f, 135.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Scale(85.f, 85.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Scale(235.f, 235.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(100.f, 100.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Scale(110.f, 210.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Scale(100.f, 100.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Scale(110.f, 110.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Scale(35.f, 35.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Scale(70.f, 70.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FINE]->Set_Scale(80.f, 80.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LINE]->Set_Scale(320.f, 320.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_LOGO]->Set_Scale(40.f, 40.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CHAT]->Set_Scale(147.f, 147.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FOLLOW]->Set_Scale(125.f, 125.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_FLOOR]->Set_Scale(75.f, 75.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_FACE1]->Set_Scale(220.f, 220.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMER_HAIR1]->Set_Scale(80.f, 80.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_INT]->Set_Scale(90.f, 190.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_PEACE]->Set_Scale(90.f, 90.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_CLICKMUTE]->Set_Scale(100.f, 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNUMBER]->Set_Scale(30.f, 30.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENBASE::SCREENBASE_STREAMERNAME]->Set_Scale(65.f, 65.f, 0.f);
 	}
 }
 

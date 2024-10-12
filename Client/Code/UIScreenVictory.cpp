@@ -64,7 +64,7 @@ HRESULT CUIScreenVictory::Ready_Unit()
 	{
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_ICON]->Set_Pos(-WINCX / 2.f + 50.f, WINCY / 2.f - 50.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_LIVE]->Set_Pos(-WINCX / 2.f + 190.f, WINCY / 2.f - 50.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Pos(200.f, WINCY / 2.f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Pos(160.f, WINCY / 2.f - 100.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BACKGROUND]->Set_Pos(0.f, WINCY / 2.f - 150.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_VICTORY]->Set_Pos(0.f, WINCY / 2.f - 150.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_OMEDETO]->Set_Pos(0.f, WINCY / 2.f - 200.f, 0.f);
@@ -84,11 +84,11 @@ HRESULT CUIScreenVictory::Ready_Unit()
 	{
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_ICON]->Set_Scale(25.f, 25.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_LIVE]->Set_Scale(110.f, 110.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Scale(550.f, 550.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Scale(500.f, 500.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BACKGROUND]->Set_Scale(300.f, 300.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_VICTORY]->Set_Scale(100.f, 100.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_OMEDETO]->Set_Scale(400.f, 400.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BARBACK]->Set_Scale(WINCX, WINCY / 12.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BARBACK]->Set_Scale(800.f, 500.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BAR]->Set_Scale(WINCX, WINCY / 11.f - 10.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_FLOOR]->Set_Scale(200.f, 200.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_DOT]->Set_Scale(80.f, 80.f, 0.f);
@@ -361,7 +361,7 @@ HRESULT CUIScreenVictory::Add_Component()
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Floor", pComponent });
 
-		pComponent = m_pTextureCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BARBACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Grid"));
+		pComponent = m_pTextureCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BARBACK] = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIScreen_Grid__"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_BarBack", pComponent });
 
@@ -517,7 +517,7 @@ void CUIScreenVictory::Reset()
 	{
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_ICON]->Set_Pos(-WINCX / 2.f + 50.f, WINCY / 2.f - 50.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_LIVE]->Set_Pos(-WINCX / 2.f + 190.f, WINCY / 2.f - 50.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Pos(200.f, WINCY / 2.f - 100.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Pos(160.f, WINCY / 2.f - 100.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BACKGROUND]->Set_Pos(0.f, WINCY / 2.f - 150.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_VICTORY]->Set_Pos(0.f, WINCY / 2.f - 150.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_OMEDETO]->Set_Pos(0.f, WINCY / 2.f - 200.f, 0.f);
@@ -537,11 +537,11 @@ void CUIScreenVictory::Reset()
 	{
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_ICON]->Set_Scale(25.f, 25.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_LIVE]->Set_Scale(110.f, 110.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Scale(550.f, 550.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BALLOON]->Set_Scale(500.f, 500.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BACKGROUND]->Set_Scale(300.f, 300.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_VICTORY]->Set_Scale(100.f, 100.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_OMEDETO]->Set_Scale(400.f, 400.f, 0.f);
-		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BARBACK]->Set_Scale(WINCX, WINCY / 12.f, 0.f);
+		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BARBACK]->Set_Scale(800.f, 500.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_BAR]->Set_Scale(WINCX, WINCY / 11.f - 10.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_FLOOR]->Set_Scale(200.f, 200.f, 0.f);
 		m_pTransformCom[(_uint)UI_SCREENVICTORY::SCREENVICTORY_DOT]->Set_Scale(80.f, 80.f, 0.f);

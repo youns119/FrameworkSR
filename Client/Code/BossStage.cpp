@@ -48,7 +48,21 @@ HRESULT CBossStage::Ready_Scene()
 	CTrigger::GetInstance()->Free();
 	CDrinkSpawner::GetInstance()->Free();
 
-
+	// UIµé ÃÑÁýÇÕ
+	//{
+	//	Engine::Deactivate_UI(UITYPE::UI_PHONE);
+	//	Engine::Deactivate_UI(UITYPE::UI_SHOP);
+	//	Engine::Deactivate_UI(UITYPE::UI_PHONE);
+	//	Engine::Deactivate_UI(UITYPE::UI_MISTERBULLET);
+	//	Engine::Deactivate_UI(UITYPE::UI_ROBOTO);
+	//	Engine::Deactivate_UI(UITYPE::UI_PLAYER);
+	//	Engine::Deactivate_UI(UITYPE::UI_DOWN);
+	//	Engine::Deactivate_UI(UITYPE::UI_ACTION);
+	//	Engine::Deactivate_UI(UITYPE::UI_INVENTORY);
+	//	Engine::Deactivate_UI(UITYPE::UI_NORMAL);
+	//	Engine::Deactivate_UI(UITYPE::UI_FREECAM);
+	//	Engine::Deactivate_UI(UITYPE::UI_SCREEN);
+	//}
 
 	FAILED_CHECK_RETURN(Ready_LightInfo(), E_FAIL);
 
