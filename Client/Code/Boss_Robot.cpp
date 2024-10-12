@@ -99,7 +99,7 @@ HRESULT CBoss_Robot::Ready_GameObject()
 	_vec3 vDir = { 0.5f, 0.5f, 0.5f };
 
 	m_pColliderCom->SetTransform(m_pTransformCom);
-	m_pColliderCom->SetRadius(3.f);
+	m_pColliderCom->SetRadius(6.f);
 	m_pColliderCom->SetLookDir(vDir);
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);

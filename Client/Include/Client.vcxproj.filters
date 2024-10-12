@@ -359,6 +359,9 @@
     <Filter Include="04.UI\01.Combo\00.ComboBase">
       <UniqueIdentifier>{30194ee5-d97a-4c6a-b8c9-d18bc5b119b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\04.CutScene">
+      <UniqueIdentifier>{6f47414a-bb43-469f-96e0-e0365cc58337}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -716,6 +719,9 @@
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIComboBase.h" />
+    <ClInclude Include="..\Header\CutScene.h">
+      <Filter>02.Scene\04.CutScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1055,6 +1061,9 @@
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIComboBase.cpp" />
+    <ClCompile Include="..\Code\CutScene.cpp">
+      <Filter>02.Scene\04.CutScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

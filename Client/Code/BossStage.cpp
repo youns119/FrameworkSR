@@ -47,6 +47,7 @@ HRESULT CBossStage::Ready_Scene()
 	CBulletManager::GetInstance()->Free();
 	CTrigger::GetInstance()->Free();
 	CDrinkSpawner::GetInstance()->Free();
+	Engine::Activate_UI(UITYPE::UI_NORMAL);
 
 	// UIต้ รัมýวี
 	//{
