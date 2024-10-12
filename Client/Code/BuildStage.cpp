@@ -21,6 +21,8 @@
 CBuildStage::CBuildStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
 	, m_pPlayer(nullptr)
+	, m_hVideoHandle(nullptr)
+	, m_bVideoPlaying(false)
 {
 }
 
@@ -179,6 +181,8 @@ _int CBuildStage::Update_Scene(const _float& _fTimeDelta)
 
 	if (5 < dynamic_cast<CBoss_Humanoid*>(this->Get_GameObject(L"Layer_Monster", L"Boss_Humanoid"))->Get_BossKillCount())
 	{
+		PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/BuildingToBoss.wmv");
+
 		Engine::CScene* pStage = CBossStage::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pStage, -1);
 
@@ -475,6 +479,54 @@ HRESULT CBuildStage::Ready_Layer_Effect(const _tchar* _pLayerTag)
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 
 	return S_OK;
+}
+
+void CBuildStage::PlayVideo(HWND _hWnd, const wstring& _strFilePath)
+{
+	if (m_bVideoPlaying)
+		return;
+
+	m_hVideoHandle = MCIWndCreate(_hWnd,
+		NULL,
+		WS_CHILD |
+		WS_VISIBLE |
+		MCIWNDF_NOPLAYBAR, _strFilePath.c_str());
+
+	if (m_hVideoHandle == NULL)
+	{
+		MessageBox(_hWnd, L"Fail Create Video.", L"Error", MB_OK);
+		return;
+	}
+
+	MoveWindow(m_hVideoHandle, 0, 0, WINCX, 720, FALSE);
+
+	m_bVideoPlaying = true;
+	MCIWndPlay(m_hVideoHandle);
+	HDC dc = GetDC(_hWnd);
+	HDC memDC = CreateCompatibleDC(dc);
+	HBITMAP hBitmap = CreateCompatibleBitmap(dc, WINCX, WINCY);
+	HBITMAP hOldBitmap = (HBITMAP)SelectObject(memDC, hBitmap);
+
+	Rectangle(dc, 0, 0, WINCX, WINCY);
+	BitBlt(dc, 0, 0, WINCX, WINCY, memDC, 0, 0, SRCCOPY);
+	while (MCIWndGetLength(m_hVideoHandle) > MCIWndGetPosition(m_hVideoHandle))
+	{
+		if (GetAsyncKeyState(VK_RETURN))
+		{
+			MCIWndClose(m_hVideoHandle);
+			m_bVideoPlaying = false;
+			break;
+		}
+
+	}
+
+	SelectObject(memDC, hOldBitmap);
+	ReleaseDC(_hWnd, memDC);
+	ReleaseDC(_hWnd, dc);
+
+	m_bVideoPlaying = false;
+
+	MCIWndClose(m_hVideoHandle);
 }
 
 void CBuildStage::Set_Collision()
