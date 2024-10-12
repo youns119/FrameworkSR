@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "../Header/EffectLaserTarget.h"
 #include "Export_Utility.h"
+#include "Export_System.h"
 #include "../Header/Laser.h"
 
 CEffectLaserTarget::CEffectLaserTarget(LPDIRECT3DDEVICE9 _pGraphicDev)
@@ -224,4 +225,7 @@ void CEffectLaserTarget::OnOperate(void* _pParam)
 
 	pThis->m_bIsMissing = FALSE;
 	pThis->m_fGraceTime = 0.f;
+
+	Engine::Play_Sound(L"LaserBeam.wav", CHANNELID::SOUND_EFFECT, 1.f);
+
 }
