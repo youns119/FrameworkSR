@@ -41,7 +41,7 @@ HRESULT CLogo::Ready_Scene()
 
 	//FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 
-	PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/Opening.wmv");
+	PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/Opening_Sound.wmv");
 
 	return S_OK;
 }
