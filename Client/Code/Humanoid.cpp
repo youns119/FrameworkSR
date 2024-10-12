@@ -60,6 +60,7 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 {
 	_int iTemp(0);
 	m_fHP -= _fAttackDamage;
+	Engine::Play_Sound(L"Blood_01.wav", CHANNELID::SOUND_ENEMY, 0.4f);
 	if (0.f >= m_fHP)
 	{
 		_vec3 vPos;
@@ -82,6 +83,14 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 			static_cast<CEffectPool*>(pGameObject)->Operate();
 		}
 
+		if (0 == iIndex % 4)
+			Engine::Play_Sound(L"HeadShot_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+		else if (1 == iIndex % 4)
+			Engine::Play_Sound(L"HeadShot_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+		else if (2 == iIndex % 4)
+			Engine::Play_Sound(L"HeadShot_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+		else
+			Engine::Play_Sound(L"HeadShot_04.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
 
 		Changing_State(CHumanoid::HUMANOID_HEADSHOT);
 		static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
@@ -91,11 +100,29 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 		case Engine::DAMAGED_STATE::DAMAGED_BULLSHOT:
 			Changing_State(CHumanoid::HUMANOID_BULLSHOT);
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_NUTSHOT);
+
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"Death_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"Death_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"Death_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else
+				Engine::Play_Sound(L"Death_04.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
 			Changing_State(CHumanoid::HUMANOID_KATANA);
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_SAYONARA);
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"Blood_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"Blood_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"Blood_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else
+				Engine::Play_Sound(L"Blood_04.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_BODYSHOT:
@@ -111,6 +138,15 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 			else
 				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
 
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"Death_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"Death_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"Death_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else
+				Engine::Play_Sound(L"Death_04.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+
 			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(2.f);
 			break;
@@ -122,6 +158,15 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 				Changing_State(CHumanoid::HUMANOID_PUSH_ONE);
 			else
 				Changing_State(CHumanoid::HUMANOID_PUSH_TWO);
+
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"Death_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"Death_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"Death_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else
+				Engine::Play_Sound(L"Death_04.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(2.f);
