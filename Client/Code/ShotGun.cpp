@@ -292,6 +292,7 @@ void CShotGun::Attack(const _float& _fTimeDelta)
 				Changing_State(CHumanoid::HUMANOID_ATTACK);
 				D3DXVec3Normalize(&vDir, &vDir);
 				Engine::Fire_Bullet(m_pGraphicDev, vPos, vDir, 5, CBulletManager::BULLET_SHOTGUN);
+				Engine::Play_Sound(L"ShotGun.wav", CHANNELID::SOUND_ENEMY_GUN, 0.8f);
 				m_bIsFire = true;
 			}
 		}

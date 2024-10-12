@@ -156,6 +156,7 @@ void CDogDrone::State_Check()
 			break;
 		case CDrone::DRONE_WALK:
 			m_pAnimatorCom->PlayAnimation(L"Walk", true);
+			Engine::Play_Sound(L"Drone_Walk.wav", CHANNELID::SOUND_ENEMY_GUN, 0.7f);
 			break;
 		case CDrone::DRONE_DAMAGED:
 			m_pAnimatorCom->PlayAnimation(L"Damaged", false);

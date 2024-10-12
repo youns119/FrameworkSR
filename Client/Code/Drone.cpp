@@ -40,6 +40,7 @@ void CDrone::Render_GameObject()
 void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
 	m_fHP -= _fAttackDamage;
+	Engine::Play_Sound(L"Blood_01.wav", CHANNELID::SOUND_ENEMY, 0.4f);
 	if (0.f >= m_fHP)
 	{
 		_vec3 vPos;
@@ -56,18 +57,45 @@ void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float
 			Changing_State(CDrone::DRONE_HEADSHOT);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_HEADSHOT);
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"DroneDeath_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"DroneDeath_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"DroneDeath_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else
+				Engine::Play_Sound(L"DroneDeath_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		case Engine::DAMAGED_STATE::DAMAGED_KATANA:
 			Changing_State(CDrone::DRONE_KATANA);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, CUIPlus::UI_PLUS::PLUS_SAYONARA);
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"Blood_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"Blood_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"Blood_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else
+				Engine::Play_Sound(L"Blood_04.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(3.f);
 			break;
 		default:
 			Changing_State(CDrone::DRONE_DAMAGED);
 
 			static_cast<CUIPlus*>(pUI)->Init(vPos, (CUIPlus::UI_PLUS)iIndex);
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"DroneDeath_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"DroneDeath_02.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"DroneDeath_03.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+			else
+				Engine::Play_Sound(L"DroneDeath_01.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.7f);
+
 			dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Set_PlayerHP_Plus(2.f);
 			break;
 		}
