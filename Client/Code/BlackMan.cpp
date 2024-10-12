@@ -380,6 +380,8 @@ void CBlackMan::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 			_int iIndex = rand() % 13;
 
 			CUI* pUI = Engine::Activate_UI(UITYPE::UI_PLUS);
+			Dead_Combo();
+
 			switch (_eDamagedState)
 			{
 			case Engine::DAMAGED_STATE::DAMAGED_HEADSHOT:

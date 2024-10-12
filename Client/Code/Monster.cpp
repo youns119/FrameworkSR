@@ -3,6 +3,9 @@
 #include "Export_Utility.h"
 #include "Export_System.h" // Jonghan Change
 
+#include "..\Header\UICombo.h"
+#include "..\Header\Player.h"
+
 CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CCharacter(_pGraphicDev)
 	, m_pBufferCom(nullptr)
@@ -200,6 +203,17 @@ void CMonster::Collide_Wall(CCollider& _pOther)
 			}
 		}
 	}
+}
+
+void CMonster::Dead_Combo()
+{
+	if (Engine::Get_ListUI(UITYPE::UI_COMBO)->empty())
+		Engine::Activate_UI(UITYPE::UI_COMBO);
+	else
+		static_cast<CUICombo*>(Engine::Get_ListUI(UITYPE::UI_COMBO)->front())->Combo_Up();
+
+	dynamic_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->
+		Set_PlayerHP_Plus(static_cast<CUICombo*>(Engine::Get_ListUI(UITYPE::UI_COMBO)->front())->Get_Combo());
 }
 
 void CMonster::OnCollision(CCollider& _pOther)

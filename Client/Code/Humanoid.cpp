@@ -67,6 +67,8 @@ void CHumanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _fl
 		_int iIndex = rand() % 13;
 
 		CUI* pUI = Engine::Activate_UI(UITYPE::UI_PLUS);
+		Dead_Combo();
+
 		CGameObject* pGameObject = nullptr;
 		switch (_eDamagedState)
 		{

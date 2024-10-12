@@ -270,6 +270,13 @@ _uint CLoading::Loading_Stage()
 	// UI_Damage
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIPlus_White", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/White/White_PlusSec_%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIText_Execution", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/Text/Text_Execute_%d.png", TEXTUREID::TEX_NORMAL, 13)), E_FAIL);
+	// UI_Combo
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICombo_Combo", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/Text/Text_COMBO.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICombo_Like", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Icon/LIKES.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICombo_White", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/White/White_%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICombo_Sec", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/White/White_sec.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICombo_DWhite", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/DWhite/DWhite_%d.png", TEXTUREID::TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UICombo_DWhite_X", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Font/Word/DWhite/DWhite_X.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	// UI_Inventory
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIBack", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Screen/BASE.png", TEXTUREID::TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UIOverlay", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/MMJ_Interface/Upgrade/Screen/SCREEN_OVERLAY.png", TEXTUREID::TEX_NORMAL)), E_FAIL);

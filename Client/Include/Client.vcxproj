@@ -220,8 +220,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIBossCount.h" />
     <ClInclude Include="..\Header\UIBossLifeBar.h" />
     <ClInclude Include="..\Header\UICombo.h" />
-    <ClInclude Include="..\Header\UIComboLeft.h" />
-    <ClInclude Include="..\Header\UIComboRight.h" />
+    <ClInclude Include="..\Header\UIComboBase.h" />
     <ClInclude Include="..\Header\UICrossHair.h" />
     <ClInclude Include="..\Header\UIDown.h" />
     <ClInclude Include="..\Header\UIDownBase.h" />
@@ -340,8 +339,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIBossCount.cpp" />
     <ClCompile Include="..\Code\UIBossLifeBar.cpp" />
     <ClCompile Include="..\Code\UICombo.cpp" />
-    <ClCompile Include="..\Code\UIComboLeft.cpp" />
-    <ClCompile Include="..\Code\UIComboRight.cpp" />
+    <ClCompile Include="..\Code\UIComboBase.cpp" />
     <ClCompile Include="..\Code\UICrossHair.cpp" />
     <ClCompile Include="..\Code\UIDown.cpp" />
     <ClCompile Include="..\Code\UIDownBase.cpp" />

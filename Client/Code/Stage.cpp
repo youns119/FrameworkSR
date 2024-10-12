@@ -21,6 +21,7 @@
 #include "../Header/UIPlayer.h"
 #include "../Header/UIAction.h"
 #include "../Header/UIDown.h"
+#include "../Header/UICombo.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CScene(_pGraphicDev)
@@ -429,6 +430,10 @@ HRESULT CStage::Ready_Layer_UI(const _tchar* _pLayerTag)
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 
 	pUI = CUIAction::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
+
+	pUI = CUICombo::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Add_UI(pUI), E_FAIL);
 

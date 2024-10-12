@@ -46,6 +46,9 @@ private:
 	void Picking_Terrain();
 	void Collide_Wall(CCollider& _pOther);
 
+protected:
+	void Dead_Combo();
+
 public:
 	void OnCollision(CCollider& _pOther);
 	void OnCollisionEnter(CCollider& _pOther);

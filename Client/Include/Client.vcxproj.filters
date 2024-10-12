@@ -191,12 +191,6 @@
     <Filter Include="04.UI\01.Combo">
       <UniqueIdentifier>{8c12b94b-4536-458a-a33a-03c418577b33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI\01.Combo\00.ComboLeft">
-      <UniqueIdentifier>{e8a6e9ec-bba0-426c-b6d4-5f4f3881160b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.UI\01.Combo\01.ComboRight">
-      <UniqueIdentifier>{7470e5dd-6212-4f22-80dd-849d40170dc9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.GameObject\12.DrinkMachine">
       <UniqueIdentifier>{b6f8a541-b2da-4673-b89c-001544007921}</UniqueIdentifier>
     </Filter>
@@ -361,6 +355,9 @@
     </Filter>
     <Filter Include="03.GameObject\11.Filter\01. Dying">
       <UniqueIdentifier>{55c6c87a-20c8-4311-b127-5b37cd1b3183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\01.Combo\00.ComboBase">
+      <UniqueIdentifier>{30194ee5-d97a-4c6a-b8c9-d18bc5b119b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -553,12 +550,6 @@
     <ClInclude Include="..\Header\UICombo.h">
       <Filter>04.UI\01.Combo</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UIComboLeft.h">
-      <Filter>04.UI\01.Combo\00.ComboLeft</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\UIComboRight.h">
-      <Filter>04.UI\01.Combo\01.ComboRight</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UIInventory.h">
       <Filter>04.UI\02.Inventory</Filter>
     </ClInclude>
@@ -724,6 +715,7 @@
     <ClInclude Include="..\Header\FilterDying.h">
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIComboBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -897,12 +889,6 @@
     <ClCompile Include="..\Code\UICombo.cpp">
       <Filter>04.UI\01.Combo</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UIComboLeft.cpp">
-      <Filter>04.UI\01.Combo\00.ComboLeft</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\UIComboRight.cpp">
-      <Filter>04.UI\01.Combo\01.ComboRight</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UIInventory.cpp">
       <Filter>04.UI\02.Inventory</Filter>
     </ClCompile>
@@ -1068,6 +1054,7 @@
     <ClCompile Include="..\Code\FilterDying.cpp">
       <Filter>03.GameObject\11.Filter\01. Dying</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\UIComboBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
