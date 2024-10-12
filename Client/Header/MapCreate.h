@@ -90,8 +90,6 @@ private:
 
 private:
 	bool m_bCreateCheck;//타일 생성 여부 체크
-	_vec3 m_vecRot;//바닥 회전 적용
-	int m_iRidian;//바닥 회전 값
 	float m_fHeight;// 가이드 지형 높이
 
 	_int m_iTriggerNumber; // 이거 지금 몇번째 트리거에서 발동시킬것이냐 에 관한 int 값//10.06
@@ -99,6 +97,8 @@ private:
 	_int m_iNumber; // 저장되는 이미지 번호
 
 	_vec3 m_vecPosition; // imgui 에 현재 좌표 띄우는 용
+	_vec3 m_vecRot;//회전 값 적용
+	_vec3 m_vecScale; // 크기 값 적용 
 
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageFloor;
 	map<const _tchar*, IDirect3DBaseTexture9*> m_mapImageWall;

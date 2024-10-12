@@ -21,6 +21,8 @@ public:
 	virtual void Render_GameObject()PURE;
 
 	virtual _vec3 Get_VecPos() { return m_vecPos; }
+	virtual _vec3 Get_VecRot() { return m_vecRot; }
+	virtual _vec3 Get_VecScale() { return m_vecScale; }
 	virtual _int Get_Number() { return m_iNumber; }
 	virtual _int Get_Number_Type() { return m_iNumber_Type; }
 	virtual _int Get_Trigger() { return m_iTriggerNumber; }
@@ -37,11 +39,17 @@ protected:
 	Engine::CTexture* m_pTextureCom;
 
 	_vec3 m_vecPos;
+	_vec3 m_vecRot;
+	_vec3 m_vecScale;
+
 	_int m_iNumber; //이게 몇번째 WallTB이냐는 정보
 	_int m_iNumber_Type; //이게 WallTB이라는 정보
 
 	_int m_iTriggerNumber; //몇번째 트리거에 넣을거냐 10.06
 	_bool m_bFirstDoor;//엘레베이터 첫번째 문
 	_bool m_bLastDoor;//엘레베이터 마지막 문
+
+	
+
 };
 

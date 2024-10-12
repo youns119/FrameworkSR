@@ -18,11 +18,13 @@ private:
 public:
 	static CFloor* Create_InfoNumberTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, const _int& _iTrigger);
 	static CFloor* Create_InfoNumberTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber, const _int& _iTrigger);
+	static CFloor* Create_Info(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot,_vec3 _vecScale, const _int& _iNumber, const _int& _iTrigger);
 
 public:
 	_vec3 Get_VecPos() { return m_vecPos; }
 	_vec3 Get_VecRot() { return m_vecRot; }
 	_int Get_Number() { return m_iNumber; }
+	virtual _vec3 Get_VecScale() { return m_vecScale; }
 	_float Get_Damage() { return m_fDamage; }
 	_bool Get_SlidSpeed() { return m_bSlidSpeed; }
 	_int Get_Trigger() { return m_iTriggerNumber; }//10.06
@@ -40,6 +42,7 @@ private:
 	virtual HRESULT Setup_Material();
 	void Setup_Position(_vec3 _vecPos);
 	void Setup_Rotation(_vec3 _vecRot);
+	void Setup_Scale(_vec3 _vecScale);
 
 private:
 	virtual void Free();
@@ -48,7 +51,6 @@ private:
 	Engine::CFloorTex* m_pBufferCom;
 	Engine::CCollider* m_pColliderCom;
 
-	_vec3 m_vecRot;
 	_float m_fDamage;// 산성,용암 대미지
 	_bool m_bSlidSpeed;// 슬라이드 타일 위에서 속도 적용 여부
 };

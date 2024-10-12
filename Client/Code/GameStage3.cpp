@@ -526,6 +526,8 @@ void CGameStage3::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 	_int iTrigger(0); //이게 그럼 몇번째 trigger인지//10.06
 	_vec3 pPos{};
 	_vec3 pRot{};
+	_vec3 pRotation{};
+	_vec3 pScale{};
 
 	while (true)
 	{
@@ -544,11 +546,10 @@ void CGameStage3::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 
 		if (iNumber_Type == 0)
 		{
-			pGameObject = CFloor::Create_InfoNumberTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
+			ReadFile(hFile, &pScale, sizeof(_vec3), &dwByte, nullptr); // 크기
 
-
+			pGameObject = CFloor::Create_Info(m_pGraphicDev, pPos, pRot, pScale, iNumber, iTrigger);//10.06
 			NULL_CHECK_RETURN(pGameObject, );
-
 			pLayerFloor->Add_GameObject(L"Floor", pGameObject);
 			Engine::Set_Trigger(iTrigger, pGameObject);//10.06
 		}
@@ -636,8 +637,10 @@ void CGameStage3::MapLoad2(CLayer* _pLayer, CLayer* _pLayer2, CLayer* _pLayer3)
 		}
 		if (iNumber_Type == 4)
 		{
+			ReadFile(hFile, &pRotation, sizeof(_vec3), &dwByte, nullptr); // 회전
+			ReadFile(hFile, &pScale, sizeof(_vec3), &dwByte, nullptr); // 크기
 
-			pGameObject = CDoor::Create_InfoNumberDirectionTrigger2(m_pGraphicDev, pPos, pRot, iNumber, iTrigger);//10.06
+			pGameObject = CDoor::Create_Infoload(m_pGraphicDev, pPos, pRotation, pScale, iNumber, pRot, iTrigger);//10.06
 			NULL_CHECK_RETURN(pGameObject, );
 			pLayerDoor->Add_GameObject(L"Door", pGameObject);
 			Engine::Set_Trigger(iTrigger, pGameObject);//10.06

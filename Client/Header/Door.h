@@ -17,10 +17,12 @@ private:
     virtual ~CDoor();
 
 public:
-    static CDoor* Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger);
-    static CDoor* Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber, const _int& _iTrigger);
+    static CDoor* Create_InfoSave(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot,_vec3 _vecScale, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger);
+    static CDoor* Create_Infoload(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot,_vec3 _vecScale, const _int& _iNumber,_vec3 _vecTileDirection, const _int& _iTrigger);
 
     virtual _vec3 Get_VecPos() { return m_vecPos; }
+    virtual _vec3 Get_VecRot() { return m_vecRot; }
+    virtual _vec3 Get_VecScale() { return m_vecScale; }
     virtual _int Get_Number() { return m_iNumber; }
     virtual _int Get_Number_Type() { return m_iNumber_Type; }
     _int Get_Trigger() { return m_iTriggerNumber; }//10.06
@@ -41,6 +43,8 @@ private:
     virtual HRESULT Setup_Material();
     void Setup_Position(_vec3 _vecPos);
     void Setup_Angle(_vec3 _vecRot);
+    void Setup_Scale(_vec3 _vecScale);
+
     void Moving_Open();
 
 private:
@@ -49,6 +53,7 @@ private:
     _vec3 m_vecWallDirection;
     _float m_fMovingSpeed;
     _bool m_bIsOpen;
+    _bool m_bEleOpen;
 
 public:
     void OnCollisionEnter(CCollider& _pOther);
