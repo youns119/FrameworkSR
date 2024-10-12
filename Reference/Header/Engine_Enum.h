@@ -23,6 +23,7 @@ namespace Engine
 	{
 		UI_PHONE,
 		UI_SHOP,
+		UI_COMBO,
 		UI_PLUS,
 		UI_MISTERBULLET,
 		UI_ROBOTO,

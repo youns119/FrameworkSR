@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "..\Header\UIComboBase.h"
 #include "Export_Utility.h"
-#include "UIComboBase.h"
 
 CUIComboBase::CUIComboBase(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUIUnit(_pGraphicDev)
