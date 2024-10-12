@@ -44,6 +44,17 @@ _int CMissile::Update_GameObject(const _float& _fTimeDelta)
 			m_fLinear = 0.f;
 			m_bIsRender = false;
 			m_pColliderCom->SetActive(false);
+
+			// ±Ôºó : ¹Ì»çÀÏ Æø¹ß ÀÌÆåÆ®
+			_vec3 vPos;
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BigExplosion", L"Com_Transform");
+			CGameObject* pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+			static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
+			static_cast<CTransform*>(pComponent)->Set_Scale(1.5f, 1.5f, 1.5f);
+			static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
+			static_cast<CEffectPool*>(pGameObject)->Operate();
+
 		}
 		_vec3 vNext, vPos;
 		m_pTransformCom->Set_Pos(Bezier(m_vStart, m_vCurve, m_vEnd, m_fLinear));

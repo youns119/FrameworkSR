@@ -47,5 +47,7 @@ private:
 private:
 	_float m_fGraceTime;
 	_bool m_bIsMissing;
+
+	_bool m_bIsInGround;
 };
 
