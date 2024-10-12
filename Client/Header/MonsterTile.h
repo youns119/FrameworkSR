@@ -40,5 +40,4 @@ private:
 
 private:
 	Engine::CRcTex* m_pBufferCom;
-	_vec3 m_vecPos;
 };

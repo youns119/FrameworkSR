@@ -9,6 +9,8 @@ CTileContorl::CTileContorl(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_bLastDoor(false)
     , m_bFirstDoor(false)
     , m_vecPos({0.f, 0.f, 0.f})
+    , m_vecRot({0.f, 0.f, 0.f})
+    , m_vecScale({0.f, 0.f, 0.f})
     , m_iNumber(0)
     , m_iNumber_Type(0)
     , m_iTriggerNumber(0) //10.06

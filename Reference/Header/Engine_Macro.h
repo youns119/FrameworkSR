@@ -16,7 +16,7 @@ namespace Engine
 
 
 #define	VTXTILEX		50
-#define	VTXTILEZ		200
+#define	VTXTILEZ		300
 
 
 #define VK_MAX		256 

@@ -13,6 +13,7 @@ CDoor::CDoor(LPDIRECT3DDEVICE9 _pGraphicDev)
     , m_vecWallDirection({ 0.f, 0.f, 0.f })
     , m_fMovingSpeed(0.f)
     , m_bIsOpen(false)
+    , m_bEleOpen(false)
 {
     m_iNumber = 0;
     m_iNumber_Type = 4;
@@ -22,7 +23,7 @@ CDoor::~CDoor()
 {
 }
 
-CDoor* CDoor::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger)
+CDoor* CDoor::Create_InfoSave(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, _vec3 _vecScale, const _int& _iNumber, Engine::TILE_DIRECTION _eTileDirection, const _int& _iTrigger)
 {
     CDoor* pDoor = new CDoor(_pGraphicDev);
 
@@ -34,25 +35,34 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger(LPDIRECT3DDEVICE9 _pGraphicDev, 
         return nullptr;
     }
 
-    if (_iNumber == 9 || _iNumber == 26)
-    {
-        pDoor->m_bLastDoor = true;
-    }
-    if (_iNumber == 27 || _iNumber == 28)
+    if (_iNumber == 5 || _iNumber == 6 || _iNumber == 7)
     {
         pDoor->m_bFirstDoor = true;
     }
+    if (_iNumber == 21 || _iNumber == 22 || _iNumber == 23)
+    {
+        pDoor->m_bLastDoor = true;
+    }
+
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
+
+    pDoor->Setup_Angle(_vecRot);
+    pDoor->m_vecRot = _vecRot;
+
+    pDoor->Setup_Scale(_vecScale);
+    pDoor->m_vecScale = _vecScale;
+
     pDoor->Set_Number(_iNumber);
     pDoor->m_iNumber = _iNumber;
+
     pDoor->Set_TileDirection(_eTileDirection);
     pDoor->Set_Trigger(_iTrigger);
 
     return pDoor;
 }
 
-CDoor* CDoor::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, const _int& _iNumber, const _int& _iTrigger)
+CDoor* CDoor::Create_Infoload(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos, _vec3 _vecRot, _vec3 _vecScale, const _int& _iNumber, _vec3 _vecTileDirection, const _int& _iTrigger)
 {
     CDoor* pDoor = new CDoor(_pGraphicDev);
 
@@ -63,24 +73,33 @@ CDoor* CDoor::Create_InfoNumberDirectionTrigger2(LPDIRECT3DDEVICE9 _pGraphicDev,
         MSG_BOX("Door Create Failed");
         return nullptr;
     }
-
-    if (_iNumber == 9 || _iNumber == 26)
-    {
-        pDoor->m_bLastDoor = true;
-    }
-    if (_iNumber == 27 || _iNumber == 28)
+    if (_iNumber == 5 || _iNumber == 6 || _iNumber == 7)
     {
         pDoor->m_bFirstDoor = true;
     }
+    if (_iNumber == 21 || _iNumber == 22 || _iNumber == 23)
+    {
+        pDoor->m_bLastDoor = true;
+    }
+
     pDoor->Setup_Position(_vecPos);
     pDoor->m_vecPos = _vecPos;
+
+    pDoor->Setup_Angle(_vecRot);
+    pDoor->m_vecRot = _vecRot;
+
+    pDoor->Setup_Scale(_vecScale);
+    pDoor->m_vecScale = _vecScale;
+
     pDoor->Set_Number(_iNumber);
     pDoor->m_iNumber = _iNumber;
-    pDoor->Set_TileDirection(_vecRot);
+
+    pDoor->Set_TileDirection(_vecTileDirection);
     pDoor->Set_Trigger(_iTrigger);
 
     return pDoor;
 }
+
 
 void CDoor::Set_TileDirection(const _vec3& _vecDir)
 {
@@ -108,22 +127,55 @@ _int CDoor::Update_GameObject(const _float& _fTimeDelta)
 
     if (m_bIsOpen)
     {
-        if (m_fMovingSpeed > 0.6f)
+        if (m_fMovingSpeed >= 21 || m_fMovingSpeed <= -21)
         {
             m_bIsOpen = false;
         }
         else
         {
-            _vec3 vPos, vLook, vUp, vDir;
-            m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-            m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-5.5f));
-            m_fMovingSpeed += _fTimeDelta;
+            if (m_iNumber == 1 || m_iNumber == 3 || m_iNumber == 5 || m_iNumber == 21)
+            {
+                m_fMovingSpeed -= 3.f;
+                m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(m_fMovingSpeed));
+
+            }
+            if (m_iNumber == 2 || m_iNumber == 4 || m_iNumber == 6 || m_iNumber == 22)
+            {
+                m_fMovingSpeed += 3.f;
+                m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(m_fMovingSpeed));
+
+            }
         }
 
-
-        //vPos.x -= _fTimeDelta * 2.f;
-        //m_pTransformCom->Set_Pos(vPos);
     }
+
+    if (m_bEleOpen)
+    {
+        m_iNumber += 1;
+
+        if (m_iNumber == 20)
+        {
+            m_bEleOpen = false;
+        }
+    }
+    //if (m_bIsOpen)
+    //{
+    //    if (m_fMovingSpeed > 0.6f)
+    //    {
+    //        m_bIsOpen = false;
+    //    }
+    //    else
+    //    {
+    //        _vec3 vPos, vLook, vUp, vDir;
+    //        m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+    //        m_pTransformCom->Rotation(ROTATION::ROT_Y, D3DXToRadian(-5.5f));
+    //        m_fMovingSpeed += _fTimeDelta;
+    //    }
+
+
+    //    //vPos.x -= _fTimeDelta * 2.f;
+    //    //m_pTransformCom->Set_Pos(vPos);
+    //}
 
     Add_RenderGroup(RENDERID::RENDER_NONALPHA, this);
 
@@ -150,8 +202,17 @@ void CDoor::Render_GameObject()
 
     FAILED_CHECK_RETURN(Setup_Material(), );
 
-    m_pTextureCom->Set_Texture(m_iNumber - 1);
+    if (m_iNumber <= 20 && m_iNumber > 7)
+    {
+        m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        m_pTextureCom->Set_Texture(m_iNumber - 1);
+        //m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    }
+    else
+    {
+        m_pTextureCom->Set_Texture(m_iNumber - 1);
 
+    }
     m_pBufferCom->Render_Buffer();
     m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -233,12 +294,22 @@ void CDoor::Setup_Angle(_vec3 _vecRot)
     m_pTransformCom->Set_Angle(_vecRot.x, _vecRot.y, _vecRot.z);
 }
 
+void CDoor::Setup_Scale(_vec3 _vecScale)
+{
+    m_pTransformCom->Set_Scale(_vecScale.x, _vecScale.y, _vecScale.z);
+}
+
 void CDoor::Moving_Open()
 {
     if (!m_bIsOpen)
     {
         m_bIsOpen = true;
         Engine::Play_Sound(L"Door_Open.wav", CHANNELID::SOUND_EFFECT, 0.85f);
+    }
+    if (m_iNumber == 7 || m_iNumber == 23)
+    {
+        m_iNumber = 7;
+        m_bEleOpen = true;
     }
 }
 
