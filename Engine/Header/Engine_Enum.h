@@ -37,6 +37,7 @@ namespace Engine
 		UI_NORMAL,
 		UI_FREECAM,
 		UI_SCREEN,
+		UI_ENDING,
 		UI_END,
 	};
 

@@ -300,6 +300,7 @@ HRESULT CBuildStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	m_pPlayer = static_cast<CPlayer*>(pGameObject);
+	m_pPlayer->Set_CurrFloor(4);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

@@ -84,7 +84,7 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* _ppGraphicDev)
 
 	FAILED_CHECK_RETURN(Engine::Ready_Font(*_ppGraphicDev, L"Font_Default", L"±√º≠", 20, 20, FW_HEAVY), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Font(*_ppGraphicDev, L"Font_Myungjo", L"∏Ì¡∂", 20, 20, FW_NORMAL), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Font(*_ppGraphicDev, L"Font_NotoSans", L"Noto Sans KR", 30, 40, FW_NORMAL), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(*_ppGraphicDev, L"Font_NotoSans", L"Noto Sans KR", 25, 40, FW_NORMAL), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_InputDev(g_hInst, g_hWnd), E_FAIL);
 

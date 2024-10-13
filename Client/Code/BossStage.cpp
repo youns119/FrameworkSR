@@ -83,6 +83,7 @@ HRESULT CBossStage::Ready_Scene()
 	Engine::Activate_UI(UITYPE::UI_NORMAL);
 	Engine::Activate_UI(UITYPE::UI_PHONE);
 	Engine::Activate_UI(UITYPE::UI_PLAYER);
+	Engine::Activate_UI(UITYPE::UI_SKILL);
 
 	Engine::Calculate_Trigger();//10.06
 
@@ -299,6 +300,7 @@ HRESULT CBossStage::Ready_Layer_Player(const _tchar* _pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 	m_pPlayer = static_cast<CPlayer*>(pGameObject);
+	m_pPlayer->Set_CurrFloor(5);
 
 	m_mapLayer.insert({ _pLayerTag , pLayer });
 

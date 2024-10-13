@@ -2113,6 +2113,9 @@ void CPlayer::Collide_Wall(CCollider& _pOther)
 
 void CPlayer::Calculate_TimerHP(const _float& _fTimeDelta)
 {
+	if (m_bIsClear)
+		return;
+
 	if (0.f < m_fTimerHP)
 		m_fTimerHP -= _fTimeDelta;
 	else

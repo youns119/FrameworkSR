@@ -386,6 +386,12 @@
     <Filter Include="04.UI\13.Skill\00.SkillBase">
       <UniqueIdentifier>{05ca90a1-0cc5-45c4-9e38-d0cd1e7095ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\14.Ending">
+      <UniqueIdentifier>{ba21617c-53f1-49d6-b11b-94cfc8eb97a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\14.Ending\00.EndingBase">
+      <UniqueIdentifier>{126e2c83-0d93-4171-a034-a9891894ac60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -772,6 +778,12 @@
     <ClInclude Include="..\Header\UISkill.h">
       <Filter>04.UI\13.Skill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIEnding.h">
+      <Filter>04.UI\14.Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIEndingBase.h">
+      <Filter>04.UI\14.Ending\00.EndingBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1139,6 +1151,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UISkill.cpp">
       <Filter>04.UI\13.Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIEnding.cpp">
+      <Filter>04.UI\14.Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIEndingBase.cpp">
+      <Filter>04.UI\14.Ending\00.EndingBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -353,11 +353,18 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
             }
             else static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Set_Return(true);
 
-            if (!static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_BossStage() &&
-                Engine::Get_ListUI(UITYPE::UI_FLOOR)->empty())
+            if (Engine::Get_ListUI(UITYPE::UI_FLOOR)->empty())
             {
-                Engine::Activate_UI(UITYPE::UI_FLOOR);
-                static_cast<CUIFloor*>(Engine::Get_ListUI(UITYPE::UI_FLOOR)->front())->Set_FloorType(0);
+                if (!static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_BossStage())
+                {
+                    Engine::Activate_UI(UITYPE::UI_FLOOR);
+                    static_cast<CUIFloor*>(Engine::Get_ListUI(UITYPE::UI_FLOOR)->front())->Set_FloorType(0);
+                }
+                else if (static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_CurrFloor() == 4)
+                {
+                    Engine::Activate_UI(UITYPE::UI_FLOOR);
+                    static_cast<CUIFloor*>(Engine::Get_ListUI(UITYPE::UI_FLOOR)->front())->Set_FloorType(1);
+                }
             }
 
             if (static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_CurrFloor() == 2)

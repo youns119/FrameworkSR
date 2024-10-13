@@ -51,6 +51,7 @@ HRESULT CCutScene::Ready_Scene()
 	Engine::Deactivate_UI(UITYPE::UI_NORMAL);
 	Engine::Deactivate_UI(UITYPE::UI_FREECAM);
 	Engine::Deactivate_UI(UITYPE::UI_SCREEN);
+	Engine::Deactivate_UI(UITYPE::UI_SKILL);
 
 	//FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
