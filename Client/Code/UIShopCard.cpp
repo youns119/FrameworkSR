@@ -235,6 +235,8 @@ void CUIShopCard::On_Click()
 		Engine::Activate_UI(UITYPE::UI_INVENTORY);
 		static_cast<CUIInventory*>(Engine::Get_ListUI(UITYPE::UI_INVENTORY)->front())->Update_Inventory((_uint)m_eUIUpgrade);
 		Engine::Deactivate_UI(UITYPE::UI_INVENTORY);
+
+		Play_Sound(L"Shop_Purchase.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
 	}
 }
 
@@ -251,7 +253,15 @@ void CUIShopCard::On_Hover()
 	ptMouse.x = (_int)(ptMouse.x - WINCX / 2.f);
 	ptMouse.y = (_int)(WINCY / 2.f - ptMouse.y);
 
-	if (PtInRect(&m_tRect, ptMouse)) m_bHover = true;
+	if (PtInRect(&m_tRect, ptMouse))
+	{
+		if (m_bHover) return;
+		else
+		{
+			m_bHover = true;
+			Play_Sound(L"Shop_Hover.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
+		}
+	}
 	else m_bHover = false;
 }
 

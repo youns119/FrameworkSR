@@ -4,6 +4,7 @@
 #include "..\Header\UIShop.h"
 #include "..\Header\UIVictory.h"
 #include "Export_Utility.h"
+#include "Export_System.h"
 
 CUIScreen::CUIScreen(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
@@ -50,6 +51,8 @@ _int CUIScreen::Update_UI(const _float& _fTimeDelta)
 		{
 			Engine::Activate_UI(UITYPE::UI_SHOP);
 			m_bShop = true;
+
+			Play_Sound(L"Shop_Enter.wav", CHANNELID::SOUND_INTERFACE, 0.7f);
 		}
 
 	if (m_pUIScreenBase->Get_BackToNormal())
@@ -82,6 +85,11 @@ HRESULT CUIScreen::Add_Unit()
 	m_vecUIUnit.push_back(m_pUIScreenBase);
 
 	return S_OK;
+}
+
+_int CUIScreen::Get_Floor()
+{
+	return m_pUIScreenBase->Get_Floor();
 }
 
 void CUIScreen::Set_Return(_bool _bReturn)

@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "..\Header\UIVictoryBase.h"
+#include "..\Header\UIScreen.h"
+#include "..\Header\UIShop.h"
 #include "Export_System.h"
 #include "Export_Utility.h"
 
@@ -8,12 +10,17 @@ CUIVictoryBase::CUIVictoryBase(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureTransformCom(nullptr)
 	, m_bTextureRendered(false)
+	, m_bText(false)
 	, m_fSpeed(0.f)
 	, m_fDelayTime(0.f)
 	, m_fFloorTime(0.f)
+	, m_fWordTime(0.f)
+	, m_iFloor(0)
+	, m_iWordCount(0)
 	, m_pTexture(nullptr)
 	, m_pTextureSurface(nullptr)
 	, m_pPreSurface(nullptr)
+	, m_vTextPos{}
 {
 	for (_uint i = 0; i < (_uint)UI_VICTORY::VICTORY_END; ++i)
 	{
@@ -60,6 +67,12 @@ HRESULT CUIVictoryBase::Ready_Unit()
 	m_fAlpha[1] = 1.f;
 
 	m_fSpeed = 10.f;
+
+	m_vTextPos = { 430.f, 40.f };
+
+	lstrcpy(m_szComment1, L"또 만나요! <3");
+	lstrcpy(m_szComment2, L"하하하 감사합니다!");
+	lstrcpy(m_szComment3, L"본 때를 보여주세요!");
 
 	{
 		m_pTransformCom[(_uint)UI_VICTORY::VICTORY_ICON]->Set_Pos(-WINCX / 2.f + 50.f, WINCY / 2.f - 50.f, 0.f);
@@ -182,6 +195,24 @@ _int CUIVictoryBase::Update_Unit(const _float& _fTimeDelta)
 	m_fAlpha[0] += _fTimeDelta * 0.8f;
 	if (m_fAlpha[0] >= 1.f) m_fAlpha[0] = 1.f;
 
+	m_iFloor = static_cast<CUIScreen*>(Engine::Get_ListUI(UITYPE::UI_SCREEN)->front())->Get_Floor();
+	if (!Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
+		m_bText = static_cast<CUIShop*>(Engine::Get_ListUI(UITYPE::UI_SHOP)->front())->Get_Finish();
+
+	if (m_bText)
+	{
+		m_fWordTime += _fTimeDelta;
+		if (m_fWordTime >= 0.2f)
+		{
+			m_fWordTime = 0.f;
+			m_iWordCount++;
+
+			if (m_iFloor == 1 && m_iWordCount >= 10) m_iWordCount = 10;
+			else if (m_iFloor == 2 && m_iWordCount >= 11) m_iWordCount = 11;
+			else if (m_iFloor == 3 && m_iWordCount >= 12) m_iWordCount = 12;
+		}
+	}
+
 	return Engine::CUIUnit::Update_Unit(_fTimeDelta);
 }
 
@@ -207,6 +238,20 @@ void CUIVictoryBase::Render_Unit()
 
 		m_pTextureCom[(_uint)UI_VICTORY::VICTORY_BALLOON]->Set_Texture();
 		m_pBufferCom->Render_Buffer();
+
+		if (m_bText)
+		{
+			_tchar Result[20];
+
+			if (m_iFloor == 1)
+				wcsncpy_s(Result, m_szComment1, m_iWordCount);
+			else if (m_iFloor == 2)
+				wcsncpy_s(Result, m_szComment2, m_iWordCount);
+			else if (m_iFloor == 3)
+				wcsncpy_s(Result, m_szComment3, m_iWordCount);
+
+			Engine::Render_Font(L"Font_NotoSans", Result, &m_vTextPos, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		}
 
 		if (m_fAlpha[1] == 0.f) return;
 
@@ -502,9 +547,13 @@ void CUIVictoryBase::Update_FloorTime()
 void CUIVictoryBase::Reset()
 {
 	m_bTextureRendered = false;
+	m_bText = false;
 	m_fSpeed = 10.f;
 	m_fDelayTime = 0.f;
 	m_fFloorTime = 0.f;
+	m_fWordTime = 0.f;
+	m_iFloor = 0;
+	m_iWordCount = 0;
 	m_fAlpha[0] = 0.f;
 	m_fAlpha[1] = 1.f;
 

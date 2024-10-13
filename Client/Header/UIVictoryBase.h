@@ -75,14 +75,24 @@ private:
 	Engine::CTransform* m_pTextureTransformCom;
 
 	_bool m_bTextureRendered;
+	_bool m_bText;
 	_float m_fScaleRatio[3];
 	_float m_fSpeed;
 	_float m_fDelayTime;
 	_float m_fAlpha[2];
 	_float m_fFloorTime;
+	_float m_fWordTime;
 	_int m_iDigit[5];
+	_int m_iFloor;
+	_int m_iWordCount;
+
+	_vec2 m_vTextPos;
 
 	IDirect3DTexture9* m_pTexture;
 	IDirect3DSurface9* m_pTextureSurface;
 	IDirect3DSurface9* m_pPreSurface;
+
+	_tchar m_szComment1[128];
+	_tchar m_szComment2[128];
+	_tchar m_szComment3[128];
 };

@@ -342,6 +342,7 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
                 pPlayer->Set_Clear();
                 Engine::Stop_All();
                 Engine::Play_Sound(L"Stage_Clear.wav", CHANNELID::SOUND_EFFECT, 0.7f);
+                Engine::Play_BGM(L"Shop_BGM.wav", 0.8f);
             }
         }
         else if (m_bFirstDoor)
@@ -354,7 +355,10 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
 
             if (!static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_BossStage() &&
                 Engine::Get_ListUI(UITYPE::UI_FLOOR)->empty())
+            {
                 Engine::Activate_UI(UITYPE::UI_FLOOR);
+                static_cast<CUIFloor*>(Engine::Get_ListUI(UITYPE::UI_FLOOR)->front())->Set_FloorType(0);
+            }
         }
     }
 }

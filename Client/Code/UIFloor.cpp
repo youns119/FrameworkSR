@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "..\Header\UIFloor.h"
 #include "..\Header\UIFloorBase.h"
+#include "..\Header\UIFloorBoss.h"
 
 CUIFloor::CUIFloor(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: CUI(_pGraphicDev)
 	, m_pUIFloorBase(nullptr)
+	, m_pUIFloorBoss(nullptr)
 {
 	m_eUIType = UITYPE::UI_FLOOR;
 }
@@ -55,7 +57,25 @@ HRESULT CUIFloor::Add_Unit()
 	m_pUIFloorBase->Set_OwnerUI(this);
 	m_vecUIUnit.push_back(m_pUIFloorBase);
 
+	m_pUIFloorBoss = CUIFloorBoss::Create(m_pGraphicDev);
+	m_pUIFloorBoss->Set_OwnerUI(this);
+	m_vecUIUnit.push_back(m_pUIFloorBoss);
+
 	return S_OK;
+}
+
+void CUIFloor::Set_FloorType(_int _iType)
+{
+	if (_iType == 0)
+	{
+		m_pUIFloorBase->Set_Render(true);
+		m_pUIFloorBoss->Set_Render(false);
+	}
+	else if (_iType == 1)
+	{
+		m_pUIFloorBase->Set_Render(false);
+		m_pUIFloorBoss->Set_Render(true);
+	}
 }
 
 void CUIFloor::Free()

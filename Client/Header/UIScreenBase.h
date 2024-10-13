@@ -55,6 +55,7 @@ public:
 			return true;
 		else return false;
 	}
+	_int Get_Floor() { return m_iFloor; }
 
 	void Set_Return(_bool _bReturn) { m_bReturn = _bReturn; }
 	void Set_Floor(_int _iFloor) { m_iFloor = _iFloor; }

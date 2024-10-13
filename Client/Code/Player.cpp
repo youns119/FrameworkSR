@@ -2153,6 +2153,8 @@ void CPlayer::ActionUI(_int _iActionType)
 		Engine::Activate_UI(UITYPE::UI_ACTION);
 		static_cast<CUIAction*>(Engine::Get_ListUI(UITYPE::UI_ACTION)->front())->Set_ActionType((CUIAction::ACTION_TYPE)_iActionType);
 	}
+
+	Engine::Play_Sound(L"FullLife.wav", CHANNELID::SOUND_INTERFACE, 1.f);
 }
 
 void CPlayer::Free()

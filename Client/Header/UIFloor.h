@@ -9,6 +9,7 @@ class CUIUnit;
 END
 
 class CUIFloorBase;
+class CUIFloorBoss;
 
 class CUIFloor
 	: public Engine::CUI
@@ -29,9 +30,13 @@ public:
 private:
 	HRESULT Add_Unit();
 
+public:
+	void Set_FloorType(_int _iType);
+
 private:
 	virtual void Free();
 
 private:
 	CUIFloorBase* m_pUIFloorBase;
+	CUIFloorBoss* m_pUIFloorBoss;
 };

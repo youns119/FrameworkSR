@@ -199,16 +199,22 @@ _int CUIScreenBase::Update_Unit(const _float& _fTimeDelta)
 				{
 					m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace2", true);
 					m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair2", true);
+
+					Play_Sound(L"Streamer_Floor1.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
 				}
 				else if (m_iFloor == 2)
 				{
 					m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace3", true);
 					m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair3", true);
+
+					Play_Sound(L"Streamer_Floor2.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
 				}
 				else if (m_iFloor == 3)
 				{
 					m_pAnimatorCom[2]->PlayAnimation(L"StreamerFace4", true);
 					m_pAnimatorCom[3]->PlayAnimation(L"StreamerHair4", true);
+
+					Play_Sound(L"Streamer_Floor3.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
 				}
 
 				m_iPhase = 2;

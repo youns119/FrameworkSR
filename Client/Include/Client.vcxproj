@@ -230,6 +230,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIEmergency.h" />
     <ClInclude Include="..\Header\UIFloor.h" />
     <ClInclude Include="..\Header\UIFloorBase.h" />
+    <ClInclude Include="..\Header\UIFloorBoss.h" />
     <ClInclude Include="..\Header\UIFreeCam.h" />
     <ClInclude Include="..\Header\UIIndicator.h" />
     <ClInclude Include="..\Header\UIInventory.h" />
@@ -355,6 +356,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIEmergency.cpp" />
     <ClCompile Include="..\Code\UIFloor.cpp" />
     <ClCompile Include="..\Code\UIFloorBase.cpp" />
+    <ClCompile Include="..\Code\UIFloorBoss.cpp" />
     <ClCompile Include="..\Code\UIFreeCam.cpp" />
     <ClCompile Include="..\Code\UIIndicator.cpp" />
     <ClCompile Include="..\Code\UIInventory.cpp" />

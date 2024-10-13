@@ -72,6 +72,8 @@ void CAxe::OnCollisionEnter(CCollider& _pOther)
         dynamic_cast<CPlayer*>(pGameObject)->Rooting_Item(m_eItemType);
         m_pColliderCom->SetActive(false);
         m_bIsRender = false;
+
+        Engine::Play_Sound(L"Item_Get.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
     }
 }
 

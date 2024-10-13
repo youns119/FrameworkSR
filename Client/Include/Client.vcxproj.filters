@@ -377,6 +377,9 @@
     <Filter Include="03.GameObject\06.Effect\20. BossRobotDie">
       <UniqueIdentifier>{011bdc6d-5dcc-44af-9e6e-c5d193cff578}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\11.Floor\01.FloorBoss">
+      <UniqueIdentifier>{e9ff6d5a-ae80-4402-a3f0-d28d6a2b34e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -754,6 +757,9 @@
     <ClInclude Include="..\Header\EffectBossRobotDie.h">
       <Filter>03.GameObject\06.Effect\20. BossRobotDie</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIFloorBoss.h">
+      <Filter>04.UI\11.Floor\01.FloorBoss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1112,6 +1118,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectBossRobotDie.cpp">
       <Filter>03.GameObject\06.Effect\20. BossRobotDie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIFloorBoss.cpp">
+      <Filter>04.UI\11.Floor\01.FloorBoss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
