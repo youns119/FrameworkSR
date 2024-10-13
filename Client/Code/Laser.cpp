@@ -73,6 +73,9 @@ _int CLaser::Update_GameObject(const _float& _fTimeDelta)
 			// ±‘∫Û : «√∑π¿ÃæÓ ««∞› ¿Ã∆Â∆Æ
 			CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 			static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
+			static_cast<CEffect*>(pComponent)->Operate_Effect();
 	
 		}
 		// ±‘∫Û

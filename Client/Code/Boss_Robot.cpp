@@ -201,6 +201,10 @@ void CBoss_Robot::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _
 	{
 		m_eCurState = BOSS_DEAD;
 		m_bIsDead = true;
+
+		// º¸½º Æø¹ß
+		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotDie", L"Com_Effect");
+		static_cast<CEffect*>(pComponent)->Operate_Effect();
 	}
 
 }

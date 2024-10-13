@@ -447,6 +447,13 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 			if (Engine::RayCast(vPos, vDir)) {
 				CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
 				m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);
+
+				// 규빈 : 플레이어 피격 이펙트
+				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+				static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
+				static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
 		}
 	}
