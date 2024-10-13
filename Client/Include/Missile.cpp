@@ -62,7 +62,7 @@ _int CMissile::Update_GameObject(const _float& _fTimeDelta)
 		vNext = Bezier(m_vStart, m_vCurve, m_vEnd, m_fLinear + 0.1f);
 		m_pTransformCom->LookAtTarget(&vNext);
 
-		CGameObject::Compute_ViewZ(&m_vDir);
+		CGameObject::Compute_ViewZ(&vNext);
 		return iExit;
 	}
 }

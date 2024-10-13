@@ -20,5 +20,6 @@
 #include "../Header/EffectBigExplosion.h"
 #include "../Header/EffectLaserTarget.h"
 #include "../Header/FilterDying.h"
+#include "../Header/EffectBossRobotDie.h"
 
 #include "../Header/EffectPool.h"

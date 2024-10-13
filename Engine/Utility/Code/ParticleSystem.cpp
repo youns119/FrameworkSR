@@ -398,7 +398,9 @@ void CParticleSystem::Set_PostRenderState()
 
 
 	if (Check_Option(OPTION::ZWRITE_DISABLE))
-		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	{
+		//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	}
 
 	if (Check_Option(OPTION::ALPHAOP_ADD))
 	{

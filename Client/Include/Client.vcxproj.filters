@@ -374,6 +374,9 @@
     <Filter Include="03.GameObject\08.Shield\Boss_Shield">
       <UniqueIdentifier>{02c212a9-024e-4fd4-bf5a-ef251a043012}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.GameObject\06.Effect\20. BossRobotDie">
+      <UniqueIdentifier>{011bdc6d-5dcc-44af-9e6e-c5d193cff578}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -748,6 +751,9 @@
     <ClInclude Include="..\Header\Boss_Shield.h">
       <Filter>03.GameObject\08.Shield\Boss_Shield</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectBossRobotDie.h">
+      <Filter>03.GameObject\06.Effect\20. BossRobotDie</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1103,6 +1109,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_Shield.cpp">
       <Filter>03.GameObject\08.Shield\Boss_Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBossRobotDie.cpp">
+      <Filter>03.GameObject\06.Effect\20. BossRobotDie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
