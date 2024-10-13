@@ -15,8 +15,8 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_fShield_HP(0.f)
 	, m_PatternDelayTime(0.f)
 	, m_fPatternAttackTime(5.f)
-	, m_fDelayTime(4.8f)
-	, m_fAttackTime(5.0f)
+	, m_fDelayTime(2.8f)
+	, m_fAttackTime(-6.5f)
 	, m_fAngle(180.f)
 	, m_fMissileAngle(180.f)
 	, m_bPatternEnd(true)
@@ -47,8 +47,8 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_fShield_HP(0.f)
 	, m_PatternDelayTime(0.f)
 	, m_fPatternAttackTime(5.f)
-	, m_fDelayTime(4.8f)
-	, m_fAttackTime(5.0f)
+	, m_fDelayTime(2.8f)
+	, m_fAttackTime(-6.5f)
 	, m_fAngle(180.f)
 	, m_fMissileAngle(180.f)
 	, m_bPatternEnd(true)
@@ -463,7 +463,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			D3DXVec3TransformNormal(&vCurve, &vRight, &mRotation);
 			_vec3 vOffSet = { 0.f, 0.5f, 0.f };
 			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos + vOffSet, 5.f, Engine::CBulletManager::BULLET_MISSILE,true ,vCurve + vPos);
-			m_fAttackTime = 4.5f;
+			m_fAttackTime = 2.5f;
 			m_fMissileAngle -= 15.f;
 		}
 		break;
@@ -486,7 +486,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_LASER);
-			m_fAttackTime = 4.5f;
+			m_fAttackTime = 2.5f;
 			m_iCount++;
 		}
 		break;
@@ -507,7 +507,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 5.f, Engine::CBulletManager::BULLET_PISTOL, true);
-			m_fAttackTime = 4.5f;
+			m_fAttackTime = 2.5f;
 			m_iCount2 += 1;
 		}
 		break;

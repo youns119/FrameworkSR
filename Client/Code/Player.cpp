@@ -41,6 +41,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	, m_bIsBoss(false)
 	, m_bIsShop(false)
 	, m_fDamage(5.f)
+	, m_fSmileTimer(0.f)
 	, m_fShakingTimer(0.f)
 	, m_fShakingSize(0.f)
 	, m_fTrapTime(0.f)
@@ -116,6 +117,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos, _bool _bBossS
 	, m_fTrapTime(0.f)
 	, m_fHP(0.f)
 	, m_fTimerHP(0.f)
+	, m_fSmileTimer(0.f)
 	, m_fJumpPower(0.f)
 	, m_fTilePos(0.f)
 	, m_fSpeed(0.f)
@@ -870,6 +872,21 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			return;
 		}
 
+		if (0.f > m_fSmileTimer)
+		{
+			_int iIndex = rand() % 13;
+
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"Player_Laughs_01.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"Player_Laughs_02.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"Player_Laughs_03.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			else
+				Engine::Play_Sound(L"Player_Laughs_04.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			m_fSmileTimer = 7.f;
+		}
+
 		_vec3 RayStart, RayDir, vPos;
 		m_pBody_TransformCom->Get_Info(INFO::INFO_POS, &RayStart);
 		m_pBody_TransformCom->Get_Info(INFO::INFO_LOOK, &RayDir);
@@ -948,7 +965,6 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			static_cast<CEffect*>(pComponent)->Operate_Effect();
 		}
 
-		Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f);
 		if (m_WeaponState != KATANA && m_WeaponState != MINIGUN) {
 			//Engine::RayCast2(RayStart, RayDir);
 			if (Engine::FireRayCast(RayStart + _vec3(0.f, 0.5f, 0.f), RayDir, vPos, m_fDamage))
@@ -1125,6 +1141,20 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			break;
 		default:
 			break;
+		}
+		if (0.f > m_fSmileTimer)
+		{
+			_int iIndex = rand() % 13;
+
+			if (0 == iIndex % 4)
+				Engine::Play_Sound(L"Player_Laughs_01.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			else if (1 == iIndex % 4)
+				Engine::Play_Sound(L"Player_Laughs_02.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			else if (2 == iIndex % 4)
+				Engine::Play_Sound(L"Player_Laughs_03.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			else
+				Engine::Play_Sound(L"Player_Laughs_04.wav", CHANNELID::SOUND_PLAYER, 0.8f);
+			m_fSmileTimer = 7.f;
 		}
 	}
 	if (Engine::Mouse_Release(MOUSEKEYSTATE::DIM_LB))
@@ -1388,7 +1418,7 @@ void CPlayer::Animation_End_Check()
 
 			_int iTemp = rand() % 100;
 
-			if (m_bIsBoss)
+			if (m_bIsBoss && !m_bIsShop)
 			{
 				if (0 == iTemp % 2)
 					Engine::Play_BGM(L"Boss_Sniper.wav", 0.6f);
@@ -2070,6 +2100,8 @@ void CPlayer::Calculate_TimerHP(const _float& _fTimeDelta)
 	if (20.f < m_fTimerHP)
 		m_fTimerHP = 20.f;
 	//if u need, Use (_int)m_fTimerHP;
+
+	m_fSmileTimer -= _fTimeDelta;
 }
 
 void CPlayer::Skill_Timer()

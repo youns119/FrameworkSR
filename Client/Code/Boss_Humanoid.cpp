@@ -15,6 +15,7 @@ CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_iBossKillCount(0)
 	, m_fAttackTime(0.f)
     , m_fDelayTime(5.f)
+	, m_bIsAttack(false)
 {
 	for (_int i = 0; i < CBoss_Humanoid::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -29,6 +30,7 @@ CBoss_Humanoid::CBoss_Humanoid(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_iBossKillCount(0)
 	, m_fAttackTime(0.f)
 	, m_fDelayTime(5.f)
+	, m_bIsAttack(false)
 {
 	for (_int i = 0; i < CBoss_Humanoid::BOSS_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -153,23 +155,26 @@ void CBoss_Humanoid::Render_GameObject()
 
 void CBoss_Humanoid::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)
 {
-	_vec3 vPos;
-	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-	Changing_State(CBoss_Humanoid::BOSS_DAMAGED); // Need to Interaction with EffectManager(Body or Blodd Explosion)
-	m_pAnimatorCom->GetCurrAnim()->SetFinish(true);
-	CComponent* pComponent;
-	CGameObject* pGameObject(nullptr);
-	pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
-	static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
-	pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-	static_cast<CEffectPool*>(pGameObject)->Operate();
-
-	static_cast<CUIMisterBullet*>(Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->front())->Add_Count();
-	++m_iBossKillCount;
-
-	if (4 < m_iBossKillCount)
+	if (!m_bIsDamaged)
 	{
-		// Need to Interaction with SceneChange to Go Boss_Robot
+		_vec3 vPos;
+		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+		Changing_State(CBoss_Humanoid::BOSS_DAMAGED); // Need to Interaction with EffectManager(Body or Blodd Explosion)
+		m_pAnimatorCom->GetCurrAnim()->SetFinish(true);
+		CComponent* pComponent;
+		CGameObject* pGameObject(nullptr);
+		pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_BloodSplater", L"Com_Transform");
+		static_cast<CTransform*>(pComponent)->Set_Pos(vPos);
+		pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+		static_cast<CEffectPool*>(pGameObject)->Operate();
+
+		static_cast<CUIMisterBullet*>(Engine::Get_ListUI(UITYPE::UI_MISTERBULLET)->front())->Add_Count();
+		++m_iBossKillCount;
+
+		if (4 < m_iBossKillCount)
+		{
+			// Need to Interaction with SceneChange to Go Boss_Robot
+		}
 	}
 }
 
@@ -303,6 +308,7 @@ void CBoss_Humanoid::Damaged_ReAction()
 		_vec3 vOffSet = { 0.f, 0.5f, 0.f };
 
 		Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos + vOffSet, 5.f, Engine::CBulletManager::BULLET_HEAD, true, vCurve + vPos);
+		Engine::Play_Sound(L"Boss_NoGod.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.9f);
 	}
 
 	//Head날리기 끝
@@ -404,7 +410,7 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 			m_bIsDamaged = false;
 			m_pAnimatorCom->Toggle_Pause();
 			m_eCurState = CBoss_Humanoid::BOSS_SPAWN;
-			m_fSpawnTimer = 2.5f;
+			m_fSpawnTimer = 1.5f;
 		}
 		else
 			m_fSpawnTimer -= _fTimeDelta;
@@ -429,6 +435,7 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 		if (Engine::Get_Bullet_Linear(CBulletManager::BULLET_BOSS_HUMANOID_LASER) >= 0.9f)
 		{
 			m_eCurState = CBoss_Humanoid::BOSS_ATTACK;
+			m_bIsAttack = false;
 		}
 	}
 	else if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState) {
@@ -447,7 +454,11 @@ void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 			if (Engine::RayCast(vPos, vDir)) {
 				CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
 				m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);
-
+				if (!m_bIsAttack)
+				{
+					Engine::Play_Sound(L"Boss_SniperAttack.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.9f);
+					m_bIsAttack = true;
+				}
 				// 규빈 : 플레이어 피격 이펙트
 				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
 				static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);

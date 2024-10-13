@@ -64,6 +64,9 @@ HRESULT CWhiteSuit::Ready_GameObject()
 	m_pColliderCom->SetShow(true);
 	m_pColliderCom->SetActive(true);
 
+	_int iTemp = rand() % 20;
+	m_fAttackTimer = (iTemp + 1) / 2.f;
+
 	Set_Animation();
 	m_pHitBufferCom->Set_Hit_Parts(CRcCol::HIT_BODY);
 	m_pHeadHit->Set_Hit_Parts(CRcCol::HIT_HEAD);
