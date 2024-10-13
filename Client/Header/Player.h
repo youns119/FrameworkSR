@@ -77,6 +77,7 @@ public:
 	RIGHT_STATE Get_RightCurrState() { return m_Right_CurState; }
 	LEFT_STATE Get_LeftCurrState() { return m_Left_CurState; }
 	_bool Get_LeftUse() { return m_bLeftHandUse; }
+	_bool Get_Cool() { return m_fSkillCool >= 30.f; }
 	_float Get_TimerHP() { return m_fTimerHP; }
 	_float Get_PlayerHP() { return m_fHP; }
 	_int Get_MaxAmmo() { return m_iMaxAmmo; }
@@ -183,6 +184,8 @@ private:
 	_float m_fDamage;
 	_float m_fSmileTimer;
 	_float m_flinear[FINISH];
+	_float m_fSkillCool;
+	_float m_fSkillTime;
 	_int m_iMaxAmmo;
 	_int m_iCurAmmo;
 	_int m_iCurrFloor;

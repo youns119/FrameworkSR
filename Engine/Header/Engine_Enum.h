@@ -29,6 +29,7 @@ namespace Engine
 		UI_ROBOTO,
 		UI_PLAYER,
 		UI_DOWN,
+		UI_SKILL,
 		UI_VICTORY,
 		UI_ACTION,
 		UI_FLOOR,

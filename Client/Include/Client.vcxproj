@@ -253,6 +253,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\UIShopBase.h" />
     <ClInclude Include="..\Header\UIShopBuzz.h" />
     <ClInclude Include="..\Header\UIShopCard.h" />
+    <ClInclude Include="..\Header\UISkill.h" />
+    <ClInclude Include="..\Header\UISkillBase.h" />
     <ClInclude Include="..\Header\UISniperHP.h" />
     <ClInclude Include="..\Header\UIUpgradeCard.h" />
     <ClInclude Include="..\Header\UIVictory.h" />
@@ -379,6 +381,8 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\UIShopBase.cpp" />
     <ClCompile Include="..\Code\UIShopBuzz.cpp" />
     <ClCompile Include="..\Code\UIShopCard.cpp" />
+    <ClCompile Include="..\Code\UISkill.cpp" />
+    <ClCompile Include="..\Code\UISkillBase.cpp" />
     <ClCompile Include="..\Code\UISniperHP.cpp" />
     <ClCompile Include="..\Code\UIUpgradeCard.cpp" />
     <ClCompile Include="..\Code\UIVictory.cpp" />

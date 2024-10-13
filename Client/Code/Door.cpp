@@ -359,6 +359,9 @@ void CDoor::OnCollisionEnter(CCollider& _pOther)
                 Engine::Activate_UI(UITYPE::UI_FLOOR);
                 static_cast<CUIFloor*>(Engine::Get_ListUI(UITYPE::UI_FLOOR)->front())->Set_FloorType(0);
             }
+
+            if (static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"))->Get_CurrFloor() == 2)
+                Engine::Activate_UI(UITYPE::UI_SKILL);
         }
     }
 }

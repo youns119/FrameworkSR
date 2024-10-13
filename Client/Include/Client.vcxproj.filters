@@ -380,6 +380,12 @@
     <Filter Include="04.UI\11.Floor\01.FloorBoss">
       <UniqueIdentifier>{e9ff6d5a-ae80-4402-a3f0-d28d6a2b34e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.UI\13.Skill">
+      <UniqueIdentifier>{bf370379-af11-4ef9-99e2-89f342223f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI\13.Skill\00.SkillBase">
+      <UniqueIdentifier>{05ca90a1-0cc5-45c4-9e38-d0cd1e7095ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -760,6 +766,12 @@
     <ClInclude Include="..\Header\UIFloorBoss.h">
       <Filter>04.UI\11.Floor\01.FloorBoss</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UISkillBase.h">
+      <Filter>04.UI\13.Skill\00.SkillBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UISkill.h">
+      <Filter>04.UI\13.Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1121,6 +1133,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIFloorBoss.cpp">
       <Filter>04.UI\11.Floor\01.FloorBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UISkillBase.cpp">
+      <Filter>04.UI\13.Skill\00.SkillBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UISkill.cpp">
+      <Filter>04.UI\13.Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

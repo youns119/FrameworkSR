@@ -54,6 +54,8 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos)
 	, m_fCurAttackDelay(1.5f)
 	, m_fDashSpeed(0.f)
 	, m_fTime_Skill(1.f) //For TimeSkill
+	, m_fSkillCool(30.f)
+	, m_fSkillTime(0.f)
 	, m_iCurAmmo(6) //because Pistol
 	, m_iMaxAmmo(6) //because Pistol
 	, m_Right_CurState(START)
@@ -125,6 +127,8 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vStartPos, _bool _bBossS
 	, m_fCurAttackDelay(1.5f)
 	, m_fDashSpeed(0.f)
 	, m_fTime_Skill(1.f) //For TimeSkill
+	, m_fSkillCool(30.f)
+	, m_fSkillTime(0.f)
 	, m_iCurAmmo(6) //because Pistol
 	, m_iMaxAmmo(6) //because Pistol
 	, m_Right_CurState(START)
@@ -262,7 +266,8 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 	{
 		if (Engine::Get_ListUI(UITYPE::UI_SHOP)->empty())
 		{
-			Key_Input(_fTimeDelta * m_fTime_Skill);
+			//Key_Input(_fTimeDelta * m_fTime_Skill);
+			Key_Input(_fTimeDelta);
 			Mouse_Move(_fTimeDelta * m_fTime_Skill);
 		}
 
@@ -277,6 +282,14 @@ _int CPlayer::Update_GameObject(const _float& _fTimeDelta)
 
 	Add_RenderGroup(RENDERID::RENDER_ORTHOGONAL, this);
 	Engine::Add_Collider(m_pColliderCom);
+
+	if (m_fTime_Skill == 3.0f)
+	{
+		m_fSkillTime += _fTimeDelta;
+		m_fSkillCool = 0.f;
+		if (m_fSkillTime >= 3.f) Skill_Timer();
+	}
+	else m_fSkillCool += _fTimeDelta;
 
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 	Moving_Rotate();
@@ -625,11 +638,13 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		
 	}
 
-	if (Engine::Key_Hold(DIK_J)) {
+	if (Engine::Key_Press(DIK_X)) {
 		//m_bLeftHandUse = false;
 		//m_Right_CurState = EXECUTION;
 		//m_pAnimator[RIGHT]->PlayAnimation(L"FinishKill", false);
-		Skill_Timer();
+
+		if (m_fSkillCool >= 30.f)
+			Skill_Timer();
 	}
 
 	if (Engine::Key_Hold(DIK_R)) {
@@ -755,9 +770,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 
 
 	// Kyubin
-	if (Engine::Key_Press(DIK_X))
-	{
-		CComponent* pComponent(nullptr);
+	//if (Engine::Key_Press(DIK_X))
+	//{
+	//	CComponent* pComponent(nullptr);
 
 		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Right", L"Com_Effect");
 		//if (pComponent)
@@ -774,11 +789,11 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		//	static_cast<CEffect*>(pComponent)->Operate_Effect();
 		//}
 
-	}
+	//}
 
-	if (Engine::Key_Release(DIK_X))
-	{
-		CComponent* pComponent(nullptr);
+	//if (Engine::Key_Release(DIK_X))
+	//{
+	//	CComponent* pComponent(nullptr);
 
 		//pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotBooster_Left", L"Com_Effect");
 		//if (pComponent)
@@ -788,7 +803,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		//if (pComponent)
 		//	static_cast<CEffect*>(pComponent)->Stop_Effect();
 
-	}
+	//}
 	if (Engine::Key_Press(DIK_Z))
 	{
 		CComponent* pComponent(nullptr);
@@ -2112,11 +2127,18 @@ void CPlayer::Skill_Timer()
 	{
 		Engine::Set_PlayerSkillTimer(1.0f);
 		m_fTime_Skill = 1.0f;
+
+		m_fSkillCool = 0.f;
+		m_fSkillTime = 0.f;
+
+		Play_Sound(L"Slowmo_Up.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
 	}
 	else
 	{
 		Engine::Set_PlayerSkillTimer(0.33f); //세배 느리게함
 		m_fTime_Skill = 3.0f;
+
+		Play_Sound(L"Slowmo_Down.wav", CHANNELID::SOUND_INTERFACE, 0.8f);
 	}
 }
 
