@@ -89,6 +89,7 @@ HRESULT CBossStage::Ready_Scene()
 	Engine::Calculate_Trigger();//10.06
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	Engine::Play_Sound(L"BossMap.wav", CHANNELID::SOUND_BGM, 0.7f);
 
 	return S_OK;
 }

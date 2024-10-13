@@ -16,7 +16,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_PatternDelayTime(0.f)
 	, m_fPatternAttackTime(5.f)
 	, m_fDelayTime(2.8f)
-	, m_fAttackTime(-6.5f)
+	, m_fAttackTime(2.0f)
 	, m_fAngle(180.f)
 	, m_fMissileAngle(180.f)
 	, m_bPatternEnd(true)
@@ -48,7 +48,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_PatternDelayTime(0.f)
 	, m_fPatternAttackTime(5.f)
 	, m_fDelayTime(2.8f)
-	, m_fAttackTime(-6.5f)
+	, m_fAttackTime(2.0f)
 	, m_fAngle(180.f)
 	, m_fMissileAngle(180.f)
 	, m_bPatternEnd(true)
@@ -156,7 +156,9 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 		Move(_fTimeDelta);
 	}
 	m_PatternDelayTime += _fTimeDelta;
-	if (m_PatternDelayTime >= m_fPatternAttackTime && !m_bIsDead2) {
+	_vec3 vPlayerPosition;
+	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPosition);
+	if (m_PatternDelayTime >= m_fPatternAttackTime && !m_bIsDead && vPlayerPosition.z >= 34.f) {
 		Attack(_fTimeDelta);
 	}
 
@@ -530,6 +532,7 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			m_pColliderCom->SetActive(true);
 			m_pColliderCom->SetShow(true);
 			static_cast<CBoss_Shield*>(m_pShield)->Set_IsRender(false);
+			static_cast<CBoss_Shield*>(m_pShield)->Set_Shield_HP(10.f);
 			m_iCount3 = 0;
 			break;
 		}
@@ -583,7 +586,7 @@ void CBoss_Robot::Boss_Dead(const _float& _fTimeDelta)
 
 			_vec3 vOffSet = { 0.f, 0.5f, 0.f };
 
-			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos + vOffSet, 5.f, Engine::CBulletManager::BULLET_HEAD, true, vCurve + vPos);
+			//Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos + vOffSet, 5.f, Engine::CBulletManager::BULLET_HEAD, true, vCurve + vPos);
 			m_iDeadCount += 1;
 		}
 
