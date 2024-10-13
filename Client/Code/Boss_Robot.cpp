@@ -158,7 +158,7 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 	m_PatternDelayTime += _fTimeDelta;
 	_vec3 vPlayerPosition;
 	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPosition);
-	if (m_PatternDelayTime >= m_fPatternAttackTime && !m_bIsDead && vPlayerPosition.z >= 34.f) {
+	if (m_PatternDelayTime >= m_fPatternAttackTime && !m_bIsDead2 && vPlayerPosition.z >= 34.f) {
 		Attack(_fTimeDelta);
 	}
 
@@ -381,6 +381,10 @@ void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Mo
 			Engine::Play_Sound(L"Boss_Minigun.wav", CHANNELID::SOUND_ENEMY, 0.5f);
 		}
 	}
+	if (static_cast<CBoss_Shield*>(m_pShield)->Get_Shield_HP() <= 0)
+	{
+		m_iRandom = 3;
+	}
 	Pattern_Manager(_fTimeDelta, m_iRandom);
 }
 
@@ -537,8 +541,6 @@ void CBoss_Robot::Pattern_Manager(const _float& _fTimeDelta, _int _iPatternNum)
 			break;
 		}
 		else if (m_iCount3 == 0 && static_cast<CBoss_Shield*>(m_pShield)->Get_Shield_HP() > 0.f) {
-			m_bPatternEnd = false;
-			//m_bMoveStop = true;
 			m_eCurState = BOSS_SHIELD_NORMAL;
 			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 			static_cast<CBoss_Shield*>(m_pShield)->Spawn_Shield(vPos);
