@@ -663,7 +663,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = m_iMaxAmmo;
 	}
 
-	if (Engine::Key_Hold(DIK_1)) {
+	if (Engine::Key_Press(DIK_1)) {
 		m_bLeftHandUse = true;
 		m_bLegUse = false;
 		m_WeaponState = PISTOL;
@@ -675,7 +675,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_fDamage = 5.f;
 	}
 
-	if (Engine::Key_Hold(DIK_2)) {
+	if (Engine::Key_Press(DIK_2)) {
 		m_WeaponState = RIFLE;
 		m_bLegUse = false;
 		m_Right_CurState = CHANGE;
@@ -688,7 +688,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		Engine::Play_Sound(L"Change_Rifle.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 	}
 
-	if (Engine::Key_Hold(DIK_3)) {
+	if (Engine::Key_Press(DIK_3)) {
 		m_bLeftHandUse = false;
 		m_bLegUse = false;
 		m_WeaponState = SHOTGUN;
@@ -701,7 +701,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		Engine::Play_Sound(L"Change_ShotGun.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 	}
 
-	if (Engine::Key_Hold(DIK_4)) {
+	if (Engine::Key_Press(DIK_4)) {
 		m_bLeftHandUse = true;
 		m_bLegUse = false;
 		m_WeaponState = SNIPER;
@@ -713,7 +713,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_fDamage = 10.f;
 	}
 
-	if (Engine::Key_Hold(DIK_5)) {
+	if (Engine::Key_Press(DIK_5)) {
 		m_bLeftHandUse = false;
 		m_bLegUse = false;
 		m_WeaponState = KATANA;
@@ -723,9 +723,10 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iMaxAmmo = 100;//Dummy Code
 		m_fMaxAttackDelay = 1.5f;
 		m_fDamage = 15.f;
+		Engine::Play_Sound(L"katana_Intro.wav", CHANNELID::SOUND_PLAYER, 1.0f);
 	}
 
-	if (Engine::Key_Hold(DIK_6)) {
+	if (Engine::Key_Press(DIK_6)) {
 		m_bLegUse = true;
 		m_bLeftHandUse = true;
 		m_WeaponState = MINIGUN;
@@ -739,8 +740,9 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iMaxAmmo = 100;
 		m_fMaxAttackDelay = 1.0f;
 		m_fDamage = 2.f;
+		Engine::Play_Sound(L"uh-oh-big.wav", CHANNELID::SOUND_PLAYER, 0.7f);
 	}
-	
+
 
 	
 

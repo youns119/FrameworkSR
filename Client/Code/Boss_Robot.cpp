@@ -354,9 +354,10 @@ void CBoss_Robot::State_Check()//This Function Calling in Monster.cpp -> LateUpd
 
 void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Monster.cpp -> Update
 {
+	static _uint iAttackIndex = 0;
 	if (m_bPatternEnd) {
 		m_iRandom = rand() % 4;
-		switch (m_iRandom)
+		switch (iAttackIndex)
 		{
 		case 0:
 			Engine::Play_Sound(L"RobotBoss0.wav", CHANNELID::SOUND_ENEMY, 0.5f);
@@ -367,6 +368,12 @@ void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Mo
 		case 2:
 			Engine::Play_Sound(L"RobotBoss2.wav", CHANNELID::SOUND_ENEMY, 0.5f);
 			break;
+		}
+		++iAttackIndex;
+		iAttackIndex %= 4;
+		if (m_iRandom == 2)
+		{
+			Engine::Play_Sound(L"Boss_Minigun.wav", CHANNELID::SOUND_ENEMY, 0.5f);
 		}
 	}
 	Pattern_Manager(_fTimeDelta, m_iRandom);
