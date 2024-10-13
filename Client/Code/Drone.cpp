@@ -8,6 +8,7 @@ CDrone::CDrone(LPDIRECT3DDEVICE9 _pGraphicDev) :
 	CMonster(_pGraphicDev)
 	, m_eCurState(DRONESTATE::DRONE_IDLE)
 	, m_ePreState(DRONESTATE::DRONE_IDLE)
+	, m_bIsExplosion(false)
 {
 	for (_int i = 0; i < DRONESTATE::DRONE_END; ++i)
 		m_pTextureCom[i] = nullptr;
@@ -35,6 +36,23 @@ void CDrone::Render_GameObject()
 
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CDrone::Set_IsRender(const _bool& _bool)
+{
+	if (m_bIsExplosion)
+	{
+		m_bIsRender = false;
+		m_pColliderCom->SetActive(false);
+		m_pColliderCom->SetShow(_bool);
+	}
+	else
+	{
+		m_bIsRender = _bool;
+		m_pColliderCom->SetActive(_bool);
+		m_pColliderCom->SetShow(_bool);
+	}
+	
 }
 
 void CDrone::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _float& _fAttackDamage)

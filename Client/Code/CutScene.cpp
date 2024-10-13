@@ -68,7 +68,7 @@ _int CCutScene::Update_Scene(const _float& _fTimeDelta)
 {
 	if (1 > m_iTemp)
 	{
-		PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/BuildToBoss_Sound.wmv");
+		//PlayVideo(g_hWnd, L"../Bin/Resource/Texture/MMJ_Interface/CutScene/BuildToBoss_Sound.wmv");
 		m_iTemp++;
 
 		return 0;

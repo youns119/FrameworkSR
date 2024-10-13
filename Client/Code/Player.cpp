@@ -615,8 +615,12 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 			m_bIsRight = false;
 	}
 	if (Engine::Key_Press(DIK_SPACE)) {
-		m_bJumpCheck = true;
-		m_fJumpPower = 10.0f;
+		if (!m_bJumpCheck)
+		{
+			m_bJumpCheck = true;
+			m_fJumpPower = 10.0f;
+		}
+		
 	}
 
 	if (Engine::Key_Hold(DIK_J)) {
@@ -732,7 +736,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = 100;
 		m_iMaxAmmo = 100;
 		m_fMaxAttackDelay = 1.0f;
-		m_fDamage = 3.f;
+		m_fDamage = 2.f;
 	}
 	
 
@@ -1096,7 +1100,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			if (0.85f > m_fCurAttackDelay)
 			{
 
-				Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, 5, CBulletManager::BULLET_MINIGUN);
+				Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, m_fDamage, CBulletManager::BULLET_MINIGUN);
 				Engine::Play_Sound(L"Shoot_MiniGun1.wav", CHANNELID::SOUND_PLAYER_GUN, 0.5f);
 				m_fCurAttackDelay = m_fMaxAttackDelay;
 				m_iCurAmmo--;
