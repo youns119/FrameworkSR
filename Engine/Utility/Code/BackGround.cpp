@@ -7,7 +7,6 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev)
 	: Engine::CGameObject(_pGraphicDev)
 	, m_pBufferCom(nullptr)
 	, m_pTextureCom(nullptr)
-	, m_pTextureCom2(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_pAnimator(nullptr)
 {
@@ -49,10 +48,6 @@ _int CBackGround::Update_GameObject(const _float& _fTimeDelta)
 {
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
-	if (m_pAnimator->GetCurrAnim()->GetFinish())
-	{
-		m_pAnimator->PlayAnimation(L"Loading2", false);
-	}
 	Engine::Add_RenderGroup(RENDERID::RENDER_PRIORITY, this);
 
 	return iExit;
@@ -85,10 +80,6 @@ HRESULT CBackGround::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
-	pComponent = m_pTextureCom2 = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_Loading2"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture2", pComponent });
-
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
@@ -102,10 +93,11 @@ HRESULT CBackGround::Add_Component()
 
 void CBackGround::Set_Animation()
 {
-	m_pAnimator->CreateAnimation(L"Loading", m_pTextureCom, 9.f);
-	m_pAnimator->CreateAnimation(L"Loading2", m_pTextureCom2, 3.f);
+	m_pAnimator->CreateAnimation(L"Loading", m_pTextureCom, 13.f);
 
-	m_pAnimator->PlayAnimation(L"Loading", false);
+	m_pAnimator->PlayAnimation(L"Loading", true);
+
+	Engine::Play_Sound(L"EndingBGM.wav", CHANNELID::SOUND_EFFECT, 0.6f);
 }
 
 void CBackGround::Free()

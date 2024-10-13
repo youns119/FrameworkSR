@@ -9,7 +9,7 @@
 #include "../Header/Monster.h"
 #include "../Header/DrinkMachine.h"
 #include "../Header/Item.h"
-
+#include "../Header/Boss_Humanoid.h"
 #include"../Header/Wall.h"
 #include"../Header/WallTB.h"
 
@@ -1134,7 +1134,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 			m_pRight_TransformCom->Get_Info(INFO::INFO_POS, &vMuzzlePos);
 			if (0.f < m_fCurAttackDelay)
 				m_fCurAttackDelay -= _fTimeDelta;
-			if (0.85f > m_fCurAttackDelay)
+			if (0.65f > m_fCurAttackDelay)
 			{
 
 				Engine::Fire_Bullet(m_pGraphicDev, RayStart, RayDir, m_fDamage, CBulletManager::BULLET_MINIGUN);
@@ -1441,10 +1441,10 @@ void CPlayer::Animation_End_Check()
 
 			if (m_bIsBoss && !m_bIsShop)
 			{
-				if (0 == iTemp % 2)
+				if (nullptr != dynamic_cast<CBoss_Humanoid*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Monster", L"Boss_Humanoid")))
+				{
 					Engine::Play_BGM(L"Boss_Sniper.wav", 0.6f);
-				else
-					Engine::Play_BGM(L"Boss_Robot.wav", 0.65f);
+				}
 			}
 			else if (!m_bIsShop)
 			{

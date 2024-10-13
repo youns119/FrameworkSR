@@ -110,7 +110,7 @@ HRESULT CBulletManager::Fire_Bullet(LPDIRECT3DDEVICE9 _pGraphicDev, const _vec3&
 				iter->Fire_Bullet(_pGraphicDev, _vStartPos, _vDir + vTemp, _fAttackDamage, _bIsBoss);
 				iTemp++;
 			}
-			if (5 < iTemp)
+			if (2 < iTemp)
 				return S_OK;
 		}
 		break;

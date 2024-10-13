@@ -37,7 +37,6 @@ private:
 private:
 	Engine::CRcTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
-	Engine::CTexture* m_pTextureCom2;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CAnimator* m_pAnimator;
 

@@ -22,6 +22,7 @@ private:
 public:
 	_float Get_BossMaxHP() { return m_fBoss_MaxHP; }
 	_float Get_BossHP() { return m_fBoss_HP; }
+	_int Get_BossDeathCount() { return m_iDeadCount; }
 
 public:
 	static CBoss_Robot* Create(LPDIRECT3DDEVICE9 _pGraphicDev);
@@ -74,7 +75,7 @@ private:
 	_float m_LaserTime;
 	_bool m_bMoveStop;
 	_bool m_bIsShield;
-	_bool m_bIsDead;
+	_bool m_bIsDead2;
 	_int m_iDeadCount;
 	_float m_iSpeed;
 private:

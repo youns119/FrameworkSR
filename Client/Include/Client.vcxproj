@@ -186,6 +186,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\EffectShockWave.h" />
     <ClInclude Include="..\Header\EffectSmokeTrail.h" />
     <ClInclude Include="..\Header\EffectSniperMuzzleFlash.h" />
+    <ClInclude Include="..\Header\EndingScene.h" />
     <ClInclude Include="..\Header\FilterDying.h" />
     <ClInclude Include="..\Header\FilterFundo.h" />
     <ClInclude Include="..\Header\Floor.h" />
@@ -318,6 +319,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\EffectShockWave.cpp" />
     <ClCompile Include="..\Code\EffectSmokeTrail.cpp" />
     <ClCompile Include="..\Code\EffectSniperMuzzleFlash.cpp" />
+    <ClCompile Include="..\Code\EndingScene.cpp" />
     <ClCompile Include="..\Code\FilterDying.cpp" />
     <ClCompile Include="..\Code\FilterFundo.cpp" />
     <ClCompile Include="..\Code\Floor.cpp" />
