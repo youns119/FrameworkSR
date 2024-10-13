@@ -654,26 +654,30 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 			case PISTOL:
 				m_Right_CurState = RELOAD;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Reload", false);
+				Engine::Play_Sound(L"PistolReload.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 				break;
 			case RIFLE:
 				m_Right_CurState = RELOAD;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Reload", false);
+				Engine::Play_Sound(L"RifleReload.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 				m_bLeftHandUse = false;
 				break;
 			case SHOTGUN:
 				m_Right_CurState = RELOAD;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Reload", false);
+				Engine::Play_Sound(L"ShotgunReload.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 				break;
 			case SNIPER:
 				m_Right_CurState = RELOAD;
 				m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Reload", false);
+				Engine::Play_Sound(L"SniperReload.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 				m_bLeftHandUse = false;
 				break;
 			default:
 				break;
 			}
 			m_iCurAmmo = m_iMaxAmmo;
-			Engine::Play_Sound(L"Reload.wav", CHANNELID::SOUND_EFFECT, 0.8f);
+			//Engine::Play_Sound(L"Reload.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		m_iCurAmmo = m_iMaxAmmo;
 	}

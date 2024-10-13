@@ -368,6 +368,9 @@ void CBoss_Robot::Attack(const _float& _fTimeDelta)//This Function Calling in Mo
 		case 2:
 			Engine::Play_Sound(L"RobotBoss2.wav", CHANNELID::SOUND_ENEMY, 0.5f);
 			break;
+		case 3:
+			Engine::Play_Sound(L"RobotBoss3.wav", CHANNELID::SOUND_ENEMY, 0.5f);
+			break;
 		}
 		++iAttackIndex;
 		iAttackIndex %= 4;
@@ -554,11 +557,16 @@ void CBoss_Robot::Boss_Dead(const _float& _fTimeDelta)
 	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
 	if (m_bIsDead)
 	{
+		if (m_iDeadCount == 0)
+		{
+			Engine::Play_Sound(L"Boss_Dead.wav", CHANNELID::SOUND_EFFECT, 0.5f);
+			m_iDeadCount++;
+		}
 		_vec3 vUp;
 		m_pTransformCom->Get_Info(INFO::INFO_UP, &vUp);
 		vUp *= -1;
 		m_pTransformCom->Move_Pos(&vUp, _fTimeDelta, m_iSpeed);
-		if (vPos.y <= -20.f && m_iDeadCount == 0)
+		if (vPos.y <= -20.f && m_iDeadCount == 1)
 		{
 
 			m_iSpeed = 0.f;
