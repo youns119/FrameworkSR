@@ -9,6 +9,8 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_pTextureCom(nullptr)
 	, m_pTransformCom(nullptr)
 	, m_pAnimator(nullptr)
+	, m_pTextTextureCom(nullptr)
+	, m_pTextTransform(nullptr)
 {
 	D3DXMatrixIdentity(&m_matView);
 	D3DXMatrixOrthoLH(&m_matProj, WINCX, WINCY, 0.0f, 1.f);
@@ -39,6 +41,10 @@ HRESULT CBackGround::Ready_GameObject()
 	m_pTransformCom->Set_Scale(WINCX * 0.5f, WINCY * 0.5f, 0.f);
 	//m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
 
+	m_pTextTransform->Set_Pos(-220.f, 100.f, 0.f);
+
+	m_pTextTransform->Set_Scale(130.f, 130.f, 0.f);
+
 	Set_Animation();
 
 	return S_OK;
@@ -48,7 +54,7 @@ _int CBackGround::Update_GameObject(const _float& _fTimeDelta)
 {
 	_int iExit = Engine::CGameObject::Update_GameObject(_fTimeDelta);
 
-	Engine::Add_RenderGroup(RENDERID::RENDER_PRIORITY, this);
+	Engine::Add_RenderGroup(RENDERID::RENDER_ALPHA, this);
 
 	return iExit;
 }
@@ -66,6 +72,10 @@ void CBackGround::Render_GameObject()
 
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTextTransform->Get_WorldMatrix());
+	m_pTextTextureCom->Set_Texture();
+	m_pBufferCom->Render_Buffer();
 }
 
 HRESULT CBackGround::Add_Component()
@@ -80,9 +90,17 @@ HRESULT CBackGround::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	pComponent = m_pTextTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(L"Proto_UIEnding_Thank"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_STATIC].insert({ L"Com_Texture_Thank", pComponent });
+
 	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	pComponent = m_pTextTransform = dynamic_cast<CTransform*>(Engine::Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)COMPONENTID::ID_DYNAMIC].insert({ L"Com_Transform_Text", pComponent });
 
 	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::Clone_Proto(L"Proto_Animator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

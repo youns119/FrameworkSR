@@ -39,6 +39,8 @@ private:
 	Engine::CTexture* m_pTextureCom;
 	Engine::CTransform* m_pTransformCom;
 	Engine::CAnimator* m_pAnimator;
+	Engine::CTexture* m_pTextTextureCom;
+	Engine::CTransform* m_pTextTransform;
 
 	_matrix	m_matView, m_matProj;
 };
