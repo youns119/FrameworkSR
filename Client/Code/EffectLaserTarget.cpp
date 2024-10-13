@@ -192,11 +192,12 @@ void CEffectLaserTarget::Set_ParticleSparkParameter()
 	tParam.tInit.tSphere.fRadius = 10.6f;
 	tParam.tInit.tSphere.fTheta = D3DX_PI / 6.f;
 	tParam.vColor = _vec4(1.0f, 0.461f, 0.461f, 1.f);
-	tParam.vColorFade = _vec4(0.917f, 0.35f, 0.0f, 1.f);
+	tParam.vColorFade = _vec4(0.917f, 0.35f, 0.0f, 0.f);
 	tParam.iTotalCnt = 500;
 
 	tParam.fSize = 0.5f;
-	tParam.fLifeTime = 0.45f;
+	//tParam.fLifeTime = 0.45f;
+	tParam.fLifeTime = 1.f;
 
 	tParam.fEmitRate = 100.;
 	tParam.iEmitCnt = 10.f;
@@ -213,7 +214,6 @@ void CEffectLaserTarget::Set_ParticleSparkParameter()
 	m_pParticleSystemComSpark->Set_Option(CParticleSystem::OPTION::GRAVITY, TRUE);
 
 	m_pParticleSystemComSpark->SetUp_Particle();
-
 }
 
 void CEffectLaserTarget::OnOperate(void* _pParam)
