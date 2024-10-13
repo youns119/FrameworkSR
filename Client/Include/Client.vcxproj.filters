@@ -392,6 +392,9 @@
     <Filter Include="04.UI\14.Ending\00.EndingBase">
       <UniqueIdentifier>{126e2c83-0d93-4171-a034-a9891894ac60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\05.EndingScene">
+      <UniqueIdentifier>{25abbeda-6e17-4c5f-8988-d710e459d509}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MainApp.h">
@@ -784,6 +787,9 @@
     <ClInclude Include="..\Header\UIEndingBase.h">
       <Filter>04.UI\14.Ending\00.EndingBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EndingScene.h">
+      <Filter>02.Scene\05.EndingScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -1157,6 +1163,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIEndingBase.cpp">
       <Filter>04.UI\14.Ending\00.EndingBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EndingScene.cpp">
+      <Filter>02.Scene\05.EndingScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

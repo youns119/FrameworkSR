@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "..\Header\BossStage.h"
+#include "../Header/EndingScene.h"
 #include "Export_Utility.h"
 #include "Export_System.h"
 #include "..\Header\DynamicCamera.h"
@@ -189,6 +190,18 @@ _int CBossStage::Update_Scene(const _float& _fTimeDelta)
 			Engine::Deactivate_UI(UITYPE::UI_INVENTORY);
 			Engine::Stop_Timer(false);
 		}
+	}
+
+	if (1 < dynamic_cast<CBoss_Robot*>(this->Get_GameObject(L"Layer_Monster", L"Boss_Robot"))->Get_BossDeathCount())
+	{
+
+		Engine::CScene* pStage = CEndingScene::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pStage, -1);
+
+		FAILED_CHECK_RETURN(Engine::Set_Scene(pStage), E_FAIL);
+
+		return 0;
+
 	}
 
 	_int iExit = Engine::CScene::Update_Scene(_fTimeDelta);

@@ -29,7 +29,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev)
 	, m_LaserTime(0.f)
 	, m_pShield(nullptr)
 	, m_bIsShield(false)
-	, m_bIsDead(false)
+	, m_bIsDead2(false)
 	, m_iSpeed(1.f)
 	, m_iDeadCount(0)
 {
@@ -61,7 +61,7 @@ CBoss_Robot::CBoss_Robot(LPDIRECT3DDEVICE9 _pGraphicDev, _vec3 _vecPos)
 	, m_LaserTime(0.f)
 	, m_pShield(nullptr)
 	, m_bIsShield(false)
-	, m_bIsDead(false)
+	, m_bIsDead2(false)
 	, m_iSpeed(1.f)
 	, m_iDeadCount(0)
 {
@@ -152,11 +152,11 @@ _int CBoss_Robot::Update_GameObject(const _float& _fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	matResult = matBill * matWorld;
-	if (!m_bMoveStop && !m_bIsDead) {
+	if (!m_bMoveStop && !m_bIsDead2) {
 		Move(_fTimeDelta);
 	}
 	m_PatternDelayTime += _fTimeDelta;
-	if (m_PatternDelayTime >= m_fPatternAttackTime && !m_bIsDead) {
+	if (m_PatternDelayTime >= m_fPatternAttackTime && !m_bIsDead2) {
 		Attack(_fTimeDelta);
 	}
 
@@ -200,7 +200,7 @@ void CBoss_Robot::Damaged_By_Player(const DAMAGED_STATE& _eDamagedState, const _
 	if (m_fBoss_HP <= 0.f)
 	{
 		m_eCurState = BOSS_DEAD;
-		m_bIsDead = true;
+		m_bIsDead2 = true;
 
 		// º¸½º Æø¹ß
 		CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectBossRobotDie", L"Com_Effect");
@@ -555,7 +555,7 @@ void CBoss_Robot::Boss_Dead(const _float& _fTimeDelta)
 	_vec3 vPos, vPlayerPos;
 	m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
 	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
-	if (m_bIsDead)
+	if (m_bIsDead2)
 	{
 		if (m_iDeadCount == 0)
 		{
