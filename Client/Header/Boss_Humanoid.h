@@ -65,6 +65,7 @@ private:
 	BOSS_HUMANOIDSTATE m_ePreState;
 
 	_bool m_bIsDamaged;
+	_bool m_bIsAttack;
 	_float m_fSpawnTimer;
 	_uint m_iBossKillCount;
 

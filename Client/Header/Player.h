@@ -181,6 +181,7 @@ private:
 	_float m_fMaxAttackDelay;
 	_float m_fTime_Skill;
 	_float m_fDamage;
+	_float m_fSmileTimer;
 	_float m_flinear[FINISH];
 	_int m_iMaxAmmo;
 	_int m_iCurAmmo;

@@ -68,6 +68,8 @@ HRESULT CStage::Ready_Scene()
 
 	Engine::Calculate_Trigger();//10.06
 
+	Engine::Play_Sound(L"ReadyGo.wav", CHANNELID::SOUND_EFFECT, 1.f);
+
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
