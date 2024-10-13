@@ -400,71 +400,74 @@ void CBoss_Humanoid::Set_Animation()
 
 void CBoss_Humanoid::Attack(const _float& _fTimeDelta)
 {
-	if (Engine::Key_Press(DIK_SPACE)) {
-		Damaged_By_Player();
-	}
-	if (CBoss_Humanoid::BOSS_DAMAGED == m_eCurState)
+	_vec3 vPos, vPlayerPos, vDir;
+	if (nullptr == m_pPlayerTransformCom)
 	{
-		if (0.f >= m_fSpawnTimer)
-		{
-			m_bIsDamaged = false;
-			m_pAnimatorCom->Toggle_Pause();
-			m_eCurState = CBoss_Humanoid::BOSS_SPAWN;
-			m_fSpawnTimer = 1.5f;
-		}
-		else
-			m_fSpawnTimer -= _fTimeDelta;
+		m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+			(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+		NULL_CHECK(m_pPlayerTransformCom, -1);
 	}
-	else if (CBoss_Humanoid::BOSS_IDLE == m_eCurState)
-	{
-		_vec3 vPos, vPlayerPos, vDir;
-		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		if (nullptr == m_pPlayerTransformCom)
-		{
-			m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
-				(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-			NULL_CHECK(m_pPlayerTransformCom, -1);
+	m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+
+	if (vPlayerPos.z >= 27.f) {
+		if (Engine::Key_Press(DIK_SPACE)) {
+			Damaged_By_Player();
 		}
-
-		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
-
-		vDir = vPlayerPos - vPos;
-		D3DXVec3Normalize(&vDir, &vDir);
-
-		Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 100, CBulletManager::BULLET_BOSS_HUMANOID_LASER);
-		if (Engine::Get_Bullet_Linear(CBulletManager::BULLET_BOSS_HUMANOID_LASER) >= 0.9f)
+		if (CBoss_Humanoid::BOSS_DAMAGED == m_eCurState)
 		{
-			m_eCurState = CBoss_Humanoid::BOSS_ATTACK;
-			m_bIsAttack = false;
+			if (0.f >= m_fSpawnTimer)
+			{
+				m_bIsDamaged = false;
+				m_pAnimatorCom->Toggle_Pause();
+				m_eCurState = CBoss_Humanoid::BOSS_SPAWN;
+				m_fSpawnTimer = 1.5f;
+			}
+			else
+				m_fSpawnTimer -= _fTimeDelta;
 		}
-	}
-	else if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState) {
-		_vec3 vPos, vPlayerPos, vDir;
-		m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-		if (nullptr == m_pPlayerTransformCom)
+		else if (CBoss_Humanoid::BOSS_IDLE == m_eCurState)
 		{
-			m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
-				(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
-			NULL_CHECK(m_pPlayerTransformCom, -1);
-		}
-		m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
-		vDir = vPlayerPos - vPos;
+			_vec3 vPos, vPlayerPos, vDir;
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			if (nullptr == m_pPlayerTransformCom)
+			{
+				m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>
+					(Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Player", L"Player", L"Com_Body_Transform"));
+				NULL_CHECK(m_pPlayerTransformCom, -1);
+			}
 
-		if (m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() >= 12 && m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() < 13) {
-			if (Engine::RayCast(vPos, vDir)) {
-				CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
-				m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);
-				if (!m_bIsAttack)
-				{
-					Engine::Play_Sound(L"Boss_SniperAttack.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.9f);
-					m_bIsAttack = true;
+			m_pPlayerTransformCom->Get_Info(INFO::INFO_POS, &vPlayerPos);
+
+			vDir = vPlayerPos - vPos;
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			Engine::Fire_Bullet(m_pGraphicDev, vPos, vPlayerPos, 100, CBulletManager::BULLET_BOSS_HUMANOID_LASER);
+			if (Engine::Get_Bullet_Linear(CBulletManager::BULLET_BOSS_HUMANOID_LASER) >= 0.9f)
+			{
+				m_eCurState = CBoss_Humanoid::BOSS_ATTACK;
+				m_bIsAttack = false;
+			}
+		}
+		else if (CBoss_Humanoid::BOSS_ATTACK == m_eCurState) {
+			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+			vDir = vPlayerPos - vPos;
+
+			if (m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() >= 12 && m_pAnimatorCom->GetCurrAnim()->GetCurrFrame() < 13) {
+				if (Engine::RayCast(vPos, vDir)) {
+					CPlayer* m_pPlayer = static_cast<CPlayer*>(Engine::Get_CurrScene()->Get_GameObject(L"Layer_Player", L"Player"));
+					m_pPlayer->Set_PlayerHP(m_pPlayer->Get_PlayerHP() - 1.f);
+					if (!m_bIsAttack)
+					{
+						Engine::Play_Sound(L"Boss_SniperAttack.wav", CHANNELID::SOUND_ENEMY_DAMAGED, 0.9f);
+						m_bIsAttack = true;
+					}
+					// 규빈 : 플레이어 피격 이펙트
+					CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
+					static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
+
+					pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
+					static_cast<CEffect*>(pComponent)->Operate_Effect();
 				}
-				// 규빈 : 플레이어 피격 이펙트
-				CComponent* pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPlayerBlood", L"Com_Effect");
-				static_cast<CEffect*>(pComponent)->Set_Visibility(TRUE);
-
-				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectRedFlash", L"Com_Effect");
-				static_cast<CEffect*>(pComponent)->Operate_Effect();
 			}
 		}
 	}
