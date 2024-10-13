@@ -169,25 +169,31 @@ void CFlyingDrone::State_Check()
 		m_ePreState = m_eCurState;
 	}
 
-	if (CDrone::DRONE_DAMAGED == m_eCurState || CDrone::DRONE_HEADSHOT == m_eCurState || CDrone::DRONE_KATANA == m_eCurState) //Á×¾úÀ»¶§
+	if (!m_bIsExplosion)
 	{
-		if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
+		if (CDrone::DRONE_DAMAGED == m_eCurState || CDrone::DRONE_HEADSHOT == m_eCurState || CDrone::DRONE_KATANA == m_eCurState) //Á×¾úÀ»¶§
 		{
-			CComponent* pComponent(nullptr);
-			CGameObject* pGameObject(nullptr);
+			if (m_pAnimatorCom->GetCurrAnim()->GetFinish())
+			{
+				CComponent* pComponent(nullptr);
+				CGameObject* pGameObject(nullptr);
 
-			_vec3 vPos, vLook;
-			m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
-			m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
+				_vec3 vPos, vLook;
+				m_pTransformCom->Get_Info(INFO::INFO_POS, &vPos);
+				m_pTransformCom->Get_Info(INFO::INFO_LOOK, &vLook);
 
-			pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Explosion", L"Com_Transform");
-			static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
-			pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
-			static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
-			static_cast<CEffectPool*>(pGameObject)->Operate();
-			m_bIsRender = false;
+				pComponent = Engine::Get_Component(COMPONENTID::ID_DYNAMIC, L"Layer_Effect", L"EffectPool_Explosion", L"Com_Transform");
+				static_cast<CTransform*>(pComponent)->Set_Pos(vPos + vLook * 1.f);
+				pGameObject = static_cast<CTransform*>(pComponent)->GetOwner();
+				static_cast<CEffectPool*>(pGameObject)->Set_CallerObject(this);
+				static_cast<CEffectPool*>(pGameObject)->Operate();
+				m_bIsRender = false;
+				m_bIsExplosion = true;
+			}
 		}
 	}
+
+	
 }
 
 void CFlyingDrone::Attack(const _float& _fTimeDelta)

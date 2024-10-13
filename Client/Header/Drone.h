@@ -15,6 +15,7 @@ public:
 	virtual HRESULT	Ready_GameObject()PURE;
 	virtual void Render_GameObject();
 	virtual _bool Get_Execution(_vec3 _vLook, const _bool& _bIsDo) { return false; }
+	virtual void Set_IsRender(const _bool& _bool);
 	
 protected:
 	virtual HRESULT Add_Component()PURE;
@@ -32,6 +33,8 @@ protected:
 
 	DRONESTATE m_eCurState;
 	DRONESTATE m_ePreState;
+
+	_bool m_bIsExplosion;
 
 protected:
 	virtual void Free();
