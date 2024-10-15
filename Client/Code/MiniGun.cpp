@@ -211,7 +211,31 @@ void CMiniGun::OnCollisionEnter(CCollider& _pOther)
 	CBoss_Shield* pBoss_Shield = dynamic_cast<CBoss_Shield*>(_pOther.GetOwner());
 	if (nullptr != pBoss_Shield)
 	{
-		pBoss_Shield->Set_Shield_HP(pBoss_Shield->Get_Shield_HP() - 1.f);
+		pBoss_Shield->Set_Shield_HP(pBoss_Shield->Get_Shield_HP() - m_fAttackDamage);
+		Set_IsRender(FALSE);
+
+		_int iTemp = rand() % 6;
+		switch (iTemp)
+		{
+		case 0:
+			Engine::Play_Sound(L"Ricochet_01.wav", CHANNELID::SOUND_EFFECT, 0.7f);
+			break;
+		case 1:
+			Engine::Play_Sound(L"Ricochet_02.wav", CHANNELID::SOUND_EFFECT, 0.7f);
+			break;
+		case 2:
+			Engine::Play_Sound(L"Ricochet_03.wav", CHANNELID::SOUND_EFFECT, 0.7f);
+			break;
+		case 3:
+			Engine::Play_Sound(L"Ricochet_04.wav", CHANNELID::SOUND_EFFECT, 0.7f);
+			break;
+		case 4:
+			Engine::Play_Sound(L"Ricochet_05.wav", CHANNELID::SOUND_EFFECT, 0.7f);
+			break;
+		default:
+			Engine::Play_Sound(L"Ricochet_06.wav", CHANNELID::SOUND_EFFECT, 0.7f);
+			break;
+		}
 	}
 }
 
