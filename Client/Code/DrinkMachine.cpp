@@ -274,7 +274,8 @@ void CDrinkMachine::State_Check()
 			break;
 		case CDrinkMachine::MACHINE_BROKEN:
 			m_pAnimatorCom->PlayAnimation(L"Broken", true);
-
+			Engine::Play_Sound(L"DrinkMachine_Break.wav", CHANNELID::SOUND_PLAYER_LEG, 0.6f);
+			Engine::Play_Sound(L"Soda_Spawn.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 			break;
 		}
 

@@ -633,7 +633,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		if (!m_bJumpCheck)
 		{
 			m_bJumpCheck = true;
-			m_fJumpPower = 10.0f;
+			m_fJumpPower = 7.5f;
 		}
 		
 	}
@@ -648,7 +648,7 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 	}
 
 	if (Engine::Key_Hold(DIK_R)) {
-		if (RELOAD != m_Right_CurState)
+		if (RELOAD != m_Right_CurState && m_iCurAmmo < m_iMaxAmmo)
 		{
 			switch (m_WeaponState) {
 			case PISTOL:
@@ -682,84 +682,108 @@ void CPlayer::Key_Input(const _float& _fTimeDelta)
 		m_iCurAmmo = m_iMaxAmmo;
 	}
 
-	if (Engine::Key_Press(DIK_1)) {
-		m_bLeftHandUse = true;
-		m_bLegUse = false;
-		m_WeaponState = PISTOL;
-		m_Right_CurState = CHANGE;
-		m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
-		m_iCurAmmo = 6;
-		m_iMaxAmmo = 6;
-		m_fMaxAttackDelay = 0.5f;
-		m_fDamage = 5.f;
+	if (Engine::Key_Press(DIK_1))
+	{
+		if (PISTOL != m_WeaponState)
+		{
+			m_bLeftHandUse = true;
+			m_bLegUse = false;
+			m_WeaponState = PISTOL;
+			m_Right_CurState = CHANGE;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Pistol_Change", false);
+			m_iCurAmmo = 6;
+			m_iMaxAmmo = 6;
+			m_fMaxAttackDelay = 0.5f;
+			m_fDamage = 5.f;
+		}
 	}
 
-	if (Engine::Key_Press(DIK_2)) {
-		m_WeaponState = RIFLE;
-		m_bLegUse = false;
-		m_Right_CurState = CHANGE;
-		m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Change", false);
-		m_bLeftHandUse = false;
-		m_iCurAmmo = 30;
-		m_iMaxAmmo = 30;
-		m_fMaxAttackDelay = 1.0f;
-		m_fDamage = 2.f;
-		Engine::Play_Sound(L"Change_Rifle.wav", CHANNELID::SOUND_PLAYER, 0.7f);
+	if (Engine::Key_Press(DIK_2))
+	{
+		if (RIFLE != m_WeaponState)
+		{
+			m_WeaponState = RIFLE;
+			m_bLegUse = false;
+			m_Right_CurState = CHANGE;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Rifle_Change", false);
+			m_bLeftHandUse = false;
+			m_iCurAmmo = 30;
+			m_iMaxAmmo = 30;
+			m_fMaxAttackDelay = 1.0f;
+			m_fDamage = 2.f;
+			Engine::Play_Sound(L"Change_Rifle.wav", CHANNELID::SOUND_PLAYER, 0.7f);
+		}
 	}
 
-	if (Engine::Key_Press(DIK_3)) {
-		m_bLeftHandUse = false;
-		m_bLegUse = false;
-		m_WeaponState = SHOTGUN;
-		m_Right_CurState = CHANGE;
-		m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Change", false);
-		m_iCurAmmo = 2;
-		m_iMaxAmmo = 2;
-		m_fMaxAttackDelay = 1.5f;
-		m_fDamage = 8.f;
-		Engine::Play_Sound(L"Change_ShotGun.wav", CHANNELID::SOUND_PLAYER, 0.7f);
+	if (Engine::Key_Press(DIK_3))
+	{
+		if (SHOTGUN != m_WeaponState)
+		{
+			m_bLeftHandUse = false;
+			m_bLegUse = false;
+			m_WeaponState = SHOTGUN;
+			m_Right_CurState = CHANGE;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Shotgun_Change", false);
+			m_iCurAmmo = 2;
+			m_iMaxAmmo = 2;
+			m_fMaxAttackDelay = 1.5f;
+			m_fDamage = 8.f;
+			Engine::Play_Sound(L"Change_ShotGun.wav", CHANNELID::SOUND_PLAYER, 0.7f);
+		}
 	}
 
-	if (Engine::Key_Press(DIK_4)) {
-		m_bLeftHandUse = true;
-		m_bLegUse = false;
-		m_WeaponState = SNIPER;
-		m_Right_CurState = IDLE;
-		m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
-		m_iCurAmmo = 10;
-		m_iMaxAmmo = 10;
-		m_fMaxAttackDelay = 1.5f;
-		m_fDamage = 10.f;
+	if (Engine::Key_Press(DIK_4))
+	{
+		if (SNIPER != m_WeaponState && m_bIsBoss)
+		{
+			m_bLeftHandUse = true;
+			m_bLegUse = false;
+			m_WeaponState = SNIPER;
+			m_Right_CurState = IDLE;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Sniper_Idle", true);
+			m_iCurAmmo = 10;
+			m_iMaxAmmo = 10;
+			m_fMaxAttackDelay = 1.5f;
+			m_fDamage = 10.f;
+		}
 	}
 
-	if (Engine::Key_Press(DIK_5)) {
-		m_bLeftHandUse = false;
-		m_bLegUse = false;
-		m_WeaponState = KATANA;
-		m_Right_CurState = CHANGE;
-		m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Change", false);
-		m_iCurAmmo = 100;//Dummy Code
-		m_iMaxAmmo = 100;//Dummy Code
-		m_fMaxAttackDelay = 1.5f;
-		m_fDamage = 15.f;
-		Engine::Play_Sound(L"katana_Intro.wav", CHANNELID::SOUND_PLAYER, 1.0f);
+	if (Engine::Key_Press(DIK_5))
+	{
+		if (KATANA != m_WeaponState)
+		{
+			m_bLeftHandUse = false;
+			m_bLegUse = false;
+			m_WeaponState = KATANA;
+			m_Right_CurState = CHANGE;
+			m_pAnimator[RIGHT]->PlayAnimation(L"Katana_Change", false);
+			m_iCurAmmo = 100;//Dummy Code
+			m_iMaxAmmo = 100;//Dummy Code
+			m_fMaxAttackDelay = 1.5f;
+			m_fDamage = 15.f;
+			Engine::Play_Sound(L"katana_Intro.wav", CHANNELID::SOUND_PLAYER, 1.0f);
+		}
 	}
 
-	if (Engine::Key_Press(DIK_6)) {
-		m_bLegUse = true;
-		m_bLeftHandUse = true;
-		m_WeaponState = MINIGUN;
-		m_Right_CurState = CHANGE;
-		m_Left_CurState = MINIGUN_BODY_CHANGE;
-		m_Leg_CurState = MINIGUN_PANEL_CHANGE;
-		m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", false);
-		m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Change", false);
-		m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Change", false);
-		m_iCurAmmo = 100;
-		m_iMaxAmmo = 100;
-		m_fMaxAttackDelay = 1.0f;
-		m_fDamage = 2.f;
-		Engine::Play_Sound(L"uh-oh-big.wav", CHANNELID::SOUND_PLAYER, 0.7f);
+	if (Engine::Key_Press(DIK_6))
+	{
+		if (MINIGUN != m_WeaponState && m_bIsBoss)
+		{
+			m_bLegUse = true;
+			m_bLeftHandUse = true;
+			m_WeaponState = MINIGUN;
+			m_Right_CurState = CHANGE;
+			m_Left_CurState = MINIGUN_BODY_CHANGE;
+			m_Leg_CurState = MINIGUN_PANEL_CHANGE;
+			m_pAnimator[RIGHT]->PlayAnimation(L"MiniGun_GunPoint_Idle", false);
+			m_pAnimator[LEFT]->PlayAnimation(L"MiniGun_Body_Change", false);
+			m_pAnimator[LEG]->PlayAnimation(L"MiniGun_Panel_Change", false);
+			m_iCurAmmo = 100;
+			m_iMaxAmmo = 100;
+			m_fMaxAttackDelay = 1.0f;
+			m_fDamage = 2.f;
+			Engine::Play_Sound(L"uh-oh-big.wav", CHANNELID::SOUND_PLAYER, 0.7f);
+		}
 	}
 
 
@@ -883,7 +907,7 @@ void CPlayer::Mouse_Move(const _float& _fTimeDelta)
 
 		if (1 > m_iCurAmmo)
 		{
-			//Engine::Play_Sound(L"pew_01.wav", CHANNELID::SOUND_EFFECT, 0.1f); //재장전 소리가 필요함
+			Engine::Play_Sound(L"NoBullet.wav", CHANNELID::SOUND_EFFECT, 0.5f); //재장전 소리가 필요함
 			return;
 		}
 
@@ -2050,8 +2074,7 @@ void CPlayer::OnCollisionEnter(CCollider& _pOther)
 		{
 			m_Leg_CurState = KICK;
 			m_pAnimator[LEG]->PlayAnimation(L"Leg_Kick", false);
-			Engine::Play_Sound(L"DrinkMachine_Break.wav", CHANNELID::SOUND_PLAYER_LEG, 0.6f);
-			Engine::Play_Sound(L"Soda_Spawn.wav", CHANNELID::SOUND_EFFECT, 0.8f);
+			m_fDashSpeed = 0.f;
 			m_bIsShaking = true;
 			m_fShakingSize = 20.f;
 			m_fShakingTimer = 0.3f;
