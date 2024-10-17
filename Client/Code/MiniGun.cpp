@@ -213,7 +213,7 @@ void CMiniGun::OnCollisionEnter(CCollider& _pOther)
 	{
 		pBoss_Shield->Set_Shield_HP(pBoss_Shield->Get_Shield_HP() - m_fAttackDamage);
 		Set_IsRender(FALSE);
-
+		//Jonghan Change
 		_int iTemp = rand() % 6;
 		switch (iTemp)
 		{
